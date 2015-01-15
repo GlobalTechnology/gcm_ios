@@ -1,0 +1,4 @@
+* text=auto
+
+*.pbxproj binary merge=union
+
