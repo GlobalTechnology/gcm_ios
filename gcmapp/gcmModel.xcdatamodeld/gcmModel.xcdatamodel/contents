@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Assignment" representedClassName="gcmapp.Assignment" syncable="YES">
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="person_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="team_role" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ministry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ministry" inverseName="assignments" inverseEntity="Ministry" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Church" representedClassName="gcmapp.Church" syncable="YES">
+        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="contact_email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contact_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="development" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="1" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="jf_contrib" attributeType="Boolean" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parent_id" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="security" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="3" defaultValueString="2" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="start_date" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Church" inverseName="parent" inverseEntity="Church" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Church" inverseName="children" inverseEntity="Church" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="MCC" representedClassName="gcmapp.MCC" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ministry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ministry" inverseName="mccs" inverseEntity="Ministry" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementLocalSource" representedClassName="gcmapp.MeasurementLocalSource" syncable="YES">
+        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="localSources" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="Measurements" representedClassName="gcmapp.Measurements" syncable="YES">
+        <attribute name="column" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="id_local" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="id_person" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="id_total" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="perm_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="measurementValue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="measurement" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementValue" representedClassName="gcmapp.MeasurementValue" syncable="YES">
+        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="local" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
+        <attribute name="me" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="period" optional="YES" attributeType="String" minValueString="7" maxValueString="7" syncable="YES"/>
+        <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="localSources" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementLocalSource" inverseName="measurementValue" inverseEntity="MeasurementLocalSource" syncable="YES"/>
+        <relationship name="measurement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Measurements" inverseName="measurementValue" inverseEntity="Measurements" syncable="YES"/>
+        <relationship name="selfAssigned" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValueSelfAssigned" inverseName="measurementValue" inverseEntity="MeasurementValueSelfAssigned" syncable="YES"/>
+        <relationship name="subMinValues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValueSubTeam" inverseName="measurmentValue" inverseEntity="MeasurementValueSubTeam" syncable="YES"/>
+        <relationship name="teamValues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValueTeam" inverseName="measurementValue" inverseEntity="MeasurementValueTeam" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementValueSelfAssigned" representedClassName="gcmapp.MeasurementValueSelfAssigned" syncable="YES">
+        <attribute name="assignment_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="selfAssigned" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementValueSubTeam" representedClassName="gcmapp.MeasurementValueSubTeam" syncable="YES">
+        <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="measurmentValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="subMinValues" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementValueTeam" representedClassName="gcmapp.MeasurementValueTeam" syncable="YES">
+        <attribute name="assignment_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team_role" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="teamValues" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="Ministry" representedClassName="gcmapp.Ministry" syncable="YES">
+        <attribute name="has_ds" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="has_gcm" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="has_llm" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="has_slm" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" indexed="YES" syncable="YES"/>
+        <attribute name="min_code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="assignments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assignment" inverseName="ministry" inverseEntity="Assignment" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ministry" inverseName="parent" inverseEntity="Ministry" syncable="YES"/>
+        <relationship name="mccs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MCC" inverseName="ministry" inverseEntity="MCC" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ministry" inverseName="children" inverseEntity="Ministry" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="id"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <entity name="Training" representedClassName="gcmapp.Training" syncable="YES">
+        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" maxValueString="10" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
+        <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="stages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrainingCompletion" inverseName="training" inverseEntity="TrainingCompletion" syncable="YES"/>
+    </entity>
+    <entity name="TrainingCompletion" representedClassName="gcmapp.TrainingCompletion" syncable="YES">
+        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" maxValueString="10" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="number_completed" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="phase" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="training" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Training" inverseName="stages" inverseEntity="Training" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Assignment" positionX="-50969" positionY="-22018" width="128" height="133"/>
+        <element name="Church" positionX="-51248" positionY="-21627" width="128" height="283"/>
+        <element name="MCC" positionX="-51156" positionY="-22059" width="128" height="88"/>
+        <element name="MeasurementLocalSource" positionX="-50591" positionY="-21787" width="128" height="103"/>
+        <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="193"/>
+        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="208"/>
+        <element name="MeasurementValueSelfAssigned" positionX="-50627" positionY="-22158" width="128" height="118"/>
+        <element name="MeasurementValueSubTeam" positionX="-50438" positionY="-21748" width="128" height="103"/>
+        <element name="MeasurementValueTeam" positionX="-50787" positionY="-21976" width="128" height="133"/>
+        <element name="Ministry" positionX="-51401" positionY="-21970" width="128" height="208"/>
+        <element name="Training" positionX="-51039" positionY="-21645" width="128" height="193"/>
+        <element name="TrainingCompletion" positionX="-50832" positionY="-21645" width="128" height="133"/>
+    </elements>
+</model>

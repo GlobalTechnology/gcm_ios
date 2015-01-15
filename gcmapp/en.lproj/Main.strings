@@ -1,0 +1,162 @@
+
+/* Class = "IBUILabel"; text = "Guatemala"; ObjectID = "2Xm-yn-pVo"; */
+"2Xm-yn-pVo.text" = "Guatemala";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "78n-fg-Tet"; */
+"78n-fg-Tet.text" = "Title";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "8K4-Gx-8a4"; */
+"8K4-Gx-8a4.text" = "Label";
+
+/* Class = "IBUINavigationItem"; title = "Title"; ObjectID = "AND-1a-ZnN"; */
+"AND-1a-ZnN.title" = "Title";
+
+/* Class = "IBUILabel"; text = "Multiplying Churches"; ObjectID = "Ba0-Sx-F2J"; */
+"Ba0-Sx-F2J.text" = "Multiplying Churches";
+
+/* Class = "IBUILabel"; text = "MCC"; ObjectID = "BvU-E7-Um3"; */
+"BvU-E7-Um3.text" = "MCC";
+
+/* Class = "IBUILabel"; text = "Type:"; ObjectID = "Cw0-QH-e68"; */
+"Cw0-QH-e68.text" = "Type:";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Options"; ObjectID = "Eo9-Mw-5Zj"; */
+"Eo9-Mw-5Zj.headerTitle" = "Options";
+
+/* Class = "IBUITabBarItem"; title = "Settings"; ObjectID = "FZc-4p-fCQ"; */
+"FZc-4p-fCQ.title" = "Settings";
+
+/* Class = "IBUILabel"; text = "Groups"; ObjectID = "Fhe-Lo-LoE"; */
+"Fhe-Lo-LoE.text" = "Groups";
+
+/* Class = "IBUIButton"; normalTitle = "Logout"; ObjectID = "HAz-Fz-2dc"; */
+"HAz-Fz-2dc.normalTitle" = "Logout";
+
+/* Class = "IBUIButton"; normalTitle = "Set Parent Church"; ObjectID = "HMN-Xi-6Rf"; */
+"HMN-Xi-6Rf.normalTitle" = "Set Parent Church";
+
+/* Class = "IBUILabel"; text = "Churches"; ObjectID = "ICh-jJ-6fb"; */
+"ICh-jJ-6fb.text" = "Churches";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "IO4-RM-wj9"; */
+"IO4-RM-wj9.text" = "Title";
+
+/* Class = "IBUITabBarItem"; title = "LMI"; ObjectID = "IRK-m1-9VU"; */
+"IRK-m1-9VU.title" = "LMI";
+
+/* Class = "IBUILabel"; text = "Targets"; ObjectID = "K6f-eX-nm9"; */
+"K6f-eX-nm9.text" = "Targets";
+
+/* Class = "IBUIBarButtonItem"; title = "Back"; ObjectID = "KAH-91-zBv"; */
+"KAH-91-zBv.title" = "Back";
+
+/* Class = "IBUILabel"; text = "Date"; ObjectID = "KMc-Nl-8vL"; */
+"KMc-Nl-8vL.text" = "Date";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "Ll5-sO-yfh"; */
+"Ll5-sO-yfh.text" = "Detail";
+
+/* Class = "IBUITextField"; placeholder = "Search"; ObjectID = "MGx-9I-4b0"; */
+"MGx-9I-4b0.placeholder" = "Search";
+
+/* Class = "IBUILabel"; text = "Participants:"; ObjectID = "Ndw-r6-6BF"; */
+"Ndw-r6-6BF.text" = "Participants:";
+
+/* Class = "IBUISegmentedControl"; QWN-ZK-raR.segmentTitles[0] = "<<"; ObjectID = "QWN-ZK-raR"; */
+"QWN-ZK-raR.segmentTitles[0]" = "<<";
+
+/* Class = "IBUISegmentedControl"; QWN-ZK-raR.segmentTitles[1] = "Period"; ObjectID = "QWN-ZK-raR"; */
+"QWN-ZK-raR.segmentTitles[1]" = "Period";
+
+/* Class = "IBUISegmentedControl"; QWN-ZK-raR.segmentTitles[2] = ">>"; ObjectID = "QWN-ZK-raR"; */
+"QWN-ZK-raR.segmentTitles[2]" = ">>";
+
+/* Class = "IBUIButton"; normalTitle = "Reset"; ObjectID = "QvH-3i-Rs4"; */
+"QvH-3i-Rs4.normalTitle" = "Reset";
+
+/* Class = "IBUILabel"; text = "1."; ObjectID = "RYj-Hf-mzI"; */
+"RYj-Hf-mzI.text" = "1.";
+
+/* Class = "IBUIButton"; normalTitle = "Join New Ministry"; ObjectID = "TbD-WA-Cfa"; */
+"TbD-WA-Cfa.normalTitle" = "Join New Ministry";
+
+/* Class = "IBUILabel"; text = "Ministry/Team:"; ObjectID = "Uag-zm-TZ3"; */
+"Uag-zm-TZ3.text" = "Ministry/Team:";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "WCg-Tc-8Jh"; */
+"WCg-Tc-8Jh.text" = "Title";
+
+/* Class = "IBUIButton"; normalTitle = "Close"; ObjectID = "XEH-ih-ZBy"; */
+"XEH-ih-ZBy.normalTitle" = "Close";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "XXY-sz-2Et"; */
+"XXY-sz-2Et.text" = "Title";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "YLT-zb-j5q"; */
+"YLT-zb-j5q.text" = "Detail";
+
+/* Class = "IBUILabel"; text = "Student Led"; ObjectID = "aPo-gH-Dp6"; */
+"aPo-gH-Dp6.text" = "Student Led";
+
+/* Class = "IBUITabBarItem"; title = "Map"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "Map";
+
+/* Class = "IBUILabel"; text = "Security:"; ObjectID = "alO-k8-L5K"; */
+"alO-k8-L5K.text" = "Security:";
+
+/* Class = "IBUILabel"; text = "Contact Name:"; ObjectID = "eZW-u3-Qex"; */
+"eZW-u3-Qex.text" = "Contact Name:";
+
+/* Class = "IBUILabel"; text = "Training Activities"; ObjectID = "h2b-QZ-Rzs"; */
+"h2b-QZ-Rzs.text" = "Training Activities";
+
+/* Class = "IBUILabel"; text = "Size:"; ObjectID = "iRE-r4-9gA"; */
+"iRE-r4-9gA.text" = "Size:";
+
+/* Class = "IBUILabel"; text = "name"; ObjectID = "jz0-d3-imh"; */
+"jz0-d3-imh.text" = "name";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "md7-Sm-g8o"; */
+"md7-Sm-g8o.text" = "Detail";
+
+/* Class = "IBUILabel"; text = "Contact Email:"; ObjectID = "ofu-hi-jj0"; */
+"ofu-hi-jj0.text" = "Contact Email:";
+
+/* Class = "IBUIButton"; normalTitle = "Back to map"; ObjectID = "pC8-wC-5eB"; */
+"pC8-wC-5eB.normalTitle" = "Back to map";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "qC0-87-lnD"; */
+"qC0-87-lnD.text" = "Title";
+
+/* Class = "IBUILabel"; text = "name"; ObjectID = "rHg-sr-BS7"; */
+"rHg-sr-BS7.text" = "name";
+
+/* Class = "IBUILabel"; text = "Ministry/Team"; ObjectID = "sgC-7Q-x6J"; */
+"sgC-7Q-x6J.text" = "Ministry/Team";
+
+/* Class = "IBUIButton"; normalTitle = "Add Training"; ObjectID = "sjS-p5-DL3"; */
+"sjS-p5-DL3.normalTitle" = "Add Training";
+
+/* Class = "IBUIButton"; normalTitle = "Move Training"; ObjectID = "ucL-NF-ifh"; */
+"ucL-NF-ifh.normalTitle" = "Move Training";
+
+/* Class = "IBUILabel"; text = "Campuses"; ObjectID = "wFF-ev-QPf"; */
+"wFF-ev-QPf.text" = "Campuses";
+
+/* Class = "IBUIButton"; normalTitle = "Move Church"; ObjectID = "xgS-ev-zvC"; */
+"xgS-ev-zvC.normalTitle" = "Move Church";
+
+/* Class = "IBUILabel"; text = "SLM"; ObjectID = "xw2-Ne-zbl"; */
+"xw2-Ne-zbl.text" = "SLM";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Show/Hide Icons"; ObjectID = "yuM-Vb-7Rk"; */
+"yuM-Vb-7Rk.headerTitle" = "Show/Hide Icons";
+
+/* Class = "IBUIButton"; normalTitle = "Add Campus"; ObjectID = "yuo-Wk-RA8"; */
+"yuo-Wk-RA8.normalTitle" = "Add Campus";
+
+/* Class = "IBUIButton"; normalTitle = "Close"; ObjectID = "zT4-vv-mWi"; */
+"zT4-vv-mWi.normalTitle" = "Close";
+
+/* Class = "IBUIButton"; normalTitle = "Add Church"; ObjectID = "zt7-PF-oCw"; */
+"zt7-PF-oCw.normalTitle" = "Add Church";
