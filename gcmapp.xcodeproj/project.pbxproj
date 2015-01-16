@@ -653,7 +653,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
-					"/Users/jon/Downloads/GoogleMaps-iOS-1.9.0",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = gcmapp/Info.plist;
@@ -680,7 +679,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
-					"/Users/jon/Downloads/GoogleMaps-iOS-1.9.0",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = gcmapp/Info.plist;
