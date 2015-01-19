@@ -18,6 +18,14 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case GET_MEASUREMENTS
         case GET_MEASUREMENT_DETAIL
         case UPDATE_TRAINING_COMPLETION
+        case ADD_UPDATE_MEASUREMENT
+        case UPDATE_CHURCH
+        case UPDATE_TRAINING
+        case UPDATE_ASSIGNMENT
+        case ADD_TRAINING
+        case ADD_TRAINING_COMPLETION
+        case ADD_CHURCH
+        
     }
     typealias APICallback = ((AnyObject?, NSError?) -> ())
     let responseData:NSMutableData = NSMutableData()
@@ -83,13 +91,38 @@ class API: NSObject, NSURLConnectionDataDelegate {
     {
         let url = "\(GlobalConstants.SERVICE_ROOT)training_completion/\(tc.id)?token=\(self.token)"
         var jsonError: NSError?
-      
-        
         var body = "{\"number_completed\": \(tc.number_completed)}"
-        println("\(url)")
-        println("\(body)")
+       
         makeHTTPPutRequest( Path.UPDATE_TRAINING_COMPLETION, callback: callback, url: url, body:  body)
     }
+    func saveMeasurement(meas:Array<Measurement>, callback: APICallback)
+    {
+        let url = "\(GlobalConstants.SERVICE_ROOT)measurements/?token=\(self.token)"
+        var jsonError: NSError?
+        var body = "["
+        for m in  meas {
+            body += m.toJSON()
+        }
+        body += "}"
+        
+        makeHTTPPostRequest( Path.ADD_UPDATE_MEASUREMENT, callback: callback, url: url, body:  body)
+    }
+
+    func saveChurch(church:Church, callback: APICallback)
+    {
+        let url = "\(GlobalConstants.SERVICE_ROOT)churches/\(church.id)?token=\(self.token)"
+        var jsonError: NSError?
+        var body = "{\"name\": \"\(church.name)\", \"ministry_id\": \"\(church.ministry_id)\", \"size\": \(church.size),\"development\": \(church.development)}"
+        makeHTTPPutRequest( Path.UPDATE_CHURCH, callback: callback, url: url, body:  body)
+    }
+    
+    func saveTraining(training: Training){
+        let url = "\(GlobalConstants.SERVICE_ROOT)training/\(training.id)?token=\(self.token)"
+        var jsonError: NSError?
+        var body = "{\"ministry_id\": \"\(training.ministry_id)\", \"name\": \"\(training.name)\", \"date\": \"\(training.date)\",\"type\": \"\(training.type)\", \"mcc\": \(training.mcc), \"latitude\": \(training.latitude), \"longitude\": \(training.longitude)}"
+        makeHTTPPutRequest( Path.UPDATE_CHURCH, callback: callback, url: url, body:  body)
+    }
+    
     
 
     func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {

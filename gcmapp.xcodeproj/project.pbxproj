@@ -59,6 +59,7 @@
 		FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3091A38A4BB00A3D30F /* Assignment.swift */; };
 		FCB8C30E1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C30D1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift */; };
 		FCB8C3101A38A4BC00A3D30F /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */; };
+		FCD401921A6D640C00950802 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
 		FCD4471D1A5D483800689E62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +139,7 @@
 		FCB8C3091A38A4BB00A3D30F /* Assignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		FCB8C30D1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
 		FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ministry.swift; sourceTree = "<group>"; };
+		FCD401911A6D640C00950802 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		FCD4471C1A5D483800689E62 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,6 +299,7 @@
 				FC93E0131A31AB6C008D4221 /* MCC.swift */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
+				FCD401911A6D640C00950802 /* Measurement.swift */,
 			);
 			name = datamodel;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */,
 				FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */,
 				FCB8C30E1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift in Sources */,
+				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
 				FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */,
