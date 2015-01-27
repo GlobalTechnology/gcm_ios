@@ -16,6 +16,7 @@ struct GlobalConstants {
     static let kDidReceiveMeasurements = "DidReceiveMeasurements"
     static let kDidChangePeriod = "DidChangePeriod"
     static let kDidChangeTrainingCompletion = "DidChangeTrainingCompletion"
+    static let kDidChangeMeasurementValues = "DidChangeMeasurementValues"
     
     
     

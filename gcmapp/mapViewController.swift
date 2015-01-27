@@ -73,6 +73,12 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
+          
+               // TheKeyOAuth2Client.sharedOAuth2Client().logout()
+               
+        }
+        
         
         redrawMap()
     }

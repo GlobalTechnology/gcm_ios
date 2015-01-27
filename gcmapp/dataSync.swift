@@ -20,6 +20,7 @@ class dataSync: NSObject {
         
         let nc = NSNotificationCenter.defaultCenter()
         let mainQueue = NSOperationQueue.mainQueue()
+        
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         
         if NSUserDefaults.standardUserDefaults().objectForKey("mcc") == nil{
@@ -44,7 +45,9 @@ class dataSync: NSObject {
         var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.updateTrainingCompletion()
         }
-        
+        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.updateMeasurements()
+        }
         
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
@@ -154,6 +157,8 @@ class dataSync: NSObject {
                                 NSUserDefaults.standardUserDefaults().setObject(this_ass["id"] as String, forKey: "assignment_id")
                                 NSUserDefaults.standardUserDefaults().setObject(this_ass["ministry_id"] as String, forKey: "ministry_id")
                                 NSUserDefaults.standardUserDefaults().setObject(this_ass["name"] as String, forKey: "ministry_name")
+                                
+                                
                             }
                         }
                         
@@ -182,11 +187,13 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
+       
+            
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
             if data == nil {
                 
-                return
+                return;
             }
             
             let fetchRequest =  NSFetchRequest(entityName:"Measurements" )
@@ -209,12 +216,31 @@ class dataSync: NSObject {
                 
                 let this_meas = meas?.filter {$0.id == (m["measurement_id"] as String)}
                 var measurement:Measurements!
+                var getDetail:Bool = false
+                
                 
                 if this_meas?.count > 0{
                     measurement=this_meas?.first?
+                    let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+                    if this_period_local.count>0{
+                        for pv in m["measurements"] as JSONArray{
+                            if (pv["Period"] as String == period){
+                                if (this_period_local.allObjects.first! as MeasurementValue).total != pv["Value"] as NSNumber{
+                                    getDetail = true
+                                }
+                            }
+                        }
+                        
+                        
+                        
+                        
+                    }
+                    
+                    
                 } else {
                     
                     measurement = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:self.managedContext) as Measurements
+                    getDetail = true
                 }
                 
                 measurement.name = m["name"] as String
@@ -226,7 +252,10 @@ class dataSync: NSObject {
                 if !self.managedContext.save(&error) {
                     println("Could not save \(error), \(error?.userInfo)")
                 }
-                self.getMeasurementDetail(measurement, measurementId: measurement.id, ministryId: ministryId, mcc: mcc, period: period)
+                if(getDetail){
+                    self.getMeasurementDetail(measurement, measurementId: measurement.id, ministryId: ministryId, mcc: mcc, period: period)
+                    
+                }
                 
                 /*for pv in m["measurements"] as JSONArray{
                 
@@ -266,6 +295,7 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
+        
         API(token: self.token).getMeasurementDetail(measurementId, ministryId: ministryId, mcc: mcc, period: period){
             (data: AnyObject?,error: NSError?) -> Void in
             if data == nil {
@@ -422,8 +452,20 @@ class dataSync: NSObject {
         period_value.mcc = mcc
         period_value.period = period
         period_value.total = total
-        period_value.local = local
-        period_value.me = me
+        if local.stringValue == ""{
+            period_value.local=0
+        }	
+        else{
+           period_value.local = local
+        }
+        
+        
+        
+        
+        if(!period_value.changed.boolValue){
+            period_value.me = me
+        }
+        
         
         period_value.measurement = measurement
         if !self.managedContext.save(&error) {
@@ -673,7 +715,7 @@ class dataSync: NSObject {
                 if data != nil{
                     if (data as Bool){
                         tc.changed=false
-                         var error: NSError?
+                        var error: NSError?
                         if !self.managedContext.save(&error) {
                             println("Could not save \(error), \(error?.userInfo)")
                         }
@@ -684,7 +726,62 @@ class dataSync: NSObject {
         
         
     }
-    
+    func updateMeasurements(){
+        if self.checkTokenAndConnection() == false{
+            return;
+        }
+        return
+        var error: NSError?
+        
+        //Get My Staff Measurements that have changed
+        let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
+        let pred = NSPredicate(format: "changed == true" )
+        frMeasurementValue.predicate=pred
+        let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementValue]
+        var update_values: Array<Measurement> = []
+        for mv in mv_changed{
+            update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String , period: mv.period, mcc: mv.mcc, value: mv.me))
+        }
+        
+        
+        //Get local source measurmenets that I have changed
+        let frMeasurementLocalValue =  NSFetchRequest(entityName:"MeasurementLocalSource" )
+        frMeasurementLocalValue.predicate=pred
+        let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]
+        
+        for mlv in mlv_changed{
+            println(mlv.measurementValue.measurement.id_local)
+            println(mlv.measurementValue.period)
+            println(mlv.measurementValue.mcc)
+            
+            update_values.append(Measurement(measurement_type_id: mlv.measurementValue.measurement.id_local, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String  , period: mlv.measurementValue.period, mcc: mlv.measurementValue.mcc + "_gcmapp", value: mlv.value))
+        }
+        if(update_values.count > 0){
+            
+            API(token: self.token).saveMeasurement(update_values ){
+                (data: AnyObject?,error: NSError?) -> Void in
+                if data != nil{
+                    if (data as Bool){
+                        //   tc.changed=false
+                        for mv in mv_changed{
+                            mv.changed = false
+                            
+                        }
+                        for mv in mlv_changed{
+                            mv.changed = false
+                            
+                        }
+                        var error: NSError?
+                        if !self.managedContext.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
     
     func savePendingTransactions( ){
         var error: NSError?

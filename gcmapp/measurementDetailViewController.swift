@@ -19,6 +19,9 @@ class measurementDetailViewController: UITableViewController {
     
     @IBOutlet weak var graph: GraphView!
     var period:String!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -30,7 +33,7 @@ class measurementDetailViewController: UITableViewController {
         self.NavItem.title = measurement.name
         self.NavItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: self, action: Selector("backButtonClicked:"))
         self.NavItem.hidesBackButton = false
-      self.graph.values = measurement.measurementValue.allObjects as Array<MeasurementValue>
+        self.graph.values = measurement.measurementValue.allObjects as Array<MeasurementValue>
         
         period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
        
@@ -41,13 +44,33 @@ class measurementDetailViewController: UITableViewController {
         else{
             self.this_period_values = nil
         }
+        
 
         
     }
     
     func backButtonClicked(sender: AnyObject){
+         var error: NSError?
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        
+        let managedContext = appDelegate.managedObjectContext!
+        if !managedContext.save(&error) {
+        println("Could not save \(error), \(error?.userInfo)")
+        }
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
+        
+     
+        
+        
         self.dismissViewControllerAnimated(true, completion: nil)
+        
+        
+        
     }
+    
     
     
     
@@ -84,6 +107,8 @@ class measurementDetailViewController: UITableViewController {
         
    
     }
+    
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch(indexPath.section){
         case 0:
@@ -92,6 +117,8 @@ class measurementDetailViewController: UITableViewController {
             if localValue.name == GlobalConstants.LOCAL_SOURCE{
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
                 cell.lblTitle.text = "Local"
+                cell.isLocalSource = true
+                cell.mls = localValue	
                 cell.editValue.text = localValue.value.stringValue
                 return cell
                
@@ -109,6 +136,8 @@ class measurementDetailViewController: UITableViewController {
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
                 cell.lblTitle.text = "You"
                 cell.editValue.text = self.this_period_values.me.stringValue
+                cell.isLocalSource = false
+                cell.mv=self.this_period_values
                 return cell
             }
             else{

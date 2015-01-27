@@ -21,13 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+        println("path: " + self.applicationDocumentsDirectory.path!)
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
             var dict = NSDictionary(contentsOfFile: path) as Dictionary<String, String>
            
             GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
             
-        }
+        }	
         
         
         return true

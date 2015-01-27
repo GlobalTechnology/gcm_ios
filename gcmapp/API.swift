@@ -1,4 +1,4 @@
-//
+		//
 //  api.swift
 //  gcmapp
 //
@@ -17,14 +17,11 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case GET_TRAINING
         case GET_MEASUREMENTS
         case GET_MEASUREMENT_DETAIL
-        case UPDATE_TRAINING_COMPLETION
+        case UPDATE_GENERAL
         case ADD_UPDATE_MEASUREMENT
-        case UPDATE_CHURCH
-        case UPDATE_TRAINING
-        case UPDATE_ASSIGNMENT
-        case ADD_TRAINING
-        case ADD_TRAINING_COMPLETION
-        case ADD_CHURCH
+       
+        case ADD_GENERAL
+        
         
     }
     typealias APICallback = ((AnyObject?, NSError?) -> ())
@@ -93,7 +90,7 @@ class API: NSObject, NSURLConnectionDataDelegate {
         var jsonError: NSError?
         var body = "{\"number_completed\": \(tc.number_completed)}"
        
-        makeHTTPPutRequest( Path.UPDATE_TRAINING_COMPLETION, callback: callback, url: url, body:  body)
+        makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     func saveMeasurement(meas:Array<Measurement>, callback: APICallback)
     {
@@ -101,10 +98,11 @@ class API: NSObject, NSURLConnectionDataDelegate {
         var jsonError: NSError?
         var body = "["
         for m in  meas {
-            body += m.toJSON()
+            body += m.toJSON() + ","
         }
-        body += "}"
-        
+        body = body.substringToIndex(body.endIndex.predecessor()) //remove last ,
+        body += "]"
+        println(body)
         makeHTTPPostRequest( Path.ADD_UPDATE_MEASUREMENT, callback: callback, url: url, body:  body)
     }
 
@@ -113,14 +111,14 @@ class API: NSObject, NSURLConnectionDataDelegate {
         let url = "\(GlobalConstants.SERVICE_ROOT)churches/\(church.id)?token=\(self.token)"
         var jsonError: NSError?
         var body = "{\"name\": \"\(church.name)\", \"ministry_id\": \"\(church.ministry_id)\", \"size\": \(church.size),\"development\": \(church.development)}"
-        makeHTTPPutRequest( Path.UPDATE_CHURCH, callback: callback, url: url, body:  body)
+        makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
     func saveTraining(training: Training){
         let url = "\(GlobalConstants.SERVICE_ROOT)training/\(training.id)?token=\(self.token)"
         var jsonError: NSError?
         var body = "{\"ministry_id\": \"\(training.ministry_id)\", \"name\": \"\(training.name)\", \"date\": \"\(training.date)\",\"type\": \"\(training.type)\", \"mcc\": \(training.mcc), \"latitude\": \(training.latitude), \"longitude\": \(training.longitude)}"
-        makeHTTPPutRequest( Path.UPDATE_CHURCH, callback: callback, url: url, body:  body)
+        makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
     
@@ -145,12 +143,17 @@ class API: NSObject, NSURLConnectionDataDelegate {
     
     func connectionDidFinishLoading(connection: NSURLConnection!) {
         var error: NSError?
-        var json : AnyObject! = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
-        if (error != nil) {
-            callback(nil, error)
-            return
-        }
+        var json : AnyObject!
+        if responseData.length>0{
         
+            json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
+            if (error != nil) {
+                var error_msg = NSString(data: responseData, encoding: NSUTF8StringEncoding)
+                println(error_msg)
+                callback(nil, error)
+                return
+            }
+        }
         switch(statusCode, self.path!) {
         case (200, Path.GET_TOKEN):
             //self.handleGetToken(json)
@@ -163,12 +166,17 @@ class API: NSObject, NSURLConnectionDataDelegate {
             callback(self.handleGetJSONArray(json), nil)
         case (200, Path.GET_MEASUREMENT_DETAIL):
             callback(self.handleGetJSONDictionary(json), nil)
-        case (201, Path.UPDATE_TRAINING_COMPLETION):
+        case (201, Path.UPDATE_GENERAL):
             if let resultObj = json as? JSONDictionary {
                 println(resultObj)
-                
             }
-                         callback(true , nil)
+            callback(true , nil)
+        case (201, Path.ADD_GENERAL):
+            callback(true , nil)
+        case (201, Path.ADD_UPDATE_MEASUREMENT):
+            
+            callback(true , nil)
+            
 
         default:
             if statusCode == 401 {

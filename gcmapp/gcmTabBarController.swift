@@ -38,24 +38,21 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 }
                 
             }
-        }
-        if(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
-            postLoginNotification()
-            
-            
-        }else{
-            if(self.sync.token != nil){
-                //   self.sync.token=""
+            if (TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
+                postLoginNotification()
+                
+                
+            }else
+            {
+                TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
-            TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") ,fromViewController: self, loginDelegate: self)
-            
         }
-
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-      
+       
         
     }
  
