@@ -187,8 +187,8 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
-       
-            
+        
+        
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
             if data == nil {
@@ -223,16 +223,11 @@ class dataSync: NSObject {
                     measurement=this_meas?.first?
                     let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
                     if this_period_local.count>0{
-                        for pv in m["measurements"] as JSONArray{
-                            if (pv["Period"] as String == period){
-                                if (this_period_local.allObjects.first! as MeasurementValue).total != pv["Value"] as NSNumber{
-                                    getDetail = true
-                                }
-                            }
+                        
+                        if (this_period_local.allObjects.first! as MeasurementValue).total != m["total"] as NSNumber{
+                            getDetail = true
                         }
-                        
-                        
-                        
+                       
                         
                     }
                     
@@ -454,9 +449,9 @@ class dataSync: NSObject {
         period_value.total = total
         if local.stringValue == ""{
             period_value.local=0
-        }	
+        }
         else{
-           period_value.local = local
+            period_value.local = local
         }
         
         
