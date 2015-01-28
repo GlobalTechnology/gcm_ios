@@ -7,12 +7,45 @@
 //
 
 import UIKit
-
+import CoreData
 class ChurchTVC: UITableViewController {
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var Icon: UIImageView!
     @IBAction func btnClose(sender: UIButton) {
+        //Save Church
+        if(changed){
+            let fetchRequest = NSFetchRequest(entityName:"Church")
+              var error: NSError?
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext!
+            fetchRequest.predicate = NSPredicate(format: "id = %@", data["id"] as NSNumber)
+            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
+            if church.count>0{
+                church.first!.changed=true
+                church.first!.name=data["name"] as String
+                church.first!.contact_name=data["contact_name"] as String
+                church.first!.contact_email=data["contact_email"] as String
+                church.first!.size=data["size"] as NSNumber
+                church.first!.development=data["development"] as NSNumber
+                church.first!.security=data["security"] as NSNumber
+                
+            }
+            
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            
+            
+            
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+            
+        }
+        
+        
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -21,6 +54,8 @@ class ChurchTVC: UITableViewController {
     @IBAction func btnSetParent(sender: UIButton) {
     }
       var data:JSONDictionary!
+    
+    var changed:Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,21 +101,29 @@ class ChurchTVC: UITableViewController {
             let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
             cell.title.text = "Name"
             cell.value.text = data["name"] as? String
+            cell.field_name = "name"
+            cell.church=self
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
             cell.title.text = "Contact Name"
-            cell.value.text = data["contactName"] as? String
+            cell.value.text = data["contact_name"] as? String
+            cell.field_name = "contact_name"
+            cell.church=self
             return cell
         case 2:
             let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
             cell.title.text = "Contact Email"
-            cell.value.text = data["contactEmail"] as? String
+            cell.value.text = data["contact_email"] as? String
+            cell.field_name = "contact_email"
+            cell.church=self
             return cell
         case 3:
             let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as UIEditTextCell
             cell.title.text = "Size"
             cell.value.text = (data["size"] as NSNumber).stringValue
+            cell.field_name = "size"
+            cell.church=self
             return cell
         case 4:
             let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
@@ -149,11 +192,11 @@ class ChurchTVC: UITableViewController {
         switch segue.identifier!{
             case "ShowDevelopment":
                 let tvc = segue.destinationViewController as DevelopmentTVC
-                tvc.development = (data["development"] as NSNumber)
+                tvc.church = self
                 break
             case "ShowSecurity":
                 let tvc = segue.destinationViewController as SecurityTVC
-                tvc.security = (data["security"] as NSNumber)
+                 tvc.church = self
             break
         default:
                 break

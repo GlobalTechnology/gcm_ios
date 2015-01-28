@@ -9,9 +9,30 @@
 import UIKit
 
 class DevelopmentTVC: UITableViewController {
-    var development:NSNumber!
+    //var development:NSNumber!
+    var church:ChurchTVC!
     @IBAction func btnBack(sender: UIButton) {
+        switch(self.tableView.indexPathForSelectedRow()!.row){
+        case 0:
+            church.data["development"] = 1
+            break
+        case 1:
+            church.data["development"] = 2
+            break
+        case 2:
+            church.data["development"] = 3
+            break
+        case 3:
+            church.data["development"] = 5
+            break
+        default:
+            break
+            
+        }
+        self.church.tableView.reloadData()
+        
         self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +46,7 @@ class DevelopmentTVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var row:Int = -1
-        switch(self.development){
+        switch(church.data["development"] as NSNumber){
         case 1:
             row=0
             break
@@ -47,6 +68,9 @@ class DevelopmentTVC: UITableViewController {
         }
        
     }
+    
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -64,6 +88,10 @@ class DevelopmentTVC: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return 4
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.church.changed = true
     }
 
     /*

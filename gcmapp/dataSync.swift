@@ -725,7 +725,7 @@ class dataSync: NSObject {
         if self.checkTokenAndConnection() == false{
             return;
         }
-        return
+        
         var error: NSError?
         
         //Get My Staff Measurements that have changed

@@ -9,8 +9,23 @@
 import UIKit
 
 class SecurityTVC: UITableViewController {
-    var security:NSNumber!
+   var church:ChurchTVC!
     @IBAction func btnBack(sender: UIButton) {
+        switch(self.tableView.indexPathForSelectedRow()!.row){
+        case 0:
+            church.data["security"] = 0
+            break
+        case 1:
+            church.data["security"] = 1
+            break
+        case 2:
+            church.data["security"] = 2
+            break
+         default:
+            break
+            
+        }
+        self.church.tableView.reloadData()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     override func viewDidLoad() {
@@ -22,10 +37,14 @@ class SecurityTVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.church.changed = true
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var row:Int = -1
-        switch(self.security){
+        switch(church.data["security"] as NSNumber){
         case 0:
             row=0
             break

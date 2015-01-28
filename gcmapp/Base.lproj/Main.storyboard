@@ -456,6 +456,9 @@
                                             <rect key="frame" x="166" y="8" width="426" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="tbEditingDidEnd:" destination="4nh-ZN-dGs" eventType="editingDidEnd" id="B9c-ZF-9JA"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>
@@ -497,6 +500,9 @@
                                             <rect key="frame" x="419" y="8" width="173" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            <connections>
+                                                <action selector="tbEditingDidEnd:" destination="AZP-iw-le9" eventType="editingDidEnd" id="pm8-IG-KZR"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>
