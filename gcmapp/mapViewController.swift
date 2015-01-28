@@ -283,6 +283,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         }
     }
     
+    
+    
+    
+    
+    
     func calloutAccessoryButtonTapped(obj: AnyObject?){
         
         
@@ -295,7 +300,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             var vc:UIViewController!
             switch data["marker_type"] as String!{
                 case "church":
-                    let ch = self.storyboard?.instantiateViewControllerWithIdentifier("churchViewController") as churchViewController
+                    let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as ChurchTVC
                     ch.data = data
                     vc=ch as UIViewController
                 

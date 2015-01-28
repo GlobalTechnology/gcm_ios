@@ -50,5 +50,35 @@ class GlobalFunctions{
         
         
     }
+    class func getNameForDevelopment(development: NSNumber) -> String
+    {
+        switch(development){
+        case 1:
+            return "Target"
+        case 2:
+            return "Group"
+        case 3:
+            return "Church"
+        case 5:
+            return "Multiplying Church"
+        default:
+            return ""
+        }
+    }
+    class func getNameForSecurity(security: NSNumber) -> String
+    {
+        switch(security){
+        case 0:
+            return "Local Private"
+        case 1:
+            return "Private"
+        case 2:
+            return "Public"
+        case 3:
+            return "Public"
+        default:
+            return security.stringValue
+        }
+    }
     
 }
