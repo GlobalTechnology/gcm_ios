@@ -12,6 +12,8 @@
 		FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
 		FC13ABAA1A7927E100CB2713 /* DevelopmentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */; };
 		FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */; };
+		FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAE1A7A58B600CB2713 /* church+extension.swift */; };
+		FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */; };
 		FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */; };
 		FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF01A2E181500DAC5A3 /* API.swift */; };
 		FC2E0DF71A2F559B00DAC5A3 /* churchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF61A2F559B00DAC5A3 /* churchViewController.swift */; };
@@ -85,6 +87,8 @@
 		FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIEditTextCell.swift; sourceTree = "<group>"; };
 		FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentTVC.swift; sourceTree = "<group>"; };
 		FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityTVC.swift; sourceTree = "<group>"; };
+		FC13ABAE1A7A58B600CB2713 /* church+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "church+extension.swift"; sourceTree = "<group>"; };
+		FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentTVC.swift; sourceTree = "<group>"; };
 		FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataSync.swift; sourceTree = "<group>"; };
 		FC2E0DF01A2E181500DAC5A3 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		FC2E0DF61A2F559B00DAC5A3 /* churchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = churchViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +203,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FC13ABAD1A7A588000CB2713 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FC13ABAE1A7A58B600CB2713 /* church+extension.swift */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
 		FC4D273A1A2DDF8500C20288 = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +304,7 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
+				FC13ABAD1A7A588000CB2713 /* extensions */,
 				FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */,
 				FCAA6ED91A39D1E900524398 /* Training.swift */,
 				FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */,
@@ -324,6 +337,7 @@
 				FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */,
 				FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */,
 				FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */,
+				FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */,
 			);
 			name = map;
 			sourceTree = "<group>";
@@ -526,6 +540,7 @@
 				FCAA6ED61A39D1E900524398 /* MeasurementValue.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
+				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
 				FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */,
 				FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */,
 				FC2E0DF71A2F559B00DAC5A3 /* churchViewController.swift in Sources */,
@@ -537,6 +552,7 @@
 				FCAA6ED41A39D1E900524398 /* Church.swift in Sources */,
 				FC93DFDE1A3074B2008D4221 /* GlobalConstants.swift in Sources */,
 				FC9B9D7C1A3729E700C9E353 /* GlobalFunctions.swift in Sources */,
+				FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */,
 				FC93DFFA1A30A29B008D4221 /* Measurements.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
 			);

@@ -33,6 +33,9 @@ class API: NSObject, NSURLConnectionDataDelegate {
     var st:String = "a"
     var token: String = ""
     var login_attempts:Int = 0
+    
+    
+    
     init(st: String, callback: APICallback) {
         super.init()
        self.getToken(st, callback)
@@ -110,7 +113,8 @@ class API: NSObject, NSURLConnectionDataDelegate {
     {
         let url = "\(GlobalConstants.SERVICE_ROOT)churches/\(church.id)?token=\(self.token)"
         var jsonError: NSError?
-        var body = "{\"name\": \"\(church.name)\", \"ministry_id\": \"\(church.ministry_id)\", \"size\": \(church.size),\"development\": \(church.development)}"
+        var body = church.toJson()
+        println(body)
         makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
@@ -167,9 +171,8 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case (200, Path.GET_MEASUREMENT_DETAIL):
             callback(self.handleGetJSONDictionary(json), nil)
         case (201, Path.UPDATE_GENERAL):
-            if let resultObj = json as? JSONDictionary {
-                println(resultObj)
-            }
+           callback(true , nil)
+        case (200, Path.UPDATE_GENERAL):
             callback(true , nil)
         case (201, Path.ADD_GENERAL):
             callback(true , nil)

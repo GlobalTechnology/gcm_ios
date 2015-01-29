@@ -27,9 +27,13 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     @IBOutlet weak var autocompleteTableView: UITableView!
    
     
+    @IBOutlet weak var lblMove: UILabel!
     var churches:[Church]!
     var training:[Training]!
     var autocompleteList:[String]!=Array()
+    
+    var markers:[GMSMarker]! = Array()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +86,16 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         redrawMap()
     }
-    
+    func makeSelectedMarkerDraggable(){
+        for m in markers{
+            m.opacity=0.35
+            m.tappable = false
+        }
+        mapView.selectedMarker.draggable=true
+        searchMap.hidden=true
+        mapView.selectedMarker.opacity=1.0
+        lblMove.hidden = false
+    }
     
     func redrawMap(){
         
@@ -139,6 +152,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             
             println("Found \(churches.count) results")
+            markers.removeAll(keepCapacity: false)
+            
             self.mapView.clear()
             for c  in churches {
                 var dict = JSONDictionary()
@@ -147,6 +162,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 for key in c.entity.attributesByName.keys.array{
                     dict[key as String]=c.valueForKey(key as String)
                 }
+            
                 
                 var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as CLLocationDegrees,c.valueForKey("longitude") as CLLocationDegrees)
                 var  marker = GMSMarker(position: position)
@@ -157,7 +173,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 marker.userData = dict
                 marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
                 marker.groundAnchor = CGPointMake(0.5, 1.0)
-               
+               markers.append(marker)
                 if let parent = c.parent as Church? {
                     let  path =  GMSMutablePath()
                     
@@ -179,8 +195,9 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     var circ = GMSCircle(position: circle, radius: 80)
                     circ.fillColor=UIColor.blackColor()
                     circ.map = self.mapView
-                    
-                  
+                    dict["parent_name"] = parent.name
+                    marker.userData = dict
+
                     
                 }
                 
@@ -302,6 +319,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 case "church":
                     let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as ChurchTVC
                     ch.data = data
+                    ch.mapVC = self
                     vc=ch as UIViewController
                 
                 case "training":
@@ -312,7 +330,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 break
                 
             }
-            
+             self.calloutView.hidden=true
             
             
             
@@ -383,7 +401,39 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         }
         autocompleteTableView.reloadData()
     }
-    
+     func mapView(mapView: GMSMapView!, didEndDraggingMarker marker: GMSMarker!) {
+        for m in markers{
+            m.opacity=1.0
+            m.tappable = true
+            m.draggable = false
+        }
+        lblMove.hidden = true
+        searchMap.hidden = false
+        //now save the new location of the current marker
+        let fetchRequest = NSFetchRequest(entityName:"Church")
+        var error: NSError?
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
+        let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
+        if church.count>0{
+            church.first!.changed=true
+            church.first!.latitude = marker.position.latitude
+            church.first!.longitude = marker.position.longitude
+        }
+        
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        
+        
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+        
+        
+    }
     
     
    

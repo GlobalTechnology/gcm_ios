@@ -48,7 +48,9 @@ class dataSync: NSObject {
         var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.updateMeasurements()
         }
-        
+        var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.updateChurch()
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
@@ -693,6 +695,35 @@ class dataSync: NSObject {
         }
         
     }
+    
+    
+    func updateChurch(){
+        if self.checkTokenAndConnection() == false{
+            return;
+        }
+        var error: NSError?
+        let frChurch =  NSFetchRequest(entityName:"Church" )
+        let pred = NSPredicate(format: "changed == true" )
+        frChurch.predicate=pred
+        let ch_changed = self.managedContext.executeFetchRequest(frChurch,error: &error) as [Church]
+        for ch in ch_changed{
+            API(token: self.token).saveChurch(ch){
+                (data: AnyObject?,error: NSError?) -> Void in
+                if data != nil{
+                    if (data as Bool){
+                        ch.changed=false
+                        var error: NSError?
+                        if !self.managedContext.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
+
     
     
     func updateTrainingCompletion(){
