@@ -1248,7 +1248,7 @@
                                     <rect key="frame" x="81" y="71" width="96" height="30"/>
                                     <state key="normal" title="Move Training"/>
                                     <connections>
-                                        <action selector="btnClose:" destination="3jf-lV-Z8g" eventType="touchUpInside" id="ixL-zu-RD2"/>
+                                        <action selector="btnMove:" destination="3jf-lV-Z8g" eventType="touchUpInside" id="GHu-c1-iXi"/>
                                     </connections>
                                 </button>
                             </subviews>

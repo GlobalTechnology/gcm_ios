@@ -51,6 +51,10 @@ class dataSync: NSObject {
         var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.updateChurch()
         }
+        var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.updateTraining()
+        }
+
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
@@ -724,7 +728,31 @@ class dataSync: NSObject {
         
     }
 
-    
+    func updateTraining(){
+        if self.checkTokenAndConnection() == false{
+            return;
+        }
+        var error: NSError?
+        let frTraining =  NSFetchRequest(entityName:"Training" )
+        let pred = NSPredicate(format: "changed == true" )
+        frTraining.predicate=pred
+        let tr_changed = self.managedContext.executeFetchRequest(frTraining,error: &error) as [Training]
+        for tr in tr_changed{
+            API(token: self.token).saveTraining(tr){(data: AnyObject?,error: NSError?) -> Void in
+                if data != nil{
+                    if (data as Bool){
+                        tr.changed=false
+                        var error: NSError?
+                        if !self.managedContext.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
     
     func updateTrainingCompletion(){
         if self.checkTokenAndConnection() == false{

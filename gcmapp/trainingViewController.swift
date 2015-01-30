@@ -16,17 +16,31 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     var data:JSONDictionary!
     var tc:[TrainingCompletion]!
     var changed:Bool = false
+    var mapVC:  mapViewController!
+    
+    
+    
     @IBOutlet weak var name: UILabel!
     
     @IBAction func btnClose(sender: UIButton) {
+       self.SaveChanges()
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func btnMove(sender: UIButton) {
+        self.SaveChanges()
+        self.mapVC.makeSelectedMarkerDraggable()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func SaveChanges() {
         if self.changed {
             //broadcast for update
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTrainingCompletion, object: nil)
-
+            
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func viewDidLoad() {

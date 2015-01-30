@@ -226,6 +226,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     marker.userData = dict
                     marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
                     marker.groundAnchor = CGPointMake(0.5, 1.0)
+                    markers.append(marker)
                 }
             }
             
@@ -325,6 +326,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 case "training":
                     let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as trainingViewController
                     tr.data = data
+                    tr.mapVC = self
                     vc=tr as UIViewController
             default:
                 break
@@ -409,28 +411,58 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         }
         lblMove.hidden = true
         searchMap.hidden = false
+        
+        if (marker.userData as JSONDictionary)["marker_type"] as String == "church"{
+            let fetchRequest = NSFetchRequest(entityName:"Church")
+            var error: NSError?
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext!
+            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
+            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
+            if church.count>0{
+                church.first!.changed=true
+                church.first!.latitude = marker.position.latitude
+                church.first!.longitude = marker.position.longitude
+            }
+            
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            
+            
+            
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+
+        }
+        else if (marker.userData as JSONDictionary)["marker_type"] as String == "training"{
+            let fetchRequest = NSFetchRequest(entityName:"Training")
+            var error: NSError?
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext!
+            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
+            let training = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Training]
+            if training.count>0{
+                training.first!.changed=true
+                training.first!.latitude = marker.position.latitude
+                training.first!.longitude = marker.position.longitude
+            }
+            
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            
+            
+            
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
+        }
+        
+        
+        
         //now save the new location of the current marker
-        let fetchRequest = NSFetchRequest(entityName:"Church")
-        var error: NSError?
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
-        let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
-        if church.count>0{
-            church.first!.changed=true
-            church.first!.latitude = marker.position.latitude
-            church.first!.longitude = marker.position.longitude
-        }
-        
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-        
-        
-        
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
         
         
     }

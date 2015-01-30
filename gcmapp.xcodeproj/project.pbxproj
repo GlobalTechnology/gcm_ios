@@ -67,6 +67,7 @@
 		FCB8C3101A38A4BC00A3D30F /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */; };
 		FCD401921A6D640C00950802 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
 		FCD4471D1A5D483800689E62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
+		FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDEE1D51A7AA51200818E8C /* training+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ministry.swift; sourceTree = "<group>"; };
 		FCD401911A6D640C00950802 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		FCD4471C1A5D483800689E62 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		FCDEE1D51A7AA51200818E8C /* training+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "training+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				FC13ABAE1A7A58B600CB2713 /* church+extension.swift */,
+				FCDEE1D51A7AA51200818E8C /* training+extension.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */,
 				FC2E0DF71A2F559B00DAC5A3 /* churchViewController.swift in Sources */,
 				FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */,
+				FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */,
 				FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */,
 				FC93E0141A31AB6C008D4221 /* MCC.swift in Sources */,
 				FC41ED6C1A31CFA600915ED7 /* HTAutocompleteManager.m in Sources */,

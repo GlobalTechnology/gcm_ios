@@ -118,10 +118,10 @@ class API: NSObject, NSURLConnectionDataDelegate {
         makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
-    func saveTraining(training: Training){
+    func saveTraining(training: Training, callback: APICallback){
         let url = "\(GlobalConstants.SERVICE_ROOT)training/\(training.id)?token=\(self.token)"
         var jsonError: NSError?
-        var body = "{\"ministry_id\": \"\(training.ministry_id)\", \"name\": \"\(training.name)\", \"date\": \"\(training.date)\",\"type\": \"\(training.type)\", \"mcc\": \(training.mcc), \"latitude\": \(training.latitude), \"longitude\": \(training.longitude)}"
+        var body = training.toJson()
         makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
