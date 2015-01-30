@@ -15,7 +15,8 @@ class mapOptionsViewController: UITableViewController {
     @IBOutlet weak var multiplyingChurches: UISwitch!
     @IBOutlet weak var training: UISwitch!
     @IBOutlet weak var campuses: UISwitch!
-
+    var mapVC:  mapViewController!
+    
     @IBAction func btnReturn(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -42,6 +43,9 @@ class mapOptionsViewController: UITableViewController {
     @IBAction func campusChanged(sender: UISwitch) {
         NSUserDefaults.standardUserDefaults().setValue(campuses.on, forKey: "showCampuses")
     }
+    
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         var ns =  NSUserDefaults.standardUserDefaults()
@@ -59,10 +63,83 @@ class mapOptionsViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section==1 {
-            self.dismissViewControllerAnimated(true, completion: nil)
+        if indexPath.section==1{
+            switch indexPath.row{
+            case 0: //addChurch
+                for m in mapVC.markers{
+                    m.opacity=0.2
+                    m.tappable = false
+                }
+                var  marker = GMSMarker(position: mapVC.mapView.projection.coordinateForPoint(mapVC.mapView.center))
+                marker.icon = UIImage(named: mapViewController.getIconNameForChurch(1))
+                
+                
+                marker.title = ""
+                marker.map = mapVC.mapView
+                var data = JSONDictionary()
+                data["marker_type"] = "new_church"
+                data["name"] = ""
+                data["contact_name"] = ""  //could prefill user's name here
+                data["contact_email"] = ""
+                data["size"]=0
+                data["development"] = 1
+                data["security"] = 2
+                
+                marker.userData=data
+                marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                marker.groundAnchor = CGPointMake(0.5, 1.0)
+                marker.draggable = true
+                marker.opacity=1.0
+                mapVC.markers.append(marker)
+                
+              
+                mapVC.searchMap.hidden=true
+                
+                mapVC.lblMove.hidden = false
+
+                self.dismissViewControllerAnimated(true, completion: nil)
+                break
+            case 1: //addTraining
+                for m in mapVC.markers{
+                    m.opacity=0.2
+                    m.tappable = false
+                }
+                var  marker = GMSMarker(position: mapVC.mapView.projection.coordinateForPoint(mapVC.mapView.center))
+                marker.icon = UIImage(named: "Training" )
+                
+                
+                marker.title = ""
+                marker.map = mapVC.mapView
+                var data = JSONDictionary()
+                data["marker_type"] = "new_training"
+                data["name"] = ""
+                data["type"] = ""
+                data["date"] = GlobalFunctions.currentDate()   
+                marker.userData=data
+                marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                marker.groundAnchor = CGPointMake(0.5, 1.0)
+                marker.draggable = true
+                marker.opacity=1.0
+                mapVC.markers.append(marker)
+                
+                
+                mapVC.searchMap.hidden=true
+                
+                mapVC.lblMove.hidden = false
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                break
+            case 2: //back
+                self.dismissViewControllerAnimated(true, completion: nil)
+                break
+            default:
+                break
+            }
+            
         }
-        
     }
+    
+    
+    
 }
 

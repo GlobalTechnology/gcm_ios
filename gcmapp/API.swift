@@ -117,15 +117,32 @@ class API: NSObject, NSURLConnectionDataDelegate {
         println(body)
         makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
-    
+    func addChurch(church:Church, callback: APICallback)
+    {
+        let url = "\(GlobalConstants.SERVICE_ROOT)churches?token=\(self.token)"
+        var jsonError: NSError?
+        var body = church.toJson()
+        println(body)
+        makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
+    }
+
     func saveTraining(training: Training, callback: APICallback){
         let url = "\(GlobalConstants.SERVICE_ROOT)training/\(training.id)?token=\(self.token)"
         var jsonError: NSError?
+        println(url)
         var body = training.toJson()
+        println(body)
         makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
     }
     
-    
+    func addTraining(training: Training, callback: APICallback){
+        let url = "\(GlobalConstants.SERVICE_ROOT)training?token=\(self.token)"
+        var jsonError: NSError?
+        println(url)
+        var body = training.toJson()
+        println(body)
+        makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
+    }
 
     func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
         let httpResponse = response as NSHTTPURLResponse
@@ -171,11 +188,13 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case (200, Path.GET_MEASUREMENT_DETAIL):
             callback(self.handleGetJSONDictionary(json), nil)
         case (201, Path.UPDATE_GENERAL):
+            println(json)
            callback(true , nil)
         case (200, Path.UPDATE_GENERAL):
             callback(true , nil)
         case (201, Path.ADD_GENERAL):
-            callback(true , nil)
+            
+            callback(self.handleGetJSONDictionary(json) , nil)
         case (201, Path.ADD_UPDATE_MEASUREMENT):
             
             callback(true , nil)

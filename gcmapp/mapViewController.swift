@@ -73,7 +73,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         self.autocompleteTableView.delegate=self
         self.autocompleteTableView.dataSource = self
-        
+        redrawMap()
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -84,7 +84,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         }
         
         
-        redrawMap()
+        
     }
     func makeSelectedMarkerDraggable(){
         for m in markers{
@@ -459,7 +459,39 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
         }
-        
+        else if (marker.userData as JSONDictionary)["marker_type"] as String == "new_church"{
+            println("Moved New_Church")
+            
+            let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as ChurchTVC
+            ch.data = marker.userData as JSONDictionary
+            ch.data["latitude"] = marker.position.latitude
+            ch.data["longitude"] = marker.position.longitude
+            ch.mapVC = self
+            self.modalPresentationStyle =  UIModalPresentationStyle.PageSheet
+            self.presentViewController(ch, animated: true, completion: nil	)
+
+            //
+            
+            
+        }
+        else if (marker.userData as JSONDictionary)["marker_type"] as String == "new_training"{
+            println("Moved New_Training")
+            
+            let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as trainingViewController
+            tr.data = marker.userData as JSONDictionary
+            tr.data["latitude"] = marker.position.latitude
+            tr.data["longitude"] = marker.position.longitude
+            var emptyStages = [TrainingCompletion]()
+            tr.data["stages"]  = NSSet(array: emptyStages)
+            
+            tr.mapVC = self
+            self.modalPresentationStyle =  UIModalPresentationStyle.PageSheet
+            self.presentViewController(tr, animated: true, completion: nil	)
+            
+            //
+            
+            
+        }
         
         
         //now save the new location of the current marker
@@ -467,7 +499,16 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
     }
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier=="ShowOptions"{
+            
+            let tvc = segue.destinationViewController as mapOptionsViewController
+            tvc.mapVC = self
+
+        }
+        
+        
+    }
    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

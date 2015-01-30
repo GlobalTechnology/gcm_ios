@@ -16,7 +16,6 @@
 		FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */; };
 		FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */; };
 		FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF01A2E181500DAC5A3 /* API.swift */; };
-		FC2E0DF71A2F559B00DAC5A3 /* churchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF61A2F559B00DAC5A3 /* churchViewController.swift */; };
 		FC41ED6C1A31CFA600915ED7 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */; };
 		FC41ED6E1A31EF9A00915ED7 /* mapOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */; };
 		FC4D27491A2DDF8500C20288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27481A2DDF8500C20288 /* AppDelegate.swift */; };
@@ -37,6 +36,7 @@
 		FC4D27811A2DE69600C20288 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27801A2DE69600C20288 /* QuartzCore.framework */; };
 		FC4D27831A2DE6A000C20288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27821A2DE6A000C20288 /* SystemConfiguration.framework */; };
 		FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */; };
+		FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */; };
 		FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
 		FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFD51A2FAE04008D4221 /* GMALoginViewController.m */; };
 		FC93DFD81A2FAE04008D4221 /* GMALoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD61A2FAE04008D4221 /* GMALoginViewController.xib */; };
@@ -92,7 +92,6 @@
 		FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentTVC.swift; sourceTree = "<group>"; };
 		FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataSync.swift; sourceTree = "<group>"; };
 		FC2E0DF01A2E181500DAC5A3 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		FC2E0DF61A2F559B00DAC5A3 /* churchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = churchViewController.swift; sourceTree = "<group>"; };
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapOptionsViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +122,7 @@
 		FC4D278D1A2DEC6800C20288 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
+		FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingTypeTVC.swift; sourceTree = "<group>"; };
 		FC93DFD21A2FA5D7008D4221 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FC93DFD41A2FAE04008D4221 /* GMALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMALoginViewController.h; sourceTree = "<group>"; };
 		FC93DFD51A2FAE04008D4221 /* GMALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMALoginViewController.m; sourceTree = "<group>"; };
@@ -331,7 +331,6 @@
 		FC9B9D701A35FDE000C9E353 /* map */ = {
 			isa = PBXGroup;
 			children = (
-				FC2E0DF61A2F559B00DAC5A3 /* churchViewController.swift */,
 				FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */,
 				FC4D274A1A2DDF8500C20288 /* mapViewController.swift */,
 				FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */,
@@ -341,6 +340,7 @@
 				FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */,
 				FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */,
 				FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */,
+				FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */,
 			);
 			name = map;
 			sourceTree = "<group>";
@@ -543,10 +543,10 @@
 				FCAA6ED61A39D1E900524398 /* MeasurementValue.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
+				FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */,
 				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
 				FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */,
 				FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */,
-				FC2E0DF71A2F559B00DAC5A3 /* churchViewController.swift in Sources */,
 				FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */,
 				FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */,
 				FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */,
@@ -697,10 +697,7 @@
 				);
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/build/Release-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
@@ -723,10 +720,7 @@
 				);
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/build/Release-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";

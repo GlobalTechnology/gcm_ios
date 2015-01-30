@@ -14,7 +14,9 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
           self.sync=dataSync()
+      
         // Do any additional setup after loading the view.
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
             var dict = NSDictionary(contentsOfFile: path) as Dictionary<String, String>
@@ -57,6 +59,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     }
  
     func postLoginNotification(){
+        
          let notificationCenter = NSNotificationCenter.defaultCenter()
          notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
     }

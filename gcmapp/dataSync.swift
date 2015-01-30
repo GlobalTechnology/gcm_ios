@@ -54,13 +54,15 @@ class dataSync: NSObject {
         var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.updateTraining()
         }
-
+        
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
                     return
                 }
+                
                 var s = API(st: ticket!){
                     (data: AnyObject?, error: NSError?) -> Void in
                     var resp:JSONDictionary = data as JSONDictionary
@@ -233,7 +235,7 @@ class dataSync: NSObject {
                         if (this_period_local.allObjects.first! as MeasurementValue).total != m["total"] as NSNumber{
                             getDetail = true
                         }
-                       
+                        
                         
                     }
                     
@@ -480,6 +482,8 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
+        
+        
         API(token: self.token).getTraining(ministryId, mcc: mcc){
             (data: AnyObject?,error: NSError?) -> Void in
             if data == nil {
@@ -579,6 +583,7 @@ class dataSync: NSObject {
         if self.checkTokenAndConnection() == false{
             return;
         }
+        
         //   api.st = service_ticket
         API(token: self.token).getChurches(ministryId){
             (data: AnyObject?,error: NSError?) -> Void in
@@ -598,6 +603,8 @@ class dataSync: NSObject {
             
             for c in data as JSONArray{
                 //BEGIN: Add or update
+                
+                println(c["id"])
                 
                 let this_ch = churches.filter {$0.id == (c["id"] as NSNumber)}
                 var church:Church!
@@ -620,8 +627,10 @@ class dataSync: NSObject {
                     church.name = c["name"] as String
                     church.development = c["development"] as NSNumber
                     church.size = c["size"] as NSNumber
-                    church.latitude = c["latitude"] as Float
-                    church.longitude = c["longitude"] as Float
+                    if c["latitude"] != nil && c["longitude"]  != nil{
+                        church.latitude = c["latitude"] as Float
+                        church.longitude = c["longitude"] as Float
+                    }
                     church.security = c["security"] as NSNumber
                     church.contact_name = c["contact_name"] as String
                     church.contact_email = c["contact_email"] as String
@@ -711,23 +720,44 @@ class dataSync: NSObject {
         frChurch.predicate=pred
         let ch_changed = self.managedContext.executeFetchRequest(frChurch,error: &error) as [Church]
         for ch in ch_changed{
-            API(token: self.token).saveChurch(ch){
-                (data: AnyObject?,error: NSError?) -> Void in
-                if data != nil{
-                    if (data as Bool){
+            
+            if ch.id == -1{
+                API(token: self.token).addChurch(ch){
+                    (data: AnyObject?,error: NSError?) -> Void in
+                    if data != nil{
                         ch.changed=false
+                        ch.id=(data as JSONDictionary)["id"]  as NSNumber
+                        println("saved: \(ch.id)")
                         var error: NSError?
                         if !self.managedContext.save(&error) {
                             println("Could not save \(error), \(error?.userInfo)")
                         }
+                        
+                    }
+                }
+                
+                
+            }
+            else{
+                API(token: self.token).saveChurch(ch){
+                    (data: AnyObject?,error: NSError?) -> Void in
+                    if data != nil{
+                        if (data as Bool){
+                            ch.changed=false
+                            var error: NSError?
+                            if !self.managedContext.save(&error) {
+                                println("Could not save \(error), \(error?.userInfo)")
+                            }
+                        }
                     }
                 }
             }
+            
         }
         
         
     }
-
+    
     func updateTraining(){
         if self.checkTokenAndConnection() == false{
             return;
@@ -738,13 +768,33 @@ class dataSync: NSObject {
         frTraining.predicate=pred
         let tr_changed = self.managedContext.executeFetchRequest(frTraining,error: &error) as [Training]
         for tr in tr_changed{
-            API(token: self.token).saveTraining(tr){(data: AnyObject?,error: NSError?) -> Void in
-                if data != nil{
-                    if (data as Bool){
+            if tr.id == -1{
+                API(token: self.token).addTraining(tr){
+                    (data: AnyObject?,error: NSError?) -> Void in
+                    if data != nil{
                         tr.changed=false
+                        tr.id=(data as JSONDictionary)["id"]  as NSNumber
+                        println("saved: \(tr.id)")
                         var error: NSError?
                         if !self.managedContext.save(&error) {
                             println("Could not save \(error), \(error?.userInfo)")
+                        }
+                        
+                    }
+                }
+                
+                
+            }
+            else{
+                
+                API(token: self.token).saveTraining(tr){(data: AnyObject?,error: NSError?) -> Void in
+                    if data != nil{
+                        if (data as Bool){
+                            tr.changed=false
+                            var error: NSError?
+                            if !self.managedContext.save(&error) {
+                                println("Could not save \(error), \(error?.userInfo)")
+                            }
                         }
                     }
                 }

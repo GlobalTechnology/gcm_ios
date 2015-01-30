@@ -14,6 +14,13 @@ class GlobalFunctions{
             dateFormatter.dateFormat = "yyyy-MM"
             return dateFormatter.stringFromDate(NSDate())
     }
+    class func currentDate() -> String{
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.stringFromDate(NSDate())
+    }
+    
     
     class func nextPeriod(current:String!) -> String {
         
@@ -53,6 +60,7 @@ class GlobalFunctions{
     class func getNameForDevelopment(development: NSNumber) -> String
     {
         switch(development){
+           
         case 1:
             return "Target"
         case 2:
