@@ -200,9 +200,14 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             switch(indexPath.row){
             case 0: // Back
                 let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
+                cell.textLabel!.text = data["marker_type"] as String == "new_training" ? "Save" : "Back to Map"
                 return cell
             case 1: //Move
                 let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
+                cell.userInteractionEnabled = data["marker_type"] as String != "new_training"
+                cell.textLabel!.enabled = data["marker_type"] as String != "new_training"
+                cell.alpha=0.5
+                
                 return cell
             case 2: //name
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
@@ -210,6 +215,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 cell.training=self
                 cell.field_name="name"
                 cell.title.text = "Name"
+                
                 cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
                 return cell
                 
@@ -240,13 +246,14 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 break
             case 1: //move
-                self.SaveChanges()
-                self.mapVC.makeSelectedMarkerDraggable()
-                self.dismissViewControllerAnimated(true, completion: nil)
-                
+                if(data["marker_type"] as String != "new_training"){
+                    self.SaveChanges()
+                    self.mapVC.makeSelectedMarkerDraggable()
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
                 
                 break
-            case 4:
+            case 3:
                  self.performSegueWithIdentifier("ShowType", sender: self)
                 break
                 

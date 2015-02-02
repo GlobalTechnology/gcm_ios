@@ -147,7 +147,7 @@ class ChurchTVC: UITableViewController {
             return data["marker_type"] as String == "new_church" ? 6 : 7
         }
         else{
-            return 2
+            return data["marker_type"] as String == "new_church" ? 1 : 2
         }
     }
     
@@ -218,9 +218,11 @@ class ChurchTVC: UITableViewController {
             switch(indexPath.row){
             case 1:
                 let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
+               
                 return cell
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
+                 cell.textLabel!.text = data["marker_type"] as String == "new_church" ? "Save" : "Back to Map"
                 return cell
             default:
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
