@@ -190,11 +190,22 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     
                     line.strokeColor = UIColor.lightGrayColor()
                     line.map = self.mapView
+                    var  marker2 = GMSMarker(position: CLLocationCoordinate2DMake( parent.latitude as CLLocationDegrees,parent.longitude as CLLocationDegrees))
+                    marker2.icon = UIImage(named:"dot" )
                     
-                    var circle = CLLocationCoordinate2D(latitude: parent.latitude as CLLocationDegrees, longitude: parent.longitude as CLLocationDegrees)
+                    
+                    marker2.map = self.mapView
+                    marker2.userData = c.id
+                    
+                    marker2.groundAnchor = CGPointMake(0.5, 0.5)
+                    
+                    
+                    
+                    /*var circle = CLLocationCoordinate2D(latitude: parent.latitude as CLLocationDegrees, longitude: parent.longitude as CLLocationDegrees)
                     var circ = GMSCircle(position: circle, radius: 80)
                     circ.fillColor=UIColor.blackColor()
-                    circ.map = self.mapView
+                    circ.map = self.mapView*/
+
                     dict["parent_name"] = parent.name
                     marker.userData = dict
 
@@ -374,22 +385,26 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.searchMap.text = autocompleteList[indexPath.row]
-        autocompleteTableView.hidden=true
-        
+       self.loadSearchedChurch()
     }
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-          textField.resignFirstResponder()
+    
+    
+    func loadSearchedChurch(){
+        self.searchMap.resignFirstResponder()
         autocompleteTableView.hidden=true
         
         for c in churches{
             var r:NSRange = (c.name.lowercaseString as NSString).rangeOfString(searchMap.text.lowercaseString)
             if r.location == 0{
                 mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(c.latitude as CLLocationDegrees ,c.longitude as CLLocationDegrees ), zoom: 16, bearing: 0, viewingAngle: 0)
-            
+                
                 
             }
         }
         searchMap.text = ""
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.loadSearchedChurch()
          return true
     }
     

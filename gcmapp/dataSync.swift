@@ -604,7 +604,7 @@ class dataSync: NSObject {
             for c in data as JSONArray{
                 //BEGIN: Add or update
                 
-                println(c["id"])
+                //println(c["id"])
                 
                 let this_ch = churches.filter {$0.id == (c["id"] as NSNumber)}
                 var church:Church!
