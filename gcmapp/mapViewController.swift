@@ -445,7 +445,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
-            
+            self.redrawMap()  /// to recreate tranining
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
