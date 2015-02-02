@@ -10,24 +10,6 @@ import UIKit
 
 class SecurityTVC: UITableViewController {
    var church:ChurchTVC!
-    @IBAction func btnBack(sender: UIButton) {
-        switch(self.tableView.indexPathForSelectedRow()!.row){
-        case 0:
-            church.data["security"] = 0
-            break
-        case 1:
-            church.data["security"] = 1
-            break
-        case 2:
-            church.data["security"] = 2
-            break
-         default:
-            break
-            
-        }
-        self.church.tableView.reloadData()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,12 +20,37 @@ class SecurityTVC: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.church.changed = true
+        
+        if church.data["security"] == nil{
+            church.data["secutiry"] = 2
+            }
+            var old_value = church.data["security"]  as NSNumber
+        
+        switch(indexPath.row){
+        case 0:
+            church.data["security"] = 0
+            break
+        case 1:
+            church.data["security"] = 1
+            break
+        case 2:
+            church.data["security"] = 2
+            break
+        default:
+            break
+            
+        }
+        
+        self.church.changed = old_value != church.data["security"] as NSNumber
+        
+        self.church.tableView.reloadData()
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var row:Int = -1
+        if church.data["security"] != nil{
         switch(church.data["security"] as NSNumber){
         case 0:
             row=0
@@ -63,9 +70,13 @@ class SecurityTVC: UITableViewController {
         }
         if row>=0{
             tableView.selectRowAtIndexPath(NSIndexPath(forRow:row, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
+            tableView.cellForRowAtIndexPath(NSIndexPath(forRow:row, inSection: 0))?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
         }
         
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

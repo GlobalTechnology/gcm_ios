@@ -16,24 +16,7 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     var church:ChurchTVC!
    
     
-    @IBAction func btnBack(sender: UIButton) {
-        var selectedIndex = tableView.indexPathForSelectedRow()
-        if selectedIndex != nil{
-            var selected:Church = fetchedResultController.objectAtIndexPath(selectedIndex! ) as Church
-            if(selected.id != parent_church_id){
-                church.data["parent_id"] = selected.id
-                church.data["parent_name"] = selected.name
-                church.changed = true
-                
-            }
-        }
-     
-        
-        church.tableView.reloadData()
-        
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    func getFetchedResultController() -> NSFetchedResultsController {
+       func getFetchedResultController() -> NSFetchedResultsController {
         fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         return fetchedResultController
     }
@@ -105,7 +88,18 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         
     }
     
-		
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selected = fetchedResultController.objectAtIndexPath(indexPath) as Church
+        if(selected.id != parent_church_id){
+            church.data["parent_id"] = selected.id
+            church.data["parent_name"] = selected.name
+            church.changed = true
+             church.tableView.reloadData()
+        }
+       
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

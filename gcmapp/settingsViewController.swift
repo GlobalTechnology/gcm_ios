@@ -37,6 +37,16 @@ class settingsViewController: UITableViewController {
         }
 
     }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch(indexPath.row)
+        {
+        case 4:
+             TheKeyOAuth2Client.sharedOAuth2Client().logout()
+            break
+        default:
+            break
+        }
+    }
     
 }
 	

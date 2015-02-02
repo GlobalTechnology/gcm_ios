@@ -54,7 +54,7 @@ class mapOptionsViewController: UITableViewController {
         churches.on = (ns.objectForKey("showChurches") as Bool?) != false
         multiplyingChurches.on = (ns.objectForKey("showMultiplyingChurches") as Bool?) != false
         training.on = (ns.objectForKey("showTraining") as Bool?) != false
-        	
+        
         
         
     }

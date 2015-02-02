@@ -20,22 +20,11 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     var mapVC:  mapViewController!
     
     
-    @IBOutlet weak var btnClose: UIButton!
-    @IBOutlet weak var btnMove: UIButton!
+    
     
     @IBOutlet weak var name: UILabel!
     
-    @IBAction func btnClose(sender: UIButton) {
-        self.SaveChanges()
-        mapVC.redrawMap()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func btnMove(sender: UIButton) {
-        self.SaveChanges()
-        self.mapVC.makeSelectedMarkerDraggable()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
+   
     
     func SaveChanges() {
         var error: NSError?
@@ -112,10 +101,10 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         tc = (data["stages"] as NSSet).sortedArrayUsingDescriptors([descriptor]) as [TrainingCompletion]
        // var tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
       //  tableView.addGestureRecognizer(tap)
-        if data["marker_type"] as String == "new_training"{
+       /* if data["marker_type"] as String == "new_training"{
             btnClose.titleLabel!.text = "Save"
             btnMove.hidden=true
-        }
+        }*/
         
 
         
@@ -165,7 +154,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return 2
+            return 4
         }
         else{
             if data["stages"] == nil{
@@ -209,7 +198,13 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         }
         else if indexPath.section == 0{
             switch(indexPath.row){
-            case 0: //name
+            case 0: // Back
+                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
+                return cell
+            case 1: //Move
+                let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
+                return cell
+            case 2: //name
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
                 cell.isChurch=false
                 cell.training=self
@@ -218,7 +213,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
                 return cell
                 
-            case 1: //type
+            case 3: //type
                 var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
                 cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
                 return cell
@@ -236,11 +231,32 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section==0 && indexPath.row==1 {
-            self.performSegueWithIdentifier("ShowType", sender: self)
-            
+        if indexPath.section == 0{
+            switch(indexPath.row){
+            case 0: // back
+                self.SaveChanges()
+                mapVC.redrawMap()
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+                break
+            case 1: //move
+                self.SaveChanges()
+                self.mapVC.makeSelectedMarkerDraggable()
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+                
+                break
+            case 4:
+                 self.performSegueWithIdentifier("ShowType", sender: self)
+                break
+                
+            default:
+                break
+                
+            }
         }
-    }
+
+}
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowType"{

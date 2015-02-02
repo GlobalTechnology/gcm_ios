@@ -11,29 +11,7 @@ import UIKit
 class DevelopmentTVC: UITableViewController {
     //var development:NSNumber!
     var church:ChurchTVC!
-    @IBAction func btnBack(sender: UIButton) {
-        switch(self.tableView.indexPathForSelectedRow()!.row){
-        case 0:
-            church.data["development"] = 1
-            break
-        case 1:
-            church.data["development"] = 2
-            break
-        case 2:
-            church.data["development"] = 3
-            break
-        case 3:
-            church.data["development"] = 5
-            break
-        default:
-            break
-            
-        }
-        self.church.tableView.reloadData()
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-        
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +43,7 @@ class DevelopmentTVC: UITableViewController {
         }
         if row>=0{
              tableView.selectRowAtIndexPath(NSIndexPath(forRow:row, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
+            tableView.cellForRowAtIndexPath(NSIndexPath(forRow:row, inSection: 0))?.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
        
     }
@@ -91,7 +70,38 @@ class DevelopmentTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.church.changed = true
+        
+        if church.data["security"] == nil{
+            church.data["secutiry"] = 2
+        }
+        var old_value = church.data["security"]  as NSNumber
+
+        
+        switch(indexPath.row){
+        case 0:
+            church.data["development"] = 1
+            break
+        case 1:
+            church.data["development"] = 2
+            break
+        case 2:
+            church.data["development"] = 3
+            break
+        case 3:
+            church.data["development"] = 5
+            break
+        default:
+            break
+            
+        }
+        
+        self.church.changed = old_value != church.data["development"] as NSNumber
+        
+        self.church.tableView.reloadData()
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+
+        
     }
 
     /*
