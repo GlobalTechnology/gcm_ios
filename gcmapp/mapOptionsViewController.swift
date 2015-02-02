@@ -40,9 +40,7 @@ class mapOptionsViewController: UITableViewController {
     @IBAction func trainingChanged(sender: UISwitch) {
         NSUserDefaults.standardUserDefaults().setValue(training.on, forKey: "showTraining")
     }
-    @IBAction func campusChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(campuses.on, forKey: "showCampuses")
-    }
+    
     
     
     
@@ -56,8 +54,7 @@ class mapOptionsViewController: UITableViewController {
         churches.on = (ns.objectForKey("showChurches") as Bool?) != false
         multiplyingChurches.on = (ns.objectForKey("showMultiplyingChurches") as Bool?) != false
         training.on = (ns.objectForKey("showTraining") as Bool?) != false
-        campuses.on = (ns.objectForKey("showCampuses") as Bool?) != false
-        
+        	
         
         
     }

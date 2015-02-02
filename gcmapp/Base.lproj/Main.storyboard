@@ -264,30 +264,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="cmX-2t-Eux">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cmX-2t-Eux" id="W8w-0t-n1J">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cOf-9Z-zVJ">
-                                                    <rect key="frame" x="543" y="0.0" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="campusChanged:" destination="M2h-kB-OgG" eventType="valueChanged" id="Tyw-7i-55t"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Campuses" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFF-ev-QPf">
-                                                    <rect key="frame" x="8" y="11" width="495" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="cOf-9Z-zVJ" secondAttribute="trailing" id="2z6-2a-Ltu"/>
-                                                <constraint firstAttribute="centerY" secondItem="cOf-9Z-zVJ" secondAttribute="centerY" constant="6.25" id="K5y-YO-h0q"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Options" id="Eo9-Mw-5Zj">
@@ -342,8 +318,8 @@
                             <outlet property="delegate" destination="M2h-kB-OgG" id="itg-Qx-dz8"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
-                        <outlet property="campuses" destination="cOf-9Z-zVJ" id="Jsv-h4-UMr"/>
                         <outlet property="churches" destination="loB-D2-00u" id="80Z-7R-EO2"/>
                         <outlet property="groups" destination="OAd-0F-u6f" id="luh-h0-i1w"/>
                         <outlet property="multiplyingChurches" destination="pcN-AR-ZIq" id="jRk-8E-PdS"/>
