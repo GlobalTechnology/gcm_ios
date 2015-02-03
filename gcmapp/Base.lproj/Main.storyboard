@@ -22,13 +22,13 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ministry/Team" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgC-7Q-x6J">
-                                <rect key="frame" x="16" y="20" width="568" height="34"/>
+                                <rect key="frame" x="16" y="20" width="181" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1m-ba-dfv">
-                                <rect key="frame" x="16" y="53" width="391" height="21"/>
+                                <rect key="frame" x="16" y="54" width="391" height="21"/>
                                 <string key="text">Press and hold marker, then drag to new location...
 </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -40,18 +40,18 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="search"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fs7-fT-GKb">
-                                <rect key="frame" x="550" y="504" width="50" height="47"/>
+                                <rect key="frame" x="543" y="25" width="36" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="47" id="7nx-UM-gtC"/>
-                                    <constraint firstAttribute="width" constant="50" id="tIb-Gx-IIf"/>
+                                    <constraint firstAttribute="height" constant="36" id="7nx-UM-gtC"/>
+                                    <constraint firstAttribute="width" constant="36" id="tIb-Gx-IIf"/>
                                 </constraints>
-                                <state key="normal" image="page-curl"/>
+                                <state key="normal" image="settings36"/>
                                 <connections>
                                     <segue destination="M2h-kB-OgG" kind="presentation" identifier="ShowOptions" modalPresentationStyle="currentContext" id="Kbs-sM-Ec6"/>
                                 </connections>
                             </button>
                             <tableView hidden="YES" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rq4-jW-iIS">
-                                <rect key="frame" x="16" y="103" width="568" height="100"/>
+                                <rect key="frame" x="16" y="103.5" width="568" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="Cg0-b4-aoQ"/>
@@ -80,6 +80,7 @@
                             <constraint firstItem="hll-KI-DZs" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" constant="20" id="0dQ-tA-myF"/>
                             <constraint firstItem="sgC-7Q-x6J" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="3Ma-1s-eMh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rq4-jW-iIS" secondAttribute="trailing" id="55x-PA-2sh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Fs7-fT-GKb" secondAttribute="trailing" constant="5" id="8w6-e8-Njq"/>
                             <constraint firstItem="sgC-7Q-x6J" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" constant="5" id="8zY-C3-n7e"/>
                             <constraint firstItem="M1m-ba-dfv" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="9J9-og-qMO"/>
                             <constraint firstItem="sgC-7Q-x6J" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="9fv-4l-vj1"/>
@@ -87,7 +88,6 @@
                             <constraint firstItem="Rq4-jW-iIS" firstAttribute="top" secondItem="MGx-9I-4b0" secondAttribute="bottom" id="Bqi-di-V3j"/>
                             <constraint firstAttribute="trailing" secondItem="hll-KI-DZs" secondAttribute="trailing" id="D1M-rV-eQF"/>
                             <constraint firstItem="hll-KI-DZs" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="DDv-9a-Wln"/>
-                            <constraint firstAttribute="trailing" secondItem="Fs7-fT-GKb" secondAttribute="trailing" id="EbX-ZW-KAD"/>
                             <constraint firstItem="hll-KI-DZs" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="IIg-9w-scj"/>
                             <constraint firstItem="M1m-ba-dfv" firstAttribute="top" secondItem="sgC-7Q-x6J" secondAttribute="bottom" id="R0g-wA-ThH"/>
                             <constraint firstItem="hll-KI-DZs" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="U1Y-ra-Y1g"/>
@@ -101,8 +101,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="sgC-7Q-x6J" secondAttribute="trailing" id="d5J-oC-px7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="M1m-ba-dfv" secondAttribute="trailing" constant="182" id="dmo-8k-LUy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MGx-9I-4b0" secondAttribute="trailing" id="jZP-fl-phs"/>
+                            <constraint firstItem="Fs7-fT-GKb" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="5" id="l2M-1F-WhM"/>
+                            <constraint firstItem="Fs7-fT-GKb" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="5" id="m5U-gH-yCd"/>
                             <constraint firstAttribute="bottom" secondItem="hll-KI-DZs" secondAttribute="bottom" id="mZu-pR-P6C"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Fs7-fT-GKb" secondAttribute="bottom" id="zgo-yQ-Qsx"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -113,8 +114,10 @@
                                 <exclude reference="ZZs-LO-IC7"/>
                                 <exclude reference="8zY-C3-n7e"/>
                                 <exclude reference="WDH-a0-lZb"/>
+                                <exclude reference="d5J-oC-px7"/>
                                 <exclude reference="dmo-8k-LUy"/>
                                 <exclude reference="YED-Rf-Rd2"/>
+                                <exclude reference="l2M-1F-WhM"/>
                             </mask>
                         </variation>
                     </view>
@@ -1585,7 +1588,7 @@
     <resources>
         <image name="Training" width="50" height="42"/>
         <image name="first" width="30" height="30"/>
-        <image name="page-curl" width="50" height="47"/>
         <image name="second" width="30" height="30"/>
+        <image name="settings36" width="36" height="35"/>
     </resources>
 </document>
