@@ -18,7 +18,7 @@ struct GlobalConstants {
     static let kDidChangeTrainingCompletion = "DidChangeTrainingCompletion"
     static let kDidChangeMeasurementValues = "DidChangeMeasurementValues"
     static let kLogout = "UserWillLogout"
-    
+    static let kReset = "UserWillReset"
     static let kDidChangeChurch = "DidChangeChurch"
     static let kDidChangeTraining = "DidChangeTraining"
     static let SERVICE_API = "https://stage.sbr.global-registry.org/api/measurements/token"

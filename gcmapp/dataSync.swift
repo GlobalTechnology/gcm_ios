@@ -57,6 +57,9 @@ class dataSync: NSObject {
         var observer_logout = nc.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.logout()
         }
+        var observer_reset = nc.addObserverForName(GlobalConstants.kReset, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.reset()
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             
@@ -198,7 +201,7 @@ class dataSync: NSObject {
             return;
         }
         
-        
+       
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
             if data == nil {
@@ -233,8 +236,8 @@ class dataSync: NSObject {
                     measurement=this_meas?.first?
                     let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
                     if this_period_local.count>0{
-                        
-                        if (this_period_local.allObjects.first! as MeasurementValue).total != m["total"] as NSNumber{
+                        let mv = this_period_local.allObjects.first! as MeasurementValue
+                        if mv.total != m["total"] as NSNumber  || mv.localSources.count==0{
                             getDetail = true
                         }
                         
@@ -933,19 +936,37 @@ class dataSync: NSObject {
         
         
     }
+    func reset(){
+        var error: NSError?
+        let entityList=["MCC", "Assignment", "Ministry", "Church", "TrainingCompletion", "Training","MeasurementLocalSource", "MeasurementValueSubTeam", "MeasurementValueSelfAssigned", "MeasurementValueTeam", "MeasurementValue", "Measurements"]
+        for e in entityList{
+            let fr =  NSFetchRequest(entityName:e)
+            let items = self.managedContext.executeFetchRequest(fr,error: &error) as Array<NSManagedObject>
+            for obj in items {
+                self.managedContext.deleteObject(obj)
+            }
+        }
+        if !self.managedContext.save(&error) {
+            println("Could not delete objects \(error), \(error?.userInfo)")
+        }
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
     
+    
+        if self.token != nil{
+             notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+        }
+        else{
+            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
+            
+            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+        }
+               
+    }
     func logout(){
         API(token: self.token).deleteToken()
         self.token = nil
         //Delete everything in the database
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-       let store =  appDelegate.persistentStoreCoordinator?.persistentStores.last as NSPersistentStore
-        var error: NSError?
-        appDelegate.persistentStoreCoordinator?.removePersistentStore(store, error: &error)
-        NSFileManager.defaultManager().removeItemAtURL(store.URL!, error: &error)
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
-    
-        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+        reset()
     }
 }

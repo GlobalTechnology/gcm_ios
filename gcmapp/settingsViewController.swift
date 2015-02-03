@@ -40,11 +40,16 @@ class settingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch(indexPath.row)
         {
+        case 3:
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kReset, object: nil)
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         case 4:
+             TheKeyOAuth2Client.sharedOAuth2Client().logout()
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kLogout, object: nil)
 
-             TheKeyOAuth2Client.sharedOAuth2Client().logout()
+            
             break
         default:
             break

@@ -34,6 +34,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     var markers:[GMSMarker]! = Array()
     var churchLines:[GMSPolyline]! = Array()
+    var churchdots:[GMSMarker]! = Array()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -176,6 +177,9 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             for l in churchLines{
                 l.map = nil
             }
+            for d in churchdots{
+                d.map = nil
+            }
             churchLines.removeAll(keepCapacity: false)
           //  self.mapView.clear()
             for c  in self.churches {
@@ -251,8 +255,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
 
                     dict["parent_name"] = parent.name
                     marker.userData = dict
-
-                    
+                    self.churchLines.append(line)
+                    self.churchdots.append(marker2)
                 }
                 
             }
@@ -281,6 +285,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
                     marker.groundAnchor = CGPointMake(0.5, 1.0)
                     markers.append(marker)
+                    
                 }
             }
             
