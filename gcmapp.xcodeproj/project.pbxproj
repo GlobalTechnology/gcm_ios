@@ -43,7 +43,6 @@
 		FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFDB1A306E19008D4221 /* gcmTabBarController.swift */; };
 		FC93DFDE1A3074B2008D4221 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFDD1A3074B2008D4221 /* GlobalConstants.swift */; };
 		FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFE31A308129008D4221 /* settingsViewController.swift */; };
-		FC93DFFA1A30A29B008D4221 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFF91A30A29B008D4221 /* Measurements.swift */; };
 		FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */; };
 		FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0111A31A726008D4221 /* mccViewController.swift */; };
 		FC93E0141A31AB6C008D4221 /* MCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0131A31AB6C008D4221 /* MCC.swift */; };
@@ -59,6 +58,9 @@
 		FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */; };
 		FCAA6EDA1A39D1E900524398 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED91A39D1E900524398 /* Training.swift */; };
 		FCAA6EDC1A39D1E900524398 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */; };
+		FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */; };
+		FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3501A80C15A00223130 /* measurements+extension.swift */; };
+		FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3521A80C88A00223130 /* Measurements.swift */; };
 		FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */; };
 		FCB8C3061A38A4BB00A3D30F /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */; };
 		FCB8C3081A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */; };
@@ -130,7 +132,6 @@
 		FC93DFDB1A306E19008D4221 /* gcmTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gcmTabBarController.swift; sourceTree = "<group>"; };
 		FC93DFDD1A3074B2008D4221 /* GlobalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		FC93DFE31A308129008D4221 /* settingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
-		FC93DFF91A30A29B008D4221 /* Measurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurements.swift; sourceTree = "<group>"; };
 		FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assignmentsViewController.swift; sourceTree = "<group>"; };
 		FC93E0111A31A726008D4221 /* mccViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mccViewController.swift; sourceTree = "<group>"; };
 		FC93E0131A31AB6C008D4221 /* MCC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCC.swift; sourceTree = "<group>"; };
@@ -146,6 +147,9 @@
 		FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementLocalSource.swift; sourceTree = "<group>"; };
 		FCAA6ED91A39D1E900524398 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
 		FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
+		FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementSummaryCell.swift; sourceTree = "<group>"; };
+		FCB0A3501A80C15A00223130 /* measurements+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "measurements+extension.swift"; sourceTree = "<group>"; };
+		FCB0A3521A80C88A00223130 /* Measurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurements.swift; sourceTree = "<group>"; };
 		FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasDetailEditCell.swift; sourceTree = "<group>"; };
 		FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
 		FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSelfAssigned.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 			children = (
 				FC13ABAE1A7A58B600CB2713 /* church+extension.swift */,
 				FCDEE1D51A7AA51200818E8C /* training+extension.swift */,
+				FCB0A3501A80C15A00223130 /* measurements+extension.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
+				FCB0A3521A80C88A00223130 /* Measurements.swift */,
 				FC13ABAD1A7A588000CB2713 /* extensions */,
 				FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */,
 				FCAA6ED91A39D1E900524398 /* Training.swift */,
@@ -318,7 +324,6 @@
 				FCB8C3091A38A4BB00A3D30F /* Assignment.swift */,
 				FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */,
 				FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */,
-				FC93DFF91A30A29B008D4221 /* Measurements.swift */,
 				FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */,
 				FC93E0131A31AB6C008D4221 /* MCC.swift */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
@@ -352,6 +357,7 @@
 				FC9B9D7D1A37388F00C9E353 /* measurementDetailViewController.swift */,
 				FC9B9D801A3845CD00C9E353 /* GraphView.swift */,
 				FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */,
+				FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */,
 			);
 			name = measurements;
 			sourceTree = "<group>";
@@ -531,6 +537,7 @@
 				FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */,
 				FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */,
 				FCB8C30E1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift in Sources */,
+				FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */,
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
@@ -539,6 +546,7 @@
 				FCAA6EDA1A39D1E900524398 /* Training.swift in Sources */,
 				FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */,
 				FC4D27491A2DDF8500C20288 /* AppDelegate.swift in Sources */,
+				FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */,
 				FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */,
 				FCAA6ED61A39D1E900524398 /* MeasurementValue.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
@@ -557,7 +565,7 @@
 				FC93DFDE1A3074B2008D4221 /* GlobalConstants.swift in Sources */,
 				FC9B9D7C1A3729E700C9E353 /* GlobalFunctions.swift in Sources */,
 				FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */,
-				FC93DFFA1A30A29B008D4221 /* Measurements.swift in Sources */,
+				FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

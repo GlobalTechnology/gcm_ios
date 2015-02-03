@@ -1033,27 +1033,63 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="lmiSummary" textLabel="IO4-RM-wj9" detailTextLabel="md7-Sm-g8o" style="IBUITableViewCellStyleValue1" id="X0N-3r-RtF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="lmiSummary2" id="z5G-Qn-1k0" customClass="MeasurementSummaryCell" customModule="gcmapp" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X0N-3r-RtF" id="uH1-o2-Wl6">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z5G-Qn-1k0" id="JQ9-Ax-WfV">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IO4-RM-wj9">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BUILD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XtB-Lp-LhF">
+                                            <rect key="frame" x="8" y="15" width="35" height="14"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="35" id="JNf-r0-qM2"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G67-V9-wcd">
+                                            <rect key="frame" x="46" y="12" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="md7-Sm-g8o">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4r-4i-zvd">
+                                            <rect key="frame" x="518" y="12" width="42" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="act-48-rwF"/>
+                                                <constraint firstAttribute="width" constant="80" id="seP-S6-zEu"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="act-48-rwF"/>
+                                                    <exclude reference="seP-S6-zEu"/>
+                                                </mask>
+                                            </variation>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="D4r-4i-zvd" firstAttribute="trailing" secondItem="JQ9-Ax-WfV" secondAttribute="trailingMargin" id="AKf-Ge-hyn"/>
+                                        <constraint firstItem="XtB-Lp-LhF" firstAttribute="leading" secondItem="JQ9-Ax-WfV" secondAttribute="leadingMargin" id="D1V-Z3-HIn"/>
+                                        <constraint firstAttribute="centerY" secondItem="G67-V9-wcd" secondAttribute="centerY" id="Po2-nN-D7e"/>
+                                        <constraint firstAttribute="centerY" secondItem="D4r-4i-zvd" secondAttribute="centerY" id="ReC-ql-2UR"/>
+                                        <constraint firstAttribute="centerY" secondItem="XtB-Lp-LhF" secondAttribute="centerY" id="Wpe-jT-hZz"/>
+                                        <constraint firstItem="D4r-4i-zvd" firstAttribute="leading" secondItem="G67-V9-wcd" secondAttribute="trailing" id="d9w-Js-BLO"/>
+                                        <constraint firstItem="G67-V9-wcd" firstAttribute="leading" secondItem="XtB-Lp-LhF" secondAttribute="trailing" constant="3" id="k6j-fQ-PdQ"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="d9w-Js-BLO"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="AQB-UJ-YKg" kind="show" identifier="showMeasurementDetail" id="fQd-9E-NAR"/>
+                                    <outlet property="lblDetail" destination="D4r-4i-zvd" id="lGI-Rj-uk7"/>
+                                    <outlet property="lblRow" destination="XtB-Lp-LhF" id="7Mp-ez-zUl"/>
+                                    <outlet property="lblTitle" destination="G67-V9-wcd" id="y21-xo-GqQ"/>
+                                    <segue destination="AQB-UJ-YKg" kind="showDetail" identifier="showMeasurementDetail" id="Bea-dd-n6d"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1504,6 +1540,7 @@
                             <outlet property="delegate" destination="AQB-UJ-YKg" id="ys3-3D-CSG"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <connections>
                         <outlet property="NavItem" destination="AND-1a-ZnN" id="mjU-3Q-nfr"/>
                         <outlet property="graph" destination="Lsi-Kc-8Xi" id="svn-f3-aOX"/>

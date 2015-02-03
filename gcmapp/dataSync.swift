@@ -250,6 +250,7 @@ class dataSync: NSObject {
                 measurement.id = m["measurement_id"] as String
                 measurement.perm_link = m["perm_link"] as String
                 measurement.section = m["section"] as String
+                measurement.sort_order = measurement.sortOrder()
                 measurement.column = m["column"] as String
                 measurement.ministry_id = ministryId
                 if !self.managedContext.save(&error) {
@@ -501,6 +502,11 @@ class dataSync: NSObject {
             
             for t in data as JSONArray{
                 //BEGIN: Add or update
+                //println(t);
+               // var tmp = t["latitude"]
+               // println(tmp)
+                    
+                
                 let this_t = allTraining.filter {$0.id == (t["id"] as NSNumber)}
                 var training:Training!
                 
@@ -517,17 +523,18 @@ class dataSync: NSObject {
                     training.id = t["id"] as NSNumber
                     training.ministry_id = t["ministry_id"] as String
                     training.name = t["name"] as String
-                    if t["date"] as String? != nil{
+                    if t["date"] as String? != NSNull(){
                         training.date  = t["date"] as String
                     }
-                    if t["type"] as String? != nil{
+                    if t["type"] as String? != NSNull(){
                         training.type = t["type"] as String
                     }
-                    
-                    if t["latitude"] as Float? != nil{
+                
+                    if !(t["latitude"]   is NSNull)   {
+                       
                         training.latitude   = t["latitude"] as Float
                     }
-                    if t["longitude"] as Float? != nil{
+                    if !(t["longitude"]   is NSNull) {
                         training.longitude = t["longitude"] as Float
                     }
                     training.ministry_id = ministryId

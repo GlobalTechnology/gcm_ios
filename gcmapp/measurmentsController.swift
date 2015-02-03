@@ -70,7 +70,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId) //NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1!, pred2!, pred3!])
         
         let sortDescriptor1 = NSSortDescriptor(key: "column", ascending: true)
-        let sortDescriptor2 = NSSortDescriptor(key: "section", ascending: true)
+        let sortDescriptor2 = NSSortDescriptor(key: "sort_order", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
         return fetchRequest
@@ -122,22 +122,22 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary2", forIndexPath: indexPath) as MeasurementSummaryCell
         let measurement:Measurements! = fetchedResultController.objectAtIndexPath(indexPath) as Measurements
         
         let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
         if this_meas_value.count>0{
-            cell.detailTextLabel?.text = this_meas_value.first?.total.stringValue
+            cell.lblDetail.text = this_meas_value.first?.total.stringValue
             
         }else{
-            cell.detailTextLabel?.text = "0"
+            cell.lblDetail.text = "0"
         }
         
         
 
         
-        cell.textLabel!.text = measurement.name
-        
+        cell.lblTitle.text = measurement.name
+        cell.lblRow.text = measurement.section == "other" ? "" :  measurement.section.uppercaseString
         return cell
     }
     

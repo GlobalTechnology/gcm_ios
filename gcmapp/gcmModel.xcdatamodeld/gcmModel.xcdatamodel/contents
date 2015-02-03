@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assignment" representedClassName="gcmapp.Assignment" syncable="YES">
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
@@ -57,6 +57,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="perm_link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort_order" optional="YES" attributeType="Integer 16" defaultValueString="3" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="measurement" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
     <entity name="MeasurementValue" representedClassName="gcmapp.MeasurementValue" syncable="YES">
@@ -136,7 +137,7 @@
         <element name="Church" positionX="-51248" positionY="-21627" width="128" height="283"/>
         <element name="MCC" positionX="-51156" positionY="-22059" width="128" height="88"/>
         <element name="MeasurementLocalSource" positionX="-50591" positionY="-21787" width="128" height="103"/>
-        <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="193"/>
+        <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="208"/>
         <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="208"/>
         <element name="MeasurementValueSelfAssigned" positionX="-50627" positionY="-22158" width="128" height="118"/>
         <element name="MeasurementValueSubTeam" positionX="-50438" positionY="-21748" width="128" height="103"/>
