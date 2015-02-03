@@ -54,7 +54,9 @@ class dataSync: NSObject {
         var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.updateTraining()
         }
-        
+        var observer_logout = nc.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.logout()
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             
@@ -932,6 +934,18 @@ class dataSync: NSObject {
         
     }
     
+    func logout(){
+        API(token: self.token).deleteToken()
+        self.token = nil
+        //Delete everything in the database
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+       let store =  appDelegate.persistentStoreCoordinator?.persistentStores.last as NSPersistentStore
+        var error: NSError?
+        appDelegate.persistentStoreCoordinator?.removePersistentStore(store, error: &error)
+        NSFileManager.defaultManager().removeItemAtURL(store.URL!, error: &error)
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
     
-    
+        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+    }
 }

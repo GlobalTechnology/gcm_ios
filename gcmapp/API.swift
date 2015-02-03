@@ -21,6 +21,7 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case ADD_UPDATE_MEASUREMENT
        
         case ADD_GENERAL
+        case DELETE_GENERAL
         
         
     }
@@ -54,6 +55,18 @@ class API: NSObject, NSURLConnectionDataDelegate {
             println("\(url)")
             makeHTTPGetRequest( Path.GET_TOKEN, callback: callback, url: url)
       
+
+    }
+    func deleteToken(){
+        
+        let url = "\(GlobalConstants.SERVICE_ROOT)token"
+        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        request.HTTPMethod = "DELETE"
+        
+        let conn = NSURLConnection(request: request, delegate:nil)
+        if (conn == nil) {
+            callback(nil, nil)
+        }
 
     }
     func getChurches(ministryId: String, callback: APICallback)
@@ -295,5 +308,7 @@ class API: NSObject, NSURLConnectionDataDelegate {
             callback(nil, nil)
         }
     }
+    func makeHTTPDeleteRequest(path: Path, callback: APICallback, url: NSString) {
+      }
     
 }

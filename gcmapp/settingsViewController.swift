@@ -41,6 +41,9 @@ class settingsViewController: UITableViewController {
         switch(indexPath.row)
         {
         case 4:
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kLogout, object: nil)
+
              TheKeyOAuth2Client.sharedOAuth2Client().logout()
             break
         default:

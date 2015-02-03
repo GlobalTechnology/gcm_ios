@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <tableView hidden="YES" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rq4-jW-iIS">
-                                <rect key="frame" x="16" y="103.5" width="568" height="100"/>
+                                <rect key="frame" x="16" y="104" width="568" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="Cg0-b4-aoQ"/>
@@ -1000,7 +1000,7 @@
             <objects>
                 <tableViewController id="QTn-I7-ysP" customClass="measurmentsController" customModule="gcmapp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2k6-kN-ZpY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="LnW-bf-VmM">
@@ -1101,6 +1101,7 @@
                             <outlet property="delegate" destination="QTn-I7-ysP" id="ohH-sM-t8c"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="LMI" image="second" id="IRK-m1-9VU"/>
                     <connections>
                         <outlet property="lblTitle" destination="8K4-Gx-8a4" id="Apn-wI-kip"/>
