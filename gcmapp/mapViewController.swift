@@ -33,7 +33,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     var autocompleteList:[String]!=Array()
     
     var markers:[GMSMarker]! = Array()
-    
+    var churchLines:[GMSPolyline]! = Array()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -97,6 +97,10 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         lblMove.hidden = false
     }
     
+    class func churchesContainsId(id:NSNumber, churches:[Church]) -> Bool{
+       return ( churches.filter {$0.id == id  } as [Church]).count>0
+    }
+    
     func redrawMap(){
         
         var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?
@@ -152,10 +156,50 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             
             println("Found \(churches.count) results")
-            markers.removeAll(keepCapacity: false)
             
-            self.mapView.clear()
-            for c  in churches {
+            //Find Items to delete
+           var toDelete = markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as JSONDictionary)["id"]  as NSNumber, churches: self.churches)}
+            for m in toDelete{
+                m.map = nil
+            }
+            
+            //Filter the current list
+            self.markers = markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String == "church" && mapViewController.churchesContainsId((($0 as GMSMarker).userData as JSONDictionary)["id"]  as NSNumber, churches: self.churches)}
+            
+            
+
+      
+            
+            
+            
+          //  markers.removeAll(keepCapacity: false)
+            for l in churchLines{
+                l.map = nil
+            }
+            churchLines.removeAll(keepCapacity: false)
+          //  self.mapView.clear()
+            for c  in self.churches {
+                //determine add or update.
+                var marker: GMSMarker!
+                let searchMarkers = (self.markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String == "church" && (($0 as GMSMarker).userData as JSONDictionary)["id"] as NSNumber == c.id} ) as [GMSMarker]
+               
+                var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as CLLocationDegrees,c.valueForKey("longitude") as CLLocationDegrees)
+                if searchMarkers.count > 0{
+                    //update
+                    marker = searchMarkers.first
+                    
+                }
+                else{
+                    marker = GMSMarker(position: position)
+                    marker.map = self.mapView
+                    marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                    marker.groundAnchor = CGPointMake(0.5, 1.0)
+                      markers.append(marker)
+                }
+                
+                
+                
+                
                 var dict = JSONDictionary()
                 dict["marker_type"] = "church"
             
@@ -164,16 +208,15 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 }
             
                 
-                var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as CLLocationDegrees,c.valueForKey("longitude") as CLLocationDegrees)
-                var  marker = GMSMarker(position: position)
+                
+               
                 marker.icon = UIImage(named: mapViewController.getIconNameForChurch(c.valueForKey("development") as NSNumber ) )
                 
                 marker.title = c.valueForKey("name") as String
-                marker.map = self.mapView
+                
                 marker.userData = dict
-                marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
-                marker.groundAnchor = CGPointMake(0.5, 1.0)
-               markers.append(marker)
+                
+             
                 if let parent = c.parent as Church? {
                     let  path =  GMSMutablePath()
                     
