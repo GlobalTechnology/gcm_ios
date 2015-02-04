@@ -17,12 +17,12 @@ class API: NSObject, NSURLConnectionDataDelegate {
         case GET_TRAINING
         case GET_MEASUREMENTS
         case GET_MEASUREMENT_DETAIL
+        case GET_MINISTRIES
         case UPDATE_GENERAL
         case ADD_UPDATE_MEASUREMENT
        
         case ADD_GENERAL
         case DELETE_GENERAL
-        
         
     }
     typealias APICallback = ((AnyObject?, NSError?) -> ())
@@ -69,6 +69,25 @@ class API: NSObject, NSURLConnectionDataDelegate {
         }
 
     }
+    
+    func getMinistries(refresh:Bool, callback: APICallback)
+    {
+        
+        let url = "\(GlobalConstants.SERVICE_ROOT)ministries?token=\(self.token)&refresh=" + (refresh ? "true" : "false")
+            makeHTTPGetRequest( Path.GET_MINISTRIES, callback: callback, url: url)
+        
+       
+    }
+    func addAssignment(username: String, ministry_id:String, team_role:String, callback: APICallback){
+        let url = "\(GlobalConstants.SERVICE_ROOT)assignments?token=\(self.token)"
+        
+        println(url)
+        var body = "{\"username\": \"\(username)\",\"ministry_id\":\"\(ministry_id)\",\"team_role\":\"\(team_role)\"}"
+        println(body)
+        makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
+    }
+    
+    
     func getChurches(ministryId: String, callback: APICallback)
     {
         if self.token != ""{
@@ -200,6 +219,8 @@ class API: NSObject, NSURLConnectionDataDelegate {
             callback(self.handleGetJSONArray(json), nil)
         case (200, Path.GET_MEASUREMENT_DETAIL):
             callback(self.handleGetJSONDictionary(json), nil)
+        case (200, Path.GET_MINISTRIES):
+            callback(self.handleGetJSONArray(json), nil)
         case (201, Path.UPDATE_GENERAL):
             println(json)
            callback(true , nil)

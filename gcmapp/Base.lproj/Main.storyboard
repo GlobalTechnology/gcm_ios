@@ -850,6 +850,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Cht-Xl-t1v" kind="show" id="RG0-8N-Bb3"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MoveCell" textLabel="Irw-wh-eB0" detailTextLabel="Qpk-du-KVo" style="IBUITableViewCellStyleValue1" id="Vkk-wD-o5H">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -933,6 +936,61 @@
             </objects>
             <point key="canvasLocation" x="2370" y="1456"/>
         </scene>
+        <!--New MinistryTVC-->
+        <scene sceneID="Mms-MZ-e7a">
+            <objects>
+                <tableViewController id="Cht-Xl-t1v" customClass="NewMinistryTVC" customModule="gcmapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ade-7w-5Gp">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="u4k-BS-iHg">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="87"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter/select the name of a ministry/team to join:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ngK-xr-TCJ">
+                                    <rect key="frame" x="16" y="10" width="568" height="42"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7RM-0o-gIy">
+                                    <rect key="frame" x="16" y="48" width="568" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="autocompleteMinCell" textLabel="q6Y-EV-71n" style="IBUITableViewCellStyleDefault" id="xJL-Fl-QnB">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xJL-Fl-QnB" id="Jc2-AD-i69">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="q6Y-EV-71n">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Cht-Xl-t1v" id="5Oq-gU-K4t"/>
+                            <outlet property="delegate" destination="Cht-Xl-t1v" id="bep-5A-2pK"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="tbSearchBox" destination="7RM-0o-gIy" id="esO-Kk-bi3"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xpb-Qd-n97" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2319" y="2173"/>
+        </scene>
         <!--Mcc View Controller-->
         <scene sceneID="KXF-UF-JGW">
             <objects>
@@ -973,7 +1031,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aKs-32-x3d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1520" y="2188"/>
+            <point key="canvasLocation" x="1076" y="2227"/>
         </scene>
         <!--Gcm Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

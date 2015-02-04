@@ -60,6 +60,9 @@ class dataSync: NSObject {
         var observer_reset = nc.addObserverForName(GlobalConstants.kReset, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.reset()
         }
+        var observer_join = nc.addObserverForName(GlobalConstants.kShouldJoinMinistry, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.joinMinistry((notification.userInfo as JSONDictionary)["ministry_id"] as String, sender: notification.object as NewMinistryTVC)
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             
@@ -75,7 +78,7 @@ class dataSync: NSObject {
                     if(resp["status"] as String == "success"){
                         self.token = resp["session_ticket"] as String
                         
-                        
+                        NSUserDefaults.standardUserDefaults().setObject(self.token, forKey: "token")
                         let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
                         
                         var error: NSError?
@@ -84,6 +87,10 @@ class dataSync: NSObject {
                         var user = resp["user"] as Dictionary<String, String>
                         
                         NSUserDefaults.standardUserDefaults().setObject(user["person_id"] , forKey: "person_id")
+                        NSUserDefaults.standardUserDefaults().setObject(user["first_name"] , forKey: "first_name")
+                        NSUserDefaults.standardUserDefaults().setObject(user["last_name"] , forKey: "last_name")
+                        NSUserDefaults.standardUserDefaults().setObject(user["cas_username"] , forKey: "cas_username")
+                        
                         let assignments=resp["assignments"] as Array<JSONDictionary>
                         let current_ass_id = NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String?
                         var has_current_ass_id = false
@@ -91,70 +98,9 @@ class dataSync: NSObject {
                             
                             
                             
-                            let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: self.managedContext)
-                            
-                            let this_min = allMinistries?.filter {$0.id == (a["ministry_id"] as String)}
-                            var ministry:Ministry!
-                            
-                            if this_min?.count > 0{
-                                ministry=this_min?.first?
-                            } else {
-                                
-                                ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:self.managedContext) as Ministry
+                            if(self.addAssignment(a , user: user,  allMinistries: (allMinistries)) == current_ass_id){
+                                has_current_ass_id  = true
                             }
-                            
-                            
-                            ministry.id=a["ministry_id"] as String
-                            ministry.name = a["name"] as String
-                            ministry.min_code = a["min_code"] as String
-                            ministry.has_slm  = a["has_slm"] as Bool
-                            ministry.has_llm  = a["has_llm"] as Bool
-                            ministry.has_gcm = a["has_gcm"] as Bool
-                            ministry.has_ds  = a["has_ds"] as Bool
-                            
-                            
-                            
-                            
-                            
-                            if !self.managedContext.save(&error) {
-                                println("Could not save \(error), \(error?.userInfo)")
-                            }
-                            
-                            let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
-                            var assignment:Assignment!
-                            
-                            if ministry.assignments.count>0{
-                                let this_ass = ministry.assignments.filteredSetUsingPredicate(NSPredicate(format: "id = %@", a["id"] as String)!)
-                                if this_ass.allObjects.count > 0{
-                                    assignment=this_ass.allObjects.first as Assignment
-                                } else {
-                                    assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
-                                }
-                            }else{
-                                assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
-                            }
-                            
-                            assignment.id=a["id"] as String
-                            assignment.team_role=a["team_role"] as String
-                            assignment.person_id = user["person_id"]!
-                            assignment.first_name = user["first_name"]!
-                            assignment.last_name = user["last_name"]!
-                            
-                            assignment.ministry = ministry
-                            
-                            
-                            if assignment.id == current_ass_id{
-                                has_current_ass_id = true
-                            }
-                            
-                            
-                            
-                            
-                            
-                            if !self.managedContext.save(&error) {
-                                println("Could not save \(error), \(error?.userInfo)")
-                            }
-                            
                             
                             
                             
@@ -196,12 +142,82 @@ class dataSync: NSObject {
         
         
     }
+    func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String{
+        var error: NSError?
+        let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: self.managedContext)
+        
+        let this_min = allMinistries?.filter {$0.id == (a["ministry_id"] as String)}
+        var ministry:Ministry!
+        
+        if this_min?.count > 0{
+            ministry=this_min?.first?
+        } else {
+            
+            ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:self.managedContext) as Ministry
+        }
+        
+        
+        ministry.id=a["ministry_id"] as String
+        ministry.name = a["name"] as String
+        ministry.min_code = a["min_code"] as String
+        ministry.has_slm  = a["has_slm"] as Bool
+        ministry.has_llm  = a["has_llm"] as Bool
+        ministry.has_gcm = a["has_gcm"] as Bool
+        ministry.has_ds  = a["has_ds"] as Bool
+        
+        
+        
+        
+        
+        if !self.managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        
+        let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
+        var assignment:Assignment!
+        
+        if ministry.assignments.count>0{
+            let this_ass = ministry.assignments.filteredSetUsingPredicate(NSPredicate(format: "id = %@", a["id"] as String)!)
+            if this_ass.allObjects.count > 0{
+                assignment=this_ass.allObjects.first as Assignment
+            } else {
+                assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
+            }
+        }else{
+            assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
+        }
+        
+        assignment.id=a["id"] as String
+        assignment.team_role=a["team_role"] as String
+        assignment.person_id = user["person_id"]!
+        assignment.first_name = user["first_name"]!
+        assignment.last_name = user["last_name"]!
+        
+        assignment.ministry = ministry
+        
+        
+        
+        
+        
+        
+        
+        
+        if !self.managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        //if assignment.id == current_ass_id{
+        //    has_current_ass_id = true
+        //}
+        return assignment.id
+    }
+    
+    
     func loadMeasurments(ministryId: String, mcc: String, period: String ){
         if checkTokenAndConnection() == false{
             return;
         }
         
-       
+        
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
             if data == nil {
@@ -508,9 +524,9 @@ class dataSync: NSObject {
             for t in data as JSONArray{
                 //BEGIN: Add or update
                 //println(t);
-               // var tmp = t["latitude"]
-               // println(tmp)
-                    
+                // var tmp = t["latitude"]
+                // println(tmp)
+                
                 
                 let this_t = allTraining.filter {$0.id == (t["id"] as NSNumber)}
                 var training:Training!
@@ -534,9 +550,9 @@ class dataSync: NSObject {
                     if t["type"] as String? != NSNull(){
                         training.type = t["type"] as String
                     }
-                
+                    
                     if !(t["latitude"]   is NSNull)   {
-                       
+                        
                         training.latitude   = t["latitude"] as Float
                     }
                     if !(t["longitude"]   is NSNull) {
@@ -899,43 +915,66 @@ class dataSync: NSObject {
         
     }
     
-    func savePendingTransactions( ){
-        var error: NSError?
-        let frTraining =  NSFetchRequest(entityName:"Training")
-        let frTrainingCompletion =  NSFetchRequest(entityName:"TrainingCompletion" )
-        let frChurch =  NSFetchRequest(entityName:"Church" )
-        let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
-        let frMeasurementLocalSource =  NSFetchRequest(entityName:"MeasurementLocalSource" )
-        
-        let pred = NSPredicate(format: "changed == true" )
-        frTraining.predicate=pred
-        frTrainingCompletion.predicate=pred
-        frChurch.predicate=pred
-        frMeasurementValue.predicate = pred
-        frMeasurementLocalSource.predicate = pred
-        
-        let t = self.managedContext.executeFetchRequest(frTraining,error: &error) as [Training]
-        let tc = self.managedContext.executeFetchRequest(frTrainingCompletion,error: &error) as [TrainingCompletion]
-        let c = self.managedContext.executeFetchRequest(frChurch,error: &error) as [Church]
-        let mv = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementValue]
-        let mls = self.managedContext.executeFetchRequest(frMeasurementLocalSource,error: &error) as [MeasurementLocalSource]
-        
-        for church in c{
-            
-            
-            //if id is nil, it is a new row so create
-            
-            
-            //else update
-            
-            
-            //if successfull, set changed = false and run callback
+    /*func savePendingTransactions( ){
+    var error: NSError?
+    let frTraining =  NSFetchRequest(entityName:"Training")
+    let frTrainingCompletion =  NSFetchRequest(entityName:"TrainingCompletion" )
+    let frChurch =  NSFetchRequest(entityName:"Church" )
+    let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
+    let frMeasurementLocalSource =  NSFetchRequest(entityName:"MeasurementLocalSource" )
+    
+    let pred = NSPredicate(format: "changed == true" )
+    frTraining.predicate=pred
+    frTrainingCompletion.predicate=pred
+    frChurch.predicate=pred
+    frMeasurementValue.predicate = pred
+    frMeasurementLocalSource.predicate = pred
+    
+    let t = self.managedContext.executeFetchRequest(frTraining,error: &error) as [Training]
+    let tc = self.managedContext.executeFetchRequest(frTrainingCompletion,error: &error) as [TrainingCompletion]
+    let c = self.managedContext.executeFetchRequest(frChurch,error: &error) as [Church]
+    let mv = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementValue]
+    let mls = self.managedContext.executeFetchRequest(frMeasurementLocalSource,error: &error) as [MeasurementLocalSource]
+    
+    for church in c{
+    
+    
+    //if id is nil, it is a new row so create
+    
+    
+    //else update
+    
+    
+    //if successfull, set changed = false and run callback
+    
+    }
+    
+    
+    
+    }*/
+    
+    
+    func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
+        println(ministry_id)
+        API(token: token).addAssignment( NSUserDefaults.standardUserDefaults().objectForKey("cas_username") as String , ministry_id: ministry_id, team_role: "self_assigned"){
+            (data: AnyObject?,error: NSError?) -> Void in
+            if data != nil{
+                let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
+                
+                var error: NSError?
+                let allMinistries = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Ministry]?
+                
+                var user = Dictionary<String, String>()
+                user["person_id"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String
+                user["first_name"] = NSUserDefaults.standardUserDefaults().objectForKey("first_name") as? String
+                user["last_name"] = NSUserDefaults.standardUserDefaults().objectForKey("last_name") as? String
+                self.addAssignment(data as JSONDictionary, user: user, allMinistries: allMinistries)
+            }
             
         }
-        
-        
-        
+        //sender.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     func reset(){
         var error: NSError?
         let entityList=["MCC", "Assignment", "Ministry", "Church", "TrainingCompletion", "Training","MeasurementLocalSource", "MeasurementValueSubTeam", "MeasurementValueSelfAssigned", "MeasurementValueTeam", "MeasurementValue", "Measurements"]
@@ -951,17 +990,17 @@ class dataSync: NSObject {
         }
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
-    
-    
+        
+        
         if self.token != nil{
-             notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+            notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
         }
         else{
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
             
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
         }
-               
+        
     }
     func logout(){
         API(token: self.token).deleteToken()

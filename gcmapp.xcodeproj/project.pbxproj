@@ -69,6 +69,7 @@
 		FCB8C3101A38A4BC00A3D30F /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */; };
 		FCD401921A6D640C00950802 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
 		FCD4471D1A5D483800689E62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
+		FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D71A812100009C4936 /* NewMinistryTVC.swift */; };
 		FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDEE1D51A7AA51200818E8C /* training+extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,6 +159,7 @@
 		FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ministry.swift; sourceTree = "<group>"; };
 		FCD401911A6D640C00950802 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		FCD4471C1A5D483800689E62 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		FCD669D71A812100009C4936 /* NewMinistryTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMinistryTVC.swift; sourceTree = "<group>"; };
 		FCDEE1D51A7AA51200818E8C /* training+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "training+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -381,6 +383,7 @@
 				FC93DFE31A308129008D4221 /* settingsViewController.swift */,
 				FC93E0111A31A726008D4221 /* mccViewController.swift */,
 				FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */,
+				FCD669D71A812100009C4936 /* NewMinistryTVC.swift */,
 			);
 			name = settings;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */,
 				FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */,
 				FCB8C30E1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift in Sources */,
+				FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */,
 				FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */,
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
