@@ -18,7 +18,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     var changed:Bool = false
     var changed_tc:Bool = false
     var mapVC:  mapViewController!
-    
+     var read_only: Bool = true
     
     
     
@@ -27,6 +27,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
    
     
     func SaveChanges() {
+        if read_only{
+            return;
+        }
         var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
@@ -94,6 +97,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         if(data["name"] != nil){
             name.text = data["name"] as? String
         }
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        
+        self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
         
         let descriptor = NSSortDescriptor(key: "phase", ascending: true)
@@ -204,12 +210,23 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 return cell
             case 1: //Move
                 let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
-                cell.userInteractionEnabled = data["marker_type"] as String != "new_training"
-                cell.textLabel!.enabled = data["marker_type"] as String != "new_training"
+                cell.userInteractionEnabled = data["marker_type"] as String != "new_training" && !read_only
+                cell.textLabel!.enabled = data["marker_type"] as String != "new_training" && !read_only
                 cell.alpha=0.5
                 
                 return cell
             case 2: //name
+                if read_only{
+                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as UITableViewCell
+                    
+                    cell.textLabel!.text = "Name"
+                    
+                    cell.detailTextLabel!.text = (data["name"] != nil) ? data["name"] as? String : ""
+                    return cell
+
+                }
+                else{
+                
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
                 cell.isChurch=false
                 cell.training=self
@@ -218,12 +235,22 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
                 return cell
-                
+                }
             case 3: //type
+                if read_only{
+                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as UITableViewCell
+                    
+                    cell.textLabel!.text = "Type"
+                    
+                    cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
+                    return cell
+                    
+                }
+                else{
                 var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
                 cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
                 return cell
-              
+                }
                 
             default:
                 break

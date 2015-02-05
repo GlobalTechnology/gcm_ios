@@ -26,5 +26,8 @@ struct GlobalConstants {
     static  let SERVICE_ROOT = "https://stage.global-registry.org/api/measurements/"
     
     static let LOCAL_SOURCE = "gcmapp"
-    
+    static let MEMBERS_ONLY = ["leader","inherited_leader","member"]
+    static let LEADERS_ONLY = ["leader","inherited_leader"]
+    static let NOT_BLOCKED =  ["leader","inherited_leader","member","self_assigned"]
+
 }

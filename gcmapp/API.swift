@@ -238,10 +238,10 @@ class API: NSObject, NSURLConnectionDataDelegate {
             if statusCode == 401 {
                 if login_attempts < 5{
                     login_attempts += 1
-                    println("401:  reauthenticating - attempt \(login_attempts)")
-                     TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String!) -> Void in
-                        self.getToken(ticket, self.callback)
-                    })
+                   // println("401:  reauthenticating - attempt \(login_attempts)")
+                    // TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String!) -> Void in
+                       // self.getToken(ticket, self.callback)
+                   // })
 
                 }
                 

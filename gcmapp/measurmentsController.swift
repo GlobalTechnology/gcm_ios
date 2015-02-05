@@ -13,8 +13,9 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     var mcc:String!
     var period:String!
-    
+    var self_assigned: Bool = true
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblSubTitle: UILabel!
   
     @IBOutlet weak var periodControl: UISegmentedControl!
     @IBAction func periodChanged(sender: UISegmentedControl) {
@@ -77,6 +78,11 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        
+        self.self_assigned = team_role == "self_assigned"
+        lblSubTitle.hidden = !self_assigned
+        self.tableView.allowsSelection = !self_assigned
           mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
          lblTitle.text = (NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String) + "(" + (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String) + ")"
         self.reloadData()
@@ -128,13 +134,16 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
         if this_meas_value.count>0{
             cell.lblDetail.text = this_meas_value.first?.total.stringValue
+            cell.tbValue.text = this_meas_value.first?.me.stringValue
+            cell.mv = this_meas_value.first!
             
         }else{
             cell.lblDetail.text = "0"
+            cell.tbValue.text = "0"
         }
-        
-        
-
+        cell.lblDetail.hidden = self_assigned
+        cell.tbValue.hidden = !self_assigned
+       
         
         cell.lblTitle.text = measurement.name
         cell.lblRow.text = measurement.section == "other" ? "" :  measurement.section.uppercaseString
@@ -147,10 +156,16 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         tableView.reloadData()
         
     }
-    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+
+            return !self_assigned
+       
+    }
 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        
+        
         if (segue.identifier == "showMeasurementDetail") {
             // pass data to next view
             let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController

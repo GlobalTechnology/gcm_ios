@@ -33,6 +33,16 @@ class dataSync: NSObject {
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
         }
         var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            
+            //update team role
+            let ass = Assignment.getAssignmentForMinistryId(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String) as Assignment?
+            var team_role:String = "self_assigned"
+            if ass != nil{
+                team_role = ass!.team_role
+            }
+            
+            NSUserDefaults.standardUserDefaults().setObject(team_role, forKey: "team_role")
+            
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)        }
@@ -100,6 +110,9 @@ class dataSync: NSObject {
                             
                             if(self.addAssignment(a , user: user,  allMinistries: (allMinistries)) == current_ass_id){
                                 has_current_ass_id  = true
+                                NSUserDefaults.standardUserDefaults().setObject(a["team_role"] as String, forKey: "team_role")
+                                NSUserDefaults.standardUserDefaults().setObject(a["ministry_id"] as String, forKey: "ministry_id")
+                                NSUserDefaults.standardUserDefaults().setObject(a["name"] as String, forKey: "ministry_name")
                             }
                             
                             
@@ -112,6 +125,13 @@ class dataSync: NSObject {
                             if  assignments.count > 0 {
                                 
                                 let this_ass = assignments.first!
+                                
+                                
+                                
+                                
+                                
+                                NSUserDefaults.standardUserDefaults().setObject(this_ass["team_role"] as String, forKey: "team_role")
+                                
                                 
                                 NSUserDefaults.standardUserDefaults().setObject(this_ass["id"] as String, forKey: "assignment_id")
                                 NSUserDefaults.standardUserDefaults().setObject(this_ass["ministry_id"] as String, forKey: "ministry_id")
@@ -128,7 +148,9 @@ class dataSync: NSObject {
                     
                     
                     
+                    
                     self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
+                    
                     self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
                     self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
                     
@@ -143,6 +165,7 @@ class dataSync: NSObject {
         
     }
     func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String{
+        
         var error: NSError?
         let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: self.managedContext)
         
@@ -216,7 +239,9 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
-        
+        if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.NOT_BLOCKED){
+            return
+        }
         
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
@@ -241,6 +266,9 @@ class dataSync: NSObject {
                 }
                 
                 
+                
+                
+                
                 let entity =  NSEntityDescription.entityForName( "Measurements", inManagedObjectContext: self.managedContext)
                 
                 let this_meas = meas?.filter {$0.id == (m["measurement_id"] as String)}
@@ -250,15 +278,21 @@ class dataSync: NSObject {
                 
                 if this_meas?.count > 0{
                     measurement=this_meas?.first?
-                    let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+                    /*let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
                     if this_period_local.count>0{
                         let mv = this_period_local.allObjects.first! as MeasurementValue
-                        if mv.total != m["total"] as NSNumber  || mv.localSources.count==0{
-                            getDetail = true
+                        if( m["total"] != nil){
+                            if mv.total != m["total"] as NSNumber  || mv.localSources.count==0{
+                                getDetail = true
+                            }
+                            
                         }
+                        else if m["my_values"] != nil{
+                            
+                        }
+
                         
-                        
-                    }
+                    }*/
                     
                     
                 } else {
@@ -267,244 +301,41 @@ class dataSync: NSObject {
                     getDetail = true
                 }
                 
-                measurement.name = m["name"] as String
-                measurement.id = m["measurement_id"] as String
-                measurement.perm_link = m["perm_link"] as String
-                measurement.section = m["section"] as String
-                measurement.sort_order = measurement.sortOrder()
-                measurement.column = m["column"] as String
-                measurement.ministry_id = ministryId
-                if !self.managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
-                }
-                if(getDetail){
-                    self.getMeasurementDetail(measurement, measurementId: measurement.id, ministryId: ministryId, mcc: mcc, period: period)
-                    
-                }
-                
-                /*for pv in m["measurements"] as JSONArray{
-                
-                //Get Measurement Detail (async)
+                var should_update_detail:Bool = measurement.updateMeasurementFromResponse(m as JSONDictionary, ministry_id: ministryId, period: period,mcc: mcc, managedContext: self.managedContext)
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                if !self.managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-                }
-                
-                
-                
-                
-                }*/
-                
-                
-                
-            }
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
-            
-            
-        }
-    }
-    func getMeasurementDetail(measurement: Measurements,  measurementId: String, ministryId: String, mcc: String, period: String){
-        if checkTokenAndConnection() == false{
-            return;
-        }
-        
-        API(token: self.token).getMeasurementDetail(measurementId, ministryId: ministryId, mcc: mcc, period: period){
-            (data: AnyObject?,error: NSError?) -> Void in
-            if data == nil {
-                return
-            }
-            if let md = data as? JSONDictionary{
-                var error: NSError?
-                
-                
-                measurement.id_total = (md["measurement_type_ids"] as JSONDictionary)["total"] as String
-                measurement.id_local = (md["measurement_type_ids"] as JSONDictionary)["local"] as String
-                measurement.id_person = (md["measurement_type_ids"] as JSONDictionary)["person"] as String
-                let total = md["total"] as JSONDictionary
-                let local = md["local"] as JSONDictionary
-                let me = md["my_measurements"] as JSONDictionary
-                let sub_min = md["sub_ministries"] as [JSONDictionary]
-                let team = md["team"] as [JSONDictionary]
-                let self_assigned = md["self_assigned"] as [JSONDictionary]
-                let local_breakdown = md["local_breakdown"] as JSONDictionary
-                var this_period_value =  self.createPeriodValue(measurement, ministryId: ministryId, mcc: mcc, period: period, total: total[period] as NSNumber, local: local[period] as NSNumber, me: me[period] as NSNumber)
-                
-                
-                //Get the Sub Ministry Values
-                for sm in this_period_value.subMinValues{
-                    self.managedContext.deleteObject(sm as NSManagedObject)
-                }
-                for t in this_period_value.teamValues{
-                    self.managedContext.deleteObject(t as NSManagedObject)
-                }
-                for sa in this_period_value.selfAssigned{
-                    self.managedContext.deleteObject(sa as NSManagedObject)
-                }
-                if !self.managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
-                }
-                
-                for t in team{
-                    let entity2 =  NSEntityDescription.entityForName( "MeasurementValueTeam", inManagedObjectContext: self.managedContext)
-                    var tm = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementValueTeam
-                    tm.assignment_id = t["assignment_id"] as String
-                    tm.first_name = t["first_name"] as String
-                    tm.last_name = t["last_name"] as String
-                    tm.team_role = t["team_role"] as String
-                    tm.total = t["total"] as NSNumber
-                    tm.measurementValue = this_period_value
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                }
-                for s in sub_min{
-                    let entity2 =  NSEntityDescription.entityForName( "MeasurementValueSubTeam", inManagedObjectContext: self.managedContext)
-                    var sm = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementValueSubTeam
-                    sm.ministry_id = s["ministry_id"] as String
-                    sm.total = s["total"] as NSNumber
-                    sm.name = s["name"] as String
-                    sm.measurmentValue = this_period_value
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                }
-                for t in self_assigned{
-                    let entity2 =  NSEntityDescription.entityForName( "MeasurementValueSelfAssigned", inManagedObjectContext: self.managedContext)
-                    var tm = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementValueSelfAssigned
-                    tm.assignment_id = t["assignment_id"] as String
-                    tm.first_name = t["first_name"] as String
-                    tm.last_name = t["last_name"] as String
-                    
-                    tm.total = t["total"] as NSNumber
-                    tm.measurementValue = this_period_value
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                    
-                }
-                var found:Bool = false
-                for (key, value) in local_breakdown{
-                    if(key == GlobalConstants.LOCAL_SOURCE){
-                        found = true
-                        //don't erase changed value
-                        
-                    }
-                    if key != "total" {
-                        let entity2 =  NSEntityDescription.entityForName( "MeasurementLocalSource", inManagedObjectContext: self.managedContext)
-                        var lb = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementLocalSource
-                        lb.name = key as String
-                        lb.value = value as NSNumber
-                        
-                        lb.measurementValue = this_period_value
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
+                if should_update_detail{
+                    API(token: self.token).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
+                        (data: AnyObject?,error: NSError?) -> Void in
+                        if data == nil {
+                            return
+                        }
+                        if let md = data as? JSONDictionary{
+                            measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: self.managedContext)
+                            
+                            let notificationCenter = NSNotificationCenter.defaultCenter()
+                            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
                         }
                     }
-                    
                 }
                 
-                if !found{
-                    //dont erase changed value
-                    
-                    let entity2 =  NSEntityDescription.entityForName( "MeasurementLocalSource", inManagedObjectContext: self.managedContext)
-                    var lb = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementLocalSource
-                    lb.name = GlobalConstants.LOCAL_SOURCE
-                    lb.value = 0
-                    
-                    lb.measurementValue = this_period_value
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                    
-                }
-                
-                
-                //get other period values for past 6 months (for graph)
-                var p = GlobalFunctions.prevPeriod(period)
-                for i in 1...5{
-                    var period_value = self.createPeriodValue(measurement,  ministryId: ministryId, mcc: mcc, period: p, total: total[p] as NSNumber, local: local[p] as NSNumber, me: me[p] as NSNumber)
-                    
-                    p = GlobalFunctions.prevPeriod(p)
-                }
-                if !self.managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
-                }
                 
             }
-            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
-        }
-        
-    }
-    
-    
-    func createPeriodValue(measurement: Measurements, ministryId: String, mcc: String, period: String, total: NSNumber, local: NSNumber, me: NSNumber) -> MeasurementValue{
-        var error: NSError?
-        //Don't erase changed value...
-        
-        
-        if measurement.measurementValue.allObjects.count>0 {
-            let this_meas_value =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == period && $0.mcc==mcc}
-            if this_meas_value.count>0{
-                managedContext.deleteObject(this_meas_value.first!)
-                
-                if !self.managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
-                }
-            }
+            
             
         }
-        
-        
-        let entity2 =  NSEntityDescription.entityForName( "MeasurementValue", inManagedObjectContext: self.managedContext)
-        var period_value:MeasurementValue! = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:self.managedContext) as MeasurementValue
-        
-        
-        period_value.mcc = mcc
-        period_value.period = period
-        period_value.total = total
-        if local.stringValue == ""{
-            period_value.local=0
-        }
-        else{
-            period_value.local = local
-        }
-        
-        
-        
-        
-        if(!period_value.changed.boolValue){
-            period_value.me = me
-        }
-        
-        
-        period_value.measurement = measurement
-        if !self.managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-        
-        return period_value
     }
+    
     
     func loadTraining(ministryId: String, mcc: String){
         if checkTokenAndConnection() == false{
             return;
         }
-        
+        if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.MEMBERS_ONLY){
+            return
+        }
         
         API(token: self.token).getTraining(ministryId, mcc: mcc){
             (data: AnyObject?,error: NSError?) -> Void in
@@ -547,8 +378,11 @@ class dataSync: NSObject {
                     if t["date"] as String? != NSNull(){
                         training.date  = t["date"] as String
                     }
-                    if t["type"] as String? != NSNull(){
+                    if !(t["type"]  is NSNull){
                         training.type = t["type"] as String
+                    }
+                    else{
+                        training.type=""
                     }
                     
                     if !(t["latitude"]   is NSNull)   {
@@ -610,6 +444,10 @@ class dataSync: NSObject {
     func loadChurches(ministryId: String) {
         if self.checkTokenAndConnection() == false{
             return;
+        }
+        
+        if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.NOT_BLOCKED){
+            return
         }
         
         //   api.st = service_ticket

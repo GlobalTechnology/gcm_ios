@@ -16,14 +16,18 @@ class ChurchTVC: UITableViewController {
     
     var changed:Bool = false
     var mapVC:  mapViewController!
+    var read_only: Bool = true
     
-       @IBAction func btnSetParent(sender: UIButton) {
+    @IBAction func btnSetParent(sender: UIButton) {
     }
     
     
-   
+    
     
     func SaveChanges() {
+        if read_only{
+            return
+        }
         var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
@@ -107,14 +111,17 @@ class ChurchTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        
+        self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
         
         name.text = data["name"] as? String
         Icon.image = UIImage(named: mapViewController.getIconNameForChurch(data["development"] as NSNumber))
         
         /*if data["marker_type"] as String == "new_church"{
-            btnClose.titleLabel!.text = "Save"
-            btnMove.hidden=true
+        btnClose.titleLabel!.text = "Save"
+        btnMove.hidden=true
         }*/
         //contactName.text = data["contactName"] as? String
         //contactEmail.text = data["contactEmail"] as? String
@@ -147,7 +154,7 @@ class ChurchTVC: UITableViewController {
             return data["marker_type"] as String == "new_church" ? 6 : 7
         }
         else{
-            return data["marker_type"] as String == "new_church" ? 1 : 2
+            return (data["marker_type"] as String == "new_church") || !read_only ? 1 : 2
         }
     }
     
@@ -155,74 +162,123 @@ class ChurchTVC: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 1{
             // Configure the cell...
-            switch (indexPath.row){
-            case 0:
-                let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
-                cell.title.text = "Name"
-                cell.value.text = data["name"] as? String
-                cell.field_name = "name"
-                cell.church=self
-                return cell
-            case 1:
-                let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
-                cell.title.text = "Contact Name"
-                cell.value.text = data["contact_name"] as? String
-                cell.field_name = "contact_name"
-                cell.church=self
-                return cell
-            case 2:
-                let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
-                cell.title.text = "Contact Email"
-                cell.value.text = data["contact_email"] as? String
-                cell.field_name = "contact_email"
-                cell.church=self
-                return cell
-            case 3:
-                let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as UIEditTextCell
-                cell.title.text = "Size"
-                cell.value.text = (data["size"] as NSNumber).stringValue
-                cell.field_name = "size"
-                cell.church=self
-                return cell
-            case 4:
-                let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
-                // cell.textLabel!.text = "Type"
-                cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as NSNumber))
-                
-                return cell
-            case 5:
-                let cell = tableView.dequeueReusableCellWithIdentifier("SecurityCell", forIndexPath: indexPath) as UITableViewCell
-                // cell.textLabel!.text = "Size"
-                cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as NSNumber))
-                return cell
-            case 6:
-                let cell = tableView.dequeueReusableCellWithIdentifier("ParentCell", forIndexPath: indexPath) as UITableViewCell
-                // cell.textLabel!.text = "Size"
-                if (data["parent_name"] != nil){
-                    cell.detailTextLabel!.text = (data["parent_name"]as String)
+            if read_only{
+                let cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyCell", forIndexPath: indexPath) as UITableViewCell
+                switch (indexPath.row){
+                case 0:
+                    cell.textLabel!.text = "Name"
+                    cell.detailTextLabel!.text = data["name"] as? String
+                   break
+                case 1:
+                    cell.textLabel!.text = "Contact Name"
+                    cell.detailTextLabel!.text = data["contact_name"] as? String
+                    break
+                case 2:
+                    cell.textLabel!.text = "Contact Email"
+                    cell.detailTextLabel!.text = data["contact_email"] as? String
+                    break
+                case 3:
+                    cell.textLabel!.text = "Size"
+                    cell.detailTextLabel!.text = (data["size"] as NSNumber).stringValue
+                    break
+                case 4:
+                    cell.textLabel!.text = "Type"
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as NSNumber))
+                    break
+                case 5:
+                    cell.textLabel!.text = "Size"
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as NSNumber))
+                    break
+                case 6:
+                     cell.textLabel!.text = "Parent"
+                    if (data["parent_name"] != nil){
+                        cell.detailTextLabel!.text = (data["parent_name"]as String)
+                        
+                    }
+                    else{
+                        cell.detailTextLabel!.text = ""
+                        
+                    }
+                    return cell
                     
+                default:
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
+                    return cell
                 }
-                else{
-                    cell.detailTextLabel!.text = ""
-                    
-                }
+
                 return cell
-                
-            default:
-                var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
-                return cell
+
             }
-        
+            else{
+                switch (indexPath.row){
+                case 0:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    cell.title.text = "Name"
+                    cell.value.text = data["name"] as? String
+                    cell.field_name = "name"
+                    cell.church=self
+                    return cell
+                case 1:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    cell.title.text = "Contact Name"
+                    cell.value.text = data["contact_name"] as? String
+                    cell.field_name = "contact_name"
+                    cell.church=self
+                    return cell
+                case 2:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    cell.title.text = "Contact Email"
+                    cell.value.text = data["contact_email"] as? String
+                    cell.field_name = "contact_email"
+                    cell.church=self
+                    return cell
+                case 3:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as UIEditTextCell
+                    cell.title.text = "Size"
+                    cell.value.text = (data["size"] as NSNumber).stringValue
+                    cell.field_name = "size"
+                    cell.church=self
+                    return cell
+                case 4:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
+                    // cell.textLabel!.text = "Type"
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as NSNumber))
+                    
+                    return cell
+                case 5:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("SecurityCell", forIndexPath: indexPath) as UITableViewCell
+                    // cell.textLabel!.text = "Size"
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as NSNumber))
+                    return cell
+                case 6:
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ParentCell", forIndexPath: indexPath) as UITableViewCell
+                    // cell.textLabel!.text = "Size"
+                    if (data["parent_name"] != nil){
+                        cell.detailTextLabel!.text = (data["parent_name"]as String)
+                        
+                    }
+                    else{
+                        cell.detailTextLabel!.text = ""
+                        
+                    }
+                    return cell
+                    
+                default:
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
+                    return cell
+                }
+            }
+            
         }
         else{
             switch(indexPath.row){
             case 1:
                 let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
-               
+                
                 return cell
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
-                 cell.textLabel!.text = data["marker_type"] as String == "new_church" ? "Save" : "Back to Map"
+                cell.textLabel!.text = data["marker_type"] as String == "new_church" ? "Save" : "Back to Map"
                 return cell
             default:
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
@@ -240,7 +296,7 @@ class ChurchTVC: UITableViewController {
                 self.mapVC.makeSelectedMarkerDraggable()
                 self.dismissViewControllerAnimated(true, completion: nil)
                 
-
+                
                 break
             case 0:
                 self.SaveChanges()
@@ -250,8 +306,8 @@ class ChurchTVC: UITableViewController {
                 
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
-
-               break
+                
+                break
             default:
                 break
                 

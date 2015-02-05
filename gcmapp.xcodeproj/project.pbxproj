@@ -54,7 +54,6 @@
 		FC9B9D811A3845CD00C9E353 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D801A3845CD00C9E353 /* GraphView.swift */; };
 		FCAA6ED21A39AE3900524398 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED11A39AE3900524398 /* Reachability.swift */; };
 		FCAA6ED41A39D1E900524398 /* Church.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED31A39D1E900524398 /* Church.swift */; };
-		FCAA6ED61A39D1E900524398 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED51A39D1E900524398 /* MeasurementValue.swift */; };
 		FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */; };
 		FCAA6EDA1A39D1E900524398 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED91A39D1E900524398 /* Training.swift */; };
 		FCAA6EDC1A39D1E900524398 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */; };
@@ -62,7 +61,6 @@
 		FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3501A80C15A00223130 /* measurements+extension.swift */; };
 		FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3521A80C88A00223130 /* Measurements.swift */; };
 		FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */; };
-		FCB8C3061A38A4BB00A3D30F /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */; };
 		FCB8C3081A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */; };
 		FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3091A38A4BB00A3D30F /* Assignment.swift */; };
 		FCB8C30E1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C30D1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift */; };
@@ -70,7 +68,13 @@
 		FCD401921A6D640C00950802 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
 		FCD4471D1A5D483800689E62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
 		FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D71A812100009C4936 /* NewMinistryTVC.swift */; };
+		FCD669DA1A825BB2009C4936 /* assignment+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D91A825BB2009C4936 /* assignment+extension.swift */; };
+		FCD669DC1A8381BD009C4936 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */; };
+		FCD669DE1A8381BE009C4936 /* MeasurementMeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DD1A8381BE009C4936 /* MeasurementMeSource.swift */; };
+		FCD669E01A838498009C4936 /* MeasurementMeSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */; };
+		FCD669E41A83870C009C4936 /* MeasurementValue+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */; };
 		FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDEE1D51A7AA51200818E8C /* training+extension.swift */; };
+		FCF042071A83A6B30028B0B2 /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,7 +148,6 @@
 		FC9B9D801A3845CD00C9E353 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		FCAA6ED11A39AE3900524398 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FCAA6ED31A39D1E900524398 /* Church.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Church.swift; sourceTree = "<group>"; };
-		FCAA6ED51A39D1E900524398 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementLocalSource.swift; sourceTree = "<group>"; };
 		FCAA6ED91A39D1E900524398 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
 		FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
@@ -152,7 +155,6 @@
 		FCB0A3501A80C15A00223130 /* measurements+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "measurements+extension.swift"; sourceTree = "<group>"; };
 		FCB0A3521A80C88A00223130 /* Measurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurements.swift; sourceTree = "<group>"; };
 		FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasDetailEditCell.swift; sourceTree = "<group>"; };
-		FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
 		FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSelfAssigned.swift; sourceTree = "<group>"; };
 		FCB8C3091A38A4BB00A3D30F /* Assignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		FCB8C30D1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
@@ -160,7 +162,13 @@
 		FCD401911A6D640C00950802 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		FCD4471C1A5D483800689E62 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		FCD669D71A812100009C4936 /* NewMinistryTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMinistryTVC.swift; sourceTree = "<group>"; };
+		FCD669D91A825BB2009C4936 /* assignment+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "assignment+extension.swift"; sourceTree = "<group>"; };
+		FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
+		FCD669DD1A8381BE009C4936 /* MeasurementMeSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementMeSource.swift; sourceTree = "<group>"; };
+		FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MeasurementMeSource+extension.swift"; sourceTree = "<group>"; };
+		FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MeasurementValue+extension.swift"; sourceTree = "<group>"; };
 		FCDEE1D51A7AA51200818E8C /* training+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "training+extension.swift"; sourceTree = "<group>"; };
+		FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +224,10 @@
 			children = (
 				FC13ABAE1A7A58B600CB2713 /* church+extension.swift */,
 				FCDEE1D51A7AA51200818E8C /* training+extension.swift */,
+				FCD669D91A825BB2009C4936 /* assignment+extension.swift */,
 				FCB0A3501A80C15A00223130 /* measurements+extension.swift */,
+				FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */,
+				FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -314,18 +325,19 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
+				FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */,
+				FCD669DD1A8381BE009C4936 /* MeasurementMeSource.swift */,
+				FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */,
 				FCB0A3521A80C88A00223130 /* Measurements.swift */,
 				FC13ABAD1A7A588000CB2713 /* extensions */,
 				FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */,
 				FCAA6ED91A39D1E900524398 /* Training.swift */,
 				FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */,
-				FCAA6ED51A39D1E900524398 /* MeasurementValue.swift */,
 				FCAA6ED31A39D1E900524398 /* Church.swift */,
 				FCB8C30F1A38A4BC00A3D30F /* Ministry.swift */,
 				FCB8C30D1A38A4BB00A3D30F /* MeasurementValueSubTeam.swift */,
 				FCB8C3091A38A4BB00A3D30F /* Assignment.swift */,
 				FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */,
-				FCB8C3051A38A4BB00A3D30F /* MeasurementValueTeam.swift */,
 				FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */,
 				FC93E0131A31AB6C008D4221 /* MCC.swift */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
@@ -531,7 +543,6 @@
 				FCAA6EDC1A39D1E900524398 /* TrainingCompletion.swift in Sources */,
 				FCB8C3101A38A4BC00A3D30F /* Ministry.swift in Sources */,
 				FC13ABAA1A7927E100CB2713 /* DevelopmentTVC.swift in Sources */,
-				FCB8C3061A38A4BB00A3D30F /* MeasurementValueTeam.swift in Sources */,
 				FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */,
 				FC9B9D811A3845CD00C9E353 /* GraphView.swift in Sources */,
 				FC9B9D791A370AAA00C9E353 /* measurmentsController.swift in Sources */,
@@ -552,8 +563,9 @@
 				FC4D27491A2DDF8500C20288 /* AppDelegate.swift in Sources */,
 				FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */,
 				FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */,
-				FCAA6ED61A39D1E900524398 /* MeasurementValue.swift in Sources */,
+				FCD669DA1A825BB2009C4936 /* assignment+extension.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
+				FCD669DE1A8381BE009C4936 /* MeasurementMeSource.swift in Sources */,
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
 				FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */,
 				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
@@ -568,8 +580,12 @@
 				FCAA6ED41A39D1E900524398 /* Church.swift in Sources */,
 				FC93DFDE1A3074B2008D4221 /* GlobalConstants.swift in Sources */,
 				FC9B9D7C1A3729E700C9E353 /* GlobalFunctions.swift in Sources */,
+				FCF042071A83A6B30028B0B2 /* MeasurementValueTeam.swift in Sources */,
 				FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */,
 				FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */,
+				FCD669DC1A8381BD009C4936 /* MeasurementValue.swift in Sources */,
+				FCD669E01A838498009C4936 /* MeasurementMeSource+extension.swift in Sources */,
+				FCD669E41A83870C009C4936 /* MeasurementValue+extension.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

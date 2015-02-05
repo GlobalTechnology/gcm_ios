@@ -16,6 +16,7 @@ class mapOptionsViewController: UITableViewController {
     @IBOutlet weak var training: UISwitch!
     @IBOutlet weak var campuses: UISwitch!
     var mapVC:  mapViewController!
+    var read_only: Bool = true
     
     @IBAction func btnReturn(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -43,6 +44,13 @@ class mapOptionsViewController: UITableViewController {
     
     
     
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0{
+            
+        }
+        return section==0 ? 5 : read_only ? 1:3
+        
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -58,11 +66,22 @@ class mapOptionsViewController: UITableViewController {
         
         
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        
+        self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
+        
+    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       
         if indexPath.section==1{
             switch indexPath.row{
-            case 0: //addChurch
+            case 1: //addChurch
+                if read_only{
+                    return
+                }
                 for m in mapVC.markers{
                     m.opacity=0.2
                     m.tappable = false
@@ -96,7 +115,10 @@ class mapOptionsViewController: UITableViewController {
 
                 self.dismissViewControllerAnimated(true, completion: nil)
                 break
-            case 1: //addTraining
+            case 2: //addTraining
+                if read_only{
+                    return
+                }
                 for m in mapVC.markers{
                     m.opacity=0.2
                     m.tappable = false
@@ -126,8 +148,11 @@ class mapOptionsViewController: UITableViewController {
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
                 break
-            case 2: //back
+            case 0: //back
                 self.dismissViewControllerAnimated(true, completion: nil)
+                break
+            case 3: //default map view
+                
                 break
             default:
                 break

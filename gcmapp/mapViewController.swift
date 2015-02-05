@@ -76,6 +76,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         self.autocompleteTableView.dataSource = self
         redrawMap()
     }
+    
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
@@ -544,6 +546,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             tr.data = marker.userData as JSONDictionary
             tr.data["latitude"] = marker.position.latitude
             tr.data["longitude"] = marker.position.longitude
+            println(tr.data["type"])
             var emptyStages = [TrainingCompletion]()
             tr.data["stages"]  = NSSet(array: emptyStages)
             
