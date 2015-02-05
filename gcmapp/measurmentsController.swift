@@ -38,6 +38,15 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     
     
     func updatePeriodControl(){
+        
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        
+        self.self_assigned = team_role == "self_assigned"
+        lblSubTitle.hidden = !self_assigned
+        self.tableView.allowsSelection = !self_assigned
+        mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+        lblTitle.text = (NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String) + "(" + (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String) + ")"
+        
         periodControl.setEnabled(period != GlobalFunctions.currentPeriod(), forSegmentAtIndex: 2)
         self.periodControl.setTitle(period, forSegmentAtIndex: 1)
          tableView.reloadData()
@@ -78,13 +87,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
         
-        self.self_assigned = team_role == "self_assigned"
-        lblSubTitle.hidden = !self_assigned
-        self.tableView.allowsSelection = !self_assigned
-          mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
-         lblTitle.text = (NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String) + "(" + (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String) + ")"
         self.reloadData()
         let nc = NSNotificationCenter.defaultCenter()
         let mainQueue = NSOperationQueue.mainQueue()
@@ -134,8 +137,34 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
         if this_meas_value.count>0{
             cell.lblDetail.text = this_meas_value.first?.total.stringValue
-            cell.tbValue.text = this_meas_value.first?.me.stringValue
-            cell.mv = this_meas_value.first!
+            
+            if self_assigned{
+                
+                var mes =  (this_meas_value.first!.meSources.allObjects as [MeasurementMeSource]).filter {$0.source == GlobalConstants.LOCAL_SOURCE as String}
+                if mes.count==0{
+                    var error: NSError?
+                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                    
+                    let managedContext = appDelegate.managedObjectContext!
+                    let entity =  NSEntityDescription.entityForName( "MeasurementMeSource", inManagedObjectContext: managedContext)
+                    
+                    var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
+                    ms.measurementValue = this_meas_value.first!
+                    ms.source = GlobalConstants.LOCAL_SOURCE
+                    ms.changed = false
+                    ms.value = 0
+                    if !managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    cell.me = ms
+                }
+                else{
+                    cell.me = mes.first!
+                }
+                
+                cell.tbValue.text = cell.me.value.stringValue
+            }
+            
             
         }else{
             cell.lblDetail.text = "0"
@@ -143,7 +172,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         }
         cell.lblDetail.hidden = self_assigned
         cell.tbValue.hidden = !self_assigned
-       
+        cell.accessoryType = self_assigned ? UITableViewCellAccessoryType.None : UITableViewCellAccessoryType.DisclosureIndicator
         
         cell.lblTitle.text = measurement.name
         cell.lblRow.text = measurement.section == "other" ? "" :  measurement.section.uppercaseString

@@ -43,6 +43,7 @@ extension Measurements {
             mv.measurement=self
             mv.period = period
             mv.mcc = mcc
+            rtn=m["total"] != nil
         }
         else{
             mv = mvs.allObjects.first as MeasurementValue
@@ -59,7 +60,9 @@ extension Measurements {
         }
         
         
-        
+        if m["person_measurement_type_id"] != nil{
+            self.id_person = m["person_measurement_type_id"]  as String
+        }
         
         
         if !managedContext.save(&error) {

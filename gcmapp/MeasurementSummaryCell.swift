@@ -1,4 +1,4 @@
-//
+	//
 //  MeasurementSummaryCell.swift
 //  gcmapp
 //
@@ -14,21 +14,22 @@ class MeasurementSummaryCell: UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDetail: UILabel!
     @IBOutlet weak var tbValue: UITextField!
-    var mv: MeasurementValue!
+    var me: MeasurementMeSource!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
     @IBAction func editValueDidChanged(sender: UITextField) {
-        if mv == nil{
+        if me == nil{
             //create a blank one.
             
         }
         
-            if(mv.me != (tbValue.text as NSString!).integerValue){
-                mv.changed=true
-                mv.me = (tbValue.text as NSString!).integerValue
+            if(me.value != (tbValue.text as NSString!).integerValue){
+                me.changed=true
+                me.value = (tbValue.text as NSString!).integerValue
                 var error: NSError?
                 let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
                 

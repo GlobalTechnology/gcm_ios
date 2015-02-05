@@ -261,9 +261,9 @@ class dataSync: NSObject {
             
             for m in data as JSONArray{
                 
-                for (myKey,myValue) in m as JSONDictionary {
+                /*for (myKey,myValue) in m as JSONDictionary {
                     println("\(myKey) \t \(myValue)")
-                }
+                }*/
                 
                 
                 
@@ -278,21 +278,6 @@ class dataSync: NSObject {
                 
                 if this_meas?.count > 0{
                     measurement=this_meas?.first?
-                    /*let this_period_local = measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-                    if this_period_local.count>0{
-                        let mv = this_period_local.allObjects.first! as MeasurementValue
-                        if( m["total"] != nil){
-                            if mv.total != m["total"] as NSNumber  || mv.localSources.count==0{
-                                getDetail = true
-                            }
-                            
-                        }
-                        else if m["my_values"] != nil{
-                            
-                        }
-
-                        
-                    }*/
                     
                     
                 } else {
@@ -704,27 +689,27 @@ class dataSync: NSObject {
         var error: NSError?
         
         //Get My Staff Measurements that have changed
-        let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
+        let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementMeSource" )
         let pred = NSPredicate(format: "changed == true" )
         frMeasurementValue.predicate=pred
-        let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementValue]
+        let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementMeSource]
         var update_values: Array<Measurement> = []
         for mv in mv_changed{
-            update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String , period: mv.period, mcc: mv.mcc, value: mv.me))
+            update_values.append(Measurement(measurement_type_id: mv.measurementValue.measurement.id_person, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String , period: mv.measurementValue.period, mcc: mv.measurementValue.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.value))
         }
         
         
         //Get local source measurmenets that I have changed
         let frMeasurementLocalValue =  NSFetchRequest(entityName:"MeasurementLocalSource" )
         frMeasurementLocalValue.predicate=pred
-        let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]
+        let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]	
         
         for mlv in mlv_changed{
             println(mlv.measurementValue.measurement.id_local)
             println(mlv.measurementValue.period)
             println(mlv.measurementValue.mcc)
             
-            update_values.append(Measurement(measurement_type_id: mlv.measurementValue.measurement.id_local, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String  , period: mlv.measurementValue.period, mcc: mlv.measurementValue.mcc + "_gcmapp", value: mlv.value))
+            update_values.append(Measurement(measurement_type_id: mlv.measurementValue.measurement.id_local, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String  , period: mlv.measurementValue.period, mcc: mlv.measurementValue.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mlv.value))
         }
         if(update_values.count > 0){
             
