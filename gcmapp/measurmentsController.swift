@@ -25,11 +25,15 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
                 NSUserDefaults.standardUserDefaults().setObject(period, forKey: "period")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.updatePeriodControl()
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
             case 2:
                 period = GlobalFunctions.nextPeriod(period)
                 NSUserDefaults.standardUserDefaults().setObject(period, forKey: "period")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.updatePeriodControl()
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
 	
             default:
                 break
@@ -51,8 +55,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         self.periodControl.setTitle(period, forSegmentAtIndex: 1)
          tableView.reloadData()
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
+       
 
     }
     

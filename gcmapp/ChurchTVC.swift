@@ -289,17 +289,23 @@ class ChurchTVC: UITableViewController {
         
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         if indexPath.section == 0{
+            self.tableView.resignFirstResponder()
+            var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
+
             switch(indexPath.row){
             case 1: // move
-                self.SaveChanges()
+                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
+                
                 self.mapVC.makeSelectedMarkerDraggable()
                 self.dismissViewControllerAnimated(true, completion: nil)
                 
                 
                 break
             case 0:
-                self.SaveChanges()
+                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
+              
                 mapVC.redrawMap()
                 
                 

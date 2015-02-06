@@ -73,6 +73,9 @@ class dataSync: NSObject {
         var observer_join = nc.addObserverForName(GlobalConstants.kShouldJoinMinistry, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.joinMinistry((notification.userInfo as JSONDictionary)["ministry_id"] as String, sender: notification.object as NewMinistryTVC)
         }
+        var observer_new_tc = nc.addObserverForName(GlobalConstants.kShouldAddNewTrainingPhase, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.addTrainingStage((notification.userInfo as JSONDictionary)["createTrainingStage"] as createTrainingStage,sender: notification.object as trainingViewController)
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             
@@ -730,6 +733,11 @@ class dataSync: NSObject {
                         if !self.managedContext.save(&error) {
                             println("Could not save \(error), \(error?.userInfo)")
                         }
+                        //now update the measurements
+                        self.loadMeasurments( NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc:  (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: (NSUserDefaults.standardUserDefaults().objectForKey("period") as String))
+                        
+                        
+                        
                     }
                 }
             }
@@ -776,6 +784,60 @@ class dataSync: NSObject {
     
     }*/
     
+    func addTrainingStage(insert:createTrainingStage, sender: trainingViewController){
+        API(token: token).addTrainingCompletion(insert){
+            (data: AnyObject?,error: NSError?) -> Void in
+            if data != nil{
+                let tc:JSONDictionary = data as JSONDictionary
+                var error: NSError?
+                //get Training
+                let fr =  NSFetchRequest(entityName:"Training" )
+                fr.predicate = NSPredicate(format: "id == %@", insert.training_id )
+               
+                let tr = self.managedContext.executeFetchRequest(fr,error: &error) as [Training]
+                if tr.count>0{
+                    
+                    let allTC = tr.first!.stages.allObjects as [TrainingCompletion]
+                    
+                    var training_comp:TrainingCompletion!
+                    let this_tc = allTC.filter {$0.id == (tc["Id"] as NSNumber)}
+                    if this_tc.count > 0{
+                        training_comp=this_tc.first?
+                        
+                    } else {
+                        let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: self.managedContext)
+                        training_comp = NSManagedObject(entity: entity2!,
+                            insertIntoManagedObjectContext:self.managedContext) as TrainingCompletion
+                    }
+                    //END: Add or Update
+                        training_comp.id = tc["Id"] as NSNumber
+                        training_comp.phase = tc["phase"] as NSNumber
+                        training_comp.number_completed = tc["number_completed"] as NSNumber
+                        if(tc["date"] as String? != nil){
+                            training_comp.date = tc["date"] as String
+                        }
+                        training_comp.training = tr.first!
+                        
+                    
+                    if !self.managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    sender.tc.append(training_comp)
+                    sender.tableView.reloadData()
+                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                    notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
+                   
+                }
+                
+                
+                
+                
+                
+                
+               
+            }
+        }
+    }
     
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
         println(ministry_id)

@@ -35,16 +35,25 @@ class settingsViewController: UITableViewController {
         } else{
             mcc_cell.detailTextLabel!.text = ""
         }
+        
+        var team_role_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0))!
+        let team_role = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String?
+        if team_role != nil {
+            team_role_cell.detailTextLabel!.text = GlobalFunctions.getTeamRoleFormatted(team_role!)
+        } else{
+            team_role_cell.detailTextLabel!.text = ""
+        }
+
 
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch(indexPath.row)
         {
-        case 3:
+        case 4:
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kReset, object: nil)
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        case 4:
+        case 5:
              TheKeyOAuth2Client.sharedOAuth2Client().logout()
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kLogout, object: nil)

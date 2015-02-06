@@ -13,19 +13,42 @@ class UIEditTextCell: UITableViewCell {
     
     @IBAction func tbEditingDidEnd(sender: UITextField) {
         if self.isChurch{
-            church.data[field_name] = ((field_name == "size") ? (value.text! as NSString).integerValue : value.text)
-            church.changed = true
+            if field_name == "size"{
+                if church.data[field_name] as NSNumber != (value.text! as NSString).integerValue{
+                    church.data[field_name] = (value.text! as NSString).integerValue
+                    church.changed = true
+                    //let notificationCenter = NSNotificationCenter.defaultCenter()
+                    //notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+
+                }
+            }
+            else{
+                if church.data[field_name] as? String != value.text{
+                    church.data[field_name] =  value.text
+                    church.changed = true
+                    //let notificationCenter = NSNotificationCenter.defaultCenter()
+                    //notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+                }
+            }
+            
+            
             
             
         }
         else
         {
-            training.data[field_name] = value.text
-            training.changed = true
+            if training.data[field_name] as? String != value.text{
+                training.data[field_name] = value.text
+                training.changed = true
+                //let notificationCenter = NSNotificationCenter.defaultCenter()
+                //notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
+            }
         }
        
         
     }
+
+    
     @IBOutlet weak var value: UITextField!
     var field_name:String = ""
     var church:ChurchTVC!

@@ -94,6 +94,20 @@ class GlobalFunctions{
             return security.stringValue
         }
     }
-    
+    class func getTeamRoleFormatted(team_role: String) -> String
+    {
+        switch(team_role){
+        case "leader":
+            return "Leader"
+        case "inherited_leader":
+            return "Inherited Leader"
+        case "member":
+            return "member"
+        case "self_assigned":
+            return "self-assigned"
+        default:
+            return ""
+        }
+    }
        
 }

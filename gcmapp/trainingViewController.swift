@@ -18,13 +18,13 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     var changed:Bool = false
     var changed_tc:Bool = false
     var mapVC:  mapViewController!
-     var read_only: Bool = true
+    var read_only: Bool = true
     
     
     
     @IBOutlet weak var name: UILabel!
     
-   
+    
     
     func SaveChanges() {
         if read_only{
@@ -105,14 +105,14 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         let descriptor = NSSortDescriptor(key: "phase", ascending: true)
         
         tc = (data["stages"] as NSSet).sortedArrayUsingDescriptors([descriptor]) as [TrainingCompletion]
-       // var tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
-      //  tableView.addGestureRecognizer(tap)
-       /* if data["marker_type"] as String == "new_training"{
-            btnClose.titleLabel!.text = "Save"
-            btnMove.hidden=true
+        // var tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+        //  tableView.addGestureRecognizer(tap)
+        /* if data["marker_type"] as String == "new_training"{
+        btnClose.titleLabel!.text = "Save"
+        btnMove.hidden=true
         }*/
         
-
+        
         
         
     }
@@ -164,11 +164,11 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         }
         else{
             if data["stages"] == nil{
-                return 0
+                return 1
             }
             else
             {
-                return   tc.count
+                return   tc.count + 1
             }
         }
     }
@@ -186,20 +186,27 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section == 1{
-            var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as TrainingCompCell
-            
-            var stage = tc[indexPath.row] as TrainingCompletion
-            cell.stage.text = stage.phase.stringValue
-            cell.date.text  = stage.date
-            cell.participants.text = stage.number_completed.stringValue
-            cell.participants.delegate = self
-            cell.participants.tag = indexPath.row
-            
-            
-            
-            
-            
-            return cell
+            if indexPath.row == tc.count {
+                let cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as UITableViewCell
+                return cell
+                
+            }
+            else{
+                var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as TrainingCompCell
+                
+                var stage = tc[indexPath.row] as TrainingCompletion
+                cell.stage.text = stage.phase.stringValue
+                cell.date.text  = stage.date
+                cell.participants.text = stage.number_completed.stringValue
+                cell.participants.delegate = self
+                cell.participants.tag = indexPath.row
+                
+                
+                
+                
+                
+                return cell
+            }
             
         }
         else if indexPath.section == 0{
@@ -223,18 +230,18 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     
                     cell.detailTextLabel!.text = (data["name"] != nil) ? data["name"] as? String : ""
                     return cell
-
+                    
                 }
                 else{
-                
-                var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
-                cell.isChurch=false
-                cell.training=self
-                cell.field_name="name"
-                cell.title.text = "Name"
-                
-                cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
-                return cell
+                    
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    cell.isChurch=false
+                    cell.training=self
+                    cell.field_name="name"
+                    cell.title.text = "Name"
+                    
+                    cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
+                    return cell
                 }
             case 3: //type
                 if read_only{
@@ -247,9 +254,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     
                 }
                 else{
-                var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
-                cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
-                return cell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
+                    cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
+                    return cell
                 }
                 
             default:
@@ -264,40 +271,53 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         if indexPath.section == 0{
+            self.tableView.resignFirstResponder()
+            var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
             switch(indexPath.row){
             case 0: // back
-                self.SaveChanges()
+                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
                 mapVC.redrawMap()
                 self.dismissViewControllerAnimated(true, completion: nil)
                 
                 break
             case 1: //move
                 if(data["marker_type"] as String != "new_training"){
-                    self.SaveChanges()
+                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
                     self.mapVC.makeSelectedMarkerDraggable()
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
                 
                 break
             case 3:
-                 self.performSegueWithIdentifier("ShowType", sender: self)
+                self.performSegueWithIdentifier("ShowType", sender: self)
                 break
                 
             default:
                 break
                 
             }
+            
         }
-
-}
+        else if indexPath.section==1{
+            if indexPath.row == tc.count {
+                //add new Training Stage.
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                var insert = createTrainingStage(training_id: data["id"] as NSNumber, phase: tc.count + 1, date: GlobalFunctions.currentDate(), number_completed: 0)
+                notificationCenter.postNotificationName(GlobalConstants.kShouldAddNewTrainingPhase, object: self, userInfo: ["createTrainingStage": insert])
+               
+            }
+        }
+        
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowType"{
             let tvc = segue.destinationViewController as TrainingTypeTVC
             tvc.training = self
-           
-
+            
+            
         }
     }
     
@@ -306,5 +326,5 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         tableView.reloadData()
     }
     
-
+    
 }

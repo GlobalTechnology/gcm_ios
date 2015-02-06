@@ -52,7 +52,8 @@ class measurementDetailViewController: UITableViewController {
     }
     
     func backButtonClicked(sender: AnyObject){
-         var error: NSError?
+        self.tableView.resignFirstResponder()
+        /* var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
         
@@ -63,7 +64,7 @@ class measurementDetailViewController: UITableViewController {
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
-        
+        */
      
         
         

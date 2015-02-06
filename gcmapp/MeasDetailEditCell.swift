@@ -18,10 +18,19 @@
         var mls: MeasurementLocalSource!
         var isLocalSource = false;
         @IBAction func editValueDidChanged(sender: UITextField) {
+             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            var error: NSError?
+            let managedContext = appDelegate.managedObjectContext!
             if(isLocalSource){
                 if(mls.value != (editValue.text as NSString!).integerValue){
                     mls.changed = true
                     mls.value = (editValue.text as NSString!).integerValue
+                    if !managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                    notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
+
                 }
                 
             }
@@ -30,16 +39,20 @@
                 if(me.value != (editValue.text as NSString!).integerValue){
                     me.changed=true
                     me.value = (editValue.text as NSString!).integerValue
+                    if !managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                    notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
+
                 }
             }
            /* var error: NSError?
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+           
             
             
-            let managedContext = appDelegate.managedObjectContext!
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            }
+            
+            
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)*/

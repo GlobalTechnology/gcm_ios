@@ -46,6 +46,7 @@
 		FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */; };
 		FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0111A31A726008D4221 /* mccViewController.swift */; };
 		FC93E0141A31AB6C008D4221 /* MCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0131A31AB6C008D4221 /* MCC.swift */; };
+		FC9401C51A850EDF002D54D1 /* createTrainingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */; };
 		FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */; };
 		FC9B9D721A35FE3E00C9E353 /* TrainingCompCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D711A35FE3E00C9E353 /* TrainingCompCell.swift */; };
 		FC9B9D791A370AAA00C9E353 /* measurmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D781A370AAA00C9E353 /* measurmentsController.swift */; };
@@ -140,6 +141,7 @@
 		FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assignmentsViewController.swift; sourceTree = "<group>"; };
 		FC93E0111A31A726008D4221 /* mccViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mccViewController.swift; sourceTree = "<group>"; };
 		FC93E0131A31AB6C008D4221 /* MCC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCC.swift; sourceTree = "<group>"; };
+		FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createTrainingStage.swift; sourceTree = "<group>"; };
 		FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trainingViewController.swift; sourceTree = "<group>"; };
 		FC9B9D711A35FE3E00C9E353 /* TrainingCompCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompCell.swift; sourceTree = "<group>"; };
 		FC9B9D781A370AAA00C9E353 /* measurmentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = measurmentsController.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
 				FCD401911A6D640C00950802 /* Measurement.swift */,
+				FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */,
 			);
 			name = datamodel;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
 				FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */,
 				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
+				FC9401C51A850EDF002D54D1 /* createTrainingStage.swift in Sources */,
 				FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */,
 				FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */,
 				FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */,

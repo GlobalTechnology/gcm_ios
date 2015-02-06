@@ -127,6 +127,14 @@
                 
                 makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
             }
+            func addTrainingCompletion(tc:createTrainingStage, callback: APICallback)
+            {
+                let url = "\(GlobalConstants.SERVICE_ROOT)training_completion?token=\(self.token)"
+                var jsonError: NSError?
+                var body = tc.toJSON()
+                println(body)
+                makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
+            }
             func saveMeasurement(meas:Array<Measurement>, callback: APICallback)
             {
                 let url = "\(GlobalConstants.SERVICE_ROOT)measurements/?token=\(self.token)"
