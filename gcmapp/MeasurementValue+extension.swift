@@ -96,8 +96,7 @@ extension MeasurementValue{
         let self_assigned = md["self_assigned"] as [JSONDictionary]
         let local_breakdown = md["local_breakdown"] as JSONDictionary
         let self_breakdown = md["self_breakdown"] as JSONDictionary
-        println(period)
-        println(total[period] as NSNumber)
+        
         self.total = total[period] as NSNumber
         self.local = local[period] as NSNumber
         self.me = me[period] as NSNumber

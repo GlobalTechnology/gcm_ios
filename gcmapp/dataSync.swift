@@ -261,9 +261,9 @@ class dataSync: NSObject {
             
             for m in data as JSONArray{
                 
-                for (myKey,myValue) in m as JSONDictionary {
+                /*for (myKey,myValue) in m as JSONDictionary {
                     println("\(myKey) \t \(myValue)")
-                }
+                }*/
                 
                 
                 

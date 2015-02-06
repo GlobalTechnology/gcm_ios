@@ -49,10 +49,7 @@ extension Measurements {
             mv = mvs.allObjects.first as MeasurementValue
             
         }
-        println(m["name"] as String)
-        println(m["total"] as NSNumber)
         
-        println(mv.total)
         
             
         if m["total"] != nil{
@@ -76,7 +73,7 @@ extension Measurements {
             println("Could not save \(error), \(error?.userInfo)")
         }
         
-        println(mv.total)
+        
         
         return rtn
     }
@@ -104,7 +101,7 @@ extension Measurements {
             mv = mvs.allObjects.first as MeasurementValue
             
         }
-         println(mv.total)
+     
         
         //Process the details
         mv.updateDetailFromResp(md, managedContext: managedContext)
