@@ -49,10 +49,17 @@ extension Measurements {
             mv = mvs.allObjects.first as MeasurementValue
             
         }
+        println(m["name"] as String)
+        println(m["total"] as NSNumber)
+        
+        println(mv.total)
+        
+            
         if m["total"] != nil{
             if mv.total != m["total"] as NSNumber{
                 rtn = true
                 mv.total = m["total"] as NSNumber
+                println(mv.total)
             }
         }
         else if m["my_values"] != nil{
@@ -68,6 +75,9 @@ extension Measurements {
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
+        
+        println(mv.total)
+        
         return rtn
     }
     func updateMeasurementDetailFromResponse(md: JSONDictionary,ministry_id:String,period:String,mcc:String, managedContext:NSManagedObjectContext) {
@@ -94,7 +104,7 @@ extension Measurements {
             mv = mvs.allObjects.first as MeasurementValue
             
         }
-        
+         println(mv.total)
         
         //Process the details
         mv.updateDetailFromResp(md, managedContext: managedContext)

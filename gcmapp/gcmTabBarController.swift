@@ -46,6 +46,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 
             }else
             {
+                //
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
         }
@@ -55,7 +56,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
        
-        
+       
     }
  
     func postLoginNotification(){

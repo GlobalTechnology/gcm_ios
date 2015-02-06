@@ -14,7 +14,7 @@
         @IBOutlet weak var editValue: UITextField!
         
         @IBOutlet weak var lblTitle: UILabel!
-        var mv: MeasurementValue!
+        var me: MeasurementMeSource!
         var mls: MeasurementLocalSource!
         var isLocalSource = false;
         @IBAction func editValueDidChanged(sender: UITextField) {
@@ -27,9 +27,9 @@
             }
             else
             {
-                if(mv.me != (editValue.text as NSString!).integerValue){
-                    mv.changed=true
-                    mv.me = (editValue.text as NSString!).integerValue
+                if(me.value != (editValue.text as NSString!).integerValue){
+                    me.changed=true
+                    me.value = (editValue.text as NSString!).integerValue
                 }
             }
            /* var error: NSError?

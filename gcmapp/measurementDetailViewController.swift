@@ -36,8 +36,9 @@ class measurementDetailViewController: UITableViewController {
         self.graph.values = measurement.measurementValue.allObjects as Array<MeasurementValue>
         
         period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-       
-        var search_this_period = (measurement.measurementValue.allObjects.filter {$0.period == self.period})
+       var mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+        println(mcc)
+        var search_this_period = (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period as String && $0.mcc == mcc}
         if search_this_period.count>0{
             self.this_period_values = search_this_period[0] as MeasurementValue
         }
@@ -46,7 +47,7 @@ class measurementDetailViewController: UITableViewController {
         }
         
 
-        
+        self.tableView.reloadData()
     }
     
     func backButtonClicked(sender: AnyObject){
@@ -135,9 +136,30 @@ class measurementDetailViewController: UITableViewController {
             if indexPath.row == 0{
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
                 cell.lblTitle.text = "You"
-                cell.editValue.text = self.this_period_values.me.stringValue
+                var mes =  (this_period_values.meSources.allObjects as [MeasurementMeSource]).filter {$0.name == GlobalConstants.LOCAL_SOURCE as String}
+                if mes.count==0{
+                    var error: NSError?
+                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                    
+                    let managedContext = appDelegate.managedObjectContext!
+                    let entity =  NSEntityDescription.entityForName( "MeasurementMeSource", inManagedObjectContext: managedContext)
+                    
+                    var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
+                    ms.measurementValue = this_period_values
+                    ms.name = GlobalConstants.LOCAL_SOURCE
+                    ms.changed = false
+                    ms.value = 0
+                    if !managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    cell.me = ms
+                }
+                else{
+                    cell.me = mes.first!
+                }
+                cell.editValue.text = cell.me.value.stringValue
                 cell.isLocalSource = false
-                cell.mv=self.this_period_values
+                
                 return cell
             }
             else{

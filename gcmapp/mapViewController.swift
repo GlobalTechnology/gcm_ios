@@ -74,21 +74,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         self.autocompleteTableView.delegate=self
         self.autocompleteTableView.dataSource = self
-        redrawMap()
+        //redrawMap()
     }
     
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
-          
-               // TheKeyOAuth2Client.sharedOAuth2Client().logout()
-               
-        }
-        
-        
-        
-    }
+  
     func makeSelectedMarkerDraggable(){
         for m in markers{
             m.opacity=0.35

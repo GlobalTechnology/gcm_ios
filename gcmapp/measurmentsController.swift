@@ -87,7 +87,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.reloadData()
         let nc = NSNotificationCenter.defaultCenter()
         let mainQueue = NSOperationQueue.mainQueue()
@@ -133,14 +133,14 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary2", forIndexPath: indexPath) as MeasurementSummaryCell
         let measurement:Measurements! = fetchedResultController.objectAtIndexPath(indexPath) as Measurements
-        
+     
         let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
         if this_meas_value.count>0{
             cell.lblDetail.text = this_meas_value.first?.total.stringValue
             
             if self_assigned{
                 
-                var mes =  (this_meas_value.first!.meSources.allObjects as [MeasurementMeSource]).filter {$0.source == GlobalConstants.LOCAL_SOURCE as String}
+                var mes =  (this_meas_value.first!.meSources.allObjects as [MeasurementMeSource]).filter {$0.name == GlobalConstants.LOCAL_SOURCE as String}
                 if mes.count==0{
                     var error: NSError?
                     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -150,7 +150,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
                     
                     var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
                     ms.measurementValue = this_meas_value.first!
-                    ms.source = GlobalConstants.LOCAL_SOURCE
+                    ms.name = GlobalConstants.LOCAL_SOURCE
                     ms.changed = false
                     ms.value = 0
                     if !managedContext.save(&error) {

@@ -31,13 +31,13 @@ extension MeasurementValue{
     
     func addMeSource(source: String, value: NSNumber, managedContext: NSManagedObjectContext){
         var ms:MeasurementMeSource!
-        var mes = self.meSources.filteredSetUsingPredicate(NSPredicate(format: "source = %@", source)!)
+        var mes = self.meSources.filteredSetUsingPredicate(NSPredicate(format: "name = %@", source)!)
         if mes.count == 0{
             let entity =  NSEntityDescription.entityForName( "MeasurementMeSource", inManagedObjectContext: managedContext)
             
             ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
             ms.measurementValue = self
-            ms.source = source
+            ms.name = source
             ms.changed = false
             ms.value = value
             
@@ -59,7 +59,7 @@ extension MeasurementValue{
     }
     func addLocalSource(source: String, value: NSNumber, managedContext: NSManagedObjectContext){
         var ls:MeasurementLocalSource!
-        var lss = self.meSources.filteredSetUsingPredicate(NSPredicate(format: "name = %@", source)!)
+        var lss = self.localSources.filteredSetUsingPredicate(NSPredicate(format: "name = %@", source)!)
         if lss.count == 0{
             let entity =  NSEntityDescription.entityForName( "MeasurementLocalSource", inManagedObjectContext: managedContext)
             
@@ -96,6 +96,8 @@ extension MeasurementValue{
         let self_assigned = md["self_assigned"] as [JSONDictionary]
         let local_breakdown = md["local_breakdown"] as JSONDictionary
         let self_breakdown = md["self_breakdown"] as JSONDictionary
+        println(period)
+        println(total[period] as NSNumber)
         self.total = total[period] as NSNumber
         self.local = local[period] as NSNumber
         self.me = me[period] as NSNumber
@@ -179,13 +181,13 @@ extension MeasurementValue{
         var p = GlobalFunctions.prevPeriod(period)
         for i in 1...5{
             var mv:MeasurementValue!
-            var mvs = self.measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@ && mcc= %@", period, mcc)!)
+            var mvs = self.measurement.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@ && mcc= %@", p, mcc)!)
             if mvs.count == 0{
                 let entity =  NSEntityDescription.entityForName( "MeasurementValue", inManagedObjectContext: managedContext)
                 
                 mv =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementValue
                 mv.measurement=self.measurement
-                mv.period = period
+                mv.period = p
                 mv.mcc = mcc
             }
             else{

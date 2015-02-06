@@ -261,9 +261,9 @@ class dataSync: NSObject {
             
             for m in data as JSONArray{
                 
-                /*for (myKey,myValue) in m as JSONDictionary {
+                for (myKey,myValue) in m as JSONDictionary {
                     println("\(myKey) \t \(myValue)")
-                }*/
+                }
                 
                 
                 
@@ -687,7 +687,7 @@ class dataSync: NSObject {
         }
         
         var error: NSError?
-        
+        //var mcc:String = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String
         //Get My Staff Measurements that have changed
         let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementMeSource" )
         let pred = NSPredicate(format: "changed == true" )
@@ -702,7 +702,7 @@ class dataSync: NSObject {
         //Get local source measurmenets that I have changed
         let frMeasurementLocalValue =  NSFetchRequest(entityName:"MeasurementLocalSource" )
         frMeasurementLocalValue.predicate=pred
-        let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]	
+        let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]
         
         for mlv in mlv_changed{
             println(mlv.measurementValue.measurement.id_local)

@@ -49,7 +49,7 @@
     </entity>
     <entity name="MeasurementMeSource" representedClassName="gcmapp.MeasurementMeSource" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="meSources" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>

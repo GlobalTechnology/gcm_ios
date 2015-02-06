@@ -29,5 +29,8 @@ struct GlobalConstants {
     static let MEMBERS_ONLY = ["leader","inherited_leader","member"]
     static let LEADERS_ONLY = ["leader","inherited_leader"]
     static let NOT_BLOCKED =  ["leader","inherited_leader","member","self_assigned"]
+    
+    
+    static let apiSessionInvalid = "SESSION_INVALID"
 
 }
