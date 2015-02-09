@@ -35,6 +35,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     var markers:[GMSMarker]! = Array()
     var churchLines:[GMSPolyline]! = Array()
     var churchdots:[GMSMarker]! = Array()
+    var ministry: Ministry!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +68,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         // Do any additional setup after loading the view, typically from a nib.
-        mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(14.944949165712828,-90.34616906534576), zoom: 8, bearing: 0, viewingAngle: 0)
+       
         
         mapView.settings.rotateGestures = false
         
@@ -96,6 +97,9 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func redrawMap(){
         
+        
+        
+        
         var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?
         var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String?)
         
@@ -120,6 +124,18 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             let fetchRequest = NSFetchRequest(entityName:"Church")
             
+            
+            let fr =  NSFetchRequest(entityName:"Ministry" )
+            fr.predicate = NSPredicate(format: "id == %@", ministryId! )
+            
+            let min = managedContext.executeFetchRequest(fr,error: &error) as [Ministry]
+            if min.count>0{
+                self.ministry = min.first!
+                
+                
+                mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(ministry!.latitude.doubleValue as CLLocationDegrees,ministry!.longitude.doubleValue as CLLocationDegrees), zoom: ministry.zoom.floatValue , bearing: 0, viewingAngle: 0)
+
+            }
             
             
             

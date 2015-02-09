@@ -76,6 +76,9 @@ class dataSync: NSObject {
         var observer_new_tc = nc.addObserverForName(GlobalConstants.kShouldAddNewTrainingPhase, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             self.addTrainingStage((notification.userInfo as JSONDictionary)["createTrainingStage"] as createTrainingStage,sender: notification.object as trainingViewController)
         }
+        var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            self.updateMinistry((notification.userInfo as JSONDictionary)["ministry"] as Ministry)
+        }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             
@@ -191,7 +194,16 @@ class dataSync: NSObject {
         ministry.has_gcm = a["has_gcm"] as Bool
         ministry.has_ds  = a["has_ds"] as Bool
         
-        
+        if a["location"] != nil{
+            var loc = a["location"] as JSONDictionary
+            ministry.longitude = loc["longitude"] as NSNumber
+            
+            ministry.latitude = loc["latitude"]  as NSNumber
+            
+        }
+        if a["location_zoom"] != nil{
+            ministry.zoom = a["location_zoom"] as NSNumber
+        }
         
         
         
@@ -837,6 +849,19 @@ class dataSync: NSObject {
                
             }
         }
+    }
+    
+    
+    func updateMinistry(ministry: Ministry){
+        
+            API(token: token).updateMinistry(ministry){
+                (data: AnyObject?,error: NSError?) -> Void in
+                //Nothing to do...
+                
+            }
+
+        
+
     }
     
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){

@@ -183,6 +183,14 @@
                 println(body)
                 makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
             }
+            func updateMinistry(ministry: Ministry, callback: APICallback){
+                let url = "\(GlobalConstants.SERVICE_ROOT)ministries/\(ministry.id)?token=\(self.token)"
+                var jsonError: NSError?
+                println(url)
+                var body = ministry.toJson()
+                println(body)
+                makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
+            }
             
             func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
                 let httpResponse = response as NSHTTPURLResponse

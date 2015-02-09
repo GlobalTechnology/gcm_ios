@@ -2,8 +2,8 @@
 //  Ministry.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 10/12/2014.
-//  Copyright (c) 2014 Expidev. All rights reserved.
+//  Created by Jon Vellacott on 09/02/2015.
+//  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
 import Foundation
@@ -18,6 +18,9 @@ class Ministry: NSManagedObject {
     @NSManaged var id: String
     @NSManaged var min_code: String
     @NSManaged var name: String
+    @NSManaged var latitude: NSNumber
+    @NSManaged var longitude: NSNumber
+    @NSManaged var zoom: NSNumber
     @NSManaged var assignments: NSSet
     @NSManaged var children: NSSet
     @NSManaged var mccs: NSSet

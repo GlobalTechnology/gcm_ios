@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class mapOptionsViewController: UITableViewController {
     @IBOutlet weak var targets: UISwitch!
@@ -48,7 +49,7 @@ class mapOptionsViewController: UITableViewController {
         if section == 0{
             
         }
-        return section==0 ? 5 : read_only ? 1:3
+        return section==0 ? 5 : read_only ? 1:4
         
     }
     
@@ -153,6 +154,25 @@ class mapOptionsViewController: UITableViewController {
                 break
             case 3: //default map view
                 
+                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                
+                let managedContext = appDelegate.managedObjectContext!
+                var ministry_id  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String
+                var error: NSError?
+           
+                                 mapVC.ministry.zoom = mapVC.mapView.camera.zoom
+                    mapVC.ministry.latitude = mapVC.mapView.camera.target.latitude
+                    mapVC.ministry.longitude = mapVC.mapView.camera.target.longitude
+                    
+                    if !managedContext.save(&error) {
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+
+                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                    notificationCenter.postNotificationName(GlobalConstants.kShouldUpdateMin, object: nil, userInfo: ["ministry": mapVC.ministry])
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+
                 break
             default:
                 break

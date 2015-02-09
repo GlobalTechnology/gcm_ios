@@ -23,6 +23,8 @@ struct GlobalConstants {
     static let kReset = "UserWillReset"
     static let kDidChangeChurch = "DidChangeChurch"
     static let kDidChangeTraining = "DidChangeTraining"
+    static let kShouldUpdateMin = "ShouldUpdateMin"
+    
     static let SERVICE_API = "https://stage.sbr.global-registry.org/api/measurements/token"
     static  let SERVICE_ROOT = "https://stage.global-registry.org/api/measurements/"
     
