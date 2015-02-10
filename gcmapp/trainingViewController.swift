@@ -277,16 +277,19 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
             switch(indexPath.row){
             case 0: // back
-                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
-                mapVC.redrawMap()
+              
                 self.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                
                 
                 break
             case 1: //move
                 if(data["marker_type"] as String != "new_training"){
-                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
                     self.mapVC.makeSelectedMarkerDraggable()
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                     self.dismissViewControllerAnimated(true, completion: nil)
+                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                    
+                   
                 }
                 
                 break

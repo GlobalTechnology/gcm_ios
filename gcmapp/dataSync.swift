@@ -19,8 +19,8 @@ class dataSync: NSObject {
         self.managedContext = appDelegate.managedObjectContext!
         
         let nc = NSNotificationCenter.defaultCenter()
+        let myQueue = NSOperationQueue()
         let mainQueue = NSOperationQueue.mainQueue()
-        
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         
         if NSUserDefaults.standardUserDefaults().objectForKey("mcc") == nil{
@@ -29,10 +29,10 @@ class dataSync: NSObject {
             
         }
         NSUserDefaults.standardUserDefaults().synchronize()
-        var observer_measurements = nc.addObserverForName(GlobalConstants.kDidChangePeriod, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_measurements = nc.addObserverForName(GlobalConstants.kDidChangePeriod, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
         }
-        var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
             //update team role
             let ass = Assignment.getAssignmentForMinistryId(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String) as Assignment?
@@ -46,37 +46,37 @@ class dataSync: NSObject {
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)        }
-        var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
         }
         
-        var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateTrainingCompletion()
         }
-        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateMeasurements()
         }
-        var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateChurch()
         }
-        var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateTraining()
         }
-        var observer_logout = nc.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_logout = nc.addObserverForName(GlobalConstants.kLogout, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.logout()
         }
-        var observer_reset = nc.addObserverForName(GlobalConstants.kReset, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_reset = nc.addObserverForName(GlobalConstants.kReset, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.reset()
         }
-        var observer_join = nc.addObserverForName(GlobalConstants.kShouldJoinMinistry, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_join = nc.addObserverForName(GlobalConstants.kShouldJoinMinistry, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.joinMinistry((notification.userInfo as JSONDictionary)["ministry_id"] as String, sender: notification.object as NewMinistryTVC)
         }
-        var observer_new_tc = nc.addObserverForName(GlobalConstants.kShouldAddNewTrainingPhase, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_new_tc = nc.addObserverForName(GlobalConstants.kShouldAddNewTrainingPhase, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.addTrainingStage((notification.userInfo as JSONDictionary)["createTrainingStage"] as createTrainingStage,sender: notification.object as trainingViewController)
         }
-        var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateMinistry((notification.userInfo as JSONDictionary)["ministry"] as Ministry)
         }
         

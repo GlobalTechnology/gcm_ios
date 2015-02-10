@@ -41,11 +41,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         let nc = NSNotificationCenter.defaultCenter()
-        let mainQueue = NSOperationQueue.mainQueue()
-        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveChurches, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        let myQueue = NSOperationQueue()
+        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveChurches, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.redrawMap()
         }
-        var observer2 = nc.addObserverForName(GlobalConstants.kDidReceiveTraining, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        var observer2 = nc.addObserverForName(GlobalConstants.kDidReceiveTraining, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.redrawMap()
         }
         
@@ -76,6 +76,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         self.autocompleteTableView.delegate=self
         self.autocompleteTableView.dataSource = self
         //redrawMap()
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear( animated)
+        
+        self.redrawMap()
     }
     
     

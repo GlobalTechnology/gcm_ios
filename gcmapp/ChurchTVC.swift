@@ -292,26 +292,31 @@ class ChurchTVC: UITableViewController {
         
         if indexPath.section == 0{
             self.tableView.resignFirstResponder()
+            
+            
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
 
             switch(indexPath.row){
             case 1: // move
-                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
-                
                 self.mapVC.makeSelectedMarkerDraggable()
                 self.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                
+                
+                
                 
                 
                 break
             case 0:
-                dispatch_after(dispatchTime, dispatch_get_main_queue(), {self.SaveChanges()})
+                 self.dismissViewControllerAnimated(true, completion: nil)
+                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
               
-                mapVC.redrawMap()
+                //mapVC.redrawMap()
                 
                 
                 
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+               
                 
                 break
             default:

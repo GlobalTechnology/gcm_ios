@@ -93,8 +93,8 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
        
         self.reloadData()
         let nc = NSNotificationCenter.defaultCenter()
-        let mainQueue = NSOperationQueue.mainQueue()
-        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        let myQueue = NSOperationQueue()
+        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
             NSFetchedResultsController.deleteCacheWithName("meas")
             self.fetchedResultController.performFetch(nil)
             return
