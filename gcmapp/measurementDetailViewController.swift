@@ -81,6 +81,7 @@ class measurementDetailViewController: UITableViewController {
         return 3
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       
         switch(section){
         case 0:
             return (NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String) + "(Local)"
@@ -130,7 +131,7 @@ class measurementDetailViewController: UITableViewController {
         
    
     }
-    
+
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch(indexPath.section){
@@ -146,7 +147,7 @@ class measurementDetailViewController: UITableViewController {
             else{
                 var localValue = self.this_period_values.localSources.allObjects[indexPath.row] as MeasurementLocalSource
                 
-                if localValue.name == GlobalConstants.LOCAL_SOURCE && self.team_role == "leader"{
+                if localValue.name == GlobalConstants.LOCAL_SOURCE && (self.team_role == "leader" || self.team_role == "inherited_leader"){
                     var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
                     cell.lblTitle.text = localValue.name
                     cell.isLocalSource = true

@@ -12,14 +12,14 @@ class dataSync: NSObject {
     
     var managedContext: NSManagedObjectContext!
     var token:NSString!
-    
+    let myQueue = NSOperationQueue()
     override init(){
         super.init()
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         self.managedContext = appDelegate.managedObjectContext!
         
         let nc = NSNotificationCenter.defaultCenter()
-        let myQueue = NSOperationQueue()
+        
         let mainQueue = NSOperationQueue.mainQueue()
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         

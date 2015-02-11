@@ -137,7 +137,7 @@
             }
             func saveMeasurement(meas:Array<Measurement>, callback: APICallback)
             {
-                let url = "\(GlobalConstants.SERVICE_ROOT)measurements/?token=\(self.token)"
+                let url = "\(GlobalConstants.SERVICE_ROOT)measurements?token=\(self.token)"
                 var jsonError: NSError?
                 var body = "["
                 for m in  meas {
@@ -145,6 +145,7 @@
                 }
                 body = body.substringToIndex(body.endIndex.predecessor()) //remove last ,
                 body += "]"
+                println(url)
                 println(body)
                 makeHTTPPostRequest( Path.ADD_UPDATE_MEASUREMENT, callback: callback, url: url, body:  body)
             }
@@ -204,7 +205,10 @@
                 }
             }
             
-            
+            func connection(connection: NSURLConnection, didFailWithError error: NSError) {
+                println(error)
+                
+            }
             func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
                 self.responseData.appendData(data)
             }
@@ -314,13 +318,21 @@
             
             // private
             func makeHTTPGetRequest(path: Path, callback: APICallback, url: NSString) {
+               
                 self.path = path
                 self.callback = callback
                 let request = NSURLRequest(URL: NSURL(string: url)!)
-                let conn = NSURLConnection(request: request, delegate:self)
+                let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
+            
+                
+                
                 //if (callback != nil){
                 if (conn == nil ) {
                     callback(nil, nil)
+                }
+                else{
+                     conn!.setDelegateQueue(NSOperationQueue())
+                        conn!.start()
                 }
                 //}
             }
@@ -331,9 +343,13 @@
                 let request = NSMutableURLRequest(URL: NSURL(string: url)!)
                 request.HTTPMethod = "POST"
                 request.HTTPBody = body.dataUsingEncoding(NSUTF8StringEncoding)
-                let conn = NSURLConnection(request: request, delegate:self)
+                let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
                 if (conn == nil) {
                     callback(nil, nil)
+                }
+                else{
+                    conn!.setDelegateQueue(NSOperationQueue())
+                    conn!.start()
                 }
             }
             func makeHTTPPutRequest(path: Path, callback: APICallback, url: NSString, body: NSString) {
@@ -342,9 +358,13 @@
                 let request = NSMutableURLRequest(URL: NSURL(string: url)!)
                 request.HTTPMethod = "PUT"
                 request.HTTPBody = body.dataUsingEncoding(NSUTF8StringEncoding)
-                let conn = NSURLConnection(request: request, delegate:self)
+                let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
                 if (conn == nil) {
                     callback(nil, nil)
+                }
+                else{
+                     conn!.setDelegateQueue(NSOperationQueue())
+                    conn!.start()
                 }
             }
             func makeHTTPDeleteRequest(path: Path, callback: APICallback, url: NSString) {
