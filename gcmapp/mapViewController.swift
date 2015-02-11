@@ -41,7 +41,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         let nc = NSNotificationCenter.defaultCenter()
-        let myQueue = NSOperationQueue()
+        let myQueue = NSOperationQueue.mainQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveChurches, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.redrawMap()
         }
