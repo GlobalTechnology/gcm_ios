@@ -82,7 +82,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         self.redrawMap()
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+    }
     
   
     func makeSelectedMarkerDraggable(){

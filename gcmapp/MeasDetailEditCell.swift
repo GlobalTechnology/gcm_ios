@@ -17,6 +17,9 @@
         var me: MeasurementMeSource!
         var mls: MeasurementLocalSource!
         var isLocalSource = false;
+     
+
+        
         @IBAction func editValueDidChanged(sender: UITextField) {
              let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var error: NSError?

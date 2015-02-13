@@ -19,7 +19,9 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
   
     @IBOutlet weak var periodControl: UISegmentedControl!
     @IBAction func periodChanged(sender: UISegmentedControl) {
+        
         switch periodControl.selectedSegmentIndex{
+            
             case 0:
                 period = GlobalFunctions.prevPeriod(period)
                 NSUserDefaults.standardUserDefaults().setObject(period, forKey: "period")
@@ -38,6 +40,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
             default:
                 break
         }
+        
     }
     
     
@@ -55,12 +58,11 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         self.periodControl.setTitle(period, forSegmentAtIndex: 1)
          tableView.reloadData()
         
-       
 
     }
     
     func getFetchedResultController() -> NSFetchedResultsController {
-        fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext!, sectionNameKeyPath: "column", cacheName: "meas")
+        fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext!, sectionNameKeyPath: "column", cacheName: nil)
         return fetchedResultController
     }
     
@@ -88,15 +90,40 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
         return fetchRequest
     }
+    func refresh(sender:AnyObject)
+    {
+        // Code to refresh table view
+        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "last_refresh")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refersh")
+        self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl!)
+        
+        
+        
         self.reloadData()
         let nc = NSNotificationCenter.defaultCenter()
         let myQueue = NSOperationQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            NSFetchedResultsController.deleteCacheWithName("meas")
-            self.fetchedResultController.performFetch(nil)
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+            
+            
+            /*NSFetchedResultsController.deleteCacheWithName("meas")
+             var error: NSError?
+           
+            if !self.fetchedResultController.performFetch(&error) {
+                println("Could not fetch \(error), \(error?.userInfo)")
+            }
+            */
+            
             return
             
         }
@@ -105,7 +132,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
        
 
     }
-    
+    	
     func reloadData(){
        // fetchedResultController = NSFetchedResultsController()
         fetchedResultController = getFetchedResultController()
@@ -114,7 +141,10 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
         period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
         self.updatePeriodControl()
 
@@ -135,6 +165,10 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary2", forIndexPath: indexPath) as MeasurementSummaryCell
+        
+        if fetchedResultController.fetchedObjects?.count == 0{
+            return cell
+        }
         let measurement:Measurements! = fetchedResultController.objectAtIndexPath(indexPath) as Measurements
      
         let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}

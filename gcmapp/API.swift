@@ -321,6 +321,7 @@
                
                 self.path = path
                 self.callback = callback
+                
                 let request = NSURLRequest(URL: NSURL(string: url)!)
                 let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
             

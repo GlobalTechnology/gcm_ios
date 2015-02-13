@@ -20,17 +20,20 @@ class measurementDetailViewController: UITableViewController {
     @IBOutlet weak var graph: GraphView!
     var period:String!
     var team_role:String!
-    
+    var minus:UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         team_role=(NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String)
         
+
     }
-   
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+         //lazyload a local value if necessary
+        
         self.NavItem.title = measurement.name
         self.NavItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: self, action: Selector("backButtonClicked:"))
         self.NavItem.hidesBackButton = false
@@ -47,6 +50,17 @@ class measurementDetailViewController: UITableViewController {
             self.this_period_values = nil
         }
         
+        if  self.this_period_values.localSources.filteredSetUsingPredicate(NSPredicate(format: "name=%@", GlobalConstants.LOCAL_SOURCE)!).count==0{
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            var managedContext = appDelegate.managedObjectContext!
+            self.this_period_values.addLocalSource(GlobalConstants.LOCAL_SOURCE, value: 0, managedContext: managedContext)
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            
+            
+        }
 
         self.tableView.reloadData()
     }
@@ -153,6 +167,7 @@ class measurementDetailViewController: UITableViewController {
                     cell.isLocalSource = true
                     cell.mls = localValue
                     cell.editValue.text = localValue.value.stringValue
+                    
                     return cell
                     
                 }

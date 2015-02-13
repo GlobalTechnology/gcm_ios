@@ -14,6 +14,14 @@ class settingsViewController: UITableViewController {
         TheKeyOAuth2Client.sharedOAuth2Client().logout()
         
     }
+    
+  
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var min_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))!

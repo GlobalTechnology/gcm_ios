@@ -45,12 +45,20 @@ class dataSync: NSObject {
             
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)        }
+            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+             NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+             NSUserDefaults.standardUserDefaults().synchronize()
+        }
+       
         var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+             NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+             NSUserDefaults.standardUserDefaults().synchronize()
         }
+        
+        
         
         var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateTrainingCompletion()
@@ -159,6 +167,8 @@ class dataSync: NSObject {
                     
                     self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
                     self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                     NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                     NSUserDefaults.standardUserDefaults().synchronize()
                     
                 }
                 
@@ -167,6 +177,31 @@ class dataSync: NSObject {
             })
             
         }
+        var observer_refresh = nc.addObserverForName(GlobalConstants.kShouldRefreshAll, object: nil, queue: myQueue) {(notification:NSNotification!) in
+            if self.token==nil{
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+               // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                return;
+            }
+            if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
+                var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as NSDate
+                println(-last_update.timeIntervalSinceNow )
+                println(NSTimeInterval(GlobalConstants.RefreshInterval))
+                if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
+                    return;
+                }
+                
+                
+            }
+            
+            self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
+            self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
+            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+        }
+
         
         
     }
@@ -254,6 +289,7 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
+     
         if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.NOT_BLOCKED){
             return
         }
@@ -264,6 +300,7 @@ class dataSync: NSObject {
                 
                 return;
             }
+           
             
             let fetchRequest =  NSFetchRequest(entityName:"Measurements" )
             fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId )
@@ -281,6 +318,7 @@ class dataSync: NSObject {
                 }*/
                 
                 
+              println( m["name"])
                 
                 
                 
@@ -564,8 +602,8 @@ class dataSync: NSObject {
             return  false //Offline, but has token
             
         case (false, true):
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+          //  let notificationCenter = NSNotificationCenter.defaultCenter()
+           // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
             return false //Conntect, but not logged in will reauthenticate (which will refetch - so return false)
         case (true, true):
             return true

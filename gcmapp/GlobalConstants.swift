@@ -24,6 +24,7 @@ struct GlobalConstants {
     static let kDidChangeChurch = "DidChangeChurch"
     static let kDidChangeTraining = "DidChangeTraining"
     static let kShouldUpdateMin = "ShouldUpdateMin"
+    static let kShouldRefreshAll = "ShouldRefreshAll"
     
     static let SERVICE_API = "https://stage.sbr.global-registry.org/api/measurements/token"
     static  let SERVICE_ROOT = "https://stage.global-registry.org/api/measurements/"
@@ -33,7 +34,7 @@ struct GlobalConstants {
     static let LEADERS_ONLY = ["leader","inherited_leader"]
     static let NOT_BLOCKED =  ["leader","inherited_leader","member","self_assigned"]
     
-    
+    static let RefreshInterval = 300
     static let apiSessionInvalid = "SESSION_INVALID"
 
 }
