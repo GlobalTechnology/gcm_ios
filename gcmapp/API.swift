@@ -228,6 +228,9 @@
                     }
                 }
                 switch(statusCode, self.path!) {
+                    
+                    
+                    
                 case (200, Path.GET_TOKEN):
                     //self.handleGetToken(json)
                     callback(self.handleGetToken(json), nil)
@@ -260,10 +263,18 @@
                             if login_attempts < 5{
                                 login_attempts += 1
                                 println("401:  reauthenticating - attempt \(login_attempts)")
-                                TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String!) -> Void in
-                                    self.getToken(ticket, self.callback)
-                                })
-                                callback(nil, nil)
+                                
+                               var isRefreshing =  NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kIsRefreshingToken) as Bool?
+                                if isRefreshing == nil || isRefreshing == false {
+                                    
+                                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kIsRefreshingToken)
+                                    NSUserDefaults.standardUserDefaults().synchronize()
+                                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                                    notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                                    
+                                    
+                                }
+                                
                                 
                             }
                         }
@@ -272,9 +283,9 @@
                         
                     }
                     
-                    println(self.path)
+                    
                     // Unknown Error
-                    println("Unknown error")
+                    println("401")
                     callback(nil, nil)
                 }
             }

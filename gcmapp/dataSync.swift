@@ -104,6 +104,7 @@ class dataSync: NSObject {
                         
                         NSUserDefaults.standardUserDefaults().setObject(self.token, forKey: "token")
                         let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
+                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kIsRefreshingToken)
                         
                         var error: NSError?
                         let allMinistries = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Ministry]?
@@ -185,8 +186,6 @@ class dataSync: NSObject {
             }
             if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
                 var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as NSDate
-                println(-last_update.timeIntervalSinceNow )
-                println(NSTimeInterval(GlobalConstants.RefreshInterval))
                 if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
                     return;
                 }
@@ -492,7 +491,7 @@ class dataSync: NSObject {
         API(token: self.token).getChurches(ministryId){
             (data: AnyObject?,error: NSError?) -> Void in
             
-            
+            if data != nil {
             
             let fetchRequest =  NSFetchRequest(entityName:"Church" )
             fetchRequest.predicate=NSPredicate(format: "ministry_id = %@" , ministryId)
@@ -586,7 +585,7 @@ class dataSync: NSObject {
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
             
-            
+            }
             
         }
         
@@ -952,6 +951,7 @@ class dataSync: NSObject {
     }
     func logout(){
         API(token: self.token).deleteToken()
+        return;
         self.token = nil
         //Delete everything in the database
         reset()

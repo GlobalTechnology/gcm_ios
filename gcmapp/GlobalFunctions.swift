@@ -8,6 +8,7 @@
 
 import Foundation
 class GlobalFunctions{
+  
     
     class func contains(value:String, list:[String]) -> Bool {
         let filtered = list.filter {$0 == value}
