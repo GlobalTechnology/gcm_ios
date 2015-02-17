@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Assignment" representedClassName="gcmapp.Assignment" syncable="YES">
+    <entity name="Assignment" representedClassName="GMAapp.Assignment" syncable="YES">
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
@@ -13,7 +13,7 @@
             </compoundIndex>
         </compoundIndexes>
     </entity>
-    <entity name="Church" representedClassName="gcmapp.Church" syncable="YES">
+    <entity name="Church" representedClassName="GMAapp.Church" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="contact_email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contact_name" optional="YES" attributeType="String" syncable="YES"/>
@@ -36,24 +36,24 @@
             </compoundIndex>
         </compoundIndexes>
     </entity>
-    <entity name="MCC" representedClassName="gcmapp.MCC" syncable="YES">
+    <entity name="MCC" representedClassName="GMAapp.MCC" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="ministry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ministry" inverseName="mccs" inverseEntity="Ministry" syncable="YES"/>
     </entity>
-    <entity name="MeasurementLocalSource" representedClassName="gcmapp.MeasurementLocalSource" syncable="YES">
+    <entity name="MeasurementLocalSource" representedClassName="GMAapp.MeasurementLocalSource" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="localSources" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="MeasurementMeSource" representedClassName="gcmapp.MeasurementMeSource" syncable="YES">
+    <entity name="MeasurementMeSource" representedClassName="GMAapp.MeasurementMeSource" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="meSources" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="Measurements" representedClassName="gcmapp.Measurements" syncable="YES">
+    <entity name="Measurements" representedClassName="GMAapp.Measurements" syncable="YES">
         <attribute name="column" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="id_local" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
@@ -66,7 +66,7 @@
         <attribute name="sort_order" optional="YES" attributeType="Integer 16" defaultValueString="3" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="measurement" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="MeasurementValue" representedClassName="gcmapp.MeasurementValue" syncable="YES">
+    <entity name="MeasurementValue" representedClassName="GMAapp.MeasurementValue" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="local" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
@@ -80,20 +80,20 @@
         <relationship name="subMinValues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValueSubTeam" inverseName="measurmentValue" inverseEntity="MeasurementValueSubTeam" syncable="YES"/>
         <relationship name="teamValues" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValueTeam" inverseName="measurementValue" inverseEntity="MeasurementValueTeam" syncable="YES"/>
     </entity>
-    <entity name="MeasurementValueSelfAssigned" representedClassName="gcmapp.MeasurementValueSelfAssigned" syncable="YES">
+    <entity name="MeasurementValueSelfAssigned" representedClassName="GMAapp.MeasurementValueSelfAssigned" syncable="YES">
         <attribute name="assignment_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="selfAssigned" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="MeasurementValueSubTeam" representedClassName="gcmapp.MeasurementValueSubTeam" syncable="YES">
+    <entity name="MeasurementValueSubTeam" representedClassName="GMAapp.MeasurementValueSubTeam" syncable="YES">
         <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="measurmentValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="subMinValues" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="MeasurementValueTeam" representedClassName="gcmapp.MeasurementValueTeam" syncable="YES">
+    <entity name="MeasurementValueTeam" representedClassName="GMAapp.MeasurementValueTeam" syncable="YES">
         <attribute name="assignment_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
@@ -102,7 +102,7 @@
         <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="teamValues" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
-    <entity name="Ministry" representedClassName="gcmapp.Ministry" syncable="YES">
+    <entity name="Ministry" representedClassName="GMAapp.Ministry" syncable="YES">
         <attribute name="has_ds" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="has_gcm" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="has_llm" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -123,7 +123,7 @@
             </compoundIndex>
         </compoundIndexes>
     </entity>
-    <entity name="Training" representedClassName="gcmapp.Training" syncable="YES">
+    <entity name="Training" representedClassName="GMAapp.Training" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" maxValueString="10" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -135,7 +135,7 @@
         <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="stages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrainingCompletion" inverseName="training" inverseEntity="TrainingCompletion" syncable="YES"/>
     </entity>
-    <entity name="TrainingCompletion" representedClassName="gcmapp.TrainingCompletion" syncable="YES">
+    <entity name="TrainingCompletion" representedClassName="GMAapp.TrainingCompletion" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" maxValueString="10" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>

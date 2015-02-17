@@ -130,7 +130,15 @@ extension MeasurementValue{
             let entity2 =  NSEntityDescription.entityForName( "MeasurementValueSubTeam", inManagedObjectContext: managedContext)
             var sm = NSManagedObject(entity: entity2!, insertIntoManagedObjectContext:managedContext) as MeasurementValueSubTeam
             sm.ministry_id = s["ministry_id"] as String
-            sm.total = s["total"] as NSNumber
+            if (s["total"] == nil){
+                sm.total = 0
+            
+                
+            }
+            else{
+                sm.total = s["total"] as NSNumber
+
+            }
             sm.name = s["name"] as String
             sm.measurmentValue = self
            

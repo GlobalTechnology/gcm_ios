@@ -104,7 +104,7 @@
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapOptionsViewController.swift; sourceTree = "<group>"; };
-		FC4D27431A2DDF8500C20288 /* gcmapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gcmapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4D27431A2DDF8500C20288 /* GMAapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMAapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4D27471A2DDF8500C20288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC4D27481A2DDF8500C20288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC4D274A1A2DDF8500C20288 /* mapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 		FC4D27441A2DDF8500C20288 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC4D27431A2DDF8500C20288 /* gcmapp.app */,
+				FC4D27431A2DDF8500C20288 /* GMAapp.app */,
 				FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */,
 			);
 			name = Products;
@@ -409,9 +409,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FC4D27421A2DDF8500C20288 /* gcmapp */ = {
+		FC4D27421A2DDF8500C20288 /* GMAapp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "gcmapp" */;
+			buildConfigurationList = FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMAapp" */;
 			buildPhases = (
 				3DFF5F742DFA4E9FBF9FF229 /* Check Pods Manifest.lock */,
 				FC4D273F1A2DDF8500C20288 /* Sources */,
@@ -423,9 +423,9 @@
 			);
 			dependencies = (
 			);
-			name = gcmapp;
+			name = GMAapp;
 			productName = gcmapp;
-			productReference = FC4D27431A2DDF8500C20288 /* gcmapp.app */;
+			productReference = FC4D27431A2DDF8500C20288 /* GMAapp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FC4D27591A2DDF8500C20288 /* gcmappTests */ = {
@@ -457,7 +457,7 @@
 				TargetAttributes = {
 					FC4D27421A2DDF8500C20288 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = KBY3P44T65;
+						DevelopmentTeam = R557EYCJ2D;
 					};
 					FC4D27591A2DDF8500C20288 = {
 						CreatedOnToolsVersion = 6.1;
@@ -478,7 +478,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FC4D27421A2DDF8500C20288 /* gcmapp */,
+				FC4D27421A2DDF8500C20288 /* GMAapp */,
 				FC4D27591A2DDF8500C20288 /* gcmappTests */,
 			);
 		};
@@ -611,7 +611,7 @@
 /* Begin PBXTargetDependency section */
 		FC4D275C1A2DDF8500C20288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FC4D27421A2DDF8500C20288 /* gcmapp */;
+			target = FC4D27421A2DDF8500C20288 /* GMAapp */;
 			targetProxy = FC4D275B1A2DDF8500C20288 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -654,7 +654,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Expidev LLC (KBY3P44T65)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -675,6 +675,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -698,7 +699,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Expidev LLC (KBY3P44T65)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Expidev LLC";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -712,6 +714,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -725,7 +728,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Expidev LLC";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -748,7 +751,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Expidev LLC";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -758,7 +761,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d22494d4-ed91-4194-8de7-8463f860a158";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -810,7 +813,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "gcmapp" */ = {
+		FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMAapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC4D27651A2DDF8500C20288 /* Debug */,

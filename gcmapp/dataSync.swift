@@ -193,6 +193,12 @@ class dataSync: NSObject {
                 
             }
             
+            self.updateChurch()
+            self.updateMeasurements()
+            self.updateTraining()
+            self.updateTrainingCompletion()
+            
+            
             self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
             self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
             self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
@@ -951,7 +957,7 @@ class dataSync: NSObject {
     }
     func logout(){
         API(token: self.token).deleteToken()
-        return;
+       
         self.token = nil
         //Delete everything in the database
         reset()

@@ -14,6 +14,6 @@ class MeasurementMeSource: NSManagedObject {
     @NSManaged var changed: NSNumber
     @NSManaged var name: String
     @NSManaged var value: NSNumber
-    @NSManaged var measurementValue: gcmapp.MeasurementValue
+    @NSManaged var measurementValue: GMAapp.MeasurementValue
 
 }

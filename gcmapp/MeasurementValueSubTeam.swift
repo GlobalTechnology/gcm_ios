@@ -14,6 +14,6 @@ class MeasurementValueSubTeam: NSManagedObject {
     @NSManaged var ministry_id: String
     @NSManaged var name: String
     @NSManaged var total: NSNumber
-    @NSManaged var measurmentValue: gcmapp.MeasurementValue
+    @NSManaged var measurmentValue: GMAapp.MeasurementValue
 
 }
