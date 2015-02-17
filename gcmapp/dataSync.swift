@@ -192,6 +192,9 @@ class dataSync: NSObject {
                 
                 
             }
+            var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?
+            if ministry_id != nil{
+                
             
             self.updateChurch()
             self.updateMeasurements()
@@ -199,11 +202,12 @@ class dataSync: NSObject {
             self.updateTrainingCompletion()
             
             
-            self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
-            self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+            self.loadChurches(ministry_id!)
+            self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
+            self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
             NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
             NSUserDefaults.standardUserDefaults().synchronize()
+            }
             
         }
 

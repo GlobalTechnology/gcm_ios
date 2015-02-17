@@ -27,7 +27,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
             
             
             TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: dict["TheKeyServerURL"]!)! , clientId: dict["TheKeyClientId"]  )
-            
+        
             let notificationCenter = NSNotificationCenter.defaultCenter()
             let mainQueue = NSOperationQueue.mainQueue()
             
