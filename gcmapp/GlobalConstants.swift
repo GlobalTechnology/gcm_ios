@@ -26,15 +26,15 @@ struct GlobalConstants {
     static let kShouldUpdateMin = "ShouldUpdateMin"
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
-    static let SERVICE_API = "https://stage.sbr.global-registry.org/api/measurements/token"
-    static  let SERVICE_ROOT = "https://stage.global-registry.org/api/measurements/"
-    
-    static let LOCAL_SOURCE = "gma_app"
+   
+    static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as String
+     static let SERVICE_API = SERVICE_ROOT + "token"
+    static let LOCAL_SOURCE = "gma-app"
     static let MEMBERS_ONLY = ["leader","inherited_leader","member"]
     static let LEADERS_ONLY = ["leader","inherited_leader"]
     static let NOT_BLOCKED =  ["leader","inherited_leader","member","self_assigned"]
     
     static let RefreshInterval = 300
     static let apiSessionInvalid = "SESSION_INVALID"
-
+    
 }

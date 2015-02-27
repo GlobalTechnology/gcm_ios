@@ -131,6 +131,7 @@
 		FC4D278D1A2DEC6800C20288 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
+		FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GMA copy-Info.plist"; path = "/Users/jon/Apps/gcmapp2/gcm_ios/GMA copy-Info.plist"; sourceTree = "<absolute>"; };
 		FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingTypeTVC.swift; sourceTree = "<group>"; };
 		FC93DFD21A2FA5D7008D4221 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FC93DFD41A2FAE04008D4221 /* GMALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMALoginViewController.h; sourceTree = "<group>"; };
@@ -249,6 +250,7 @@
 				FC4D27441A2DDF8500C20288 /* Products */,
 				E2BCC635D23B410B95C9FD69 /* Frameworks */,
 				217CCF730F2484675C10274D /* Pods */,
+				FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -737,7 +739,7 @@
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = GMAapp;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -760,7 +762,7 @@
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = GMAapp;
 				PROVISIONING_PROFILE = "d22494d4-ed91-4194-8de7-8463f860a158";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -18,7 +18,7 @@ class MeasurementValue: NSManagedObject {
     @NSManaged var period: String
     @NSManaged var total: NSNumber
     @NSManaged var localSources: NSSet
-    @NSManaged var measurement: GMAapp.Measurements
+    @NSManaged var measurement: Measurements
     @NSManaged var selfAssigned: NSSet
     @NSManaged var subMinValues: NSSet
     @NSManaged var teamValues: NSSet

@@ -97,6 +97,10 @@ class dataSync: NSObject {
                 
                 var s = API(st: ticket!){
                     (data: AnyObject?, error: NSError?) -> Void in
+                    if data == nil{
+                        return
+                    }
+
                     var resp:JSONDictionary = data as JSONDictionary
                     
                     if(resp["status"] as String == "success"){
@@ -189,7 +193,7 @@ class dataSync: NSObject {
                 if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
                     return;
                 }
-                
+                		
                 
             }
             var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?

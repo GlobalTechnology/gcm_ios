@@ -17,6 +17,6 @@ class MeasurementValueTeam: NSManagedObject {
     @NSManaged var team_role: String
     @NSManaged var total: NSNumber
     @NSManaged var changed: NSNumber
-    @NSManaged var measurementValue: GMAapp.MeasurementValue
+    @NSManaged var measurementValue: MeasurementValue
 
 }
