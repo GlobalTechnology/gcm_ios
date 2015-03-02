@@ -49,6 +49,12 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 //
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
+            
+            var observer_logout = notificationCenter.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+                self.sync.token=""
+
+               // TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: notification.object as UIViewController , loginDelegate: self)
+            }
         }
         
     }

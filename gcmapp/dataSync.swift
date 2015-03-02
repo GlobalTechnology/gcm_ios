@@ -89,6 +89,12 @@ class dataSync: NSObject {
         }
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
+            
+                TheKeyOAuth2Client.sharedOAuth2Client().logout()
+            }
+            
+            
             
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
@@ -607,7 +613,7 @@ class dataSync: NSObject {
     }
     func checkTokenAndConnection() -> Bool {
         
-        switch (self.token? != nil, Reachability.isConnectedToNetwork()){
+        switch (self.token? != nil && self.token != "", Reachability.isConnectedToNetwork()){
         case (false, false):
             return  false //Offline
             
@@ -615,6 +621,11 @@ class dataSync: NSObject {
             return  false //Offline, but has token
             
         case (false, true):
+            if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
+                
+                TheKeyOAuth2Client.sharedOAuth2Client().logout()
+            }
+
           //  let notificationCenter = NSNotificationCenter.defaultCenter()
            // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
             return false //Conntect, but not logged in will reauthenticate (which will refetch - so return false)
@@ -943,8 +954,10 @@ class dataSync: NSObject {
             let fr =  NSFetchRequest(entityName:e)
             let items = self.managedContext.executeFetchRequest(fr,error: &error) as Array<NSManagedObject>
             for obj in items {
+                
                 self.managedContext.deleteObject(obj)
             }
+            
         }
         if !self.managedContext.save(&error) {
             println("Could not delete objects \(error), \(error?.userInfo)")
@@ -954,19 +967,24 @@ class dataSync: NSObject {
         
         
         if self.token != nil{
-            notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+             notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
         }
         else{
-            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
+            TheKeyOAuth2Client.sharedOAuth2Client().logout()
+
             
-            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+          //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
+           
+          //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
         }
         
     }
     func logout(){
+       
         API(token: self.token).deleteToken()
        
         self.token = nil
+        
         //Delete everything in the database
         reset()
     }

@@ -64,10 +64,11 @@ class settingsViewController: UITableViewController {
             notificationCenter.postNotificationName(GlobalConstants.kReset, object: nil)
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         case 5:
-             TheKeyOAuth2Client.sharedOAuth2Client().logout()
+            // TheKeyOAuth2Client.sharedOAuth2Client().logout()
             let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kLogout, object: nil)
-
+            notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
+             
+             
             
             break
         default:
