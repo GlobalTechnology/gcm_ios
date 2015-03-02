@@ -2,13 +2,13 @@
 //  Assignment.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 10/12/2014.
-//  Copyright (c) 2014 Expidev. All rights reserved.
+//  Created by Jon Vellacott on 27/02/2015.
+//  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
 import Foundation
 import CoreData
-
+@objc(Assignment)
 class Assignment: NSManagedObject {
 
     @NSManaged var first_name: String

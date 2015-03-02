@@ -2,13 +2,13 @@
 //  Measurements.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 03/02/2015.
+//  Created by Jon Vellacott on 27/02/2015.
 //  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
 import Foundation
 import CoreData
-
+@objc(Measurements)
 class Measurements: NSManagedObject {
 
     @NSManaged var column: String

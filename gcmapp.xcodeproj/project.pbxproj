@@ -36,6 +36,88 @@
 		FC4D27811A2DE69600C20288 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27801A2DE69600C20288 /* QuartzCore.framework */; };
 		FC4D27831A2DE6A000C20288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27821A2DE6A000C20288 /* SystemConfiguration.framework */; };
 		FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */; };
+		FC5EE6B41AA06B4E00F86627 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */; };
+		FC5EE6B61AA06B4E00F86627 /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */; };
+		FC5EE6B81AA06B4F00F86627 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B71AA06B4F00F86627 /* Training.swift */; };
+		FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */; };
+		FC5EE6BC1AA06B4F00F86627 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BB1AA06B4F00F86627 /* Measurements.swift */; };
+		FC5EE6BE1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BD1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift */; };
+		FC5EE6C01AA06B4F00F86627 /* MCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BF1AA06B4F00F86627 /* MCC.swift */; };
+		FC5EE6C21AA06B4F00F86627 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C11AA06B4F00F86627 /* Assignment.swift */; };
+		FC5EE6C41AA06B4F00F86627 /* MeasurementLocalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C31AA06B4F00F86627 /* MeasurementLocalSource.swift */; };
+		FC5EE6C61AA06B4F00F86627 /* Church.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C51AA06B4F00F86627 /* Church.swift */; };
+		FC5EE6C81AA06B4F00F86627 /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C71AA06B4F00F86627 /* Ministry.swift */; };
+		FC5EE6CA1AA06B4F00F86627 /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */; };
+		FC5EE6CC1AA06B4F00F86627 /* MeasurementMeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */; };
+		FC5EE6D01AA073A600F86627 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */; };
+		FC5EE6D11AA073A600F86627 /* TrainingCompCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D711A35FE3E00C9E353 /* TrainingCompCell.swift */; };
+		FC5EE6D21AA073A600F86627 /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */; };
+		FC5EE6D31AA073A600F86627 /* lmi.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D274C1A2DDF8500C20288 /* lmi.swift */; };
+		FC5EE6D41AA073A600F86627 /* mapOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */; };
+		FC5EE6D51AA073A600F86627 /* DevelopmentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */; };
+		FC5EE6D61AA073A600F86627 /* mccViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0111A31A726008D4221 /* mccViewController.swift */; };
+		FC5EE6D71AA073A600F86627 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BB1AA06B4F00F86627 /* Measurements.swift */; };
+		FC5EE6D81AA073A600F86627 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D801A3845CD00C9E353 /* GraphView.swift */; };
+		FC5EE6D91AA073A600F86627 /* measurmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D781A370AAA00C9E353 /* measurmentsController.swift */; };
+		FC5EE6DA1AA073A600F86627 /* MeasurementLocalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C31AA06B4F00F86627 /* MeasurementLocalSource.swift */; };
+		FC5EE6DB1AA073A600F86627 /* MCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BF1AA06B4F00F86627 /* MCC.swift */; };
+		FC5EE6DC1AA073A600F86627 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C11AA06B4F00F86627 /* Assignment.swift */; };
+		FC5EE6DD1AA073A600F86627 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B71AA06B4F00F86627 /* Training.swift */; };
+		FC5EE6DE1AA073A600F86627 /* measurementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D7D1A37388F00C9E353 /* measurementDetailViewController.swift */; };
+		FC5EE6DF1AA073A600F86627 /* trainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */; };
+		FC5EE6E01AA073A600F86627 /* dataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */; };
+		FC5EE6E11AA073A600F86627 /* NewMinistryTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D71A812100009C4936 /* NewMinistryTVC.swift */; };
+		FC5EE6E21AA073A600F86627 /* MeasurementSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */; };
+		FC5EE6E31AA073A600F86627 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
+		FC5EE6E41AA073A600F86627 /* gcmModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */; };
+		FC5EE6E51AA073A600F86627 /* GMALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFD51A2FAE04008D4221 /* GMALoginViewController.m */; };
+		FC5EE6E61AA073A600F86627 /* gcmTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFDB1A306E19008D4221 /* gcmTabBarController.swift */; };
+		FC5EE6E71AA073A600F86627 /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFE31A308129008D4221 /* settingsViewController.swift */; };
+		FC5EE6E81AA073A600F86627 /* MeasDetailEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */; };
+		FC5EE6E91AA073A600F86627 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27481A2DDF8500C20288 /* AppDelegate.swift */; };
+		FC5EE6EA1AA073A600F86627 /* measurements+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3501A80C15A00223130 /* measurements+extension.swift */; };
+		FC5EE6EB1AA073A600F86627 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */; };
+		FC5EE6EC1AA073A600F86627 /* assignment+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D91A825BB2009C4936 /* assignment+extension.swift */; };
+		FC5EE6ED1AA073A600F86627 /* SecurityTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */; };
+		FC5EE6EE1AA073A600F86627 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
+		FC5EE6EF1AA073A600F86627 /* TrainingTypeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */; };
+		FC5EE6F01AA073A600F86627 /* Church.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C51AA06B4F00F86627 /* Church.swift */; };
+		FC5EE6F11AA073A600F86627 /* ParentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */; };
+		FC5EE6F21AA073A600F86627 /* createTrainingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */; };
+		FC5EE6F31AA073A600F86627 /* MeasurementValueSelfAssigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6BD1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift */; };
+		FC5EE6F41AA073A600F86627 /* assignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */; };
+		FC5EE6F51AA073A600F86627 /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6C71AA06B4F00F86627 /* Ministry.swift */; };
+		FC5EE6F61AA073A600F86627 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
+		FC5EE6F71AA073A600F86627 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF01A2E181500DAC5A3 /* API.swift */; };
+		FC5EE6F81AA073A600F86627 /* training+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDEE1D51A7AA51200818E8C /* training+extension.swift */; };
+		FC5EE6F91AA073A600F86627 /* MeasurementMeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */; };
+		FC5EE6FA1AA073A600F86627 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */; };
+		FC5EE6FB1AA073A600F86627 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED11A39AE3900524398 /* Reachability.swift */; };
+		FC5EE6FC1AA073A600F86627 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFDD1A3074B2008D4221 /* GlobalConstants.swift */; };
+		FC5EE6FD1AA073A600F86627 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D7B1A3729E700C9E353 /* GlobalFunctions.swift */; };
+		FC5EE6FE1AA073A600F86627 /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */; };
+		FC5EE6FF1AA073A600F86627 /* church+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAE1A7A58B600CB2713 /* church+extension.swift */; };
+		FC5EE7001AA073A600F86627 /* MeasurementMeSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */; };
+		FC5EE7011AA073A600F86627 /* MeasurementValue+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */; };
+		FC5EE7021AA073A600F86627 /* Ministry+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401C81A88D869002D54D1 /* Ministry+extension.swift */; };
+		FC5EE7031AA073A600F86627 /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D274A1A2DDF8500C20288 /* mapViewController.swift */; };
+		FC5EE7051AA073A600F86627 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
+		FC5EE7061AA073A600F86627 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27821A2DE6A000C20288 /* SystemConfiguration.framework */; };
+		FC5EE7071AA073A600F86627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27801A2DE69600C20288 /* QuartzCore.framework */; };
+		FC5EE7081AA073A600F86627 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D277E1A2DE68B00C20288 /* OpenGLES.framework */; };
+		FC5EE7091AA073A600F86627 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D277C1A2DE68100C20288 /* libz.dylib */; };
+		FC5EE70A1AA073A600F86627 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D277A1A2DE67A00C20288 /* libicucore.dylib */; };
+		FC5EE70B1AA073A600F86627 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27781A2DE66900C20288 /* libc++.dylib */; };
+		FC5EE70C1AA073A600F86627 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27761A2DE65900C20288 /* ImageIO.framework */; };
+		FC5EE70D1AA073A600F86627 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27741A2DE65300C20288 /* GLKit.framework */; };
+		FC5EE70E1AA073A600F86627 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27721A2DE64900C20288 /* CoreText.framework */; };
+		FC5EE70F1AA073A600F86627 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27701A2DE63D00C20288 /* CoreLocation.framework */; };
+		FC5EE7101AA073A600F86627 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D276E1A2DE63200C20288 /* CoreData.framework */; };
+		FC5EE7111AA073A600F86627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D276C1A2DE62100C20288 /* AVFoundation.framework */; };
+		FC5EE7131AA073A600F86627 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4D274E1A2DDF8500C20288 /* Main.storyboard */; };
+		FC5EE7141AA073A600F86627 /* GMALoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD61A2FAE04008D4221 /* GMALoginViewController.xib */; };
+		FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4D27511A2DDF8500C20288 /* Images.xcassets */; };
+		FC5EE7161AA073A600F86627 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
 		FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */; };
 		FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
 		FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFD51A2FAE04008D4221 /* GMALoginViewController.m */; };
@@ -45,11 +127,8 @@
 		FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFE31A308129008D4221 /* settingsViewController.swift */; };
 		FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */; };
 		FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0111A31A726008D4221 /* mccViewController.swift */; };
-		FC93E0141A31AB6C008D4221 /* MCC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC93E0131A31AB6C008D4221 /* MCC.swift */; };
 		FC9401C51A850EDF002D54D1 /* createTrainingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */; };
 		FC9401C91A88D869002D54D1 /* Ministry+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401C81A88D869002D54D1 /* Ministry+extension.swift */; };
-		FC9401CB1A88DA43002D54D1 /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401CA1A88DA43002D54D1 /* MeasurementValueSubTeam.swift */; };
-		FC9401CD1A88DAA1002D54D1 /* Ministry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9401CC1A88DAA1002D54D1 /* Ministry.swift */; };
 		FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */; };
 		FC9B9D721A35FE3E00C9E353 /* TrainingCompCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D711A35FE3E00C9E353 /* TrainingCompCell.swift */; };
 		FC9B9D791A370AAA00C9E353 /* measurmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D781A370AAA00C9E353 /* measurmentsController.swift */; };
@@ -57,26 +136,16 @@
 		FC9B9D7E1A37388F00C9E353 /* measurementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D7D1A37388F00C9E353 /* measurementDetailViewController.swift */; };
 		FC9B9D811A3845CD00C9E353 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B9D801A3845CD00C9E353 /* GraphView.swift */; };
 		FCAA6ED21A39AE3900524398 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED11A39AE3900524398 /* Reachability.swift */; };
-		FCAA6ED41A39D1E900524398 /* Church.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED31A39D1E900524398 /* Church.swift */; };
-		FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */; };
-		FCAA6EDA1A39D1E900524398 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6ED91A39D1E900524398 /* Training.swift */; };
-		FCAA6EDC1A39D1E900524398 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */; };
 		FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */; };
 		FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3501A80C15A00223130 /* measurements+extension.swift */; };
-		FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3521A80C88A00223130 /* Measurements.swift */; };
 		FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */; };
-		FCB8C3081A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */; };
-		FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3091A38A4BB00A3D30F /* Assignment.swift */; };
 		FCD401921A6D640C00950802 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD401911A6D640C00950802 /* Measurement.swift */; };
 		FCD4471D1A5D483800689E62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD4471C1A5D483800689E62 /* libPods.a */; };
 		FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D71A812100009C4936 /* NewMinistryTVC.swift */; };
 		FCD669DA1A825BB2009C4936 /* assignment+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D91A825BB2009C4936 /* assignment+extension.swift */; };
-		FCD669DC1A8381BD009C4936 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */; };
 		FCD669E01A838498009C4936 /* MeasurementMeSource+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */; };
 		FCD669E41A83870C009C4936 /* MeasurementValue+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */; };
 		FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDEE1D51A7AA51200818E8C /* training+extension.swift */; };
-		FCF042071A83A6B30028B0B2 /* MeasurementValueTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */; };
-		FCF042091A84CA340028B0B2 /* MeasurementMeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF042081A84CA340028B0B2 /* MeasurementMeSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +201,21 @@
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
 		FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GMA copy-Info.plist"; path = "/Users/jon/Apps/gcmapp2/gcm_ios/GMA copy-Info.plist"; sourceTree = "<absolute>"; };
+		FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
+		FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
+		FC5EE6B71AA06B4F00F86627 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
+		FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
+		FC5EE6BB1AA06B4F00F86627 /* Measurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurements.swift; sourceTree = "<group>"; };
+		FC5EE6BD1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSelfAssigned.swift; sourceTree = "<group>"; };
+		FC5EE6BF1AA06B4F00F86627 /* MCC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCC.swift; sourceTree = "<group>"; };
+		FC5EE6C11AA06B4F00F86627 /* Assignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
+		FC5EE6C31AA06B4F00F86627 /* MeasurementLocalSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementLocalSource.swift; sourceTree = "<group>"; };
+		FC5EE6C51AA06B4F00F86627 /* Church.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Church.swift; sourceTree = "<group>"; };
+		FC5EE6C71AA06B4F00F86627 /* Ministry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ministry.swift; sourceTree = "<group>"; };
+		FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
+		FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementMeSource.swift; sourceTree = "<group>"; };
+		FC5EE71B1AA073A600F86627 /* GMA Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GMA Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC5EE71C1AA073A600F86627 /* GMA copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GMA copy2-Info.plist"; path = "/Users/jon/Apps/gcmapp2/gcm_ios/GMA copy2-Info.plist"; sourceTree = "<absolute>"; };
 		FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingTypeTVC.swift; sourceTree = "<group>"; };
 		FC93DFD21A2FA5D7008D4221 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FC93DFD41A2FAE04008D4221 /* GMALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMALoginViewController.h; sourceTree = "<group>"; };
@@ -142,11 +226,8 @@
 		FC93DFE31A308129008D4221 /* settingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
 		FC93E00F1A30C6E3008D4221 /* assignmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assignmentsViewController.swift; sourceTree = "<group>"; };
 		FC93E0111A31A726008D4221 /* mccViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mccViewController.swift; sourceTree = "<group>"; };
-		FC93E0131A31AB6C008D4221 /* MCC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCC.swift; sourceTree = "<group>"; };
 		FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createTrainingStage.swift; sourceTree = "<group>"; };
 		FC9401C81A88D869002D54D1 /* Ministry+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ministry+extension.swift"; sourceTree = "<group>"; };
-		FC9401CA1A88DA43002D54D1 /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
-		FC9401CC1A88DAA1002D54D1 /* Ministry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ministry.swift; sourceTree = "<group>"; };
 		FC9B9D6E1A35F73600C9E353 /* trainingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trainingViewController.swift; sourceTree = "<group>"; };
 		FC9B9D711A35FE3E00C9E353 /* TrainingCompCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompCell.swift; sourceTree = "<group>"; };
 		FC9B9D781A370AAA00C9E353 /* measurmentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = measurmentsController.swift; sourceTree = "<group>"; };
@@ -154,26 +235,16 @@
 		FC9B9D7D1A37388F00C9E353 /* measurementDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = measurementDetailViewController.swift; sourceTree = "<group>"; };
 		FC9B9D801A3845CD00C9E353 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		FCAA6ED11A39AE3900524398 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		FCAA6ED31A39D1E900524398 /* Church.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Church.swift; sourceTree = "<group>"; };
-		FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementLocalSource.swift; sourceTree = "<group>"; };
-		FCAA6ED91A39D1E900524398 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
-		FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
 		FCB0A34E1A7FF3BE00223130 /* MeasurementSummaryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementSummaryCell.swift; sourceTree = "<group>"; };
 		FCB0A3501A80C15A00223130 /* measurements+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "measurements+extension.swift"; sourceTree = "<group>"; };
-		FCB0A3521A80C88A00223130 /* Measurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurements.swift; sourceTree = "<group>"; };
 		FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasDetailEditCell.swift; sourceTree = "<group>"; };
-		FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSelfAssigned.swift; sourceTree = "<group>"; };
-		FCB8C3091A38A4BB00A3D30F /* Assignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		FCD401911A6D640C00950802 /* Measurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		FCD4471C1A5D483800689E62 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		FCD669D71A812100009C4936 /* NewMinistryTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMinistryTVC.swift; sourceTree = "<group>"; };
 		FCD669D91A825BB2009C4936 /* assignment+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "assignment+extension.swift"; sourceTree = "<group>"; };
-		FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FCD669DF1A838498009C4936 /* MeasurementMeSource+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MeasurementMeSource+extension.swift"; sourceTree = "<group>"; };
 		FCD669E31A83870C009C4936 /* MeasurementValue+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MeasurementValue+extension.swift"; sourceTree = "<group>"; };
 		FCDEE1D51A7AA51200818E8C /* training+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "training+extension.swift"; sourceTree = "<group>"; };
-		FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
-		FCF042081A84CA340028B0B2 /* MeasurementMeSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementMeSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +272,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC5EE7041AA073A600F86627 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5EE7051AA073A600F86627 /* libPods.a in Frameworks */,
+				FC5EE7061AA073A600F86627 /* SystemConfiguration.framework in Frameworks */,
+				FC5EE7071AA073A600F86627 /* QuartzCore.framework in Frameworks */,
+				FC5EE7081AA073A600F86627 /* OpenGLES.framework in Frameworks */,
+				FC5EE7091AA073A600F86627 /* libz.dylib in Frameworks */,
+				FC5EE70A1AA073A600F86627 /* libicucore.dylib in Frameworks */,
+				FC5EE70B1AA073A600F86627 /* libc++.dylib in Frameworks */,
+				FC5EE70C1AA073A600F86627 /* ImageIO.framework in Frameworks */,
+				FC5EE70D1AA073A600F86627 /* GLKit.framework in Frameworks */,
+				FC5EE70E1AA073A600F86627 /* CoreText.framework in Frameworks */,
+				FC5EE70F1AA073A600F86627 /* CoreLocation.framework in Frameworks */,
+				FC5EE7101AA073A600F86627 /* CoreData.framework in Frameworks */,
+				FC5EE7111AA073A600F86627 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +342,7 @@
 				E2BCC635D23B410B95C9FD69 /* Frameworks */,
 				217CCF730F2484675C10274D /* Pods */,
 				FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */,
+				FC5EE71C1AA073A600F86627 /* GMA copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,6 +351,7 @@
 			children = (
 				FC4D27431A2DDF8500C20288 /* GMAapp.app */,
 				FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */,
+				FC5EE71B1AA073A600F86627 /* GMA Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -332,25 +425,25 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
-				FC9401CA1A88DA43002D54D1 /* MeasurementValueSubTeam.swift */,
-				FCF042081A84CA340028B0B2 /* MeasurementMeSource.swift */,
-				FCF042061A83A6B30028B0B2 /* MeasurementValueTeam.swift */,
-				FCD669DB1A8381BD009C4936 /* MeasurementValue.swift */,
-				FCB0A3521A80C88A00223130 /* Measurements.swift */,
 				FC13ABAD1A7A588000CB2713 /* extensions */,
-				FCAA6EDB1A39D1E900524398 /* TrainingCompletion.swift */,
-				FCAA6ED91A39D1E900524398 /* Training.swift */,
-				FCAA6ED71A39D1E900524398 /* MeasurementLocalSource.swift */,
-				FCAA6ED31A39D1E900524398 /* Church.swift */,
-				FCB8C3091A38A4BB00A3D30F /* Assignment.swift */,
-				FCB8C3071A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift */,
-				FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */,
-				FC9401CC1A88DAA1002D54D1 /* Ministry.swift */,
-				FC93E0131A31AB6C008D4221 /* MCC.swift */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
 				FCD401911A6D640C00950802 /* Measurement.swift */,
 				FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */,
+				FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */,
+				FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */,
+				FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */,
+				FC5EE6C71AA06B4F00F86627 /* Ministry.swift */,
+				FC5EE6C51AA06B4F00F86627 /* Church.swift */,
+				FC5EE6C31AA06B4F00F86627 /* MeasurementLocalSource.swift */,
+				FC5EE6C11AA06B4F00F86627 /* Assignment.swift */,
+				FC5EE6BF1AA06B4F00F86627 /* MCC.swift */,
+				FC5EE6BD1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift */,
+				FC5EE6BB1AA06B4F00F86627 /* Measurements.swift */,
+				FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */,
+				FC5EE6B71AA06B4F00F86627 /* Training.swift */,
+				FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */,
+				FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */,
 			);
 			name = datamodel;
 			sourceTree = "<group>";
@@ -411,21 +504,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FC4D27421A2DDF8500C20288 /* GMAapp */ = {
+		FC4D27421A2DDF8500C20288 /* GMA */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMAapp" */;
+			buildConfigurationList = FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMA" */;
 			buildPhases = (
 				3DFF5F742DFA4E9FBF9FF229 /* Check Pods Manifest.lock */,
 				FC4D273F1A2DDF8500C20288 /* Sources */,
 				FC4D27401A2DDF8500C20288 /* Frameworks */,
 				FC4D27411A2DDF8500C20288 /* Resources */,
 				D5E0ABC832BA447E8AAD3F7C /* Copy Pods Resources */,
+				FC5EE71D1AA0752000F86627 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = GMAapp;
+			name = GMA;
 			productName = gcmapp;
 			productReference = FC4D27431A2DDF8500C20288 /* GMAapp.app */;
 			productType = "com.apple.product-type.application";
@@ -448,6 +542,26 @@
 			productReference = FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FC5EE6CD1AA073A600F86627 /* GMA Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC5EE7181AA073A600F86627 /* Build configuration list for PBXNativeTarget "GMA Demo" */;
+			buildPhases = (
+				FC5EE6CE1AA073A600F86627 /* Check Pods Manifest.lock */,
+				FC5EE6CF1AA073A600F86627 /* Sources */,
+				FC5EE7041AA073A600F86627 /* Frameworks */,
+				FC5EE7121AA073A600F86627 /* Resources */,
+				FC5EE7171AA073A600F86627 /* Copy Pods Resources */,
+				FC5EE71E1AA075A500F86627 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GMA Demo";
+			productName = gcmapp;
+			productReference = FC5EE71B1AA073A600F86627 /* GMA Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -465,6 +579,9 @@
 						CreatedOnToolsVersion = 6.1;
 						TestTargetID = FC4D27421A2DDF8500C20288;
 					};
+					FC5EE6CD1AA073A600F86627 = {
+						DevelopmentTeam = R557EYCJ2D;
+					};
 				};
 			};
 			buildConfigurationList = FC4D273E1A2DDF8500C20288 /* Build configuration list for PBXProject "gcmapp" */;
@@ -480,7 +597,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FC4D27421A2DDF8500C20288 /* GMAapp */,
+				FC4D27421A2DDF8500C20288 /* GMA */,
+				FC5EE6CD1AA073A600F86627 /* GMA Demo */,
 				FC4D27591A2DDF8500C20288 /* gcmappTests */,
 			);
 		};
@@ -502,6 +620,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC5EE7121AA073A600F86627 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5EE7131AA073A600F86627 /* Main.storyboard in Resources */,
+				FC5EE7141AA073A600F86627 /* GMALoginViewController.xib in Resources */,
+				FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */,
+				FC5EE7161AA073A600F86627 /* Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +667,62 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FC5EE6CE1AA073A600F86627 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FC5EE7171AA073A600F86627 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC5EE71D1AA0752000F86627 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+		FC5EE71E1AA075A500F86627 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -545,54 +730,54 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */,
 				FC9B9D721A35FE3E00C9E353 /* TrainingCompCell.swift in Sources */,
+				FC5EE6CA1AA06B4F00F86627 /* MeasurementValueTeam.swift in Sources */,
 				FC4D274D1A2DDF8500C20288 /* lmi.swift in Sources */,
 				FC41ED6E1A31EF9A00915ED7 /* mapOptionsViewController.swift in Sources */,
-				FCAA6EDC1A39D1E900524398 /* TrainingCompletion.swift in Sources */,
-				FC9401CD1A88DAA1002D54D1 /* Ministry.swift in Sources */,
 				FC13ABAA1A7927E100CB2713 /* DevelopmentTVC.swift in Sources */,
 				FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */,
+				FC5EE6BC1AA06B4F00F86627 /* Measurements.swift in Sources */,
 				FC9B9D811A3845CD00C9E353 /* GraphView.swift in Sources */,
 				FC9B9D791A370AAA00C9E353 /* measurmentsController.swift in Sources */,
+				FC5EE6C41AA06B4F00F86627 /* MeasurementLocalSource.swift in Sources */,
+				FC5EE6C01AA06B4F00F86627 /* MCC.swift in Sources */,
+				FC5EE6C21AA06B4F00F86627 /* Assignment.swift in Sources */,
+				FC5EE6B81AA06B4F00F86627 /* Training.swift in Sources */,
 				FC9B9D7E1A37388F00C9E353 /* measurementDetailViewController.swift in Sources */,
-				FCB8C3081A38A4BB00A3D30F /* MeasurementValueSelfAssigned.swift in Sources */,
 				FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */,
 				FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */,
 				FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */,
 				FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */,
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
-				FC9401CB1A88DA43002D54D1 /* MeasurementValueSubTeam.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
 				FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */,
 				FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */,
-				FCAA6EDA1A39D1E900524398 /* Training.swift in Sources */,
 				FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */,
 				FC4D27491A2DDF8500C20288 /* AppDelegate.swift in Sources */,
 				FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */,
-				FCB8C30A1A38A4BB00A3D30F /* Assignment.swift in Sources */,
+				FC5EE6B41AA06B4E00F86627 /* MeasurementValue.swift in Sources */,
 				FCD669DA1A825BB2009C4936 /* assignment+extension.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
 				FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */,
+				FC5EE6C61AA06B4F00F86627 /* Church.swift in Sources */,
 				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
 				FC9401C51A850EDF002D54D1 /* createTrainingStage.swift in Sources */,
+				FC5EE6BE1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift in Sources */,
 				FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */,
+				FC5EE6C81AA06B4F00F86627 /* Ministry.swift in Sources */,
 				FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */,
 				FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */,
 				FCDEE1D61A7AA51200818E8C /* training+extension.swift in Sources */,
-				FCF042091A84CA340028B0B2 /* MeasurementMeSource.swift in Sources */,
-				FCAA6ED81A39D1E900524398 /* MeasurementLocalSource.swift in Sources */,
-				FC93E0141A31AB6C008D4221 /* MCC.swift in Sources */,
+				FC5EE6CC1AA06B4F00F86627 /* MeasurementMeSource.swift in Sources */,
 				FC41ED6C1A31CFA600915ED7 /* HTAutocompleteManager.m in Sources */,
 				FCAA6ED21A39AE3900524398 /* Reachability.swift in Sources */,
-				FCAA6ED41A39D1E900524398 /* Church.swift in Sources */,
 				FC93DFDE1A3074B2008D4221 /* GlobalConstants.swift in Sources */,
 				FC9B9D7C1A3729E700C9E353 /* GlobalFunctions.swift in Sources */,
-				FCF042071A83A6B30028B0B2 /* MeasurementValueTeam.swift in Sources */,
+				FC5EE6B61AA06B4E00F86627 /* MeasurementValueSubTeam.swift in Sources */,
 				FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */,
-				FCB0A3531A80C88A00223130 /* Measurements.swift in Sources */,
-				FCD669DC1A8381BD009C4936 /* MeasurementValue.swift in Sources */,
 				FCD669E01A838498009C4936 /* MeasurementMeSource+extension.swift in Sources */,
 				FCD669E41A83870C009C4936 /* MeasurementValue+extension.swift in Sources */,
 				FC9401C91A88D869002D54D1 /* Ministry+extension.swift in Sources */,
@@ -608,12 +793,71 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FC5EE6CF1AA073A600F86627 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5EE6D01AA073A600F86627 /* TrainingCompletion.swift in Sources */,
+				FC5EE6D11AA073A600F86627 /* TrainingCompCell.swift in Sources */,
+				FC5EE6D21AA073A600F86627 /* MeasurementValueTeam.swift in Sources */,
+				FC5EE6D31AA073A600F86627 /* lmi.swift in Sources */,
+				FC5EE6D41AA073A600F86627 /* mapOptionsViewController.swift in Sources */,
+				FC5EE6D51AA073A600F86627 /* DevelopmentTVC.swift in Sources */,
+				FC5EE6D61AA073A600F86627 /* mccViewController.swift in Sources */,
+				FC5EE6D71AA073A600F86627 /* Measurements.swift in Sources */,
+				FC5EE6D81AA073A600F86627 /* GraphView.swift in Sources */,
+				FC5EE6D91AA073A600F86627 /* measurmentsController.swift in Sources */,
+				FC5EE6DA1AA073A600F86627 /* MeasurementLocalSource.swift in Sources */,
+				FC5EE6DB1AA073A600F86627 /* MCC.swift in Sources */,
+				FC5EE6DC1AA073A600F86627 /* Assignment.swift in Sources */,
+				FC5EE6DD1AA073A600F86627 /* Training.swift in Sources */,
+				FC5EE6DE1AA073A600F86627 /* measurementDetailViewController.swift in Sources */,
+				FC5EE6DF1AA073A600F86627 /* trainingViewController.swift in Sources */,
+				FC5EE6E01AA073A600F86627 /* dataSync.swift in Sources */,
+				FC5EE6E11AA073A600F86627 /* NewMinistryTVC.swift in Sources */,
+				FC5EE6E21AA073A600F86627 /* MeasurementSummaryCell.swift in Sources */,
+				FC5EE6E31AA073A600F86627 /* Measurement.swift in Sources */,
+				FC5EE6E41AA073A600F86627 /* gcmModel.xcdatamodeld in Sources */,
+				FC5EE6E51AA073A600F86627 /* GMALoginViewController.m in Sources */,
+				FC5EE6E61AA073A600F86627 /* gcmTabBarController.swift in Sources */,
+				FC5EE6E71AA073A600F86627 /* settingsViewController.swift in Sources */,
+				FC5EE6E81AA073A600F86627 /* MeasDetailEditCell.swift in Sources */,
+				FC5EE6E91AA073A600F86627 /* AppDelegate.swift in Sources */,
+				FC5EE6EA1AA073A600F86627 /* measurements+extension.swift in Sources */,
+				FC5EE6EB1AA073A600F86627 /* MeasurementValue.swift in Sources */,
+				FC5EE6EC1AA073A600F86627 /* assignment+extension.swift in Sources */,
+				FC5EE6ED1AA073A600F86627 /* SecurityTVC.swift in Sources */,
+				FC5EE6EE1AA073A600F86627 /* ChurchTVC.swift in Sources */,
+				FC5EE6EF1AA073A600F86627 /* TrainingTypeTVC.swift in Sources */,
+				FC5EE6F01AA073A600F86627 /* Church.swift in Sources */,
+				FC5EE6F11AA073A600F86627 /* ParentTVC.swift in Sources */,
+				FC5EE6F21AA073A600F86627 /* createTrainingStage.swift in Sources */,
+				FC5EE6F31AA073A600F86627 /* MeasurementValueSelfAssigned.swift in Sources */,
+				FC5EE6F41AA073A600F86627 /* assignmentsViewController.swift in Sources */,
+				FC5EE6F51AA073A600F86627 /* Ministry.swift in Sources */,
+				FC5EE6F61AA073A600F86627 /* UIEditTextCell.swift in Sources */,
+				FC5EE6F71AA073A600F86627 /* API.swift in Sources */,
+				FC5EE6F81AA073A600F86627 /* training+extension.swift in Sources */,
+				FC5EE6F91AA073A600F86627 /* MeasurementMeSource.swift in Sources */,
+				FC5EE6FA1AA073A600F86627 /* HTAutocompleteManager.m in Sources */,
+				FC5EE6FB1AA073A600F86627 /* Reachability.swift in Sources */,
+				FC5EE6FC1AA073A600F86627 /* GlobalConstants.swift in Sources */,
+				FC5EE6FD1AA073A600F86627 /* GlobalFunctions.swift in Sources */,
+				FC5EE6FE1AA073A600F86627 /* MeasurementValueSubTeam.swift in Sources */,
+				FC5EE6FF1AA073A600F86627 /* church+extension.swift in Sources */,
+				FC5EE7001AA073A600F86627 /* MeasurementMeSource+extension.swift in Sources */,
+				FC5EE7011AA073A600F86627 /* MeasurementValue+extension.swift in Sources */,
+				FC5EE7021AA073A600F86627 /* Ministry+extension.swift in Sources */,
+				FC5EE7031AA073A600F86627 /* mapViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		FC4D275C1A2DDF8500C20288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FC4D27421A2DDF8500C20288 /* GMAapp */;
+			target = FC4D27421A2DDF8500C20288 /* GMA */;
 			targetProxy = FC4D275B1A2DDF8500C20288 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -739,7 +983,7 @@
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = GMAapp;
+				PRODUCT_NAME = GMA;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -762,8 +1006,8 @@
 				INFOPLIST_FILE = gcmapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_NAME = GMAapp;
-				PROVISIONING_PROFILE = "d22494d4-ed91-4194-8de7-8463f860a158";
+				PRODUCT_NAME = GMA;
+				PROVISIONING_PROFILE = "f1fb47d3-25f3-42ce-aa6a-f0872725d526";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -803,6 +1047,52 @@
 			};
 			name = Release;
 		};
+		FC5EE7191AA073A600F86627 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F960B9A9023C7B62E23D9505 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/gcmapp",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "GMA copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_NAME = "GMA Demo";
+				PROVISIONING_PROFILE = "42a779ce-81c7-4121-adea-c948b4ac2fe1";
+				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FC5EE71A1AA073A600F86627 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBD4DF6AB4D7A6A23838D6B7 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/gcmapp",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "GMA copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_NAME = "GMA Demo";
+				PROVISIONING_PROFILE = "42a779ce-81c7-4121-adea-c948b4ac2fe1";
+				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -815,7 +1105,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMAapp" */ = {
+		FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC4D27651A2DDF8500C20288 /* Debug */,
@@ -829,6 +1119,15 @@
 			buildConfigurations = (
 				FC4D27681A2DDF8500C20288 /* Debug */,
 				FC4D27691A2DDF8500C20288 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC5EE7181AA073A600F86627 /* Build configuration list for PBXNativeTarget "GMA Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5EE7191AA073A600F86627 /* Debug */,
+				FC5EE71A1AA073A600F86627 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

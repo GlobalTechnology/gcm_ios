@@ -2,13 +2,13 @@
 //  MeasurementMeSource.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 06/02/2015.
+//  Created by Jon Vellacott on 27/02/2015.
 //  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
 import Foundation
 import CoreData
-
+@objc(MeasurementMeSource)
 class MeasurementMeSource: NSManagedObject {
 
     @NSManaged var changed: NSNumber

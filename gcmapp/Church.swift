@@ -2,15 +2,16 @@
 //  Church.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 11/12/2014.
-//  Copyright (c) 2014 Expidev. All rights reserved.
+//  Created by Jon Vellacott on 27/02/2015.
+//  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
 import Foundation
 import CoreData
-
+@objc(Church)
 class Church: NSManagedObject {
 
+    @NSManaged var changed: NSNumber
     @NSManaged var contact_email: String
     @NSManaged var contact_name: String
     @NSManaged var development: NSNumber
@@ -24,7 +25,6 @@ class Church: NSManagedObject {
     @NSManaged var security: NSNumber
     @NSManaged var size: NSNumber
     @NSManaged var start_date: String
-    @NSManaged var changed: NSNumber
     @NSManaged var children: NSSet
     @NSManaged var parent: Church
 
