@@ -9,3 +9,5 @@ open gcmapp.xcworkspace
 ```
 
 >There is a config.plist file that you will need to request from us (containing private keys)
+
+Some new instructions.
