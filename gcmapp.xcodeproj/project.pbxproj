@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		471CA9F11AA8D8030097A3F4 /* LmiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */; };
 		471CA9F21AA8D8030097A3F4 /* LmiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */; };
+		4733D4C51AA9C82100DE737B /* measurementsPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4733D4C41AA9C82100DE737B /* measurementsPVC.swift */; };
+		4733D4C61AA9C82100DE737B /* measurementsPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4733D4C41AA9C82100DE737B /* measurementsPVC.swift */; };
 		D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4D274E1A2DDF8500C20288 /* Main.storyboard */; };
 		FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
 		FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
@@ -162,6 +164,7 @@
 
 /* Begin PBXFileReference section */
 		471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LmiViewController.swift; sourceTree = "<group>"; };
+		4733D4C41AA9C82100DE737B /* measurementsPVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = measurementsPVC.swift; sourceTree = "<group>"; };
 		D30F734C1A6867F300D00EA7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		EBD4DF6AB4D7A6A23838D6B7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F960B9A9023C7B62E23D9505 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */,
+				4733D4C41AA9C82100DE737B /* measurementsPVC.swift */,
 			);
 			name = measurements2;
 			sourceTree = "<group>";
@@ -751,6 +755,7 @@
 				FC13ABAA1A7927E100CB2713 /* DevelopmentTVC.swift in Sources */,
 				FC93E0121A31A726008D4221 /* mccViewController.swift in Sources */,
 				FC5EE6BC1AA06B4F00F86627 /* Measurements.swift in Sources */,
+				4733D4C51AA9C82100DE737B /* measurementsPVC.swift in Sources */,
 				FC9B9D811A3845CD00C9E353 /* GraphView.swift in Sources */,
 				FC9B9D791A370AAA00C9E353 /* measurmentsController.swift in Sources */,
 				FC5EE6C41AA06B4F00F86627 /* MeasurementLocalSource.swift in Sources */,
@@ -819,6 +824,7 @@
 				FC5EE6D51AA073A600F86627 /* DevelopmentTVC.swift in Sources */,
 				FC5EE6D61AA073A600F86627 /* mccViewController.swift in Sources */,
 				FC5EE6D71AA073A600F86627 /* Measurements.swift in Sources */,
+				4733D4C61AA9C82100DE737B /* measurementsPVC.swift in Sources */,
 				FC5EE6D81AA073A600F86627 /* GraphView.swift in Sources */,
 				FC5EE6D91AA073A600F86627 /* measurmentsController.swift in Sources */,
 				FC5EE6DA1AA073A600F86627 /* MeasurementLocalSource.swift in Sources */,
