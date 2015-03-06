@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		471CA9F11AA8D8030097A3F4 /* LmiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */; };
+		471CA9F21AA8D8030097A3F4 /* LmiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */; };
 		D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4D274E1A2DDF8500C20288 /* Main.storyboard */; };
 		FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
 		FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
@@ -159,6 +161,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LmiViewController.swift; sourceTree = "<group>"; };
 		D30F734C1A6867F300D00EA7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		EBD4DF6AB4D7A6A23838D6B7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F960B9A9023C7B62E23D9505 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,7 +176,7 @@
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapOptionsViewController.swift; sourceTree = "<group>"; };
-		FC4D27431A2DDF8500C20288 /* GMAapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = GMAapp.app; path = GMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4D27431A2DDF8500C20288 /* GMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4D27471A2DDF8500C20288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC4D27481A2DDF8500C20288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC4D274A1A2DDF8500C20288 /* mapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
@@ -307,6 +310,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		471CA9EC1AA8B5E10097A3F4 /* measurements2 */ = {
+			isa = PBXGroup;
+			children = (
+				471CA9F01AA8D8030097A3F4 /* LmiViewController.swift */,
+			);
+			name = measurements2;
+			sourceTree = "<group>";
+		};
 		E2BCC635D23B410B95C9FD69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,7 +360,7 @@
 		FC4D27441A2DDF8500C20288 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC4D27431A2DDF8500C20288 /* GMAapp.app */,
+				FC4D27431A2DDF8500C20288 /* GMA.app */,
 				FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */,
 				FC5EE71B1AA073A600F86627 /* GMA Demo.app */,
 			);
@@ -359,6 +370,7 @@
 		FC4D27451A2DDF8500C20288 /* gcmapp */ = {
 			isa = PBXGroup;
 			children = (
+				471CA9EC1AA8B5E10097A3F4 /* measurements2 */,
 				FC9B9D7A1A3729C000C9E353 /* core */,
 				FC4D27961A2E004300C20288 /* datamodel */,
 				FC9B9D701A35FDE000C9E353 /* map */,
@@ -521,7 +533,7 @@
 			);
 			name = GMA;
 			productName = gcmapp;
-			productReference = FC4D27431A2DDF8500C20288 /* GMAapp.app */;
+			productReference = FC4D27431A2DDF8500C20288 /* GMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FC4D27591A2DDF8500C20288 /* gcmappTests */ = {
@@ -573,14 +585,15 @@
 				TargetAttributes = {
 					FC4D27421A2DDF8500C20288 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = R557EYCJ2D;
+						DevelopmentTeam = FQ6JHNT6KD;
 					};
 					FC4D27591A2DDF8500C20288 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = FQ6JHNT6KD;
 						TestTargetID = FC4D27421A2DDF8500C20288;
 					};
 					FC5EE6CD1AA073A600F86627 = {
-						DevelopmentTeam = R557EYCJ2D;
+						DevelopmentTeam = FQ6JHNT6KD;
 					};
 				};
 			};
@@ -751,6 +764,7 @@
 				FCB0A34F1A7FF3BE00223130 /* MeasurementSummaryCell.swift in Sources */,
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
+				471CA9F11AA8D8030097A3F4 /* LmiViewController.swift in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
 				FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */,
 				FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */,
@@ -818,6 +832,7 @@
 				FC5EE6E21AA073A600F86627 /* MeasurementSummaryCell.swift in Sources */,
 				FC5EE6E31AA073A600F86627 /* Measurement.swift in Sources */,
 				FC5EE6E41AA073A600F86627 /* gcmModel.xcdatamodeld in Sources */,
+				471CA9F21AA8D8030097A3F4 /* LmiViewController.swift in Sources */,
 				FC5EE6E51AA073A600F86627 /* GMALoginViewController.m in Sources */,
 				FC5EE6E61AA073A600F86627 /* gcmTabBarController.swift in Sources */,
 				FC5EE6E71AA073A600F86627 /* settingsViewController.swift in Sources */,

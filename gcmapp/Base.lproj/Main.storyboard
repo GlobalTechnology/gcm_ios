@@ -8,7 +8,7 @@
         <!--Map-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="mapViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="mapViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -147,7 +147,7 @@
         <!--Map Options View Controller-->
         <scene sceneID="QK6-zo-jz6">
             <objects>
-                <tableViewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="overCurrentContext" id="M2h-kB-OgG" customClass="mapOptionsViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="overCurrentContext" id="M2h-kB-OgG" customClass="mapOptionsViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="CBT-Yj-KAh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -365,7 +365,7 @@
         <!--ChurchTVC-->
         <scene sceneID="MWD-nl-QAH">
             <objects>
-                <tableViewController storyboardIdentifier="ChurchTVC" modalPresentationStyle="overCurrentContext" id="rFH-B2-aUp" customClass="ChurchTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ChurchTVC" modalPresentationStyle="overCurrentContext" id="rFH-B2-aUp" customClass="ChurchTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="N3n-mp-xqB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -400,7 +400,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditTextCell" id="4nh-ZN-dGs" customClass="UIEditTextCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditTextCell" id="4nh-ZN-dGs" customClass="UIEditTextCell" customModule="GMA" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4nh-ZN-dGs" id="Wx9-U8-tKR">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -444,13 +444,13 @@
                                     <outlet property="value" destination="qnk-g2-idE" id="eKe-K6-0Ba"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditNumberCell" id="AZP-iw-le9" customClass="UIEditTextCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditNumberCell" id="AZP-iw-le9" customClass="UIEditTextCell" customModule="GMA" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AZP-iw-le9" id="yvO-s4-EgB">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Size" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IzI-cz-FaQ">
-                                            <rect key="frame" x="8" y="12" width="150" height="20"/>
+                                            <rect key="frame" x="8" y="12" width="150" height="19.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="411-jl-0aq"/>
                                             </constraints>
@@ -628,7 +628,7 @@
         <!--DevelopmentTVC-->
         <scene sceneID="5Wy-Nr-8XG">
             <objects>
-                <tableViewController id="NWe-2Q-nIR" customClass="DevelopmentTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="NWe-2Q-nIR" customClass="DevelopmentTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AzJ-Tf-2LR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -708,7 +708,7 @@
         <!--ParentTVC-->
         <scene sceneID="VkV-Wv-Bup">
             <objects>
-                <tableViewController id="X5A-Ft-obS" customClass="ParentTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="X5A-Ft-obS" customClass="ParentTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YpQ-TE-ftw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -756,7 +756,7 @@
         <!--SecurityTVC-->
         <scene sceneID="luT-Li-N7f">
             <objects>
-                <tableViewController id="Nkj-KB-yxH" customClass="SecurityTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Nkj-KB-yxH" customClass="SecurityTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gZX-OM-JM7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -840,7 +840,7 @@
         <!--Settings View Controller-->
         <scene sceneID="FMv-yo-qls">
             <objects>
-                <tableViewController id="6qN-Zr-Dnn" customClass="settingsViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="6qN-Zr-Dnn" customClass="settingsViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yAB-pI-bI0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -984,7 +984,7 @@
         <!--Assignments View Controller-->
         <scene sceneID="zYQ-iv-9Lt">
             <objects>
-                <tableViewController id="XoX-3s-YKw" customClass="assignmentsViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="XoX-3s-YKw" customClass="assignmentsViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8gH-Gy-GXH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1018,7 +1018,7 @@
         <!--New MinistryTVC-->
         <scene sceneID="Mms-MZ-e7a">
             <objects>
-                <tableViewController id="Cht-Xl-t1v" customClass="NewMinistryTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Cht-Xl-t1v" customClass="NewMinistryTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ade-7w-5Gp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1073,7 +1073,7 @@
         <!--Mcc View Controller-->
         <scene sceneID="KXF-UF-JGW">
             <objects>
-                <tableViewController id="EBT-aP-F9n" customClass="mccViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="EBT-aP-F9n" customClass="mccViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Flk-do-2BM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1115,7 +1115,7 @@
         <!--Gcm Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" customClass="gcmTabBarController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="49e-Tb-3d3" customClass="gcmTabBarController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -1127,16 +1127,17 @@
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="QTn-I7-ysP" kind="relationship" relationship="viewControllers" id="3d4-U8-cTU"/>
                         <segue destination="OHY-9d-js3" kind="relationship" relationship="viewControllers" id="OJN-qI-bME"/>
+                        <segue destination="xop-2T-INa" kind="relationship" relationship="viewControllers" id="4za-Gg-fAt"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-302" y="256"/>
+            <point key="canvasLocation" x="-214" y="350"/>
         </scene>
         <!--LMI-->
         <scene sceneID="2YO-SK-CaX">
             <objects>
-                <tableViewController id="QTn-I7-ysP" customClass="measurmentsController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="QTn-I7-ysP" customClass="measurmentsController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2k6-kN-ZpY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1189,7 +1190,7 @@
                             </variation>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="lmiSummary2" id="z5G-Qn-1k0" customClass="MeasurementSummaryCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="lmiSummary2" id="z5G-Qn-1k0" customClass="MeasurementSummaryCell" customModule="GMA" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z5G-Qn-1k0" id="JQ9-Ax-WfV">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1265,6 +1266,48 @@
             </objects>
             <point key="canvasLocation" x="628" y="368"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="f9T-IN-xQu">
+            <objects>
+                <viewController id="xop-2T-INa" customClass="LmiViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fNo-PW-Jwq"/>
+                        <viewControllerLayoutGuide type="bottom" id="5wa-oN-roA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ln2-rx-iI5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AtK-1r-pGW" customClass="AccordionView">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5wa-oN-roA" firstAttribute="top" secondItem="AtK-1r-pGW" secondAttribute="bottom" constant="20" id="1Z6-6U-73m"/>
+                            <constraint firstItem="AtK-1r-pGW" firstAttribute="leading" secondItem="ln2-rx-iI5" secondAttribute="leadingMargin" id="7ga-Wq-tPA"/>
+                            <constraint firstItem="AtK-1r-pGW" firstAttribute="top" secondItem="fNo-PW-Jwq" secondAttribute="bottom" constant="8" id="TJM-HW-blf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AtK-1r-pGW" secondAttribute="trailing" constant="-6" id="Xwu-GY-sgw"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="7ga-Wq-tPA"/>
+                                <exclude reference="TJM-HW-blf"/>
+                                <exclude reference="Xwu-GY-sgw"/>
+                                <exclude reference="1Z6-6U-73m"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="2AJ-xg-oq6"/>
+                    <connections>
+                        <outlet property="accView" destination="AtK-1r-pGW" id="Vh3-jX-drO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DBa-S7-H3S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13" y="1158"/>
+        </scene>
         <!--Settings-->
         <scene sceneID="sQr-3e-Mfq">
             <objects>
@@ -1283,12 +1326,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EoL-Yc-GGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="719" y="1105"/>
+            <point key="canvasLocation" x="633" y="1121"/>
         </scene>
         <!--Training View Controller-->
         <scene sceneID="tzp-sT-pN1">
             <objects>
-                <tableViewController storyboardIdentifier="trainingViewController" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3jf-lV-Z8g" customClass="trainingViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="trainingViewController" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3jf-lV-Z8g" customClass="trainingViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="43" sectionHeaderHeight="22" sectionFooterHeight="22" id="pgt-8B-huN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1324,7 +1367,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TrainingCompCell" id="iav-w4-AD0" customClass="TrainingCompCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TrainingCompCell" id="iav-w4-AD0" customClass="TrainingCompCell" customModule="GMA" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="500" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iav-w4-AD0" id="wXn-Tq-PIQ">
@@ -1440,7 +1483,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditTextCell" id="dfv-Pu-BbF" customClass="UIEditTextCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditTextCell" id="dfv-Pu-BbF" customClass="UIEditTextCell" customModule="GMA" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dfv-Pu-BbF" id="b0T-3t-O4a">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1544,7 +1587,7 @@
         <!--Training TypeTVC-->
         <scene sceneID="XwI-H2-GEG">
             <objects>
-                <tableViewController id="GjJ-xa-HMc" customClass="TrainingTypeTVC" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GjJ-xa-HMc" customClass="TrainingTypeTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gZ6-Lv-ZlU">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1624,7 +1667,7 @@
         <!--Measurement Detail View Controller-->
         <scene sceneID="3Ha-HC-Nox">
             <objects>
-                <tableViewController id="AQB-UJ-YKg" customClass="measurementDetailViewController" customModule="GMAapp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="AQB-UJ-YKg" customClass="measurementDetailViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1mZ-V6-DoB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1641,7 +1684,7 @@
                                         </navigationItem>
                                     </items>
                                 </navigationBar>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-Kc-8Xi" customClass="GraphView" customModule="GMAapp" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-Kc-8Xi" customClass="GraphView" customModule="GMA" customModuleProvider="target">
                                     <rect key="frame" x="8" y="47" width="584" height="158"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -1682,7 +1725,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="measDetailEditCell" id="k91-pq-8Cx" customClass="MeasDetailEditCell" customModule="GMAapp" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="measDetailEditCell" id="k91-pq-8Cx" customClass="MeasDetailEditCell" customModule="GMA" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k91-pq-8Cx" id="GLy-hg-auL">
                                     <autoresizingMask key="autoresizingMask"/>
