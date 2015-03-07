@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
+		474BB9C71AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
+		474BB9C91AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */; };
+		474BB9CA1AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */; };
 		D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4D274E1A2DDF8500C20288 /* Main.storyboard */; };
 		FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
 		FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
@@ -159,6 +163,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		474BB9C51AAB79210026F289 /* PageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
+		474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hack1ViewController.swift; sourceTree = "<group>"; };
 		D30F734C1A6867F300D00EA7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		EBD4DF6AB4D7A6A23838D6B7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F960B9A9023C7B62E23D9505 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,7 +179,7 @@
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapOptionsViewController.swift; sourceTree = "<group>"; };
-		FC4D27431A2DDF8500C20288 /* GMAapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = GMAapp.app; path = GMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4D27431A2DDF8500C20288 /* GMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4D27471A2DDF8500C20288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC4D27481A2DDF8500C20288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC4D274A1A2DDF8500C20288 /* mapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
@@ -307,6 +313,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		474BB9C41AAB78FC0026F289 /* hack1 */ = {
+			isa = PBXGroup;
+			children = (
+				474BB9C51AAB79210026F289 /* PageContentViewController.swift */,
+				474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */,
+			);
+			name = hack1;
+			sourceTree = "<group>";
+		};
 		E2BCC635D23B410B95C9FD69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,7 +364,7 @@
 		FC4D27441A2DDF8500C20288 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC4D27431A2DDF8500C20288 /* GMAapp.app */,
+				FC4D27431A2DDF8500C20288 /* GMA.app */,
 				FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */,
 				FC5EE71B1AA073A600F86627 /* GMA Demo.app */,
 			);
@@ -359,6 +374,7 @@
 		FC4D27451A2DDF8500C20288 /* gcmapp */ = {
 			isa = PBXGroup;
 			children = (
+				474BB9C41AAB78FC0026F289 /* hack1 */,
 				FC9B9D7A1A3729C000C9E353 /* core */,
 				FC4D27961A2E004300C20288 /* datamodel */,
 				FC9B9D701A35FDE000C9E353 /* map */,
@@ -521,7 +537,7 @@
 			);
 			name = GMA;
 			productName = gcmapp;
-			productReference = FC4D27431A2DDF8500C20288 /* GMAapp.app */;
+			productReference = FC4D27431A2DDF8500C20288 /* GMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FC4D27591A2DDF8500C20288 /* gcmappTests */ = {
@@ -580,7 +596,7 @@
 						TestTargetID = FC4D27421A2DDF8500C20288;
 					};
 					FC5EE6CD1AA073A600F86627 = {
-						DevelopmentTeam = R557EYCJ2D;
+						DevelopmentTeam = FQ6JHNT6KD;
 					};
 				};
 			};
@@ -745,6 +761,7 @@
 				FC5EE6C21AA06B4F00F86627 /* Assignment.swift in Sources */,
 				FC5EE6B81AA06B4F00F86627 /* Training.swift in Sources */,
 				FC9B9D7E1A37388F00C9E353 /* measurementDetailViewController.swift in Sources */,
+				474BB9C91AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */,
 				FC9B9D6F1A35F73600C9E353 /* trainingViewController.swift in Sources */,
 				FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */,
 				FCD669D81A812100009C4936 /* NewMinistryTVC.swift in Sources */,
@@ -782,6 +799,7 @@
 				FCD669E41A83870C009C4936 /* MeasurementValue+extension.swift in Sources */,
 				FC9401C91A88D869002D54D1 /* Ministry+extension.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
+				474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,6 +830,7 @@
 				FC5EE6DC1AA073A600F86627 /* Assignment.swift in Sources */,
 				FC5EE6DD1AA073A600F86627 /* Training.swift in Sources */,
 				FC5EE6DE1AA073A600F86627 /* measurementDetailViewController.swift in Sources */,
+				474BB9CA1AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */,
 				FC5EE6DF1AA073A600F86627 /* trainingViewController.swift in Sources */,
 				FC5EE6E01AA073A600F86627 /* dataSync.swift in Sources */,
 				FC5EE6E11AA073A600F86627 /* NewMinistryTVC.swift in Sources */,
@@ -849,6 +868,7 @@
 				FC5EE7011AA073A600F86627 /* MeasurementValue+extension.swift in Sources */,
 				FC5EE7021AA073A600F86627 /* Ministry+extension.swift in Sources */,
 				FC5EE7031AA073A600F86627 /* mapViewController.swift in Sources */,
+				474BB9C71AAB79210026F289 /* PageContentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,6 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }	
         
+        let pageControl: UIPageControl = UIPageControl.appearance()
+        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
+        //pageControl.backgroundColor = UIColor.blueColor()
+        pageControl.backgroundColor = UIColor.clearColor()
         
         return true
     }
