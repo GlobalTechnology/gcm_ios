@@ -46,47 +46,45 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
             cell.detailTextLabel?.text = ""
             cell.textLabel!.text = ""
         }
-         var error: NSError?
-        let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
-        fetchRequest.predicate=NSPredicate(format: "id = %@",  NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
-        let fetchedResults =  managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as [Ministry]
-        if fetchedResults.count > 0{
-            if let ministry:Ministry = fetchedResults.first {
-                
-                switch(indexPath.row){
-                case 0:
-                    cell.userInteractionEnabled = (ministry.has_slm as Bool)
-                    cell.textLabel!.textColor = (ministry.has_slm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
-               
-                case 1:
-                    cell.userInteractionEnabled = (ministry.has_llm as Bool)
-                    cell.textLabel!.textColor = (ministry.has_llm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
-                case 2:
-                    cell.userInteractionEnabled = (ministry.has_gcm as Bool)
-                    cell.textLabel!.textColor = (ministry.has_gcm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
-                case 3:
-                    cell.userInteractionEnabled = (ministry.has_ds as Bool)
-                    cell.textLabel!.textColor = (ministry.has_ds as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
-                default:
-                    cell.userInteractionEnabled = false
-                    cell.textLabel!.textColor = UIColor.lightGrayColor()
+        var error: NSError?
+        
+        
+        if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+            
+            let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
+            fetchRequest.predicate=NSPredicate(format: "id = %@", ministryID )
+            let fetchedResults =  managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as [Ministry]
+            if fetchedResults.count > 0{
+                if let ministry:Ministry = fetchedResults.first {
+                    
+                    switch(indexPath.row){
+                    case 0:
+                        cell.userInteractionEnabled = (ministry.has_slm as Bool)
+                        cell.textLabel!.textColor = (ministry.has_slm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
+                   
+                    case 1:
+                        cell.userInteractionEnabled = (ministry.has_llm as Bool)
+                        cell.textLabel!.textColor = (ministry.has_llm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
+                    case 2:
+                        cell.userInteractionEnabled = (ministry.has_gcm as Bool)
+                        cell.textLabel!.textColor = (ministry.has_gcm as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
+                    case 3:
+                        cell.userInteractionEnabled = (ministry.has_ds as Bool)
+                        cell.textLabel!.textColor = (ministry.has_ds as Bool) ? UIColor.blackColor() :  UIColor.lightGrayColor()
+                    default:
+                        cell.userInteractionEnabled = false
+                        cell.textLabel!.textColor = UIColor.lightGrayColor()
+                    }
+                    
                 }
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-            }
+            } // end if fetchedResults
+        }  else {
             
+            //// TODO: what should happen when we don't have a ministry ID?
+            println("mccViewController.tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:):")
+            println("... called when we don't have a ministry_id set.  Why?")
         }
-        
         
         return cell
     }

@@ -46,19 +46,32 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     
     func updatePeriodControl(){
         
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        // team_role might be undefined
+        if let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
+            self.self_assigned = team_role == "self_assigned"
+        } else {
+            self.self_assigned = true
+        }
         
-        self.self_assigned = team_role == "self_assigned"
         lblSubTitle.hidden = !self_assigned
         self.tableView.allowsSelection = !self_assigned
-        mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
-        lblTitle.text = (NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String) + "(" + (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String) + ")"
+        
+        
+        let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+        mcc = currMcc
+        
+        
+        // ministry_name might be undefined
+        if let ministryName = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+            lblTitle.text = (ministryName) + "(" + currMcc + ")"
+        } else {
+            lblTitle.text = "Self Assigned" + "(" + currMcc + ")"
+        }
         
         periodControl.setEnabled(period != GlobalFunctions.currentPeriod(), forSegmentAtIndex: 2)
         self.periodControl.setTitle(period, forSegmentAtIndex: 1)
-         tableView.reloadData()
+        tableView.reloadData()
         
-
     }
     
     func getFetchedResultController() -> NSFetchedResultsController {
@@ -67,28 +80,46 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     func taskFetchRequest() -> NSFetchRequest {
-        let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String
-       
+    
+    println(" ++++++ measurementsController.taskFetchRequest() ++++++++")
         
-        let fetchRequest =  NSFetchRequest(entityName:"Measurements")
-      /*  let pred1=NSPredicate(format: "ministry_id = %@", ministryId)
-        let pred2=NSPredicate(format: "measurementValue.mcc = %@", mcc)
-        let pred3=NSPredicate(format: "measurementValue.period = %@", "2014-11")*/
-        
-        
-        
-        
-        
-        // let pred = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType,  subpredicates: [pred1, pred2])
-        
-        
-        fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId) //NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1!, pred2!, pred3!])
-        
-        let sortDescriptor1 = NSSortDescriptor(key: "column", ascending: true)
-        let sortDescriptor2 = NSSortDescriptor(key: "sort_order", ascending: true)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
-        return fetchRequest
+        // It is possible for the current user to not have a ministry_id defined 
+        // so check first:
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+            
+            let fetchRequest =  NSFetchRequest(entityName:"Measurements")
+          /*  let pred1=NSPredicate(format: "ministry_id = %@", ministryId)
+            let pred2=NSPredicate(format: "measurementValue.mcc = %@", mcc)
+            let pred3=NSPredicate(format: "measurementValue.period = %@", "2014-11")*/
+            
+            
+            
+            
+            
+            // let pred = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType,  subpredicates: [pred1, pred2])
+            
+            
+            fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId) //NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1!, pred2!, pred3!])
+            
+            let sortDescriptor1 = NSSortDescriptor(key: "column", ascending: true)
+            let sortDescriptor2 = NSSortDescriptor(key: "sort_order", ascending: true)
+            
+            fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
+            return fetchRequest
+            
+        } else {
+  
+            // so ... return a blank NSFetchRequest??
+            let fetchRequest =  NSFetchRequest(entityName:"Measurements")
+
+            fetchRequest.predicate = NSPredicate(format: "ministry_id = -1")
+            
+            let sortDescriptor1 = NSSortDescriptor(key: "column", ascending: true)
+            let sortDescriptor2 = NSSortDescriptor(key: "sort_order", ascending: true)
+            
+            fetchRequest.sortDescriptors = [sortDescriptor1, sortDescriptor2]
+            return  fetchRequest
+        }
     }
     func refresh(sender:AnyObject)
     {

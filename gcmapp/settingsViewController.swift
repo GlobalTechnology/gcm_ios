@@ -31,10 +31,7 @@ class settingsViewController: UITableViewController {
         } else{
             min_cell.detailTextLabel!.text = ""
         }
-        
-        
-        
-        
+    
         var mcc_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))!
         let mcc = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String?
        
@@ -50,6 +47,17 @@ class settingsViewController: UITableViewController {
             team_role_cell.detailTextLabel!.text = GlobalFunctions.getTeamRoleFormatted(team_role!)
         } else{
             team_role_cell.detailTextLabel!.text = ""
+        }
+        
+        
+        // 
+        // Now register for kDidChangeAssignment  -> so we update our TeamRole value
+        //
+        let nc = NSNotificationCenter.defaultCenter()
+        let myQueue = NSOperationQueue()
+        var observer_update_min = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
+ println(" *** settingsViewController: kDidChangeAssignment: telling tableView.reloadData()")
+            self.tableView.reloadData()
         }
 
 
