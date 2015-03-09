@@ -30,32 +30,69 @@ class dataSync: NSObject {
         }
         NSUserDefaults.standardUserDefaults().synchronize()
         var observer_measurements = nc.addObserverForName(GlobalConstants.kDidChangePeriod, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+            
+            if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+                
+            
+                self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                
+            } else {
+                
+                //// TODO: what happens here?
+                println("Notification:kDidChangePeriod:");
+                println("... still don't have a ministry ID assigned");
+            }
         }
         var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
+println("... caught kDidChangeAssignment")
             
-            //update team role
-            let ass = Assignment.getAssignmentForMinistryId(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String) as Assignment?
-            var team_role:String = "self_assigned"
-            if ass != nil{
-                team_role = ass!.team_role
+            // Verify minitryID is valid before performing this action:
+            if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
+                //update team role
+                let ass = Assignment.getAssignmentForMinistryId(ministryID) as Assignment?
+                var team_role:String = "self_assigned"
+                if ass != nil{
+                    team_role = ass!.team_role
+                }
+                
+                NSUserDefaults.standardUserDefaults().setObject(team_role, forKey: "team_role")
+                
+                self.loadChurches(ministryID)
+                self.loadTraining(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
+                self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            } else {
+                
+                //// TODO: what should happen here?
+                println("dataSync: kDidChangeAssignment ")
+                println("... called when there was no ministry_id defined")
+                
             }
-            
-            NSUserDefaults.standardUserDefaults().setObject(team_role, forKey: "team_role")
-            
-            self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
-            self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-             NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-             NSUserDefaults.standardUserDefaults().synchronize()
         }
-       
+        
         var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
-            self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-            self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-             NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-             NSUserDefaults.standardUserDefaults().synchronize()
+            
+            // Verify user has a ministry_id before we update all these
+            if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+                
+                let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+            
+                self.loadChurches(ministryID)
+                self.loadTraining(ministryID, mcc:currMcc )
+                self.loadMeasurments(ministryID, mcc: currMcc, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            } else {
+                
+                //// TODO: so what should really happen if this was called?
+                println("dataSync: Notification: kDidChangeMcc:")
+                println("... attempted to update Mcc change when user doesn't have a ministry_id")
+                
+            }
         }
         
         
@@ -90,12 +127,13 @@ class dataSync: NSObject {
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
-            
+                
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
             
             
             
+            // On kLogin -> Authorize the client
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
                     return
@@ -106,7 +144,7 @@ class dataSync: NSObject {
                     if data == nil{
                         return
                     }
-
+                    
                     var resp:JSONDictionary = data as JSONDictionary
                     
                     if(resp["status"] as String == "success"){
@@ -126,62 +164,68 @@ class dataSync: NSObject {
                         NSUserDefaults.standardUserDefaults().setObject(user["last_name"] , forKey: "last_name")
                         NSUserDefaults.standardUserDefaults().setObject(user["cas_username"] , forKey: "cas_username")
                         
-                        let assignments=resp["assignments"] as Array<JSONDictionary>
-                        let current_ass_id = NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String?
-                        var has_current_ass_id = false
-                        for a:JSONDictionary in assignments{
-                            
-                            
-                            
-                            if(self.addAssignment(a , user: user,  allMinistries: (allMinistries)) == current_ass_id){
-                                has_current_ass_id  = true
-                                NSUserDefaults.standardUserDefaults().setObject(a["team_role"] as String, forKey: "team_role")
-                                NSUserDefaults.standardUserDefaults().setObject(a["ministry_id"] as String, forKey: "ministry_id")
-                                NSUserDefaults.standardUserDefaults().setObject(a["name"] as String, forKey: "ministry_name")
-                            }
-                            
-                            
-                            
-                            
-                            
-                            
-                        }
-                        if !has_current_ass_id  {
-                            if  assignments.count > 0 {
-                                
-                                let this_ass = assignments.first!
-                                
-                                
-                                
-                                
-                                
-                                NSUserDefaults.standardUserDefaults().setObject(this_ass["team_role"] as String, forKey: "team_role")
-                                
-                                
-                                NSUserDefaults.standardUserDefaults().setObject(this_ass["id"] as String, forKey: "assignment_id")
-                                NSUserDefaults.standardUserDefaults().setObject(this_ass["ministry_id"] as String, forKey: "ministry_id")
-                                NSUserDefaults.standardUserDefaults().setObject(this_ass["name"] as String, forKey: "ministry_name")
-                                
-                                
-                            }
-                        }
                         
+                        var has_current_ass_id = false  // do we have any assignments ?
+                        
+                        // if assignments were provided in the response
+                        if let assignments=resp["assignments"] as? Array<JSONDictionary> {
+                            
+                            let current_ass_id = NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String?
+                            
+                            for a:JSONDictionary in assignments{
+                                
+                                
+                                if(self.addAssignment(a , user: user,  allMinistries: (allMinistries)) == current_ass_id){
+                                    has_current_ass_id  = true
+                                    NSUserDefaults.standardUserDefaults().setObject(a["team_role"] as String, forKey: "team_role")
+                                    NSUserDefaults.standardUserDefaults().setObject(a["ministry_id"] as String, forKey: "ministry_id")
+                                    NSUserDefaults.standardUserDefaults().setObject(a["name"] as String, forKey: "ministry_name")
+                                }
+                                
+                            }
+                            if !has_current_ass_id  {
+                                if  assignments.count > 0 {
+                                    
+                                    let this_ass = assignments.first!
+                                    
+                                    NSUserDefaults.standardUserDefaults().setObject(this_ass["team_role"] as String, forKey: "team_role")
+                                    NSUserDefaults.standardUserDefaults().setObject(this_ass["id"] as String, forKey: "assignment_id")
+                                    NSUserDefaults.standardUserDefaults().setObject(this_ass["ministry_id"] as String, forKey: "ministry_id")
+                                    NSUserDefaults.standardUserDefaults().setObject(this_ass["name"] as String, forKey: "ministry_name")
+                                    
+                                }
+                            }
+                            
+                        } else {
+                            
+                            // TODO: what happens if user is not attached to any assignments?
+                            println(" *** Hey, you are not assigned to anything! *** ")
+                            
+                        } // end if assignments were provided
                         
                         NSUserDefaults.standardUserDefaults().synchronize()
+                    } // end if response was a success
+                    
+                    
+                    // if we we have a saved ministry_id then initialize our
+                    // churches, training and measurements
+                    if let currMinistryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+                        
+                        
+                        let currMCC = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+                        
+                        let currPeriod = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+                        
+                        self.loadChurches(currMinistryID)
+                        self.loadTraining(currMinistryID, mcc:currMCC)
+                        self.loadMeasurments(currMinistryID, mcc: currMCC, period: currPeriod)
                     }
                     
+                    // update our last refresh setting:
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
-                    
-                    
-                    
-                    self.loadChurches(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String)
-                    
-                    self.loadTraining(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-                    self.loadMeasurments(NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-                     NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                     NSUserDefaults.standardUserDefaults().synchronize()
-                    
-                }
+                }  // end API{}
                 
                 
                 
@@ -191,7 +235,7 @@ class dataSync: NSObject {
         var observer_refresh = nc.addObserverForName(GlobalConstants.kShouldRefreshAll, object: nil, queue: myQueue) {(notification:NSNotification!) in
             if self.token==nil{
                 let notificationCenter = NSNotificationCenter.defaultCenter()
-               // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
                 return;
             }
             if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
@@ -199,28 +243,28 @@ class dataSync: NSObject {
                 if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
                     return;
                 }
-                		
+                
                 
             }
             var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?
             if ministry_id != nil{
                 
-            
-            self.updateChurch()
-            self.updateMeasurements()
-            self.updateTraining()
-            self.updateTrainingCompletion()
-            
-            
-            self.loadChurches(ministry_id!)
-            self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
-            self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-            NSUserDefaults.standardUserDefaults().synchronize()
+                
+                self.updateChurch()
+                self.updateMeasurements()
+                self.updateTraining()
+                self.updateTrainingCompletion()
+                
+                
+                self.loadChurches(ministry_id!)
+                self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
+                self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                NSUserDefaults.standardUserDefaults().synchronize()
             }
             
         }
-
+        
         
         
     }
@@ -288,12 +332,6 @@ class dataSync: NSObject {
         assignment.ministry = ministry
         
         
-        
-        
-        
-        
-        
-        
         if !self.managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
@@ -308,7 +346,7 @@ class dataSync: NSObject {
         if checkTokenAndConnection() == false{
             return;
         }
-     
+        
         if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.NOT_BLOCKED){
             return
         }
@@ -319,7 +357,7 @@ class dataSync: NSObject {
                 
                 return;
             }
-           
+            
             
             let fetchRequest =  NSFetchRequest(entityName:"Measurements" )
             fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId )
@@ -333,11 +371,11 @@ class dataSync: NSObject {
             for m in data as JSONArray{
                 
                 /*for (myKey,myValue) in m as JSONDictionary {
-                    println("\(myKey) \t \(myValue)")
+                println("\(myKey) \t \(myValue)")
                 }*/
                 
                 
-              println( m["name"])
+                println( m["name"])
                 
                 
                 
@@ -512,99 +550,99 @@ class dataSync: NSObject {
             (data: AnyObject?,error: NSError?) -> Void in
             
             if data != nil {
-            
-            let fetchRequest =  NSFetchRequest(entityName:"Church" )
-            fetchRequest.predicate=NSPredicate(format: "ministry_id = %@" , ministryId)
-            
-            var error: NSError?
-            let churches = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Church]
-            
-            
-            
-            
-            var relationships = Dictionary<NSNumber, NSNumber>()
-            
-            for c in data as JSONArray{
-                //BEGIN: Add or update
                 
-                //println(c["id"])
+                let fetchRequest =  NSFetchRequest(entityName:"Church" )
+                fetchRequest.predicate=NSPredicate(format: "ministry_id = %@" , ministryId)
                 
-                let this_ch = churches.filter {$0.id == (c["id"] as NSNumber)}
-                var church:Church!
+                var error: NSError?
+                let churches = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Church]
                 
-                if this_ch.count > 0{
-                    church=this_ch.first?
+                
+                
+                
+                var relationships = Dictionary<NSNumber, NSNumber>()
+                
+                for c in data as JSONArray{
+                    //BEGIN: Add or update
                     
-                } else {
-                    let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: self.managedContext)
-                    church = NSManagedObject(entity: entity!,
-                        insertIntoManagedObjectContext:self.managedContext) as Church
-                }
-                //END: Add or update
-                if !(church.changed as Bool) {//don't update if we have a pending change
+                    //println(c["id"])
                     
+                    let this_ch = churches.filter {$0.id == (c["id"] as NSNumber)}
+                    var church:Church!
                     
-                    
-                    
-                    church.id = c["id"] as NSNumber
-                    church.name = c["name"] as String
-                    church.development = c["development"] as NSNumber
-                    church.size = c["size"] as NSNumber
-                    if c["latitude"] != nil && c["longitude"]  != nil{
-                        church.latitude = c["latitude"] as Float
-                        church.longitude = c["longitude"] as Float
+                    if this_ch.count > 0{
+                        church=this_ch.first?
+                        
+                    } else {
+                        let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: self.managedContext)
+                        church = NSManagedObject(entity: entity!,
+                            insertIntoManagedObjectContext:self.managedContext) as Church
                     }
-                    church.security = c["security"] as NSNumber
-                    church.contact_name = c["contact_name"] as String
-                    church.contact_email = c["contact_email"] as String
-                    church.ministry_id = c["ministry_id"] as String
-                    if (c["parents"] as Array<NSNumber>).count  > 0 {
-                        church.parent_id = (c["parents"] as Array<NSNumber>)[0]
-                        relationships[church.parent_id] = church.id
-                    }
-                    
-                    church.jf_contrib = c["jf_contrib"] as Bool
-                    
-                    
-                    // if(contains(c.allKeys as [String],"parent_id")) {church.setValue(c["parent_id"], forKey: "parent_id")}
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                    
-                }
-                
-            }
-            
-            
-            let fetchedResults2 = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Church]?
-            if let churches = fetchedResults2 {
-                for r in relationships{
-                    let c1 = churches.filter{$0.id == r.0} as [Church]
-                    let c2 = churches.filter{$0.id == r.1} as [Church]
-                    if c1.count>0 && c2.count>0{
-                        c2[0].parent=c1[0]
+                    //END: Add or update
+                    if !(church.changed as Bool) {//don't update if we have a pending change
+                        
+                        
+                        
+                        
+                        church.id = c["id"] as NSNumber
+                        church.name = c["name"] as String
+                        church.development = c["development"] as NSNumber
+                        church.size = c["size"] as NSNumber
+                        if c["latitude"] != nil && c["longitude"]  != nil{
+                            church.latitude = c["latitude"] as Float
+                            church.longitude = c["longitude"] as Float
+                        }
+                        church.security = c["security"] as NSNumber
+                        church.contact_name = c["contact_name"] as String
+                        church.contact_email = c["contact_email"] as String
+                        church.ministry_id = c["ministry_id"] as String
+                        if (c["parents"] as Array<NSNumber>).count  > 0 {
+                            church.parent_id = (c["parents"] as Array<NSNumber>)[0]
+                            relationships[church.parent_id] = church.id
+                        }
+                        
+                        church.jf_contrib = c["jf_contrib"] as Bool
+                        
+                        
+                        // if(contains(c.allKeys as [String],"parent_id")) {church.setValue(c["parent_id"], forKey: "parent_id")}
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        if !self.managedContext.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+                        
                     }
                     
                 }
                 
                 
-            }
-            
-            
-            if !self.managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            }
-            
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
-            
+                let fetchedResults2 = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Church]?
+                if let churches = fetchedResults2 {
+                    for r in relationships{
+                        let c1 = churches.filter{$0.id == r.0} as [Church]
+                        let c2 = churches.filter{$0.id == r.1} as [Church]
+                        if c1.count>0 && c2.count>0{
+                            c2[0].parent=c1[0]
+                        }
+                        
+                    }
+                    
+                    
+                }
+                
+                
+                if !self.managedContext.save(&error) {
+                    println("Could not save \(error), \(error?.userInfo)")
+                }
+                
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
+                
             }
             
         }
@@ -625,9 +663,9 @@ class dataSync: NSObject {
                 
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
-
-          //  let notificationCenter = NSNotificationCenter.defaultCenter()
-           // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+            
+            //  let notificationCenter = NSNotificationCenter.defaultCenter()
+            // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
             return false //Conntect, but not logged in will reauthenticate (which will refetch - so return false)
         case (true, true):
             return true
@@ -867,7 +905,7 @@ class dataSync: NSObject {
                 //get Training
                 let fr =  NSFetchRequest(entityName:"Training" )
                 fr.predicate = NSPredicate(format: "id == %@", insert.training_id )
-               
+                
                 let tr = self.managedContext.executeFetchRequest(fr,error: &error) as [Training]
                 if tr.count>0{
                     
@@ -884,14 +922,14 @@ class dataSync: NSObject {
                             insertIntoManagedObjectContext:self.managedContext) as TrainingCompletion
                     }
                     //END: Add or Update
-                        training_comp.id = tc["Id"] as NSNumber
-                        training_comp.phase = tc["phase"] as NSNumber
-                        training_comp.number_completed = tc["number_completed"] as NSNumber
-                        if(tc["date"] as String? != nil){
-                            training_comp.date = tc["date"] as String
-                        }
-                        training_comp.training = tr.first!
-                        
+                    training_comp.id = tc["Id"] as NSNumber
+                    training_comp.phase = tc["phase"] as NSNumber
+                    training_comp.number_completed = tc["number_completed"] as NSNumber
+                    if(tc["date"] as String? != nil){
+                        training_comp.date = tc["date"] as String
+                    }
+                    training_comp.training = tr.first!
+                    
                     
                     if !self.managedContext.save(&error) {
                         println("Could not save \(error), \(error?.userInfo)")
@@ -900,7 +938,7 @@ class dataSync: NSObject {
                     sender.tableView.reloadData()
                     let notificationCenter = NSNotificationCenter.defaultCenter()
                     notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
-                   
+                    
                 }
                 
                 
@@ -908,7 +946,7 @@ class dataSync: NSObject {
                 
                 
                 
-               
+                
             }
         }
     }
@@ -916,14 +954,14 @@ class dataSync: NSObject {
     
     func updateMinistry(ministry: Ministry){
         
-            API(token: token).updateMinistry(ministry){
-                (data: AnyObject?,error: NSError?) -> Void in
-                //Nothing to do...
-                
-            }
-
+        API(token: token).updateMinistry(ministry){
+            (data: AnyObject?,error: NSError?) -> Void in
+            //Nothing to do...
+            
+        }
         
-
+        
+        
     }
     
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
@@ -941,6 +979,15 @@ class dataSync: NSObject {
                 user["first_name"] = NSUserDefaults.standardUserDefaults().objectForKey("first_name") as? String
                 user["last_name"] = NSUserDefaults.standardUserDefaults().objectForKey("last_name") as? String
                 self.addAssignment(data as JSONDictionary, user: user, allMinistries: allMinistries)
+                
+                NSUserDefaults.standardUserDefaults().setObject(ministry_id, forKey: "ministry_id")
+                
+                // broadcast kChangedAssignment to make sure our settings and system are updated 
+                // with this newly joined Ministry!
+println("... dataSync.joinMinistry() --> kDidChangeAssignment")
+                let nc = NSNotificationCenter.defaultCenter()
+                nc.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+                
             }
             
         }
@@ -967,22 +1014,22 @@ class dataSync: NSObject {
         
         
         if self.token != nil{
-             notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+            notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
         }
         else{
             TheKeyOAuth2Client.sharedOAuth2Client().logout()
-
             
-          //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
-           
-          //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+            
+            //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
+            
+            //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
         }
         
     }
     func logout(){
-       
+        
         API(token: self.token).deleteToken()
-       
+        
         self.token = nil
         
         //Delete everything in the database

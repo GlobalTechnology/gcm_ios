@@ -89,17 +89,28 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
        // tbSearchBox.text = autocompleteList[indexPath.row]["name"] as String
         
-        //Add assignment to this team.
-        //send it as a notification so dataSync can control this.
-        tbSearchBox.resignFirstResponder()
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        // believe it or not, this can get called with autocompleteList as empty!
+        if (autocompleteList.count > 0) {
+            
+            // maybe there is a race condition, but  autocompleteList.count can
+            // be >0 entering into this section and then empty by the time we hit the
+            // .postNotification() below.  putting this here apparently reduces the 
+            // chance we are hitting that situation.
+            var userInfo = autocompleteList[indexPath.row]
+            
+            //Add assignment to this team.
+            //send it as a notification so dataSync can control this.
+            tbSearchBox.resignFirstResponder()
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            
+            notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: userInfo)
+
+            self.navigationController?.popViewControllerAnimated(true)
         
-        notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: autocompleteList[indexPath.row])
-        
-        
-        
-        self.navigationController?.popViewControllerAnimated(true)
-        
+        } else {
+            println("NewMinistryTVC.tableView( didSelectRowAtIndexPath:)");
+            println("... called when autocompleteList is empty!  why?");
+        }
         
        // self.loadSearchedChurch()
     }
