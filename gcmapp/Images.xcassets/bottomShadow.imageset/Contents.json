@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "bottomShadow-2.jpg"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "bottomShadow.jpg"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "bottomShadow.jpg"
+      "filename" : "bottomShadow-1.jpg"
     }
   ],
   "info" : {

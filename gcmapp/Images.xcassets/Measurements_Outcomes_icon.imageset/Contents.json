@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "ic_header_measurements_outcomes.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "ic_header_measurements_outcomes-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Measurements_Outcomes_icon.png"
+      "filename" : "ic_header_measurements_outcomes-2.png"
     }
   ],
   "info" : {
