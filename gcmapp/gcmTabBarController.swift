@@ -76,8 +76,23 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
+    /*
+    override func shouldAutorotate() -> Bool {
+        //return false
+        return self.selectedViewController!.shouldAutorotate()
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        if let vc = self.selectedViewController {
+            return vc.supportedInterfaceOrientations()
+        }
+        return super.supportedInterfaceOrientations()
+        
+        //return self.selectedViewController!.supportedInterfaceOrientations()
+    }
+    */
+    
     /*
     // MARK: - Navigation
 

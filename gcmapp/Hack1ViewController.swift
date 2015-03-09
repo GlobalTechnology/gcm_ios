@@ -11,9 +11,16 @@ import CoreData
 
 class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
+
+    @IBOutlet weak var appBanner: UIImageView!
+    @IBOutlet weak var ministryNameLabel: UILabel!
+    @IBOutlet weak var periodSelector: UISegmentedControl!
+    
+
     //
     // The Measurement Row Views
     //
+
     @IBOutlet weak var measurementsViewFaith: UIView!
     @IBOutlet weak var measurementsViewFruit: UIView!
     @IBOutlet weak var measurementsViewOutcomes: UIView!
@@ -67,9 +74,51 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     var pageViewControllerFruit : UIPageViewController!
     var pageViewControllerOutcomes : UIPageViewController!
 
+
+    /*
+    override func shouldAutorotate() -> Bool {
+        return false;
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
+    */
+    
+    /*
+    override func shouldAutorotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation) -> Bool {
+    if (toInterfaceOrientation == UIInterfaceOrientation.Portrait) {
+    return true
+    } else {
+    return false
+    }
+    }
+    */
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
+        /*
+        for (NSString* family in [UIFont familyNames])
+        {
+            NSLog(@"%@", family);
+            
+            for (NSString* name in [UIFont fontNamesForFamilyName: family])
+            {
+                NSLog(@"  %@", name);
+            }
+        }
+        */
+        /*
+        for family:String in UIFont.familyNames() {
+            
+        }
+        */
+        
+        
+        
         
         
         //// setup the coreData managedContext
@@ -455,7 +504,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     
     func openView(viewType:Int) {
-        var constraint: NSLayoutConstraint
+        var heightConstraint: NSLayoutConstraint
         var mView: UIView
         var viewsHeaderTop: UIButton
         var viewsHeaderBottom: UIButton?
@@ -464,22 +513,22 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         switch (viewType) {
         case FAITH:
-            constraint = measurementsViewFaithHeight
+            heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
         case FRUIT:
-            constraint = measurementsViewFruitHeight
+            heightConstraint = measurementsViewFruitHeight
             mView = measurementsViewFruit
             viewsHeaderTop = self.fruitHeader
             viewsHeaderBottom = self.outcomesHeader
         case OUTCOMES:
-            constraint = measurementsViewOutcomesHeight
+            heightConstraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
             viewsHeaderTop = self.outcomesHeader
             viewsHeaderBottom = nil
         default:
-            constraint = measurementsViewFaithHeight
+            heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
@@ -487,7 +536,22 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         mView.hidden = false
         
-        constraint.constant = screenSize.height - (faithHeader.bounds.height * 3) - tabBarController!.tabBar.frame.height - UIApplication.sharedApplication().statusBarFrame.size.height
+        heightConstraint.constant = screenSize.height -
+                                    //(faithHeader.frame.height * 3) -
+                                    (faithHeader.imageView!.frame.height * 3) -
+                                    tabBarController!.tabBar.frame.height -
+                                    UIApplication.sharedApplication().statusBarFrame.size.height -
+                                    periodSelector.frame.height -
+                                    appBanner.frame.height
+        
+        println("heightConstraint.constant: \(heightConstraint.constant)")
+        println("screenSize.height \(screenSize.height)")
+        println("(faithHeader.frame.height * 3) \(faithHeader.frame.height * 3)")
+        println("tabBarController!.tabBar.frame.height \(tabBarController!.tabBar.frame.height)")
+        println("UIApplication.sharedApplication().statusBarFrame.size.height \(UIApplication.sharedApplication().statusBarFrame.size.height)")
+        println("periodSelector.frame.height \(periodSelector.frame.height)")
+        println("appBanner.frame.height \(appBanner.frame.height)")
+        
         UIView.animateWithDuration(0.5, animations: { () in
             self.view.layoutIfNeeded()
             mView.alpha = 1.0

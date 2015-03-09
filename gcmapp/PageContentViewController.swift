@@ -20,9 +20,10 @@ class PageContentViewController: UIViewController {
     //var measurementValue: Int!
     var measurementValue: String!
     
-    @IBOutlet weak var measurementDescriptionLbl: UITextView!
-    @IBOutlet weak var measurementValueLbl: UILabel!
-    
+    //@IBOutlet weak var measurementDescriptionLbl: UITextView!
+    @IBOutlet weak var measurementDescriptionLbl: UILabel!
+    //@IBOutlet weak var measurementValueLbl: UILabel!
+    @IBOutlet weak var measurementValueBtn: UIButton!
     
     @IBOutlet weak var wbsCategory: UILabel!
     
@@ -35,8 +36,8 @@ class PageContentViewController: UIViewController {
         
         
         measurementDescriptionLbl.text = measurementDescription
-        //measurementValueLbl.text = measurementValue.description
-        measurementValueLbl.text = measurementValue
+        //measurementValueLbl.text = measurementValue
+        measurementValueBtn.titleLabel!.text = measurementValue
         
     }
 
