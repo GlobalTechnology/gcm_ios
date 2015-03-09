@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "ic_header_measurements_faith-1.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "ic_header_measurements_faith.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Measurements_FaithActions_icon.png"
+      "filename" : "ic_header_measurements_faith-2.png"
     }
   ],
   "info" : {
