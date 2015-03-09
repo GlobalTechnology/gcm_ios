@@ -7,49 +7,62 @@
 //
 
 import UIKit
+import CoreData
 
 class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
+    //
+    // The Measurement Row Views
+    //
     @IBOutlet weak var measurementsViewFaith: UIView!
     @IBOutlet weak var measurementsViewFruit: UIView!
     @IBOutlet weak var measurementsViewOutcomes: UIView!
     
+    
+    //
+    // The Height Constraint on the measurement rows
+    //  - we will animate those sections using the height constraints
+    //
     @IBOutlet weak var measurementsViewFaithHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var measurementsViewFruitHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var measurementsViewOutcomesHeight: NSLayoutConstraint!
     
     
+    //
+    // The Button Headers for the sections
+    //
     @IBOutlet weak var faithHeader: UIButton!
-    
     @IBOutlet weak var fruitHeader: UIButton!
-    
     @IBOutlet weak var outcomesHeader: UIButton!
     
+    
+    //
+    // Measurement Category Definitions
+    //
     let FAITH = 0
     let FRUIT = 1
     let OUTCOMES = 2
     
     
+    //  track which measurement row is currently displayed
     var currentlyOpenMeasurementCategory = 0
 
-    var measurementDescriptionsFaith = ["Exposing Through Mass Media", "Some Other Method", "Crazy Method", "Insane Method"]
-    //var measurementValuesFaith = [5,3,7,8]
-    var measurementValuesFaith = ["5","3","7","8"]
     
-    var measurementDescriptionsFruit = ["Discipleship Wow", "Are you Serious?!", "Great job!"]
-    //var measurementValuesFruit = [1,2,3]
-    var measurementValuesFruit = ["1","2","3"]
-    
-    var measurementDescriptionsOutcomes = ["Description #1", "Description #2", "Description #3", "Description #4", "Description #5", ]
-    //var measurementValuesOutcomes = [9,8,7,6,5]
-    var measurementValuesOutcomes = ["9","8","7","6","5"]
+    //
+    //  measurementsXXX : Arrays of Measurements divided by column
+    //
+    var measurementsFaith : [Measurements] = []
+    var measurementsFruit : [Measurements] = []
+    var measurementsOutcomes : [Measurements] = []
     
     
+    // needed for CoreData and db access
+    var managedContext: NSManagedObjectContext!
     
-    //var count = 0
     
+    //
+    //  These are the Measurement Row Sliders
+    //
     var pageViewControllerFaith : UIPageViewController!
     var pageViewControllerFruit : UIPageViewController!
     var pageViewControllerOutcomes : UIPageViewController!
@@ -57,68 +70,191 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        currentlyOpenMeasurementCategory = FAITH
         
+        
+        //// setup the coreData managedContext
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.managedContext = appDelegate.managedObjectContext!
+        
+        
+        //// move the button header labels over
         faithHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         fruitHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         outcomesHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         
         
-        
-        // === Faith ===
-        pageViewControllerFaith = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
-        self.pageViewControllerFaith.dataSource = self
-        
-        let pageContentViewControllerFaith = self.viewControllerAtIndex(0, measurementType: FAITH)
-        self.pageViewControllerFaith.setViewControllers([pageContentViewControllerFaith!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-
-        self.pageViewControllerFaith.view.frame = measurementsViewFaith.bounds
-        self.addChildViewController(pageViewControllerFaith)
-        measurementsViewFaith.addSubview(pageViewControllerFaith.view)
-        self.pageViewControllerFaith.didMoveToParentViewController(self)
-
+        //// Load our Data from the DB:
+        ////   - this will initialize the 3 measurement arrays 
+        ////   - do this before creating the pageViewControllerForCategory() fn below
+        self.loadData()
         
         
-        // === Fruit ===
-        pageViewControllerFruit = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
-        self.pageViewControllerFruit.dataSource = self
-        
-        let pageContentViewControllerFruit = self.viewControllerAtIndex(0, measurementType: FRUIT)
-        self.pageViewControllerFruit.setViewControllers([pageContentViewControllerFruit!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        
-        self.pageViewControllerFruit.view.frame = measurementsViewFruit.bounds
-        self.addChildViewController(pageViewControllerFruit)
-        measurementsViewFruit.addSubview(pageViewControllerFruit.view)
-        self.pageViewControllerFruit.didMoveToParentViewController(self)
+        //// Faith
+        pageViewControllerFaith = self.pageViewControllerForCategory(FAITH, view:measurementsViewFaith)
         
         
+        //// Fruit 
+        ////  - initially hidden
+        pageViewControllerFruit = self.pageViewControllerForCategory(FRUIT, view:measurementsViewFruit)
         measurementsViewFruitHeight.constant = 0
         measurementsViewFruit.hidden = true
-
         
         
-        // === Outcomes ===
-        pageViewControllerOutcomes = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
-        self.pageViewControllerOutcomes.dataSource = self
-        
-        let pageContentViewControllerOutcomes = self.viewControllerAtIndex(0, measurementType: OUTCOMES)
-        self.pageViewControllerOutcomes.setViewControllers([pageContentViewControllerOutcomes!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        
-        self.pageViewControllerOutcomes.view.frame = measurementsViewOutcomes.bounds
-        self.addChildViewController(pageViewControllerOutcomes)
-        measurementsViewOutcomes.addSubview(pageViewControllerOutcomes.view)
-        self.pageViewControllerOutcomes.didMoveToParentViewController(self)
-        
+        //// Outcomes
+        ////  - initially hidden
+        pageViewControllerOutcomes = self.pageViewControllerForCategory(OUTCOMES, view:measurementsViewOutcomes)
         measurementsViewOutcomesHeight.constant = 0
         measurementsViewOutcomes.hidden = true
         
         
-        
+        // make sure the FAITH measurements are shown:
+        currentlyOpenMeasurementCategory = FAITH
         openView(FAITH)
         
     }
     
+    
+    
+   /*
+    * pageViewControllerForCategory( view: )
+    *
+    * Return a side scrolling UIPageViewController to manage the 
+    * array of Measurements specified for category.
+    *
+    * view: is the UIViewController this PageViewController is held inside
+    */
+    func pageViewControllerForCategory( category : Int, view: UIView ) -> UIPageViewController {
+        
+        // make an instance of our storyboard "PageViewController"
+        let pvc = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
+        
+        // lock in us as the dataSource for our pageViewController
+        pvc.dataSource = self
+        
+        // create an initial instace
+        let pageContentViewController = self.viewControllerAtIndex(0, measurementType: category)
+        pvc.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+        
+        // make sure all the bounds/views are properly set
+        pvc.view.frame = view.bounds
+        self.addChildViewController(pvc)
+        view.addSubview(pvc.view)
+        pvc.didMoveToParentViewController(self)
+        
+        
+        return pvc
+    }
+    
+    
+    
+    /*
+     * loadData
+     * 
+     * Load all the Measurements from the local Data Storage
+     * according to the stored "ministry_id"
+     */
+    func loadData() -> Void {
+        
+        // reset our measurement arrays to empty
+        self.measurementsFaith = []
+        self.measurementsFruit = []
+        self.measurementsOutcomes = []
+        
+        
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+            
+            //
+            // get Ministry and display Name
+            //
+            
+            let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+            
+            
+            // ministry_name might be undefined
+            var minName : String
+            if let ministryName = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+                minName = (ministryName) + "(" + currMcc + ")"
+            } else {
+                minName = "Self Assigned" + "(" + currMcc + ")"
+            }
+           
+            println("*** ministry name: \(minName)")
+//            ministryNameLabel.text = minName
+            
+            
+            //
+            // setup Measurements
+            //
+            if let measurements = self.measurementsForMinistryID(ministryId)  {
+ 
+                // add each measurement to the right array
+                for m in measurements {
+                    
+                    switch (m.column.lowercaseString) {
+                        case "faith":
+                            self.measurementsFaith.append(m)
+                        case "fruit":
+                            self.measurementsFruit.append(m)
+                        case "outcome":
+                            self.measurementsOutcomes.append(m)
+                        default:
+                            println("measurement.column[\(m.column)] not understood")
+                        
+                    }
+                }
+            }
+            
+            
+        } else {
+            
+            //// TODO: what happens here?
+            println("Hack1ViewController.loadData():");
+            println("... still don't have a ministry ID assigned");
+            
+        }
+        
+    }
+    
+    
+    
+   /*
+    * measurementsForMinistryID
+    *
+    * return all the measurements for the ministry
+    * with id = ministryID
+    */
+    func measurementsForMinistryID (ministryID:String) -> [Measurements]? {
+        
+        
+        let fetchRequest =  NSFetchRequest(entityName:"Measurements")
+        
+        // where ministry_id = X
+        fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryID)
+        
+        
+        // sort by sort order
+        //   column = [Faith, Fruit, Outcomes]
+        let sortByOrder = NSSortDescriptor(key: "sort_order", ascending: true)
+        fetchRequest.sortDescriptors = [sortByOrder]
+        
+        // now run the fetchRequest (Query)
+        var error: NSError?
+        let results = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Measurements]?
+        
+        
+        return results!
+    }
+    
+    
+    
+    /* 
+     * pageViewController(pageViewController: viewControllerAfterViewController)
+     * (UIPageViewControllerDataSource)
+     *
+     * called when the UIPageViewController  swipes right.
+     * 
+     * this will return the next UIViewController after the current one provided, or nil if at end.
+     */
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         println("pageViewControllerAFTER")
         
@@ -127,11 +263,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var cnt:Int = 1
         switch (pcvc.measurementType) {
         case FAITH:
-            cnt = measurementDescriptionsFaith.count
+            cnt = measurementsFaith.count
         case FRUIT:
-            cnt = measurementDescriptionsFruit.count
+            cnt = measurementsFruit.count
         case OUTCOMES:
-            cnt = measurementDescriptionsOutcomes.count
+            cnt = measurementsOutcomes.count
         default:
             cnt = 1
         }
@@ -142,9 +278,18 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             return nil
         }
         return self.viewControllerAtIndex(index, measurementType: pcvc.measurementType)
-        
     }
     
+    
+    
+    /*
+    * pageViewController(pageViewController: viewControllerBeforeViewController)
+    * (UIPageViewControllerDataSource)
+    *
+    * called when the UIPageViewController  swipes left.
+    *
+    * this will return the next UIViewController before the current one provided, or nil if at beginning.
+    */
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         println("pageViewControllerBEFORE")
         
@@ -156,45 +301,62 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
         index--
         return self.viewControllerAtIndex(index, measurementType: pcvc.measurementType)
-        
     }
     
+    
+    
+   /*
+    * viewControllerAtIndex(index: measurementType)
+    *
+    * return a new UIViewController for the current index
+    *
+    */
     func viewControllerAtIndex(index : Int, measurementType: Int) -> UIViewController? {
         println("viewControllerAtIndex: \(index), measurementType: \(measurementType)")
         
-        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as PageContentViewController
-        
-        pageContentViewController.measurementType = measurementType
-        
-        
-        var measurementDescriptions : [String]
-        //var measurementValues : [Int]
-        var measurementValues : [String]
+        //// Find the right set of measurements to work with:
+        var measurements : [Measurements]
         switch (measurementType) {
-        case FAITH:
-            measurementDescriptions = measurementDescriptionsFaith
-            measurementValues = measurementValuesFaith
-        case FRUIT:
-            measurementDescriptions = measurementDescriptionsFruit
-            measurementValues = measurementValuesFruit
-        case OUTCOMES:
-            measurementDescriptions = measurementDescriptionsOutcomes
-            measurementValues = measurementValuesOutcomes
-        default:
-            measurementDescriptions = measurementDescriptionsFaith
-            measurementValues = measurementValuesFaith
+            case FAITH:
+                measurements = self.measurementsFaith
+            case FRUIT:
+                measurements = self.measurementsFruit
+            case OUTCOMES:
+                measurements = self.measurementsOutcomes
+            default:
+                measurements = self.measurementsFaith
         }
         
-        if((measurementDescriptions.count == 0) || (index >= measurementDescriptions.count)) {
+        
+        // if we don't have any or we are past the end  --> stop
+        if((measurements.count == 0) || (index >= measurements.count)) {
             return nil
         }
         
-        pageContentViewController.measurementDescription = measurementDescriptions[index]
-        pageContentViewController.measurementValue = measurementValues[index]
+        
+        // create a new PageContentViewController to be displayed by the Scroller
+        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as PageContentViewController
+        
+        
+        // assign the current measurement's details to this new PCVC
+        pageContentViewController.measurementType = measurementType
+        
+        //
+        pageContentViewController.measurementDescription = measurements[index].name
+        
+        
+        // get the value for the current period
+        var values = measurements[index].measurementValue
+
+        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+        
+        pageContentViewController.measurementValue = valueForThisPeriod.total.stringValue
+        
         
         pageContentViewController.pageIndex = index
         
-        //pageContentViewController.view.frame = measurementsViewFaith.bounds  //???
         
         return pageContentViewController
     }
@@ -206,11 +368,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var cnt:Int = 1
         switch (pcvc.measurementType) {
         case FAITH:
-            cnt = measurementDescriptionsFaith.count
+            cnt = measurementsFaith.count
         case FRUIT:
-            cnt = measurementDescriptionsFruit.count
+            cnt = measurementsFruit.count
         case OUTCOMES:
-            cnt = measurementDescriptionsOutcomes.count
+            cnt = measurementsOutcomes.count
         default:
             cnt = 1
         }
