@@ -11,16 +11,33 @@ import UIKit
 class PageContentViewController: UIViewController {
 
     var pageIndex: Int?
-    var titleText : String!
-    var imageName : String!
+    //var titleText : String!
+    //var imageName : String!
     
-    @IBOutlet weak var measurementValue: UILabel!
+    var measurementType : Int!
+    
+    var measurementDescription: String!
+    //var measurementValue: Int!
+    var measurementValue: String!
+    
+    @IBOutlet weak var measurementDescriptionLbl: UITextView!
+    @IBOutlet weak var measurementValueLbl: UILabel!
+    
+    
+    @IBOutlet weak var wbsCategory: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         //measurementValue.backgroundColor = UIColor(patternImage: UIImage(named: "numberCircle")!)
+        
+        
+        
+        measurementDescriptionLbl.text = measurementDescription
+        //measurementValueLbl.text = measurementValue.description
+        measurementValueLbl.text = measurementValue
+        
     }
 
     override func didReceiveMemoryWarning() {
