@@ -28,6 +28,13 @@ class GlobalFunctions{
         return dateFormatter.stringFromDate(NSDate())
     }
     
+    class func convertPeriodToPrettyString(period:String) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let d = dateFormatter.dateFromString(period + "-01")
+        dateFormatter.dateFormat = "MMM yyyy"
+        return dateFormatter.stringFromDate(d!)
+    }
     
     class func nextPeriod(current:String!) -> String {
         

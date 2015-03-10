@@ -33,6 +33,7 @@ class measurementDetailViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
          //lazyload a local value if necessary
+        //return; //!!!!!
         
         self.NavItem.title = measurement.name
         self.NavItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: self, action: Selector("backButtonClicked:"))

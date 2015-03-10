@@ -49,8 +49,14 @@ extension Measurements {
             mv = mvs.allObjects.first as MeasurementValue
             
         }
+        var ids = m["measurement_type_ids"] as JSONDictionary
+        
+        self.id_total = ids["total"] as String
+        self.id_local = ids["local"] as String
+        self.id_person = ids["person"] as String
         
         
+    
             
         if m["total"] != nil{
             if mv.total != m["total"] as NSNumber{
