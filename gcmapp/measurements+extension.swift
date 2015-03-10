@@ -68,13 +68,31 @@ extension Measurements {
             if mv.total != m["total"] as NSNumber{
                 rtn = true
                 mv.total = m["total"] as NSNumber
-                println(mv.total)
+                println("*mv.total: \(mv.total)")
             }
         }
-        else if m["my_values"] != nil{
-            mv.updateMeSource(period, input: m["my_values"] as JSONDictionary, managedContext: managedContext)
+        
+        if m["person"] != nil{
+            let temp = m["person"]
+            println("*mv.me: \(mv.me), mPerson: \(temp)")
+            if mv.me != m["person"] as NSNumber{
+                rtn = true
+                mv.me = m["person"] as NSNumber
+
+            }
         }
         
+        if m["local"] != nil{
+            if mv.local != m["local"] as NSNumber{
+                rtn = true
+                mv.local = m["local"] as NSNumber
+                println("*mv.local: \(mv.local)")
+            }
+        }
+        
+//        else if m["my_values"] != nil{
+//            mv.updateMeSource(period, input: m["my_values"] as JSONDictionary, managedContext: managedContext)
+//        }
         
         if m["person_measurement_type_id"] != nil{
             self.id_person = m["person_measurement_type_id"]  as String

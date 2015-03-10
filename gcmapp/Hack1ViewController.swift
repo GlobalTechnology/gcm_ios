@@ -6,6 +6,20 @@
 //  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
+/*
+Available Custom Font Names:
+familyName: Roboto
+    fontName: Roboto-Italic
+    fontName: Roboto-Light
+    fontName: Roboto-BoldItalic
+    fontName: Roboto-LightItalic
+    fontName: Roboto-Bold
+    fontName: Roboto-Regular
+    fontName: Roboto-Medium
+    fontName: Roboto-MediumItalic
+
+*/
+
 import UIKit
 import CoreData
 
@@ -138,29 +152,24 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         */
         
         
+   
         /*
-        for (NSString* family in [UIFont familyNames])
-        {
-            NSLog(@"%@", family);
-            
-            for (NSString* name in [UIFont fontNamesForFamilyName: family])
-            {
-                NSLog(@"  %@", name);
+        for family in UIFont.familyNames() as [String] {
+            println("familyName: \(family)")
+            for name in UIFont.fontNamesForFamilyName(family) {
+                println("   fontName: \(name)")
             }
         }
         */
-        /*
-        for family:String in UIFont.familyNames() {
-            
-        }
-        */
+        
         
         //self.periodControl.setTitle("Mar 2014", forSegmentAtIndex: 1)
         
         // ==== Segmented Control ====
         
         // Font
-        let font = UIFont.boldSystemFontOfSize(20.0)
+        //let font = UIFont.boldSystemFontOfSize(20.0)
+        let font = UIFont(name: "Roboto-Regular", size: 20.0)
         var attributes = Dictionary<String, UIFont>()
         attributes[NSFontAttributeName] = font
         self.periodControl.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
@@ -188,6 +197,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         // Border color
         //self.periodControl.layer.borderWidth = 5
         //self.periodControl.layer.borderColor = UIColor.clearColor()
+        
         
         // Left & Right chevron
         self.periodControl.setImage(UIImage(named: "date-control"), forSegmentAtIndex: 0)
@@ -345,9 +355,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             // ministry_name might be undefined
             var minName : String
             if let ministryName = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-                minName = (ministryName) + "(" + currMcc + ")"
+                minName = (ministryName) + " (" + currMcc.uppercaseString + ")"
             } else {
-                minName = "Self Assigned" + "(" + currMcc + ")"
+                minName = "Self Assigned" + " (" + currMcc.uppercaseString + ")"
             }
            
             println("*** ministry name: \(minName)")
@@ -536,7 +546,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
         
         println("s:\(valueForThisPeriod.total.stringValue)")
-        pageContentViewController.measurementValue = valueForThisPeriod.total.stringValue
+        pageContentViewController.totalValue = valueForThisPeriod.total.stringValue
         
         
         pageContentViewController.pageIndex = index
