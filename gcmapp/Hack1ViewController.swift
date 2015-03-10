@@ -117,6 +117,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
         */
         
+        self.periodSelector.setTitle("Mar 2015", forSegmentAtIndex: 1)
         
         
         
@@ -160,6 +161,32 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         currentlyOpenMeasurementCategory = FAITH
         openView(FAITH)
         
+        
+        
+        let nc = NSNotificationCenter.defaultCenter()
+        let myQueue = NSOperationQueue()
+        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
+            //self.tableView.reloadData()
+            self.loadData()
+            //self.refreshControl?.endRefreshing()
+            
+            self.pageViewControllerFaith.dataSource = nil
+            self.pageViewControllerFruit.dataSource = nil
+            self.pageViewControllerOutcomes.dataSource = nil
+            self.pageViewControllerFaith.dataSource = self
+            self.pageViewControllerFruit.dataSource = self
+            self.pageViewControllerOutcomes.dataSource = self
+            
+            /*NSFetchedResultsController.deleteCacheWithName("meas")
+            var error: NSError?
+            
+            if !self.fetchedResultController.performFetch(&error) {
+            println("Could not fetch \(error), \(error?.userInfo)")
+            }
+            */
+            
+            return
+        }
     }
     
     
@@ -178,17 +205,20 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         let pvc = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
         
         // lock in us as the dataSource for our pageViewController
+        
         pvc.dataSource = self
         
         // create an initial instace
-        let pageContentViewController = self.viewControllerAtIndex(0, measurementType: category)
-        pvc.setViewControllers([pageContentViewController!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        
-        // make sure all the bounds/views are properly set
-        pvc.view.frame = view.bounds
-        self.addChildViewController(pvc)
-        view.addSubview(pvc.view)
-        pvc.didMoveToParentViewController(self)
+        if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: category) {
+            pvc.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+            
+            // make sure all the bounds/views are properly set
+            pvc.view.frame = view.bounds
+            self.addChildViewController(pvc)
+            view.addSubview(pvc.view)
+            pvc.didMoveToParentViewController(self)
+            
+        }
         
         
         return pvc
@@ -228,7 +258,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             }
            
             println("*** ministry name: \(minName)")
-//            ministryNameLabel.text = minName
+            ministryNameLabel.text = minName
             
             
             //
