@@ -268,8 +268,8 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
         
         
     }
-    func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String{
-        
+    func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String?{
+          var newList = allMinistries
         var error: NSError?
         let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: self.managedContext)
         
@@ -302,43 +302,73 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
         if a["location_zoom"] != nil{
             ministry.zoom = a["location_zoom"] as NSNumber
         }
+      
+        newList!.append(ministry)
         
         
         
         if !self.managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
-        
         let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
         var assignment:Assignment!
-        
-        if ministry.assignments.count>0{
-            let this_ass = ministry.assignments.filteredSetUsingPredicate(NSPredicate(format: "id = %@", a["id"] as String)!)
-            if this_ass.allObjects.count > 0{
-                assignment=this_ass.allObjects.first as Assignment
-            } else {
+        //if (a["id"] != nil) {
+            if ministry.assignments.count>0 {
+                var this_ass :NSSet!
+                if a["id"] != nil {
+                    this_ass = ministry.assignments.filteredSetUsingPredicate(NSPredicate(format: "id = %@", a["id"] as String)!)
+                    if this_ass.allObjects.count > 0{
+                        assignment=this_ass.allObjects.first as Assignment
+                    } else {
+                        assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
+                         assignment.id=a["id"] as String
+                    }
+                } else {
+                    assignment = ministry.assignments.allObjects.first as Assignment
+                }
+            }else{
+                
                 assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
+                if a["id"] != nil {
+                    assignment.id=a["id"] as String
+                }
             }
-        }else{
-            assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
-        }
+            
+            
         
-        assignment.id=a["id"] as String
-        assignment.team_role=a["team_role"] as String
-        assignment.person_id = user["person_id"]!
-        assignment.first_name = user["first_name"]!
-        assignment.last_name = user["last_name"]!
+            
+            assignment.team_role=a["team_role"] as String
+            assignment.person_id = user["person_id"]!
+            assignment.first_name = user["first_name"]!
+            assignment.last_name = user["last_name"]!
+            
+            assignment.ministry = ministry
+            
+            
+            
+            if !self.managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+        //}
         
-        assignment.ministry = ministry
-        
-        
-        if !self.managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
         //if assignment.id == current_ass_id{
         //    has_current_ass_id = true
         //}
-        return assignment.id
+        
+        /*
+        if a["sub_ministries"] != nil {
+            for row in a["sub_ministries"] as Array<JSONDictionary> {
+            
+                self.addAssignment(row, user: user, allMinistries: newList)
+            }
+        }
+        */
+        
+        if (a["id"] != nil) {
+            return assignment.id
+        } else {
+            return nil
+        }
     }
     
     

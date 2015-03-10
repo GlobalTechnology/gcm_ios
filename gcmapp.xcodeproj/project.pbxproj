@@ -664,7 +664,7 @@
 						TestTargetID = FC4D27421A2DDF8500C20288;
 					};
 					FC5EE6CD1AA073A600F86627 = {
-						DevelopmentTeam = R557EYCJ2D;
+						DevelopmentTeam = FQ6JHNT6KD;
 					};
 				};
 			};

@@ -54,7 +54,13 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
        
         for a:Assignment in ministry.assignments.allObjects as [Assignment]{
             if a.person_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as String?{
-                NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
+               // if a.id != nil {
+                    NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
+                    
+               // } else {
+               //
+                //}
+                
             }
             
             
