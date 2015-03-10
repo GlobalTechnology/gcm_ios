@@ -11,10 +11,10 @@ import CoreData
 
 class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
-
+    
     @IBOutlet weak var appBanner: UIImageView!
     @IBOutlet weak var ministryNameLabel: UILabel!
-    @IBOutlet weak var periodSelector: UISegmentedControl!
+    @IBOutlet weak var periodControl: UISegmentedControl!
     
 
     //
@@ -74,6 +74,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     var pageViewControllerFruit : UIPageViewController!
     var pageViewControllerOutcomes : UIPageViewController!
 
+    var period:String!
 
     /*
     override func shouldAutorotate() -> Bool {
@@ -95,11 +96,48 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     */
 
+    @IBAction func periodChanged(sender: UISegmentedControl) {
+        switch periodControl.selectedSegmentIndex{
+            
+        case 0:
+            period = GlobalFunctions.prevPeriod(period)
+            NSUserDefaults.standardUserDefaults().setObject(period, forKey: "period")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.updatePeriodControl()
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
+        case 2:
+            period = GlobalFunctions.nextPeriod(period)
+            NSUserDefaults.standardUserDefaults().setObject(period, forKey: "period")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.updatePeriodControl()
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
+            
+        default:
+            break
+        }
+        
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        
+        //periodControl.tintColor = UIColor.clearColor()
+        
+        
+        /*
+        let nc = NSNotificationCenter.defaultCenter()
+        let myQueue = NSOperationQueue()
+        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
+            
+            self.loadData()
+        }
+        */
+        
+        
         /*
         for (NSString* family in [UIFont familyNames])
         {
@@ -117,8 +155,39 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
         */
         
-        self.periodSelector.setTitle("Mar 2015", forSegmentAtIndex: 1)
+        //self.periodControl.setTitle("Mar 2014", forSegmentAtIndex: 1)
+        /*
+        UIFont *font = [UIFont boldSystemFontOfSize:48.0f];
+        NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
+            forKey:NSFontAttributeName];
+        [segmentedControl setTitleTextAttributes:attributes
+            forState:UIControlStateNormal];
         
+        self.periodControl.setTitleTextAttributes(<#attributes: [NSObject : AnyObject]?#>, forState: <#UIControlState#>)
+        */
+        let font = UIFont.boldSystemFontOfSize(20.0)
+        var attributes = Dictionary<String, UIFont>()
+        attributes[NSFontAttributeName] = font
+        self.periodControl.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
+        var f = self.periodControl.frame
+        self.periodControl.frame = CGRectMake(f.origin.x, f.origin.y, f.width, 14.0)
+        
+        /*
+        [segmentControl setDividerImage:dividerimg
+            forLeftSegmentState:UIControlStateNormal
+            rightSegmentState:UIControlStateNormal
+            barMetrics:UIBarMetricsDefault];
+        */
+        
+        // Bar lines
+        self.periodControl.setDividerImage(UIImage(named: "clearPixel"), forLeftSegmentState: UIControlState.Normal, rightSegmentState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+        
+        // Press color
+        //(self.periodControl.subviews) as UIView)
+        
+        // Border color
+        //self.periodControl.layer.borderWidth = 5
+        //self.periodControl.layer.borderColor = UIColor.clearColor()
         
         
         
@@ -167,15 +236,32 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         let myQueue = NSOperationQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
             //self.tableView.reloadData()
-            self.loadData()
+            
             //self.refreshControl?.endRefreshing()
             
-            self.pageViewControllerFaith.dataSource = nil
-            self.pageViewControllerFruit.dataSource = nil
-            self.pageViewControllerOutcomes.dataSource = nil
-            self.pageViewControllerFaith.dataSource = self
-            self.pageViewControllerFruit.dataSource = self
-            self.pageViewControllerOutcomes.dataSource = self
+//            
+//            self.pageViewControllerFaith.dataSource = nil
+//            self.pageViewControllerFruit.dataSource = nil
+//            self.pageViewControllerOutcomes.dataSource = nil
+//            self.pageViewControllerFaith.dataSource = self
+//            self.pageViewControllerFruit.dataSource = self
+//            self.pageViewControllerOutcomes.dataSource = self
+
+            self.loadData()
+            
+            /*
+            //self.pageViewControllerOutcomes.viewControllers.removeAll(keepCapacity: false)
+            (self.pageViewControllerOutcomes.viewControllers.first as PageContentViewController).measurementValueBtn.setTitle((self.pageViewControllerOutcomes.viewControllers.first as PageContentViewController).measurementValue, forState: UIControlState.Normal)
+            */
+            
+            
+//            for pcvc in (self.pageViewControllerFaith.viewControllers as Array<PageContentViewController>) {
+//                
+//                println("pcvc.title \(pcvc.title), pcvc.value: \(pcvc.measurementValue)")
+//                pcvc.measurementValueBtn.setTitle(pcvc.measurementValue, forState: UIControlState.Normal)
+//            }
+            
+            
             
             /*NSFetchedResultsController.deleteCacheWithName("meas")
             var error: NSError?
@@ -189,6 +275,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+        updatePeriodControl()
+    }
     
     
    /*
@@ -269,6 +359,16 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 // add each measurement to the right array
                 for m in measurements {
                     
+                    var values = m.measurementValue
+                    
+                    var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+                    var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+                    var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+
+                    println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
+                    
+                    
+
                     switch (m.column.lowercaseString) {
                         case "faith":
                             self.measurementsFaith.append(m)
@@ -423,6 +523,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         //
         pageContentViewController.measurementDescription = measurements[index].name
         
+        pageContentViewController.measurement = measurements[index]
         
         // get the value for the current period
         var values = measurements[index].measurementValue
@@ -431,6 +532,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
         var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
         
+        println("s:\(valueForThisPeriod.total.stringValue)")
         pageContentViewController.measurementValue = valueForThisPeriod.total.stringValue
         
         
@@ -571,7 +673,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                                     (faithHeader.imageView!.frame.height * 3) -
                                     tabBarController!.tabBar.frame.height -
                                     UIApplication.sharedApplication().statusBarFrame.size.height -
-                                    periodSelector.frame.height -
+                                    periodControl.frame.height -
                                     appBanner.frame.height
         
         println("heightConstraint.constant: \(heightConstraint.constant)")
@@ -579,7 +681,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         println("(faithHeader.frame.height * 3) \(faithHeader.frame.height * 3)")
         println("tabBarController!.tabBar.frame.height \(tabBarController!.tabBar.frame.height)")
         println("UIApplication.sharedApplication().statusBarFrame.size.height \(UIApplication.sharedApplication().statusBarFrame.size.height)")
-        println("periodSelector.frame.height \(periodSelector.frame.height)")
+        println("periodSelector.frame.height \(periodControl.frame.height)")
         println("appBanner.frame.height \(appBanner.frame.height)")
         
         UIView.animateWithDuration(0.5, animations: { () in
@@ -587,6 +689,51 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             mView.alpha = 1.0
         })
     }
+    
+    func updatePeriodControl(){
+        /*
+        // team_role might be undefined
+        if let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
+            self.self_assigned = team_role == "self_assigned"
+        } else {
+            self.self_assigned = true
+        }
+        
+        lblSubTitle.hidden = !self_assigned
+        self.tableView.allowsSelection = !self_assigned
+        
+        
+        let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+        mcc = currMcc
+        
+        
+        // ministry_name might be undefined
+        if let ministryName = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+            lblTitle.text = (ministryName) + "(" + currMcc + ")"
+        } else {
+            lblTitle.text = "Self Assigned" + "(" + currMcc + ")"
+        }
+        */
+        
+        periodControl.setEnabled(period != GlobalFunctions.currentPeriod(), forSegmentAtIndex: 2)
+        self.periodControl.setTitle(GlobalFunctions.convertPeriodToPrettyString(period), forSegmentAtIndex: 1)
+        //tableView.reloadData()
+        self.loadData()
+        
+    }
+
+    /*
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "showMeasurementDetail") {
+            // pass data to next view
+            let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+            //let indexPath = self.tableView.indexPathForSelectedRow()
+            //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
+            detail.measurement = measurementsFaith[2]
+        }
+    }
+    */
+
     
     /*
     // MARK: - Navigation

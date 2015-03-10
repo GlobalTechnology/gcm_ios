@@ -15,6 +15,8 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        self.tabBar.selectedImageTintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
+        
           self.sync=dataSync()
       
         // Do any additional setup after loading the view.

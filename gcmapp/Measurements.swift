@@ -15,7 +15,7 @@ class Measurements: NSManagedObject {
     @NSManaged var id: String
     @NSManaged var id_local: String
     @NSManaged var id_person: String
-    @NSManaged var id_total: String
+    @NSManaged var id_total: String?
     @NSManaged var ministry_id: String
     @NSManaged var name: String
     @NSManaged var perm_link: String
