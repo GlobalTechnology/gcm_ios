@@ -171,7 +171,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         if let assignments=resp["assignments"] as? Array<JSONDictionary> {
                             
                             let current_ass_id = NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String?
-                            
+                            println(assignments.count)
                             for a:JSONDictionary in assignments{
                                 
                                 
@@ -370,9 +370,9 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
             
             for m in data as JSONArray{
                 
-                /*for (myKey,myValue) in m as JSONDictionary {
+                for (myKey,myValue) in m as JSONDictionary {
                 println("\(myKey) \t \(myValue)")
-                }*/
+                }
                 
                 
                 println( m["name"])
@@ -454,7 +454,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 // println(tmp)
                 
                 
-                let this_t = allTraining.filter {$0.id == (t["id"] as NSNumber)}
+                let this_t = allTraining.filter {$0.id == (t["Id"] as NSNumber)}
                 var training:Training!
                 
                 if this_t.count > 0{
@@ -467,7 +467,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 }
                 //END: ADD or Update
                 if !(training.changed as Bool) { // don't update if we have a pending change...
-                    training.id = t["id"] as NSNumber
+                    training.id = t["Id"] as NSNumber
                     training.ministry_id = t["ministry_id"] as String
                     training.name = t["name"] as String
                     if t["date"] as String? != NSNull(){
@@ -501,7 +501,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                             
                             //BEGIN: Add or update
                             var training_comp:TrainingCompletion!
-                            let this_tc = allTC.filter {$0.id == (tc["id"] as NSNumber)}
+                            let this_tc = allTC.filter {$0.id == (tc["Id"] as NSNumber)}
                             if this_tc.count > 0{
                                 training_comp=this_tc.first?
                                 
@@ -512,7 +512,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                             }
                             //END: Add or Update
                             if !(training_comp.changed as Bool) { //don't update if we have a pending value
-                                training_comp.id = tc["id"] as NSNumber
+                                training_comp.id = tc["Id"] as NSNumber
                                 training_comp.phase = tc["phase"] as NSNumber
                                 training_comp.number_completed = tc["number_completed"] as NSNumber
                                 if(tc["date"] as String? != nil){
@@ -592,7 +592,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                             church.latitude = c["latitude"] as Float
                             church.longitude = c["longitude"] as Float
                         }
-                        church.security = c["security"] as NSNumber
+                        //church.security = c["security"] as NSNumber
                         church.contact_name = c["contact_name"] as String
                         church.contact_email = c["contact_email"] as String
                         church.ministry_id = c["ministry_id"] as String

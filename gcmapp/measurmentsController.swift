@@ -259,7 +259,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
        
     }
 
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
         

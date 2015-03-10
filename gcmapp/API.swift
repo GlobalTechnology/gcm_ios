@@ -237,6 +237,9 @@
                 case (200, Path.GET_CHURCHES):
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_TRAINING):
+                    println(NSString(data: self.responseData, encoding: NSUTF8StringEncoding))
+               
+                    
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_MEASUREMENTS):
                     callback(self.handleGetJSONArray(json), nil)
