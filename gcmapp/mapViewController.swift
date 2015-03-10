@@ -80,7 +80,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear( animated)
         
-        self.redrawMap()
+       // self.redrawMap()
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
