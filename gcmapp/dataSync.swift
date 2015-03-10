@@ -377,6 +377,9 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
             return;
         }
         
+        // signal we are beginning a request:
+        NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidBeginMeasurementRequest, object: nil)
+        
         if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String, list: GlobalConstants.NOT_BLOCKED){
             return
         }
@@ -384,6 +387,9 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
         API(token: self.token).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
             
             if data == nil {
+                
+                // signal our Request Ended
+                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidEndMeasurementRequest, object: nil)
                 
                 return;
             }
@@ -446,6 +452,10 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 
                 
             }
+            
+            // signal our Request Ended
+            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidEndMeasurementRequest, object: nil)
+            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
             
