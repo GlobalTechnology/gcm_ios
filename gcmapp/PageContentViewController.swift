@@ -19,23 +19,56 @@ class PageContentViewController: UIViewController {
     var measurementType : Int!
     
     var measurementDescription: String!
-    //var measurementValue: Int!
-    var measurementValue: String!
+    var totalValue: String!
+
     
     @IBOutlet var busySpinner: UIActivityIndicatorView!
     
     //@IBOutlet weak var measurementDescriptionLbl: UITextView!
     @IBOutlet weak var measurementDescriptionLbl: UILabel!
     //@IBOutlet weak var measurementValueLbl: UILabel!
-    @IBOutlet weak var measurementValueBtn: UIButton!
+    @IBOutlet weak var totalValueBtn: UIButton!
+    
+    
+    
+    
 
+    @IBOutlet weak var localValueBtn: UIButton!
+    @IBOutlet weak var personValueBtn: UIButton!
+    
+    @IBOutlet weak var localPersonChooser: UISegmentedControl!
     
     @IBOutlet weak var wbsCategory: UILabel!
+    
+    @IBAction func localPersonChooserChanged(sender: UISegmentedControl) {
+        
+        if sender.selectedSegmentIndex == 0 {
+            localValueBtn.hidden = false
+            personValueBtn.hidden = true
+        } else {
+            localValueBtn.hidden = true
+            personValueBtn.hidden = false
+        }
+        
+    }
+    
+    @IBAction func onLocalValueBtnClicked(sender: UIButton) {
+        println("onLocalValueBtnClicked")
+    }
+    
+    @IBAction func onPersonValueBtnClicked(sender: UIButton) {
+        
+        println("onPersonValueBtnClicked")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.busySpinner.hidesWhenStopped = true
+        
+        personValueBtn.hidden = true
+        
         
         
         let nc = NSNotificationCenter.defaultCenter()
@@ -46,13 +79,13 @@ class PageContentViewController: UIViewController {
             
             var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
             // where ministry_id = X
-            if self.measurement!.id_total == nil{
+            if self.measurement!.id_total == nil {
                 println("error: \(self.measurement!.name)")
                 return;
             }
             
             
-//println("id_total: \(self.measurement!.id_total!)")
+            //println("id_total: \(self.measurement!.id_total!)")
             fetchRequest.predicate = NSPredicate(format: "measurement.id_total = %@ && period = %@", self.measurement!.id_total!, period)
             
             
@@ -63,14 +96,14 @@ class PageContentViewController: UIViewController {
             let results = appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest,error: &error) as [MeasurementValue]?
 
             if results!.count > 0 {
-                self.measurementValue = results?.first?.total.stringValue
+                self.totalValue = results?.first?.total.stringValue
             } else {
                 
                 println("... no values for current period: \(period)")
-                self.measurementValue = "??"
+                self.totalValue = "??"
             }
             
-            self.measurementValueBtn.setTitle(self.measurementValue, forState: UIControlState.Normal)
+            self.totalValueBtn.setTitle(self.totalValue, forState: UIControlState.Normal)
             
         }
         
@@ -104,12 +137,12 @@ println("... kDidEndRequest : caught")
         var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
         
         println("s:\(valueForThisPeriod.total.stringValue)")
-        self.measurementValue = valueForThisPeriod.total.stringValue
+        self.totalValue = valueForThisPeriod.total.stringValue
         
         
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
-        measurementValueBtn.setTitle(measurementValue, forState: UIControlState.Normal)
+        totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
         
     }
 
