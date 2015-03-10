@@ -342,12 +342,12 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             // ministry_name might be undefined
             var minName : String
             if let ministryName = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-                minName = (ministryName) + "(" + currMcc + ")"
+                minName = (ministryName) + " (" + currMcc + ")"
             } else {
-                minName = "Self Assigned" + "(" + currMcc + ")"
+                minName = "Self Assigned" + " (" + currMcc + ")"
             }
            
-            println("*** ministry name: \(minName)")
+//println("*** ministry name: \(minName)")
             ministryNameLabel.text = minName
             
             
@@ -358,14 +358,19 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
  
                 // add each measurement to the right array
                 for m in measurements {
-                    
-                    var values = m.measurementValue
-                    
-                    var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-                    var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-                    var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+               
+//// For Debugging:
+var values = m.measurementValue
 
-                    println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
+var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+
+if (periodVals.count > 0) {
+    var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+    println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
+} else {
+    println("mName: \(m.name), mValue: [none]")
+}
                     
                     
 
@@ -521,19 +526,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         pageContentViewController.measurementType = measurementType
         
         //
-        pageContentViewController.measurementDescription = measurements[index].name
+//        pageContentViewController.measurementDescription = measurements[index].name
         
         pageContentViewController.measurement = measurements[index]
-        
-        // get the value for the current period
-        var values = measurements[index].measurementValue
-
-        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
-        
-        println("s:\(valueForThisPeriod.total.stringValue)")
-        pageContentViewController.measurementValue = valueForThisPeriod.total.stringValue
         
         
         pageContentViewController.pageIndex = index

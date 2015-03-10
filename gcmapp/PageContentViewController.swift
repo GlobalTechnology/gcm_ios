@@ -22,6 +22,7 @@ class PageContentViewController: UIViewController {
     //var measurementValue: Int!
     var measurementValue: String!
     
+    @IBOutlet var busySpinner: UIActivityIndicatorView!
     
     //@IBOutlet weak var measurementDescriptionLbl: UITextView!
     @IBOutlet weak var measurementDescriptionLbl: UILabel!
@@ -34,6 +35,7 @@ class PageContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.busySpinner.hidesWhenStopped = true
         
         
         let nc = NSNotificationCenter.defaultCenter()
@@ -47,20 +49,14 @@ class PageContentViewController: UIViewController {
             if self.measurement!.id_total == nil{
                 println("error: \(self.measurement!.name)")
                 return;
-            } else {
-                println("total: \(self.measurement!.id_total!)")
-                fetchRequest.predicate = NSPredicate(format: "measurement.id_total = %@ && period = %@", self.measurement!.id_total!, period)
             }
             
             
-            
+//println("id_total: \(self.measurement!.id_total!)")
+            fetchRequest.predicate = NSPredicate(format: "measurement.id_total = %@ && period = %@", self.measurement!.id_total!, period)
             
             
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            //self.managedContext = appDelegate.managedObjectContext!
-            
-            // sort by sort order
-            //   column = [Faith, Fruit, Outcomes]
             
             // now run the fetchRequest (Query)
             var error: NSError?
@@ -68,14 +64,49 @@ class PageContentViewController: UIViewController {
 
             if results!.count > 0 {
                 self.measurementValue = results?.first?.total.stringValue
-                self.measurementValueBtn.setTitle(self.measurementValue, forState: UIControlState.Normal)
+            } else {
+                
+                println("... no values for current period: \(period)")
+                self.measurementValue = "??"
             }
             
+            self.measurementValueBtn.setTitle(self.measurementValue, forState: UIControlState.Normal)
+            
+        }
+        
+        
+        // Show Busy Indicator when a Request has been started ...
+        var observer_request_begin = nc.addObserverForName(GlobalConstants.kDidBeginMeasurementRequest, object: nil, queue: myQueue) {(notification:NSNotification!) in
+println(" .... kDidBeginRequest : caught")
+            self.busySpinner.startAnimating()
+//            self.measurementValueBtn.setTitle("", forState:UIControlState.Normal)
+        }
+        
+        
+        // Stop Busy Indicator when a Request has Ended
+        var observer_request_end = nc.addObserverForName(GlobalConstants.kDidEndMeasurementRequest, object: nil, queue: myQueue) {(notification:NSNotification!) in
+println("... kDidEndRequest : caught")
+            self.busySpinner.stopAnimating()
+//            self.measurementValueBtn.setTitle(self.measurementValue, forState: UIControlState.Normal)
         }
 
         
         
-        measurementDescriptionLbl.text = measurementDescription
+        
+        // load our Description Label == name
+        measurementDescriptionLbl.text = self.measurement!.name
+        
+        // get the value for the current period
+        var values = self.measurement!.measurementValue
+        
+        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+        
+        println("s:\(valueForThisPeriod.total.stringValue)")
+        self.measurementValue = valueForThisPeriod.total.stringValue
+        
+        
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
         measurementValueBtn.setTitle(measurementValue, forState: UIControlState.Normal)
