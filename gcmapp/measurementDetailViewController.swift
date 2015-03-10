@@ -46,10 +46,8 @@ class measurementDetailViewController: UITableViewController {
         if search_this_period.count>0{
             self.this_period_values = search_this_period[0] as MeasurementValue
         }
-        else{
-            self.this_period_values = nil
-        }
-        
+       
+        if self.this_period_values != nil{
         if  self.this_period_values.localSources.filteredSetUsingPredicate(NSPredicate(format: "name=%@", GlobalConstants.LOCAL_SOURCE)!).count==0{
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var managedContext = appDelegate.managedObjectContext!
@@ -60,6 +58,7 @@ class measurementDetailViewController: UITableViewController {
             }
             
             
+        }
         }
 
         self.tableView.reloadData()

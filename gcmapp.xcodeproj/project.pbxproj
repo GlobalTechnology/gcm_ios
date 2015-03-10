@@ -173,7 +173,7 @@
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		FC41ED6D1A31EF9A00915ED7 /* mapOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapOptionsViewController.swift; sourceTree = "<group>"; };
-		FC4D27431A2DDF8500C20288 /* GMAapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMAapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC4D27431A2DDF8500C20288 /* GMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC4D27471A2DDF8500C20288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC4D27481A2DDF8500C20288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC4D274A1A2DDF8500C20288 /* mapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 		FC4D27441A2DDF8500C20288 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC4D27431A2DDF8500C20288 /* GMAapp.app */,
+				FC4D27431A2DDF8500C20288 /* GMA.app */,
 				FC4D275A1A2DDF8500C20288 /* gcmappTests.xctest */,
 				FC5EE71B1AA073A600F86627 /* GMA Demo.app */,
 			);
@@ -521,7 +521,7 @@
 			);
 			name = GMA;
 			productName = gcmapp;
-			productReference = FC4D27431A2DDF8500C20288 /* GMAapp.app */;
+			productReference = FC4D27431A2DDF8500C20288 /* GMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FC4D27591A2DDF8500C20288 /* gcmappTests */ = {
