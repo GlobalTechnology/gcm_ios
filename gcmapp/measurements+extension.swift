@@ -51,9 +51,15 @@ extension Measurements {
         }
         var ids = m["measurement_type_ids"] as JSONDictionary
         
-        self.id_total = ids["total"] as String
-        self.id_local = ids["local"] as String
-        self.id_person = ids["person"] as String
+        if ids["total"] != nil {
+            self.id_total = ids["total"] as String
+        }
+        if ids["local"] != nil {
+            self.id_local = ids["local"] as String
+        }
+        if ids["person"] != nil {
+            self.id_person = ids["person"] as String
+        }
         
         
     

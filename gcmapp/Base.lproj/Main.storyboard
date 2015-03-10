@@ -1136,10 +1136,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" momentary="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8tl-x7-5DH">
-                                <rect key="frame" x="0.0" y="98" width="600" height="37"/>
+                                <rect key="frame" x="0.0" y="98" width="603" height="43"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="Cpl-Py-30x"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="42" id="T96-zL-UHo"/>
+                                    <constraint firstAttribute="height" constant="42" id="3Ef-f6-Ugm"/>
                                 </constraints>
                                 <segments>
                                     <segment title="&lt;&lt;"/>
@@ -1151,7 +1150,7 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1X-O5-8qE">
-                                <rect key="frame" x="0.0" y="224" width="600" height="264"/>
+                                <rect key="frame" x="0.0" y="230" width="600" height="264"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShadow" translatesAutoresizingMaskIntoConstraints="NO" id="Zxc-0d-3gS">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="12"/>
@@ -1197,7 +1196,7 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eln-Hm-RbS">
-                                <rect key="frame" x="0.0" y="578" width="600" height="264"/>
+                                <rect key="frame" x="0.0" y="584" width="600" height="264"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShadow" translatesAutoresizingMaskIntoConstraints="NO" id="YMy-3U-H9w">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="12"/>
@@ -1245,7 +1244,7 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sqq-92-6nS">
-                                <rect key="frame" x="0.0" y="932" width="600" height="264"/>
+                                <rect key="frame" x="0.0" y="938" width="600" height="264"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShadow" translatesAutoresizingMaskIntoConstraints="NO" id="0S5-4y-i6k">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="12"/>
@@ -1291,7 +1290,7 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdk-8A-EQh">
-                                <rect key="frame" x="0.0" y="134" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="140" width="600" height="90"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                 <state key="normal" title="Faith Actions" image="Measurements_FaithActions_icon">
@@ -1302,7 +1301,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RDf-DO-7G7">
-                                <rect key="frame" x="0.0" y="488" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="494" width="600" height="90"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Fruit" image="Measurements_Fruit_icon">
@@ -1314,7 +1313,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Rk-kw-Vr2">
-                                <rect key="frame" x="0.0" y="842" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="848" width="600" height="90"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Outcomes" image="Measurements_Outcomes_icon">
@@ -1332,7 +1331,7 @@
                             <constraint firstItem="0Rk-kw-Vr2" firstAttribute="leading" secondItem="yHI-bA-v9p" secondAttribute="leading" id="4LR-Cf-Q6u"/>
                             <constraint firstAttribute="trailing" secondItem="Eln-Hm-RbS" secondAttribute="trailing" id="4bH-NA-maD"/>
                             <constraint firstItem="SLM-8B-vXg" firstAttribute="leading" secondItem="yHI-bA-v9p" secondAttribute="leading" id="9B5-wG-Muu"/>
-                            <constraint firstAttribute="trailing" secondItem="8tl-x7-5DH" secondAttribute="trailing" id="Btr-5i-5QZ"/>
+                            <constraint firstAttribute="trailing" secondItem="8tl-x7-5DH" secondAttribute="trailing" constant="-3" id="Btr-5i-5QZ"/>
                             <constraint firstAttribute="trailing" secondItem="k1X-O5-8qE" secondAttribute="trailing" id="FOa-Mi-ls6"/>
                             <constraint firstItem="SLM-8B-vXg" firstAttribute="leading" secondItem="tlU-0j-bNl" secondAttribute="leading" constant="-30" id="IbA-iS-nr3"/>
                             <constraint firstItem="hdk-8A-EQh" firstAttribute="leading" secondItem="yHI-bA-v9p" secondAttribute="leading" id="NyZ-Zg-lZ1"/>

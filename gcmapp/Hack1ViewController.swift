@@ -156,21 +156,16 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         */
         
         //self.periodControl.setTitle("Mar 2014", forSegmentAtIndex: 1)
-        /*
-        UIFont *font = [UIFont boldSystemFontOfSize:48.0f];
-        NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
-            forKey:NSFontAttributeName];
-        [segmentedControl setTitleTextAttributes:attributes
-            forState:UIControlStateNormal];
         
-        self.periodControl.setTitleTextAttributes(<#attributes: [NSObject : AnyObject]?#>, forState: <#UIControlState#>)
-        */
+        // ==== Segmented Control ====
+        
+        // Font
         let font = UIFont.boldSystemFontOfSize(20.0)
         var attributes = Dictionary<String, UIFont>()
         attributes[NSFontAttributeName] = font
         self.periodControl.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
         var f = self.periodControl.frame
-        self.periodControl.frame = CGRectMake(f.origin.x, f.origin.y, f.width, 14.0)
+        self.periodControl.frame = CGRectMake(f.origin.x, f.origin.y, f.width, 40.0)
         
         /*
         [segmentControl setDividerImage:dividerimg
@@ -182,6 +177,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         // Bar lines
         self.periodControl.setDividerImage(UIImage(named: "clearPixel"), forLeftSegmentState: UIControlState.Normal, rightSegmentState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         
+        // Bar border
+        //self.periodControl.backgroundColor = UIColor.redColor()
+        self.periodControl.setBackgroundImage(UIImage(named: "clearPixel"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+
+        
         // Press color
         //(self.periodControl.subviews) as UIView)
         
@@ -189,6 +189,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         //self.periodControl.layer.borderWidth = 5
         //self.periodControl.layer.borderColor = UIColor.clearColor()
         
+        // Left & Right chevron
+        self.periodControl.setImage(UIImage(named: "date-control"), forSegmentAtIndex: 0)
+        self.periodControl.setImage(UIImage(named: "date-control-right"), forSegmentAtIndex: 2)
         
         
         //// setup the coreData managedContext
@@ -359,13 +362,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 // add each measurement to the right array
                 for m in measurements {
                     
-                    var values = m.measurementValue
-                    
-                    var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-                    var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-                    var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
-
-                    println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
+//                    var values = m.measurementValue
+//                    
+//                    var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+//                    var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+//                    var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+//
+//                    println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
                     
                     
 
