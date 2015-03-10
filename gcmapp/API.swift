@@ -289,6 +289,7 @@
                     
                     // Unknown Error
                     println("401")
+                    println("... responseData:\(NSString(data: responseData, encoding: NSUTF8StringEncoding))")
                     callback(nil, nil)
                 }
             }

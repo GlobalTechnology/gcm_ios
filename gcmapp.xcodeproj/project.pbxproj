@@ -665,6 +665,7 @@
 					};
 					FC5EE6CD1AA073A600F86627 = {
 						DevelopmentTeam = FQ6JHNT6KD;
+						DevelopmentTeam = Q8LK247Z5S;
 					};
 				};
 			};

@@ -26,6 +26,11 @@ struct GlobalConstants {
     static let kShouldUpdateMin = "ShouldUpdateMin"
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
+    
+    // these are used when an API request is started and stopped
+    //   - displays can show busy indicators to indicate when an action is in progress
+    static let kDidBeginMeasurementRequest = "DidBeginMeasurementRequest"
+    static let kDidEndMeasurementRequest   = "DidEndMeasurementRequest"
    
     static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as String
      static let SERVICE_API = SERVICE_ROOT + "token"

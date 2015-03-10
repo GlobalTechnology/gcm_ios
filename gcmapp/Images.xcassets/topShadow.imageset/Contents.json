@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "topShadow-1-1.jpg"
+      "filename" : "topShadowx1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "topShadow-1.jpg"
+      "filename" : "topShadowx2.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "topShadow.jpg"
+      "filename" : "topShadowx3.png"
     }
   ],
   "info" : {
