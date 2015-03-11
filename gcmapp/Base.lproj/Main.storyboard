@@ -1020,7 +1020,7 @@
         <!--New MinistryTVC-->
         <scene sceneID="Mms-MZ-e7a">
             <objects>
-                <tableViewController id="Cht-Xl-t1v" customClass="NewMinistryTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="JoinMinistryTVC" id="Cht-Xl-t1v" customClass="NewMinistryTVC" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ade-7w-5Gp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

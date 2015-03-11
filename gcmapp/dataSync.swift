@@ -14,6 +14,7 @@ class dataSync: NSObject {
     var token:NSString!
     let myQueue = NSOperationQueue()
     override init(){
+        
         super.init()
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         self.managedContext = appDelegate.managedObjectContext!
@@ -72,6 +73,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 
             }
         }
+
         
         var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
@@ -127,8 +129,9 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
-                
+ println("... kLogin: .logout()")
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
+                return;
             }
             
             
@@ -136,6 +139,8 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
             // On kLogin -> Authorize the client
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
+println("... ticketForService() : ticket == nil!")
+                    //TheKeyOAuth2Client.sharedOAuth2Client().logout()
                     return
                 }
                 
@@ -307,9 +312,10 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
         
         
         
-        if !self.managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
+//        if !self.managedContext.save(&error) {
+//            println("Could not save \(error), \(error?.userInfo)")
+//        }
+        self.saveContext()
         let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
         var assignment:Assignment!
         //if (a["id"] != nil) {
@@ -321,7 +327,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         assignment=this_ass.allObjects.first as Assignment
                     } else {
                         assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
-                         assignment.id=a["id"] as String
+                         assignment.id=(a["id"] as String)
                     }
                 } else {
                     assignment = ministry.assignments.allObjects.first as Assignment
@@ -330,7 +336,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 
                 assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as Assignment
                 if a["id"] != nil {
-                    assignment.id=a["id"] as String
+                    assignment.id=(a["id"] as String)
                 }
             }
             
@@ -346,9 +352,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
             
             
             
-            if !self.managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            }
+//            if !self.managedContext.save(&error) {
+//                println("Could not save \(error), \(error?.userInfo)")
+//            }
+            self.saveContext()
+        
         //}
         
         //if assignment.id == current_ass_id{
@@ -435,7 +443,7 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 var should_update_detail:Bool = measurement.updateMeasurementFromResponse(m as JSONDictionary, ministry_id: ministryId, period: period,mcc: mcc, managedContext: self.managedContext)
                 
                 
-                if should_update_detail{
+                if should_update_detail && false {
                     API(token: self.token).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
                         (data: AnyObject?,error: NSError?) -> Void in
                         if data == nil {
@@ -566,9 +574,10 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 }
                 
             }
-            if !self.managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            }
+//            if !self.managedContext.save(&error) {
+//                println("Could not save \(error), \(error?.userInfo)")
+//            }
+            self.saveContext()
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
@@ -628,9 +637,22 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         church.name = c["name"] as String
                         church.development = c["development"] as NSNumber
                         church.size = c["size"] as NSNumber
-                        if c["latitude"] != nil && c["longitude"]  != nil{
-                            church.latitude = c["latitude"] as Float
-                            church.longitude = c["longitude"] as Float
+                        if c["latitude"] != nil && c["longitude"]  != nil {
+
+println("lat:")
+println(c["latitude"])
+println("long:")
+println(c["longitude"])
+                            if c["latitude"] as? NSNull  != NSNull() {
+                                church.latitude = c["latitude"] as Float
+                            } else {
+                                println("*** church without a lat: \(church.name)")
+                            }
+                            if c["longitude"] as? NSNull != NSNull() {
+                                church.longitude = c["longitude"] as Float
+                            } else {
+                                println("*** church without a long: \(church.name)")
+                            }
                         }
                         //church.security = c["security"] as NSNumber
                         church.contact_name = c["contact_name"] as String
@@ -646,15 +668,12 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         
                         // if(contains(c.allKeys as [String],"parent_id")) {church.setValue(c["parent_id"], forKey: "parent_id")}
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
+
+//                        var error2: NSError?
+//                        if !self.managedContext.save(&error2) {
+//                            println("Could not save \(error2), \(error2?.userInfo)")
+//                        }
+                        self.saveContext()
                         
                     }
                     
@@ -676,9 +695,10 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 }
                 
                 
-                if !self.managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
-                }
+//                if !self.managedContext.save(&error) {
+//                    println("Could not save \(error), \(error?.userInfo)")
+//                }
+                self.saveContext()
                 
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
@@ -716,6 +736,24 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
     }
     
     
+    func saveContext() {
+        
+    //// This is an attempt to debug some threading issues with Core Data
+        
+        
+// let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+// let backgroundQueue = dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
+//dispatch_async(self.myQueue, {
+            var error: NSError? = nil
+            if !self.managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+                
+            }
+// })
+        
+    }
+    
+    
     func updateChurch(){
         if self.checkTokenAndConnection() == false{
             return;
@@ -734,10 +772,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         ch.changed=false
                         ch.id=(data as JSONDictionary)["id"]  as NSNumber
                         println("saved: \(ch.id)")
-                        var error: NSError?
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
+//                        var error: NSError?
+//                        if !self.managedContext.save(&error) {
+//                            println("Could not save \(error), \(error?.userInfo)")
+//                        }
+                        self.saveContext()
                         
                     }
                 }
@@ -750,10 +789,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                     if data != nil{
                         if (data as Bool){
                             ch.changed=false
-                            var error: NSError?
-                            if !self.managedContext.save(&error) {
-                                println("Could not save \(error), \(error?.userInfo)")
-                            }
+                            self.saveContext()
+//                            var error: NSError?
+//                            if !self.managedContext.save(&error) {
+//                                println("Could not save \(error), \(error?.userInfo)")
+//                            }
                         }
                     }
                 }
@@ -781,10 +821,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                         tr.changed=false
                         tr.id=(data as JSONDictionary)["id"]  as NSNumber
                         println("saved: \(tr.id)")
-                        var error: NSError?
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
+//                        var error: NSError?
+//                        if !self.managedContext.save(&error) {
+//                            println("Could not save \(error), \(error?.userInfo)")
+//                        }
+                        self.saveContext()
                         
                     }
                 }
@@ -797,10 +838,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                     if data != nil{
                         if (data as Bool){
                             tr.changed=false
-                            var error: NSError?
-                            if !self.managedContext.save(&error) {
-                                println("Could not save \(error), \(error?.userInfo)")
-                            }
+//                            var error: NSError?
+//                            if !self.managedContext.save(&error) {
+//                                println("Could not save \(error), \(error?.userInfo)")
+//                            }
+                            self.saveContext()
                         }
                     }
                 }
@@ -825,10 +867,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                 if data != nil{
                     if (data as Bool){
                         tc.changed=false
-                        var error: NSError?
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
+//                        var error: NSError?
+//                        if !self.managedContext.save(&error) {
+//                            println("Could not save \(error), \(error?.userInfo)")
+//                        }
+                        self.saveContext()
                     }
                 }
             }
@@ -881,10 +924,11 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                             mv.changed = false
                             
                         }
-                        var error: NSError?
-                        if !self.managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
+//                        var error: NSError?
+//                        if !self.managedContext.save(&error) {
+//                            println("Could not save \(error), \(error?.userInfo)")
+//                        }
+                        self.saveContext()
                         //now update the measurements
                         self.loadMeasurments( NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc:  (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: (NSUserDefaults.standardUserDefaults().objectForKey("period") as String))
                         
@@ -971,9 +1015,10 @@ println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
                     training_comp.training = tr.first!
                     
                     
-                    if !self.managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
+//                    if !self.managedContext.save(&error) {
+//                        println("Could not save \(error), \(error?.userInfo)")
+//                    }
+                    self.saveContext()
                     sender.tc.append(training_comp)
                     sender.tableView.reloadData()
                     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -1046,9 +1091,10 @@ println("... dataSync.joinMinistry() --> kDidChangeAssignment")
             }
             
         }
-        if !self.managedContext.save(&error) {
-            println("Could not delete objects \(error), \(error?.userInfo)")
-        }
+//        if !self.managedContext.save(&error) {
+//            println("Could not delete objects \(error), \(error?.userInfo)")
+//        }
+        self.saveContext()
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         

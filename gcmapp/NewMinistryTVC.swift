@@ -12,6 +12,7 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
     @IBOutlet weak var tbSearchBox: UITextField!
     var autocompleteList:[JSONDictionary]! = Array()
     var ministryList =  JSONArray()
+    var isModal:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +48,14 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
     
     
     func getAllMinistries(){
-        var token = NSUserDefaults.standardUserDefaults().objectForKey("token") as String
-        API(token: token).getMinistries(false){
-            (data: AnyObject?,error: NSError?) -> Void in
-            if data != nil{
-                self.ministryList = data as JSONArray
-                
-                //self.loadSearchedChurch()
+        
+        if let token = NSUserDefaults.standardUserDefaults().objectForKey("token") as? String {
+            API(token: token).getMinistries(false){
+                (data: AnyObject?,error: NSError?) -> Void in
+                if data != nil{
+                    self.ministryList = data as JSONArray
+                    
+                }
             }
         }
        
@@ -105,7 +107,12 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
             
             notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: userInfo)
 
+            
             self.navigationController?.popViewControllerAnimated(true)
+            if self.isModal {
+                self.removeFromParentViewController()
+            }
+            
         
         } else {
             println("NewMinistryTVC.tableView( didSelectRowAtIndexPath:)");

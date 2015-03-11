@@ -34,25 +34,39 @@ extension Measurements {
         self.ministry_id = ministry_id
         
         var mv:MeasurementValue!
-        var mvs = self.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@ && mcc= %@", period, mcc)!)
+//        if self.measurementValue.count == 0 {
+//            
+//            let entity =  NSEntityDescription.entityForName( "MeasurementValue", inManagedObjectContext: managedContext)
+//            
+//            mv =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementValue
+//            mv.measurement=self
+//            mv.period = period
+//            mv.mcc = mcc
+//            rtn=m["total"] != nil
+//            
+//        } else {
+        
+        
+            var mvs = self.measurementValue.filteredSetUsingPredicate(NSPredicate(format: "period = %@ && mcc= %@", period, mcc)!)
 
-        if mvs.count == 0{
-            let entity =  NSEntityDescription.entityForName( "MeasurementValue", inManagedObjectContext: managedContext)
-            
-            mv =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementValue
-            mv.measurement=self
-            mv.period = period
-            mv.mcc = mcc
-            rtn=m["total"] != nil
-        }
-        else{
-            mv = mvs.allObjects.first as MeasurementValue
-            
-        }
+            if mvs.count == 0{
+                let entity =  NSEntityDescription.entityForName( "MeasurementValue", inManagedObjectContext: managedContext)
+                
+                mv =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementValue
+                mv.measurement=self
+                mv.period = period
+                mv.mcc = mcc
+                rtn=m["total"] != nil
+            }
+            else{
+                mv = mvs.allObjects.first as MeasurementValue
+                
+            }
+//        }
         var ids = m["measurement_type_ids"] as JSONDictionary
         
         if ids["total"] != nil {
-            self.id_total = ids["total"] as String
+            self.id_total = (ids["total"] as String)
         }
         if ids["local"] != nil {
             self.id_local = ids["local"] as String
