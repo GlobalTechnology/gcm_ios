@@ -89,7 +89,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     var pageViewControllerOutcomes : UIPageViewController!
 
     var period:String!
-
+    
+    let LOCAL = 0
+    let PERSON = 1
+    var localPersonChooserState:Int = 0
+    
     /*
     override func shouldAutorotate() -> Bool {
         return false;
@@ -165,7 +169,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         //self.periodControl.setTitle("Mar 2014", forSegmentAtIndex: 1)
         
-        // ==== Segmented Control ====
+        // ==== Segmented Control (Period) ====
         
         // Font
         //let font = UIFont.boldSystemFontOfSize(20.0)
@@ -242,6 +246,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         // make sure the FAITH measurements are shown:
         currentlyOpenMeasurementCategory = FAITH
         openView(FAITH)
+        
         
         
         
@@ -547,9 +552,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         println("s:\(valueForThisPeriod.total.stringValue)")
         pageContentViewController.totalValue = valueForThisPeriod.total.stringValue
+        pageContentViewController.localValue = valueForThisPeriod.local.stringValue
+        pageContentViewController.personValue = valueForThisPeriod.me.stringValue
         
         
         pageContentViewController.pageIndex = index
+        
+        //pageContentViewController.localPersonChooser.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
         
         
         return pageContentViewController
@@ -592,6 +601,14 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             return
         }
         
+        // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
+        let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
+        let pcvcs = pageViewControllerFaith.viewControllers as [PageContentViewController]
+        println("pcvcs.count: \(pcvcs.count)")
+        for pcvc in pcvcs {
+            pcvc.selectLocalPersonProgrammatically(state)
+        }
+        
         closeView(currentlyOpenMeasurementCategory)
         openView(FAITH)
         
@@ -603,6 +620,14 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             return
         }
         
+        // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
+        let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
+        let pcvcs = pageViewControllerFruit.viewControllers as [PageContentViewController]
+        println("pcvcs.count: \(pcvcs.count)")
+        for pcvc in pcvcs {
+            pcvc.selectLocalPersonProgrammatically(state)
+        }
+        
         closeView(currentlyOpenMeasurementCategory)
         openView(FRUIT)
         
@@ -612,6 +637,14 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     @IBAction func outcomesHeaderTouched(sender: UIButton) {
         if (currentlyOpenMeasurementCategory == OUTCOMES) {
             return
+        }
+        
+        // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
+        let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
+        let pcvcs = pageViewControllerOutcomes.viewControllers as [PageContentViewController]
+        println("pcvcs.count: \(pcvcs.count)")
+        for pcvc in pcvcs {
+            pcvc.selectLocalPersonProgrammatically(state)
         }
         
         closeView(currentlyOpenMeasurementCategory)

@@ -7,11 +7,6 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Linotype - Alternate Gothic LT No2.ttf">
-            <string>AlternateGothicLT-No2</string>
-            <string>AlternateGothicLT-No2</string>
-            <string>AlternateGothicLT-No2</string>
-        </mutableArray>
         <mutableArray key="Roboto-Regular.ttf">
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
@@ -1487,7 +1482,7 @@
                                     <constraint firstAttribute="width" constant="135" id="7W7-JA-M9k"/>
                                     <constraint firstAttribute="width" secondItem="PSK-tB-2Cd" secondAttribute="height" multiplier="1:1" id="GgK-EW-FO9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AlternateGothicLT-No2" family="Alternate Gothic LT No2" pointSize="85"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="85"/>
                                 <state key="normal" title="5" backgroundImage="numberCircle">
                                     <color key="titleColor" red="0.050980392159999999" green="0.098039215690000001" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1502,7 +1497,7 @@
                                     <constraint firstAttribute="width" secondItem="IUW-xK-Pcy" secondAttribute="height" multiplier="1:1" id="GAO-KS-lTZ"/>
                                     <constraint firstAttribute="width" constant="135" id="LFf-lh-tt9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AlternateGothicLT-No2" family="Alternate Gothic LT No2" pointSize="85"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="85"/>
                                 <state key="normal" title="6" backgroundImage="numberCircleDark">
                                     <color key="titleColor" red="0.050980392159999999" green="0.098039215690000001" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1517,7 +1512,7 @@
                                     <constraint firstAttribute="width" secondItem="8Hp-ZC-V1H" secondAttribute="height" multiplier="1:1" id="OOQ-zs-SLp"/>
                                     <constraint firstAttribute="width" constant="45" id="hq3-NY-yvj"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AlternateGothicLT-No2" family="Alternate Gothic LT No2" pointSize="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="7" backgroundImage="numberCircle">
                                     <color key="titleColor" red="0.050980392156862744" green="0.098039215686274508" blue="0.19215686274509805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -2241,6 +2236,6 @@
         <image name="topShadow" width="275" height="35"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VRE-1l-B2p"/>
+        <segue reference="Bea-dd-n6d"/>
     </inferredMetricsTieBreakers>
 </document>

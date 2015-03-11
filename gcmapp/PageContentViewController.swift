@@ -19,7 +19,10 @@ class PageContentViewController: UIViewController {
     var measurementType : Int!
     
     var measurementDescription: String!
+
     var totalValue: String!
+    var localValue: String!
+    var personValue: String!
 
     
     @IBOutlet var busySpinner: UIActivityIndicatorView!
@@ -41,15 +44,34 @@ class PageContentViewController: UIViewController {
     @IBOutlet weak var wbsCategory: UILabel!
     
     @IBAction func localPersonChooserChanged(sender: UISegmentedControl) {
-        
+        println("localPersonChooserChanged")
         if sender.selectedSegmentIndex == 0 {
+            onLocalSelected()
+            /*
             localValueBtn.hidden = false
             personValueBtn.hidden = true
+            NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "LocalPersonChooserState")
+            */
         } else {
+            onPersonSelected()
+            /*
             localValueBtn.hidden = true
             personValueBtn.hidden = false
+            NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "LocalPersonChooserState")
+            */
         }
-        
+    }
+    
+    func onLocalSelected() {
+        localValueBtn.hidden = false
+        personValueBtn.hidden = true
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "LocalPersonChooserState")
+    }
+    
+    func onPersonSelected() {
+        localValueBtn.hidden = true
+        personValueBtn.hidden = false
+        NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "LocalPersonChooserState")
     }
     
     @IBAction func onLocalValueBtnClicked(sender: UIButton) {
@@ -57,9 +79,9 @@ class PageContentViewController: UIViewController {
     }
     
     @IBAction func onPersonValueBtnClicked(sender: UIButton) {
-        
         println("onPersonValueBtnClicked")
     }
+    
     
     
     override func viewDidLoad() {
@@ -97,6 +119,8 @@ class PageContentViewController: UIViewController {
 
             if results!.count > 0 {
                 self.totalValue = results?.first?.total.stringValue
+                self.localValue = results?.first?.local.stringValue
+                self.personValue = results?.first?.me.stringValue
             } else {
                 
                 println("... no values for current period: \(period)")
@@ -104,8 +128,22 @@ class PageContentViewController: UIViewController {
             }
             
             self.totalValueBtn.setTitle(self.totalValue, forState: UIControlState.Normal)
+            self.localValueBtn.setTitle(self.localValue, forState: UIControlState.Normal)
+            self.personValueBtn.setTitle(self.personValue, forState: UIControlState.Normal)
             
         }
+        
+        // ==== local/person Chooser
+        
+        // Font
+        /*
+        let font = UIFont(name: "Roboto-Regular", size: 20.0)
+        var attributes = Dictionary<String, UIFont>()
+        attributes[NSFontAttributeName] = font
+        self.periodControl.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
+        var f = self.periodControl.frame
+        self.periodControl.frame = CGRectMake(f.origin.x, f.origin.y, f.width, 40.0)
+        */
         
         
         // Show Busy Indicator when a Request has been started ...
@@ -138,12 +176,42 @@ println("... kDidEndRequest : caught")
         
         println("s:\(valueForThisPeriod.total.stringValue)")
         self.totalValue = valueForThisPeriod.total.stringValue
-        
+        self.localValue = valueForThisPeriod.local.stringValue
+        self.personValue = valueForThisPeriod.me.stringValue
         
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
         totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
+        localValueBtn.setTitle(localValue, forState: UIControlState.Normal)
+        personValueBtn.setTitle(personValue, forState: UIControlState.Normal)
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        println("viewWillAppear")
+        let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
+
+        selectLocalPersonProgrammatically(state)
+        
+        /*
+        localPersonChooser.selectedSegmentIndex = state
+
+        if state == 0 {
+            self.onLocalSelected()
+        } else {
+            self.onPersonSelected()
+        }
+        */
+    }
+    
+    func selectLocalPersonProgrammatically(state:Int) {
+        localPersonChooser.selectedSegmentIndex = state
+        
+        if state == 0 {
+            self.onLocalSelected()
+        } else {
+            self.onPersonSelected()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -160,6 +228,12 @@ println("... kDidEndRequest : caught")
             detail.measurement = self.measurement!
         }
     }
+    
+    /*
+    func getLocalPersonChooserState() -> Int {
+        return localPersonChooser.selectedSegmentIndex  // 0=>LOCAL, 1=>PERSON
+    }
+    */
     
     
     /*
