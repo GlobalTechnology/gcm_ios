@@ -39,6 +39,41 @@ class PageContentViewController: UIViewController {
     @IBOutlet weak var localValueBtn: UIButton!
     @IBOutlet weak var personValueBtn: UIButton!
     
+    
+    
+    @IBAction func incrBtn(sender: UIButton) {
+        var newValStr = ""
+        
+        if localPersonChooser.selectedSegmentIndex == 0 {
+            if var i = localValueBtn.titleLabel?.text?.toInt() {
+                newValStr = String(++i)
+            }
+            localValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+        } else {
+            if var i = personValueBtn.titleLabel?.text?.toInt() {
+                newValStr = String(++i)
+            }
+            personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+        }
+    }
+    
+    @IBAction func decrBtn(sender: UIButton) {
+        var newValStr = ""
+        
+        if localPersonChooser.selectedSegmentIndex == 0 {
+            if var i = localValueBtn.titleLabel?.text?.toInt() {
+                newValStr = String(--i)
+            }
+            localValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+        } else {
+            if var i = personValueBtn.titleLabel?.text?.toInt() {
+                newValStr = String(--i)
+            }
+            personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+        }
+    }
+    
+    
     @IBOutlet weak var localPersonChooser: UISegmentedControl!
     
     @IBOutlet weak var wbsCategory: UILabel!
@@ -94,7 +129,7 @@ class PageContentViewController: UIViewController {
         
         
         let nc = NSNotificationCenter.defaultCenter()
-        let myQueue = NSOperationQueue.mainQueue()
+        let myQueue = NSOperationQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
          
             let fetchRequest =  NSFetchRequest(entityName:"MeasurementValue")
