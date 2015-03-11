@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
+		47376FCA1AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
+		47376FCB1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */; };
+		47376FCC1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */; };
 		474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
 		474BB9C71AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
 		474BB9C91AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */; };
@@ -189,6 +193,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GMA copy-Info.plist"; sourceTree = "<group>"; };
+		47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GMA copy2-Info.plist"; sourceTree = "<group>"; };
 		474BB9C51AAB79210026F289 /* PageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
 		474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hack1ViewController.swift; sourceTree = "<group>"; };
 		4768A27C1AAE4DA100A07070 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
@@ -245,7 +251,6 @@
 		FC4D278D1A2DEC6800C20288 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
-		FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GMA copy-Info.plist"; path = "/Users/jon/Apps/gcmapp2/gcm_ios/GMA copy-Info.plist"; sourceTree = "<absolute>"; };
 		FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
 		FC5EE6B71AA06B4F00F86627 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
@@ -260,7 +265,6 @@
 		FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
 		FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementMeSource.swift; sourceTree = "<group>"; };
 		FC5EE71B1AA073A600F86627 /* GMA Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GMA Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC5EE71C1AA073A600F86627 /* GMA copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GMA copy2-Info.plist"; path = "/Users/jon/Apps/gcmapp2/gcm_ios/GMA copy2-Info.plist"; sourceTree = "<absolute>"; };
 		FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingTypeTVC.swift; sourceTree = "<group>"; };
 		FC93DFD21A2FA5D7008D4221 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FC93DFD41A2FAE04008D4221 /* GMALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMALoginViewController.h; sourceTree = "<group>"; };
@@ -423,8 +427,8 @@
 				FC4D27441A2DDF8500C20288 /* Products */,
 				E2BCC635D23B410B95C9FD69 /* Frameworks */,
 				217CCF730F2484675C10274D /* Pods */,
-				FC5EE6B21A9F7D2C00F86627 /* GMA copy-Info.plist */,
-				FC5EE71C1AA073A600F86627 /* GMA copy2-Info.plist */,
+				47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */,
+				47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -697,6 +701,7 @@
 				4768A2961AAE4DA100A07070 /* Roboto-Medium.ttf in Resources */,
 				4768A28E1AAE4DA100A07070 /* Roboto-BoldItalic.ttf in Resources */,
 				4768A2941AAE4DA100A07070 /* Roboto-LightItalic.ttf in Resources */,
+				47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */,
 				4768A2981AAE4DA100A07070 /* Roboto-MediumItalic.ttf in Resources */,
 				D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */,
 				4768A2921AAE4DA100A07070 /* Roboto-Light.ttf in Resources */,
@@ -705,6 +710,7 @@
 				4768A29E1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC4D27521A2DDF8500C20288 /* Images.xcassets in Resources */,
 				FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */,
+				47376FCB1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */,
 				4768A2901AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29A1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
 				4768A28C1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,
@@ -728,6 +734,7 @@
 				4768A2971AAE4DA100A07070 /* Roboto-Medium.ttf in Resources */,
 				4768A28F1AAE4DA100A07070 /* Roboto-BoldItalic.ttf in Resources */,
 				4768A2951AAE4DA100A07070 /* Roboto-LightItalic.ttf in Resources */,
+				47376FCA1AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */,
 				4768A2991AAE4DA100A07070 /* Roboto-MediumItalic.ttf in Resources */,
 				FC5EE7131AA073A600F86627 /* Main.storyboard in Resources */,
 				4768A2931AAE4DA100A07070 /* Roboto-Light.ttf in Resources */,
@@ -736,6 +743,7 @@
 				4768A29F1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */,
 				FC5EE7161AA073A600F86627 /* Config.plist in Resources */,
+				47376FCC1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */,
 				4768A2911AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29B1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
 				4768A28D1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,
