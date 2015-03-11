@@ -76,6 +76,18 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
 
     var period:String!
 
+    
+    
+    func animateTransition( transitionContext: UIViewControllerContextTransitioning) {
+        
+        
+    }
+    
+    
+    func transitionDuration( transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+       return NSTimeInterval( )
+    }
+    
     /*
     override func shouldAutorotate() -> Bool {
         return false;
@@ -125,6 +137,20 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         super.viewDidLoad()
 
         
+        
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+        
+        } else {
+        
+            GlobalFunctions.joinMinistry(self)
+            
+            //// TODO: what happens here?
+            println("Hack1ViewController.viewDidLoad():");
+            println("... still don't have a ministry ID assigned");
+            
+        }
+
+    
         //periodControl.tintColor = UIColor.clearColor()
         
         
@@ -235,52 +261,63 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         
         
+        
+        
+        
         let nc = NSNotificationCenter.defaultCenter()
         let myQueue = NSOperationQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            //self.tableView.reloadData()
-            
-            //self.refreshControl?.endRefreshing()
-            
-//            
-//            self.pageViewControllerFaith.dataSource = nil
-//            self.pageViewControllerFruit.dataSource = nil
-//            self.pageViewControllerOutcomes.dataSource = nil
-//            self.pageViewControllerFaith.dataSource = self
-//            self.pageViewControllerFruit.dataSource = self
-//            self.pageViewControllerOutcomes.dataSource = self
 
+            let count = self.measurementsFaith.count
+            
             self.loadData()
             
-            /*
-            //self.pageViewControllerOutcomes.viewControllers.removeAll(keepCapacity: false)
-            (self.pageViewControllerOutcomes.viewControllers.first as PageContentViewController).measurementValueBtn.setTitle((self.pageViewControllerOutcomes.viewControllers.first as PageContentViewController).measurementValue, forState: UIControlState.Normal)
-            */
             
-            
-//            for pcvc in (self.pageViewControllerFaith.viewControllers as Array<PageContentViewController>) {
-//                
-//                println("pcvc.title \(pcvc.title), pcvc.value: \(pcvc.measurementValue)")
-//                pcvc.measurementValueBtn.setTitle(pcvc.measurementValue, forState: UIControlState.Normal)
-//            }
-            
-            
-            
-            /*NSFetchedResultsController.deleteCacheWithName("meas")
-            var error: NSError?
-            
-            if !self.fetchedResultController.performFetch(&error) {
-            println("Could not fetch \(error), \(error?.userInfo)")
+            // if we were in a case where the existing page was displayed with 0 measurements in a section:
+            if (count == 0) {
+                
+                // we need to rebuild the pageViewControllers:
+                self.pageViewControllerFaith.removeFromParentViewController()
+                self.pageViewControllerFaith = self.pageViewControllerForCategory(self.FAITH, view:self.measurementsViewFaith)
+                
+                self.pageViewControllerFruit = self.pageViewControllerForCategory(self.FRUIT, view:self.measurementsViewFruit)
+                self.pageViewControllerOutcomes = self.pageViewControllerForCategory(self.OUTCOMES, view:self.measurementsViewOutcomes)
             }
-            */
             
             return
         }
     }
     
     override func viewWillAppear(animated: Bool) {
-        period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
-        updatePeriodControl()
+        
+        // check to see if we have an active ministry_id
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+            
+            
+            period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+            updatePeriodControl()
+
+            
+            // if we don't have any data then request more info
+            if (self.measurementsFaith.count < 1) {
+                println("HackViewController: viewWillAppear() ")
+                println("... no data so post: kDidChagePeriod")
+                // (make them think we changed a period to update data)
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.postNotificationName(GlobalConstants.kDidChangePeriod, object: nil)
+            }
+            
+            
+        } else {
+            
+            GlobalFunctions.joinMinistry(self)
+            
+            //// TODO: what happens here?
+            println("Hack1ViewController.viewWillAppear():");
+            println("... still don't have a ministry ID assigned");
+            
+        }
+
     }
     
     
@@ -310,7 +347,6 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             self.addChildViewController(pvc)
             view.addSubview(pvc.view)
             pvc.didMoveToParentViewController(self)
-            
         }
         
         
@@ -387,14 +423,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             }
             
             
-        } else {
-            
-            //// TODO: what happens here?
-            println("Hack1ViewController.loadData():");
-            println("... still don't have a ministry ID assigned");
-            
         }
-        
     }
     
     

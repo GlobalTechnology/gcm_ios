@@ -50,7 +50,6 @@ class GlobalFunctions{
         
         return String(format: "%04d-%02d", year!, period!)
         
-        
        
     }
     class func prevPeriod(current:String!) -> String {
@@ -117,5 +116,45 @@ class GlobalFunctions{
             return ""
         }
     }
-       
+    
+    // Calling this fn() when we don't have a ministry_id defined:
+    class func joinMinistry( currentView: UIViewController) {
+        
+        // do we have a valid token?  (we've logged in already ...)
+        if let token = NSUserDefaults.standardUserDefaults().objectForKey("token") as? String {
+            
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+//            let storyboard = UIStoryboard.instantiateViewControllerWithIdentifier(<#UIStoryboard#>)
+println("... token ok, so show JoinMinistryTVC")
+            let storyboard = UIStoryboard(name:"Main", bundle:nil)
+            if let joinMinistryTVC = storyboard.instantiateViewControllerWithIdentifier("JoinMinistryTVC") as? NewMinistryTVC {
+                joinMinistryTVC.isModal = true
+                currentView.presentViewController(joinMinistryTVC, animated: false, completion: nil)
+            }
+            
+        } else {
+            
+println("... no token")
+            // no token, so figure out if we have authorized with TheKey and either login,
+        
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+
+            
+//            if (TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
+//println("... postNotification: kLogin")
+//                // perform login
+//                let notificationCenter = NSNotificationCenter.defaultCenter()
+//                notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+//                
+//            }else
+//            {
+//println("... logout()")
+//                // this sends the user to the login screen
+//            //    TheKeyOAuth2Client.sharedOAuth2Client().logout()
+//            }
+        }
+
+    }
+    
 }

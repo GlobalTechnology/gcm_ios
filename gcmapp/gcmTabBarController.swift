@@ -17,7 +17,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
        
         self.tabBar.selectedImageTintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
         
-          self.sync=dataSync()
+        self.sync=dataSync()
       
         // Do any additional setup after loading the view.
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
@@ -42,9 +42,9 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 }
                 
             }
+            
             if (TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
                 postLoginNotification()
-                
                 
             }else
             {
@@ -73,6 +73,10 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
          notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
     }
 
+    func loginViewController(loginViewController: TheKeyOAuth2LoginViewController!, loginError error: NSError!) {
+        println(error)
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
