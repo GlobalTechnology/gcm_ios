@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
 		47376FCA1AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
-		47376FCB1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */; };
 		47376FCC1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */; };
 		474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
 		474BB9C71AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
@@ -668,7 +667,7 @@
 						TestTargetID = FC4D27421A2DDF8500C20288;
 					};
 					FC5EE6CD1AA073A600F86627 = {
-						DevelopmentTeam = FQ6JHNT6KD;
+						DevelopmentTeam = R557EYCJ2D;
 					};
 				};
 			};
@@ -710,7 +709,6 @@
 				4768A29E1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC4D27521A2DDF8500C20288 /* Images.xcassets in Resources */,
 				FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */,
-				47376FCB1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */,
 				4768A2901AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29A1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
 				4768A28C1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,
