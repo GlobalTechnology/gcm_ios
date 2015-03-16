@@ -23,7 +23,7 @@ familyName: Roboto
 import UIKit
 import CoreData
 
-class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
     
     @IBOutlet weak var appBanner: UIImageView!
@@ -31,6 +31,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     @IBOutlet weak var periodControl: UISegmentedControl!
     
 
+    @IBOutlet weak var scrollView: UIScrollView!
     //
     // The Measurement Row Views
     //
@@ -39,6 +40,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     @IBOutlet weak var measurementsViewFruit: UIView!
     @IBOutlet weak var measurementsViewOutcomes: UIView!
     
+    @IBOutlet weak var measurementsViewOther: UIView!
     
     //
     // The Height Constraint on the measurement rows
@@ -47,6 +49,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     @IBOutlet weak var measurementsViewFaithHeight: NSLayoutConstraint!
     @IBOutlet weak var measurementsViewFruitHeight: NSLayoutConstraint!
     @IBOutlet weak var measurementsViewOutcomesHeight: NSLayoutConstraint!
+    @IBOutlet weak var measurmentsViewOtherHeight: NSLayoutConstraint!
     
     
     //
@@ -56,6 +59,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     @IBOutlet weak var fruitHeader: UIButton!
     @IBOutlet weak var outcomesHeader: UIButton!
     
+    @IBOutlet weak var otherHeader: UIButton!
     
     //
     // Measurement Category Definitions
@@ -63,7 +67,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     let FAITH = 0
     let FRUIT = 1
     let OUTCOMES = 2
-    
+    let OTHER = 3
     
     //  track which measurement row is currently displayed
     var currentlyOpenMeasurementCategory = 0
@@ -75,6 +79,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     var measurementsFaith : [Measurements] = []
     var measurementsFruit : [Measurements] = []
     var measurementsOutcomes : [Measurements] = []
+    var measurementsOther : [Measurements] = []
     
     
     // needed for CoreData and db access
@@ -87,6 +92,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     var pageViewControllerFaith : UIPageViewController!
     var pageViewControllerFruit : UIPageViewController!
     var pageViewControllerOutcomes : UIPageViewController!
+    var pageViewControllerOther : UIPageViewController!
 
     var period:String!
 
@@ -115,7 +121,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     }
     */
-
+    
+    
     @IBAction func periodChanged(sender: UISegmentedControl) {
         switch periodControl.selectedSegmentIndex{
             
@@ -144,7 +151,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+      
         
         if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
         
@@ -233,6 +240,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         faithHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         fruitHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         outcomesHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
+        otherHeader.titleEdgeInsets = UIEdgeInsetsMake(0, 30, 0, 0)
         
         
         //// Load our Data from the DB:
@@ -244,6 +252,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         //// Faith
         pageViewControllerFaith = self.pageViewControllerForCategory(FAITH, view:measurementsViewFaith)
         
+
         
         //// Fruit 
         ////  - initially hidden
@@ -258,10 +267,14 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         measurementsViewOutcomesHeight.constant = 0
         measurementsViewOutcomes.hidden = true
         
-        
-        // make sure the FAITH measurements are shown:
-        currentlyOpenMeasurementCategory = FAITH
-        openView(FAITH)
+        //// Other
+        ////  - initially hidden
+        pageViewControllerOther = self.pageViewControllerForCategory(OTHER, view:measurementsViewOther)
+        measurmentsViewOtherHeight.constant = 0
+        measurementsViewOther.hidden = true
+       // openView(FAITH)
+         currentlyOpenMeasurementCategory = FAITH
+                      // make sure the FAITH measurements are shown:
         
         
         
@@ -283,6 +296,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 
                 self.pageViewControllerFruit = self.pageViewControllerForCategory(self.FRUIT, view:self.measurementsViewFruit)
                 self.pageViewControllerOutcomes = self.pageViewControllerForCategory(self.OUTCOMES, view:self.measurementsViewOutcomes)
+                self.pageViewControllerOther = self.pageViewControllerForCategory(self.OTHER, view:self.measurementsViewOther)
             }
             
             return
@@ -291,13 +305,24 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     override func viewWillAppear(animated: Bool) {
         
+       // closeView(currentlyOpenMeasurementCategory)
+
+       // openView(FAITH)
+        scrollView.contentSize = CGSize(width:UIScreen.mainScreen().bounds.width , height: 600.0)
+        openView(FAITH)
+        scrollView.layoutSubviews()
+        currentlyOpenMeasurementCategory = FAITH
+//        scrollView.contentSize = CGSize(width:UIScreen.mainScreen().bounds.width , height: 600.0)
+//        currentlyOpenMeasurementCategory = FAITH
+//        openView(FAITH)
+
         // check to see if we have an active ministry_id
         if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
             
             
             period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
             updatePeriodControl()
-
+            
             
             // if we don't have any data then request more info
             if (self.measurementsFaith.count < 1) {
@@ -368,6 +393,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         self.measurementsFaith = []
         self.measurementsFruit = []
         self.measurementsOutcomes = []
+        self.measurementsOther = []
         
         
         if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
@@ -416,6 +442,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                             self.measurementsFruit.append(m)
                         case "outcome":
                             self.measurementsOutcomes.append(m)
+                        case "other":
+                            self.measurementsOther.append(m)
+
                         default:
                             println("measurement.column[\(m.column)] not understood")
                         
@@ -480,6 +509,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             cnt = measurementsFruit.count
         case OUTCOMES:
             cnt = measurementsOutcomes.count
+        case OTHER:
+            cnt = measurementsOther.count
         default:
             cnt = 1
         }
@@ -535,6 +566,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 measurements = self.measurementsFruit
             case OUTCOMES:
                 measurements = self.measurementsOutcomes
+        case OTHER:
+            measurements = self.measurementsOther
             default:
                 measurements = self.measurementsFaith
         }
@@ -591,6 +624,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             cnt = measurementsFruit.count
         case OUTCOMES:
             cnt = measurementsOutcomes.count
+        case OTHER:
+            cnt = measurementsOther.count
         default:
             cnt = 1
         }
@@ -669,6 +704,28 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         currentlyOpenMeasurementCategory = OUTCOMES
     }
     
+    
+    @IBAction func otherHeaderTouched(sender: UIButton) {
+        if (currentlyOpenMeasurementCategory == OTHER) {
+            return
+        }
+        
+        // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
+        let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
+        let pcvcs = pageViewControllerOutcomes.viewControllers as [PageContentViewController]
+        println("pcvcs.count: \(pcvcs.count)")
+        for pcvc in pcvcs {
+            pcvc.selectLocalPersonProgrammatically(state)
+        }
+        
+        closeView(currentlyOpenMeasurementCategory)
+        openView(OTHER)
+        
+        
+        currentlyOpenMeasurementCategory = OTHER
+
+    }
+    
     func closeView(viewType:Int) {
         var constraint: NSLayoutConstraint
         var mView: UIView
@@ -683,6 +740,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         case OUTCOMES:
             constraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
+        case OTHER:
+            constraint = measurmentsViewOtherHeight
+            mView = measurementsViewOther
+
         default:
             constraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
@@ -702,7 +763,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var viewsHeaderTop: UIButton
         var viewsHeaderBottom: UIButton?
         
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        //let screenSize: CGRect = CGRect(x: UIScreen.mainScreen().bounds.origin.x, y: UIScreen.mainScreen().bounds.origin.y, width: UIScreen.mainScreen().bounds.width, height: 800)
         
         switch (viewType) {
         case FAITH:
@@ -720,6 +781,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             mView = measurementsViewOutcomes
             viewsHeaderTop = self.outcomesHeader
             viewsHeaderBottom = nil
+        case OTHER:
+            heightConstraint = measurmentsViewOtherHeight
+            mView = measurementsViewOther
+            viewsHeaderTop = self.otherHeader
+            viewsHeaderBottom = nil
         default:
             heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
@@ -729,17 +795,20 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         mView.hidden = false
         
-        heightConstraint.constant = screenSize.height -
-                                    //(faithHeader.frame.height * 3) -
-                                    (faithHeader.imageView!.frame.height * 3) -
-                                    tabBarController!.tabBar.frame.height -
-                                    UIApplication.sharedApplication().statusBarFrame.size.height -
-                                    periodControl.frame.height -
-                                    appBanner.frame.height
+//        heightConstraint.constant = screenSize.height -
+//                                    //(faithHeader.frame.height * 3) -
+//                                    (faithHeader.imageView!.frame.height * 4) -
+//                                    tabBarController!.tabBar.frame.height -
+//                                    UIApplication.sharedApplication().statusBarFrame.size.height -
+//                                    periodControl.frame.height -
+//                                    appBanner.frame.height
+        
+        heightConstraint.constant = self.scrollView.contentSize.height -
+            (faithHeader.imageView!.frame.height * 4)
         
         println("heightConstraint.constant: \(heightConstraint.constant)")
-        println("screenSize.height \(screenSize.height)")
-        println("(faithHeader.frame.height * 3) \(faithHeader.frame.height * 3)")
+        //println("screenSize.height \(screenSize.height)")
+        println("(faithHeader.frame.height * 4) \(faithHeader.frame.height * 4)")
         println("tabBarController!.tabBar.frame.height \(tabBarController!.tabBar.frame.height)")
         println("UIApplication.sharedApplication().statusBarFrame.size.height \(UIApplication.sharedApplication().statusBarFrame.size.height)")
         println("periodSelector.frame.height \(periodControl.frame.height)")

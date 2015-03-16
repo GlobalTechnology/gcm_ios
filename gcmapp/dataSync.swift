@@ -451,24 +451,24 @@ class dataSync: NSObject {
                     var should_update_detail:Bool = measurement.updateMeasurementFromResponse(m as JSONDictionary, ministry_id: ministryId, period: period,mcc: mcc, managedContext: self.managedContext)
                     
                     
-                    if should_update_detail && false {
-                        dispatch_async(self.myQueue,{
-                            API(token: self.token).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
-                                (data: AnyObject?,error: NSError?) -> Void in
-                                if data == nil {
-                                    return
-                                }
-                                if let md = data as? JSONDictionary{
-                                    dispatch_async(dispatch_get_main_queue(),{
-                                        measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: self.managedContext)
-                                        
-                                        let notificationCenter = NSNotificationCenter.defaultCenter()
-                                        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
-                                    });
-                                }
-                            }
-                        });
-                    }
+//                    if should_update_detail && false {
+//                        dispatch_async(self.myQueue,{
+//                            API(token: self.token).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
+//                                (data: AnyObject?,error: NSError?) -> Void in
+//                                if data == nil {
+//                                    return
+//                                }
+//                                if let md = data as? JSONDictionary{
+//                                    dispatch_async(dispatch_get_main_queue(),{
+//                                        measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: self.managedContext)
+//                                        
+//                                        let notificationCenter = NSNotificationCenter.defaultCenter()
+//                                        notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+//                                    });
+//                                }
+//                            }
+//                        });
+//                    }
                     
                     
                 }
