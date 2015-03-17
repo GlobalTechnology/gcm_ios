@@ -25,6 +25,10 @@ import CoreData
 
 class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
+    @IBOutlet weak var btnTotalFaith: UIButton!
+    @IBOutlet weak var btnTotalFruit: UIButton!
+    @IBOutlet weak var btnTotalOutcome: UIButton!
+    @IBOutlet weak var btnTotalOther: UIButton!
     
     @IBOutlet weak var appBanner: UIImageView!
     @IBOutlet weak var ministryNameLabel: UILabel!
@@ -90,6 +94,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     //  These are the Measurement Row Sliders
     //
     var pageViewControllerFaith : UIPageViewController!
+   
     var pageViewControllerFruit : UIPageViewController!
     var pageViewControllerOutcomes : UIPageViewController!
     var pageViewControllerOther : UIPageViewController!
@@ -251,12 +256,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         //// Faith
         pageViewControllerFaith = self.pageViewControllerForCategory(FAITH, view:measurementsViewFaith)
-        
+         pageViewControllerFaith.delegate = self
 
         
         //// Fruit 
         ////  - initially hidden
         pageViewControllerFruit = self.pageViewControllerForCategory(FRUIT, view:measurementsViewFruit)
+        pageViewControllerFruit.delegate = self
         measurementsViewFruitHeight.constant = 0
         measurementsViewFruit.hidden = true
         
@@ -264,12 +270,14 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         //// Outcomes
         ////  - initially hidden
         pageViewControllerOutcomes = self.pageViewControllerForCategory(OUTCOMES, view:measurementsViewOutcomes)
+        pageViewControllerOutcomes.delegate = self
         measurementsViewOutcomesHeight.constant = 0
         measurementsViewOutcomes.hidden = true
         
         //// Other
         ////  - initially hidden
         pageViewControllerOther = self.pageViewControllerForCategory(OTHER, view:measurementsViewOther)
+        pageViewControllerOther.delegate = self
         measurmentsViewOtherHeight.constant = 0
         measurementsViewOther.hidden = true
        // openView(FAITH)
@@ -546,6 +554,26 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         return self.viewControllerAtIndex(index, measurementType: pcvc.measurementType)
     }
     
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+        let pcvc = pageViewController.viewControllers.last  as PageContentViewController
+        switch (pcvc.measurementType) {
+        case FAITH:
+            btnTotalFaith.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            
+        case FRUIT:
+            btnTotalFruit.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            
+        case OUTCOMES:
+            btnTotalOutcome.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+        case OTHER:
+            btnTotalOther.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            
+        default:
+            break
+        }
+
+    }
+    
     
     
    /*
@@ -562,12 +590,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         switch (measurementType) {
             case FAITH:
                 measurements = self.measurementsFaith
+            
             case FRUIT:
                 measurements = self.measurementsFruit
             case OUTCOMES:
                 measurements = self.measurementsOutcomes
-        case OTHER:
-            measurements = self.measurementsOther
+            case OTHER:
+                measurements = self.measurementsOther
             default:
                 measurements = self.measurementsFaith
         }
@@ -575,6 +604,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // if we don't have any or we are past the end  --> stop
         if((measurements.count == 0) || (index >= measurements.count)) {
+           
             return nil
         }
         
@@ -602,6 +632,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         pageContentViewController.totalValue = valueForThisPeriod.total.stringValue
         pageContentViewController.localValue = valueForThisPeriod.local.stringValue
         pageContentViewController.personValue = valueForThisPeriod.me.stringValue
+        
+        
+       	
+        
         
         
         pageContentViewController.pageIndex = index
@@ -771,27 +805,39 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             mView = measurementsViewFaith
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
+            let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+            btnTotalFaith.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
         case FRUIT:
             heightConstraint = measurementsViewFruitHeight
             mView = measurementsViewFruit
             viewsHeaderTop = self.fruitHeader
             viewsHeaderBottom = self.outcomesHeader
+            let pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
+            btnTotalFruit.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
         case OUTCOMES:
             heightConstraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
             viewsHeaderTop = self.outcomesHeader
             viewsHeaderBottom = nil
+            let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
+            btnTotalOutcome.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
         case OTHER:
             heightConstraint = measurmentsViewOtherHeight
             mView = measurementsViewOther
             viewsHeaderTop = self.otherHeader
             viewsHeaderBottom = nil
+            let pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
+            btnTotalOther.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
         default:
             heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
         }
+        btnTotalFaith.hidden = (viewType != FAITH)
+        btnTotalFruit.hidden = (viewType != FRUIT)
+        btnTotalOutcome.hidden = (viewType != OUTCOMES)
+        btnTotalOther.hidden = (viewType != OTHER)
         
         mView.hidden = false
         
@@ -850,6 +896,16 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         //tableView.reloadData()
         self.loadData()
         
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "showMeasurementDetailFaith") {
+            // pass data to next view
+            let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+            //let indexPath = self.tableView.indexPathForSelectedRow()
+            //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
+            let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+            detail.measurement = pcvc.measurement
+        }
     }
 
     /*

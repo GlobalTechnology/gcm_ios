@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-class PageContentViewController: UIViewController {
+class PageContentViewController: UIViewController, UITextFieldDelegate {
 
     var measurement: Measurements?
     
@@ -30,7 +30,7 @@ class PageContentViewController: UIViewController {
     //@IBOutlet weak var measurementDescriptionLbl: UITextView!
     @IBOutlet weak var measurementDescriptionLbl: UILabel!
     //@IBOutlet weak var measurementValueLbl: UILabel!
-    @IBOutlet weak var totalValueBtn: UIButton!
+    //@IBOutlet weak var totalValueBtn: UIButton!
     
     
     
@@ -39,21 +39,25 @@ class PageContentViewController: UIViewController {
     @IBOutlet weak var localValueBtn: UIButton!
     @IBOutlet weak var personValueBtn: UIButton!
     
+    @IBOutlet weak var lblPersonValue: UITextField!
     
+    @IBOutlet weak var lblLocalValue: UITextField!
     
     @IBAction func incrBtn(sender: UIButton) {
         var newValStr = ""
         
         if localPersonChooser.selectedSegmentIndex == 0 {
-            if var i = localValueBtn.titleLabel?.text?.toInt() {
+            if var i = lblLocalValue.text.toInt() {
                 newValStr = String(++i)
             }
-            localValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+            
+            lblLocalValue.text = newValStr
         } else {
-            if var i = personValueBtn.titleLabel?.text?.toInt() {
+            if var i = lblPersonValue.text.toInt() {
                 newValStr = String(++i)
             }
-            personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+           
+            lblPersonValue.text = newValStr
         }
     }
     
@@ -61,15 +65,16 @@ class PageContentViewController: UIViewController {
         var newValStr = ""
         
         if localPersonChooser.selectedSegmentIndex == 0 {
-            if var i = localValueBtn.titleLabel?.text?.toInt() {
+            if var i = lblLocalValue.text.toInt() {
                 newValStr = String(--i)
             }
-            localValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+             lblLocalValue.text = newValStr
         } else {
-            if var i = personValueBtn.titleLabel?.text?.toInt() {
+            if var i = lblPersonValue.text.toInt() {
                 newValStr = String(--i)
             }
-            personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+           // personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
+             lblPersonValue.text = newValStr
         }
     }
     
@@ -100,16 +105,21 @@ class PageContentViewController: UIViewController {
     func onLocalSelected() {
         localValueBtn.hidden = false
         personValueBtn.hidden = true
+        lblPersonValue.hidden = true
+        lblLocalValue.hidden = false
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "LocalPersonChooserState")
     }
     
     func onPersonSelected() {
         localValueBtn.hidden = true
         personValueBtn.hidden = false
+        lblPersonValue.hidden = false
+        lblLocalValue.hidden = true
         NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "LocalPersonChooserState")
     }
     
     @IBAction func onLocalValueBtnClicked(sender: UIButton) {
+        
         println("onLocalValueBtnClicked")
     }
     
@@ -125,7 +135,7 @@ class PageContentViewController: UIViewController {
         self.busySpinner.hidesWhenStopped = true
         
         personValueBtn.hidden = true
-        
+        lblPersonValue.delegate = self
         
         
         let nc = NSNotificationCenter.defaultCenter()
@@ -162,10 +172,11 @@ class PageContentViewController: UIViewController {
                 self.totalValue = "??"
             }
             
-            self.totalValueBtn.setTitle(self.totalValue, forState: UIControlState.Normal)
+           // self.totalValueBtn.setTitle(self.totalValue, forState: UIControlState.Normal)
             self.localValueBtn.setTitle(self.localValue, forState: UIControlState.Normal)
-            self.personValueBtn.setTitle(self.personValue, forState: UIControlState.Normal)
-            
+//            /self.personValueBtn.setTitle(self.personValue, forState: UIControlState.Normal)
+            self.lblPersonValue.text = self.personValue
+            self.lblLocalValue.text = self.localValue
         }
         
         // ==== local/person Chooser
@@ -216,10 +227,11 @@ println("... kDidEndRequest : caught")
         
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
-        totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
+        //totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
         localValueBtn.setTitle(localValue, forState: UIControlState.Normal)
-        personValueBtn.setTitle(personValue, forState: UIControlState.Normal)
-        
+       // personValueBtn.setTitle(personValue, forState: UIControlState.Normal)
+         self.lblPersonValue.text = personValue
+        self.lblLocalValue.text = self.localValue
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -263,6 +275,14 @@ println("... kDidEndRequest : caught")
             detail.measurement = self.measurement!
         }
     }
+    
+//    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+//    {
+//        if textField == lblPersonValue{
+//            personValue = textField.text
+//        }
+//        return true
+//    }
     
     /*
     func getLocalPersonChooserState() -> Int {
