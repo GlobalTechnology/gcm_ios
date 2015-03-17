@@ -87,8 +87,8 @@ extension Measurements {
         }
         
         if m["person"] != nil{
-            let temp = m["person"]
-            println("*mv.me: \(mv.me), mPerson: \(temp)")
+           // let temp = m["person"]
+           // println("*mv.me: \(mv.me), mPerson: \(temp)")
             if mv.me != m["person"] as NSNumber{
                 rtn = true
                 mv.me = m["person"] as NSNumber
@@ -122,7 +122,7 @@ extension Measurements {
         return rtn
     }
     func updateMeasurementDetailFromResponse(md: JSONDictionary,ministry_id:String,period:String,mcc:String, managedContext:NSManagedObjectContext) {
-        self.id_total = (md["measurement_type_ids"] as JSONDictionary)["total"] as String
+        self.id_total = ((md["measurement_type_ids"] as JSONDictionary)["total"] as String)
         self.id_local = (md["measurement_type_ids"] as JSONDictionary)["local"] as String
         self.id_person = (md["measurement_type_ids"] as JSONDictionary)["person"] as String
         

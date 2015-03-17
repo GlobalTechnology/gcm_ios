@@ -127,7 +127,12 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     */
     
-    
+    override func viewWillDisappear(animated: Bool) {
+   
+        
+        
+        
+    }
     @IBAction func periodChanged(sender: UISegmentedControl) {
         switch periodControl.selectedSegmentIndex{
             

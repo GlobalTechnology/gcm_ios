@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
 		47376FCA1AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
-		47376FCC1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */; };
 		474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
 		474BB9C71AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
 		474BB9C91AAB7A1D0026F289 /* Hack1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C81AAB7A1D0026F289 /* Hack1ViewController.swift */; };
@@ -741,7 +740,6 @@
 				4768A29F1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */,
 				FC5EE7161AA073A600F86627 /* Config.plist in Resources */,
-				47376FCC1AB09FDF0062D7C9 /* GMA copy2-Info.plist in Resources */,
 				4768A2911AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29B1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
 				4768A28D1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,

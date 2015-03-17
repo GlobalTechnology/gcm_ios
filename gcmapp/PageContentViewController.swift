@@ -35,6 +35,17 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     
     
     
+    @IBAction func localChanged(sender: UITextField) {
+        if sender.text != ""{
+            saveLocal()
+        }
+    
+    }
+    @IBAction func personChanged(sender: UITextField){
+        if sender.text != ""{
+            savePerson()
+        }
+    }
 
     @IBOutlet weak var localValueBtn: UIButton!
     @IBOutlet weak var personValueBtn: UIButton!
@@ -50,8 +61,9 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             if var i = lblLocalValue.text.toInt() {
                 newValStr = String(++i)
             }
-            
+           
             lblLocalValue.text = newValStr
+             saveLocal()
         } else {
             if var i = lblPersonValue.text.toInt() {
                 newValStr = String(++i)
@@ -69,6 +81,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
                 newValStr = String(--i)
             }
              lblLocalValue.text = newValStr
+            saveLocal()
         } else {
             if var i = lblPersonValue.text.toInt() {
                 newValStr = String(--i)
@@ -78,6 +91,47 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
+    func saveLocal(){
+        if localValue != lblLocalValue.text{
+        var values = self.measurement!.measurementValue
+        
+        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+            
+        localValue = lblLocalValue.text
+            valueForThisPeriod.local = lblLocalValue.text.toInt()!
+        valueForThisPeriod.changed = true
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+        let managedContext = appDelegate.managedObjectContext!
+             var error: NSError?
+                       if !managedContext.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+        }
+    }
+    func savePerson(){
+        if personValue != lblPersonValue.text{
+            var values = self.measurement!.measurementValue
+            
+            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+            var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+            
+            personValue = lblPersonValue.text
+            valueForThisPeriod.me = lblPersonValue.text.toInt()!
+            valueForThisPeriod.changed = true
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext!
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+        }
+    }
     
     @IBOutlet weak var localPersonChooser: UISegmentedControl!
     
@@ -127,7 +181,10 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
         println("onPersonValueBtnClicked")
     }
     
-    
+    func dismissKeyboard(){
+        lblLocalValue.resignFirstResponder()
+        lblPersonValue.resignFirstResponder()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,6 +193,11 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
         
         personValueBtn.hidden = true
         lblPersonValue.delegate = self
+        lblLocalValue.delegate = self
+        
+        var tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
+       
+        self.view.addGestureRecognizer(tap)
         
         
         let nc = NSNotificationCenter.defaultCenter()
@@ -275,11 +337,14 @@ println("... kDidEndRequest : caught")
             detail.measurement = self.measurement!
         }
     }
+   
+    
     
 //    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
 //    {
-//        if textField == lblPersonValue{
-//            personValue = textField.text
+//        println(textField.text)
+//        if textField == lblLocalValue && textField.text != ""{
+//            saveLocal()
 //        }
 //        return true
 //    }
