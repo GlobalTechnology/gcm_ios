@@ -127,12 +127,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     */
     
-    override func viewWillDisappear(animated: Bool) {
    
-        
-        
-        
-    }
     @IBAction func periodChanged(sender: UISegmentedControl) {
         switch periodControl.selectedSegmentIndex{
             
@@ -156,6 +151,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
         
     }
+    
+    
 
     
     override func viewDidLoad() {
@@ -563,15 +560,15 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         let pcvc = pageViewController.viewControllers.last  as PageContentViewController
         switch (pcvc.measurementType) {
         case FAITH:
-            btnTotalFaith.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             
         case FRUIT:
-            btnTotalFruit.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             
         case OUTCOMES:
-            btnTotalOutcome.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
         case OTHER:
-            btnTotalOther.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             
         default:
             break
@@ -634,15 +631,15 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
         
         println("s:\(valueForThisPeriod.total.stringValue)")
-        pageContentViewController.totalValue = valueForThisPeriod.total.stringValue
+       
         pageContentViewController.localValue = valueForThisPeriod.local.stringValue
         pageContentViewController.personValue = valueForThisPeriod.me.stringValue
         
-        
+         //pageContentViewController.totalValue = String(valueForThisPeriod.subtotal.intValue + valueForThisPeriod.local.intValue + valueForThisPeriod.me.intValue)
        	
+        pageContentViewController.subTotalValue = valueForThisPeriod.subtotal.integerValue
         
-        
-        
+        pageContentViewController.hack = self
         pageContentViewController.pageIndex = index
         
         //pageContentViewController.localPersonChooser.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
@@ -795,7 +792,28 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             mView.alpha = 0
         })
     }
-    
+    func setTotal(measurementType: Int ){
+        if currentlyOpenMeasurementCategory == measurementType{
+            switch (measurementType) {
+            case FAITH:
+                
+                let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+                btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            case FRUIT:
+                let pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
+                btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            case OUTCOMES:
+                let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
+                btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            case OTHER:
+                let pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
+                btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            default:
+                break;
+            }
+        }
+        
+    }
     func openView(viewType:Int) {
         var heightConstraint: NSLayoutConstraint
         var mView: UIView
@@ -811,28 +829,28 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
             let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
-            btnTotalFaith.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
         case FRUIT:
             heightConstraint = measurementsViewFruitHeight
             mView = measurementsViewFruit
             viewsHeaderTop = self.fruitHeader
             viewsHeaderBottom = self.outcomesHeader
             let pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
-            btnTotalFruit.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
         case OUTCOMES:
             heightConstraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
             viewsHeaderTop = self.outcomesHeader
             viewsHeaderBottom = nil
             let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
-            btnTotalOutcome.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
         case OTHER:
             heightConstraint = measurmentsViewOtherHeight
             mView = measurementsViewOther
             viewsHeaderTop = self.otherHeader
             viewsHeaderBottom = nil
             let pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
-            btnTotalOther.setTitle(pcvc.totalValue, forState: UIControlState.Normal)
+            btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
         default:
             heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
@@ -857,13 +875,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         heightConstraint.constant = self.scrollView.contentSize.height -
             (faithHeader.imageView!.frame.height * 4)
         
-        println("heightConstraint.constant: \(heightConstraint.constant)")
-        //println("screenSize.height \(screenSize.height)")
-        println("(faithHeader.frame.height * 4) \(faithHeader.frame.height * 4)")
-        println("tabBarController!.tabBar.frame.height \(tabBarController!.tabBar.frame.height)")
-        println("UIApplication.sharedApplication().statusBarFrame.size.height \(UIApplication.sharedApplication().statusBarFrame.size.height)")
-        println("periodSelector.frame.height \(periodControl.frame.height)")
-        println("appBanner.frame.height \(appBanner.frame.height)")
+//        println("heightConstraint.constant: \(heightConstraint.constant)")
+//        //println("screenSize.height \(screenSize.height)")
+//        println("(faithHeader.frame.height * 4) \(faithHeader.frame.height * 4)")
+//        println("tabBarController!.tabBar.frame.height \(tabBarController!.tabBar.frame.height)")
+//        println("UIApplication.sharedApplication().statusBarFrame.size.height \(UIApplication.sharedApplication().statusBarFrame.size.height)")
+//        println("periodSelector.frame.height \(periodControl.frame.height)")
+//        println("appBanner.frame.height \(appBanner.frame.height)")
         
         UIView.animateWithDuration(0.5, animations: { () in
             self.view.layoutIfNeeded()

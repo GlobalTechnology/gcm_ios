@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -1603,6 +1603,57 @@
             </objects>
             <point key="canvasLocation" x="-1596" y="-504"/>
         </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="Ye1-Z0-KsE">
+            <objects>
+                <viewController storyboardIdentifier="SplashScreen" id="meT-ry-J1q" customClass="SplashViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HRs-ZK-cky"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rym-Tu-90M"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="y3H-AZ-a7i">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App_Banner_tall_01" translatesAutoresizingMaskIntoConstraints="NO" id="mlf-lp-cYA">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="242"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mlf-lp-cYA" secondAttribute="height" multiplier="300:121" id="57Y-RD-Ak4"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_bg_03" translatesAutoresizingMaskIntoConstraints="NO" id="vvM-ap-ynJ">
+                                <rect key="frame" x="16" y="262" width="568" height="568"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vvM-ap-ynJ" secondAttribute="height" multiplier="1:1" id="pnC-kq-9f6"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WXq-cC-pqi" userLabel="BottomBar">
+                                <rect key="frame" x="0.0" y="844" width="600" height="56"/>
+                                <color key="backgroundColor" red="0.050980392156862744" green="0.098039215686274508" blue="0.19215686274509805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="MWW-RC-IAs"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176470588238" green="0.92156862745098034" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="vvM-ap-ynJ" secondAttribute="trailing" id="7dx-AK-8sR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WXq-cC-pqi" secondAttribute="trailing" constant="-16" id="8go-Qs-QAi"/>
+                            <constraint firstItem="mlf-lp-cYA" firstAttribute="top" secondItem="HRs-ZK-cky" secondAttribute="bottom" constant="-20" id="X7b-2j-cYQ"/>
+                            <constraint firstItem="mlf-lp-cYA" firstAttribute="leading" secondItem="y3H-AZ-a7i" secondAttribute="leadingMargin" constant="-16" id="csX-f0-im0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mlf-lp-cYA" secondAttribute="trailing" constant="-16" id="d4Q-Pc-BAs"/>
+                            <constraint firstItem="vvM-ap-ynJ" firstAttribute="leading" secondItem="y3H-AZ-a7i" secondAttribute="leadingMargin" id="dvq-p5-rh2"/>
+                            <constraint firstItem="vvM-ap-ynJ" firstAttribute="top" secondItem="mlf-lp-cYA" secondAttribute="bottom" constant="20" id="fbA-Sl-W0P"/>
+                            <constraint firstItem="WXq-cC-pqi" firstAttribute="leading" secondItem="y3H-AZ-a7i" secondAttribute="leadingMargin" constant="-16" id="uLf-2i-wGd"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="900"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vkv-X6-14F" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-238" y="1585"/>
+        </scene>
         <!--Gcm Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -1622,7 +1673,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-506" y="258"/>
+            <point key="canvasLocation" x="-184" y="712"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="9FT-4n-wef">
@@ -1630,7 +1681,7 @@
                 <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="qtz-c6-nRY" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RuB-t0-m9b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1264" y="949"/>
+            <point key="canvasLocation" x="-1628" y="963"/>
         </scene>
         <!--Page Content View Controller-->
         <scene sceneID="UYe-V4-dhR">
@@ -2335,10 +2386,12 @@
     </scenes>
     <resources>
         <image name="App_Banner" width="1080" height="234"/>
+        <image name="App_Banner_tall_01" width="1080" height="432"/>
         <image name="FaithBottomCircle" width="92" height="30"/>
         <image name="Measurements_FaithActions_icon" width="93" height="90"/>
         <image name="Measurements_Fruit_icon" width="93" height="90"/>
         <image name="Measurements_Outcomes_icon" width="93" height="90"/>
+        <image name="Splash_bg_03" width="874" height="1067"/>
         <image name="Training" width="50" height="42"/>
         <image name="bottomShadow" width="270" height="35"/>
         <image name="btn_measurements_decrement" width="44" height="25"/>

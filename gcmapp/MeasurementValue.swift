@@ -2,7 +2,7 @@
 //  MeasurementValue.swift
 //  gcmapp
 //
-//  Created by Jon Vellacott on 27/02/2015.
+//  Created by Jon Vellacott on 17/03/2015.
 //  Copyright (c) 2015 Expidev. All rights reserved.
 //
 
@@ -17,6 +17,7 @@ class MeasurementValue: NSManagedObject {
     @NSManaged var me: NSNumber
     @NSManaged var period: String
     @NSManaged var total: NSNumber
+    @NSManaged var subtotal: NSNumber
     @NSManaged var localSources: NSSet
     @NSManaged var measurement: Measurements
     @NSManaged var meSources: NSSet

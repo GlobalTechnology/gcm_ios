@@ -125,7 +125,7 @@ class mapOptionsViewController: UITableViewController {
                     m.tappable = false
                 }
                 var  marker = GMSMarker(position: mapVC.mapView.projection.coordinateForPoint(mapVC.mapView.center))
-                marker.icon = UIImage(named: "Training" )
+                marker.icon = UIImage(named: "train" )
                 
                 
                 marker.title = ""
