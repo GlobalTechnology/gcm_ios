@@ -918,10 +918,27 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         self.periodControl.setTitle(GlobalFunctions.convertPeriodToPrettyString(period), forSegmentAtIndex: 1)
         //tableView.reloadData()
         self.loadData()
-        self.pageViewControllerFaith = pageViewControllerForCategory(FAITH, view: measurementsViewFaith)
-        self.pageViewControllerFruit = pageViewControllerForCategory(FRUIT, view: measurementsViewFruit)
-        self.pageViewControllerOutcomes = pageViewControllerForCategory(OUTCOMES, view: measurementsViewOutcomes)
-        self.pageViewControllerOther = pageViewControllerForCategory(OTHER, view: measurementsViewOther)
+        if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: FAITH) {
+            self.pageViewControllerFaith.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        }
+        if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: FRUIT) {
+            self.pageViewControllerFruit.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        }
+        if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: OUTCOMES) {
+            self.pageViewControllerOutcomes.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        }
+        if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: OTHER) {
+            self.pageViewControllerOther.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        }
+        
+//        self.pageViewControllerFaith.removeFromParentViewController()
+//        self.pageViewControllerFruit.removeFromParentViewController()
+//        self.pageViewControllerOutcomes.removeFromParentViewController()
+//        self.pageViewControllerOther.removeFromParentViewController()
+//        self.pageViewControllerFaith = pageViewControllerForCategory(FAITH, view: measurementsViewFaith)
+//        self.pageViewControllerFruit = pageViewControllerForCategory(FRUIT, view: measurementsViewFruit)
+//        self.pageViewControllerOutcomes = pageViewControllerForCategory(OUTCOMES, view: measurementsViewOutcomes)
+//        self.pageViewControllerOther = pageViewControllerForCategory(OTHER, view: measurementsViewOther)
         
         
     }
