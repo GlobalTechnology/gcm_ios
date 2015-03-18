@@ -68,7 +68,8 @@
 		FC4D27811A2DE69600C20288 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27801A2DE69600C20288 /* QuartzCore.framework */; };
 		FC4D27831A2DE6A000C20288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27821A2DE6A000C20288 /* SystemConfiguration.framework */; };
 		FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */; };
-		FC5EE6B41AA06B4E00F86627 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */; };
+		FC566ABA1AB8870B0082EE33 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */; };
+		FC566ABB1AB8870B0082EE33 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */; };
 		FC5EE6B61AA06B4E00F86627 /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */; };
 		FC5EE6B81AA06B4F00F86627 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B71AA06B4F00F86627 /* Training.swift */; };
 		FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */; };
@@ -108,7 +109,6 @@
 		FC5EE6E81AA073A600F86627 /* MeasDetailEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB8C3031A38995000A3D30F /* MeasDetailEditCell.swift */; };
 		FC5EE6E91AA073A600F86627 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27481A2DDF8500C20288 /* AppDelegate.swift */; };
 		FC5EE6EA1AA073A600F86627 /* measurements+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0A3501A80C15A00223130 /* measurements+extension.swift */; };
-		FC5EE6EB1AA073A600F86627 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */; };
 		FC5EE6EC1AA073A600F86627 /* assignment+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD669D91A825BB2009C4936 /* assignment+extension.swift */; };
 		FC5EE6ED1AA073A600F86627 /* SecurityTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */; };
 		FC5EE6EE1AA073A600F86627 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
@@ -150,6 +150,9 @@
 		FC5EE7141AA073A600F86627 /* GMALoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD61A2FAE04008D4221 /* GMALoginViewController.xib */; };
 		FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4D27511A2DDF8500C20288 /* Images.xcassets */; };
 		FC5EE7161AA073A600F86627 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
+		FC67B9AA1AB97AA600530105 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67B9A91AB97AA600530105 /* SplashViewController.swift */; };
+		FC67B9AC1AB9842000530105 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC67B9AB1AB9842000530105 /* Launch.storyboard */; };
+		FC67B9AD1AB9847400530105 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC67B9AB1AB9842000530105 /* Launch.storyboard */; };
 		FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */; };
 		FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
 		FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC93DFD51A2FAE04008D4221 /* GMALoginViewController.m */; };
@@ -249,7 +252,7 @@
 		FC4D278D1A2DEC6800C20288 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
-		FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
+		FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
 		FC5EE6B71AA06B4F00F86627 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
 		FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 		FC5EE6C91AA06B4F00F86627 /* MeasurementValueTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueTeam.swift; sourceTree = "<group>"; };
 		FC5EE6CB1AA06B4F00F86627 /* MeasurementMeSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementMeSource.swift; sourceTree = "<group>"; };
 		FC5EE71B1AA073A600F86627 /* GMA Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GMA Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC67B9A91AB97AA600530105 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		FC67B9AB1AB9842000530105 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingTypeTVC.swift; sourceTree = "<group>"; };
 		FC93DFD21A2FA5D7008D4221 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FC93DFD41A2FAE04008D4221 /* GMALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMALoginViewController.h; sourceTree = "<group>"; };
@@ -443,6 +448,7 @@
 		FC4D27451A2DDF8500C20288 /* gcmapp */ = {
 			isa = PBXGroup;
 			children = (
+				FC67B9A81AB97A7D00530105 /* Splash */,
 				4768A27A1AAE4D6200A07070 /* Resources */,
 				474BB9C41AAB78FC0026F289 /* hack1 */,
 				FC9B9D7A1A3729C000C9E353 /* core */,
@@ -452,6 +458,7 @@
 				FC9B9D7F1A3738A600C9E353 /* settings */,
 				FC4D274C1A2DDF8500C20288 /* lmi.swift */,
 				FC4D274E1A2DDF8500C20288 /* Main.storyboard */,
+				FC67B9AB1AB9842000530105 /* Launch.storyboard */,
 				FC4D27511A2DDF8500C20288 /* Images.xcassets */,
 				FC4D27531A2DDF8500C20288 /* LaunchScreen.xib */,
 				FC4D27461A2DDF8500C20288 /* Supporting Files */,
@@ -511,6 +518,7 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
+				FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */,
 				FC13ABAD1A7A588000CB2713 /* extensions */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
@@ -529,9 +537,16 @@
 				FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */,
 				FC5EE6B71AA06B4F00F86627 /* Training.swift */,
 				FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */,
-				FC5EE6B31AA06B4E00F86627 /* MeasurementValue.swift */,
 			);
 			name = datamodel;
+			sourceTree = "<group>";
+		};
+		FC67B9A81AB97A7D00530105 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				FC67B9A91AB97AA600530105 /* SplashViewController.swift */,
+			);
+			name = Splash;
 			sourceTree = "<group>";
 		};
 		FC9B9D701A35FDE000C9E353 /* map */ = {
@@ -707,6 +722,7 @@
 				4768A28A1AAE4DA100A07070 /* Roboto-BlackItalic.ttf in Resources */,
 				4768A29E1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC4D27521A2DDF8500C20288 /* Images.xcassets in Resources */,
+				FC67B9AC1AB9842000530105 /* Launch.storyboard in Resources */,
 				FC93DFD31A2FA5D7008D4221 /* Config.plist in Resources */,
 				4768A2901AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29A1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
@@ -739,6 +755,7 @@
 				4768A28B1AAE4DA100A07070 /* Roboto-BlackItalic.ttf in Resources */,
 				4768A29F1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */,
 				FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */,
+				FC67B9AD1AB9847400530105 /* Launch.storyboard in Resources */,
 				FC5EE7161AA073A600F86627 /* Config.plist in Resources */,
 				4768A2911AAE4DA100A07070 /* Roboto-Italic.ttf in Resources */,
 				4768A29B1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
@@ -846,6 +863,7 @@
 			files = (
 				FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */,
 				FC9B9D721A35FE3E00C9E353 /* TrainingCompCell.swift in Sources */,
+				FC566ABA1AB8870B0082EE33 /* MeasurementValue.swift in Sources */,
 				FC5EE6CA1AA06B4F00F86627 /* MeasurementValueTeam.swift in Sources */,
 				FC4D274D1A2DDF8500C20288 /* lmi.swift in Sources */,
 				FC41ED6E1A31EF9A00915ED7 /* mapOptionsViewController.swift in Sources */,
@@ -872,7 +890,6 @@
 				FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */,
 				FC4D27491A2DDF8500C20288 /* AppDelegate.swift in Sources */,
 				FCB0A3511A80C15A00223130 /* measurements+extension.swift in Sources */,
-				FC5EE6B41AA06B4E00F86627 /* MeasurementValue.swift in Sources */,
 				FCD669DA1A825BB2009C4936 /* assignment+extension.swift in Sources */,
 				FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */,
 				FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */,
@@ -898,6 +915,7 @@
 				FC9401C91A88D869002D54D1 /* Ministry+extension.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
 				474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */,
+				FC67B9AA1AB97AA600530105 /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +933,7 @@
 			files = (
 				FC5EE6D01AA073A600F86627 /* TrainingCompletion.swift in Sources */,
 				FC5EE6D11AA073A600F86627 /* TrainingCompCell.swift in Sources */,
+				FC566ABB1AB8870B0082EE33 /* MeasurementValue.swift in Sources */,
 				FC5EE6D21AA073A600F86627 /* MeasurementValueTeam.swift in Sources */,
 				FC5EE6D31AA073A600F86627 /* lmi.swift in Sources */,
 				FC5EE6D41AA073A600F86627 /* mapOptionsViewController.swift in Sources */,
@@ -941,7 +960,6 @@
 				FC5EE6E81AA073A600F86627 /* MeasDetailEditCell.swift in Sources */,
 				FC5EE6E91AA073A600F86627 /* AppDelegate.swift in Sources */,
 				FC5EE6EA1AA073A600F86627 /* measurements+extension.swift in Sources */,
-				FC5EE6EB1AA073A600F86627 /* MeasurementValue.swift in Sources */,
 				FC5EE6EC1AA073A600F86627 /* assignment+extension.swift in Sources */,
 				FC5EE6ED1AA073A600F86627 /* SecurityTVC.swift in Sources */,
 				FC5EE6EE1AA073A600F86627 /* ChurchTVC.swift in Sources */,

@@ -294,7 +294,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     
                     var  position  = CLLocationCoordinate2DMake( t.valueForKey("latitude") as CLLocationDegrees, t.valueForKey("longitude") as CLLocationDegrees)
                     var  marker = GMSMarker(position: position)
-                    marker.icon = UIImage(named: "Training" )
+                    marker.icon = UIImage(named: "train" )
                     
                     marker.title = t.valueForKey("name") as String
                     marker.map = self.mapView
@@ -365,13 +365,13 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     {
         switch(development){
         case 1:
-            return "targeticon"
+            return "target"
         case 2:
-            return "groupicon"
+            return "group"
         case 3:
-            return "churchicon"
+            return "church"
         case 5:
-            return "multiplyingchurchicon"
+            return "multiply"
         default:
             return ""
         }

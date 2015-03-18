@@ -20,10 +20,12 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     
     var measurementDescription: String!
 
-    var totalValue: String!
+    //var totalValue: String!
     var localValue: String!
     var personValue: String!
-
+    var subTotalValue: Int!
+   
+    var hack: Hack1ViewController!
     
     @IBOutlet var busySpinner: UIActivityIndicatorView!
     
@@ -38,6 +40,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     @IBAction func localChanged(sender: UITextField) {
         if sender.text != ""{
             saveLocal()
+            
         }
     
     }
@@ -70,6 +73,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             }
            
             lblPersonValue.text = newValStr
+            savePerson()
         }
     }
     
@@ -88,40 +92,27 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             }
            // personValueBtn.setTitle(newValStr, forState: UIControlState.Normal)
              lblPersonValue.text = newValStr
+            savePerson()
         }
     }
     
+    
+    func getLiveTotal() -> String{
+        return String(self.subTotalValue + localValue.toInt()! + personValue.toInt()!)
+    }
     
     func saveLocal(){
         if localValue != lblLocalValue.text{
-        var values = self.measurement!.measurementValue
-        
-        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
-            
-        localValue = lblLocalValue.text
-            valueForThisPeriod.local = lblLocalValue.text.toInt()!
-        valueForThisPeriod.changed = true
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            
-        let managedContext = appDelegate.managedObjectContext!
-             var error: NSError?
-                       if !managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
-        }
-    }
-    func savePerson(){
-        if personValue != lblPersonValue.text{
             var values = self.measurement!.measurementValue
-            
+        
             var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
             var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
             var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
             
-            personValue = lblPersonValue.text
-            valueForThisPeriod.me = lblPersonValue.text.toInt()!
+            localValue = lblLocalValue.text
+            hack.setTotal(self.measurementType)
+
+            valueForThisPeriod.local = lblLocalValue.text.toInt()!
             valueForThisPeriod.changed = true
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             
@@ -131,7 +122,33 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
                 println("Could not save \(error), \(error?.userInfo)")
             }
         }
+        
     }
+    func savePerson(){
+        if personValue != lblPersonValue.text{
+            
+            var values = self.measurement!.measurementValue
+            
+            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
+            var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+            
+            personValue = lblPersonValue.text
+            hack.setTotal(self.measurementType)
+            valueForThisPeriod.me = lblPersonValue.text.toInt()!
+            valueForThisPeriod.changed = true
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext!
+            var error: NSError?
+            
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+        }
+    }
+    
+    
     
     @IBOutlet weak var localPersonChooser: UISegmentedControl!
     
@@ -225,17 +242,19 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             let results = appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest,error: &error) as [MeasurementValue]?
 
             if results!.count > 0 {
-                self.totalValue = results?.first?.total.stringValue
+              
                 self.localValue = results?.first?.local.stringValue
                 self.personValue = results?.first?.me.stringValue
+                  //self.totalValue = String((results?.first?.subtotal.integerValue as Int!) + (results?.first?.local.integerValue as Int!) + (results?.first?.me.integerValue as Int!))
+                self.subTotalValue = results?.first?.subtotal.integerValue
             } else {
                 
                 println("... no values for current period: \(period)")
-                self.totalValue = "??"
+                //self.totalValue = "??"
             }
             
            // self.totalValueBtn.setTitle(self.totalValue, forState: UIControlState.Normal)
-            self.localValueBtn.setTitle(self.localValue, forState: UIControlState.Normal)
+           // self.localValueBtn.setTitle(self.localValue, forState: UIControlState.Normal)
 //            /self.personValueBtn.setTitle(self.personValue, forState: UIControlState.Normal)
             self.lblPersonValue.text = self.personValue
             self.lblLocalValue.text = self.localValue
@@ -283,14 +302,14 @@ println("... kDidEndRequest : caught")
         var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
         
         println("s:\(valueForThisPeriod.total.stringValue)")
-        self.totalValue = valueForThisPeriod.total.stringValue
+        //self.totalValue = valueForThisPeriod.total.stringValue
         self.localValue = valueForThisPeriod.local.stringValue
         self.personValue = valueForThisPeriod.me.stringValue
-        
+        self.subTotalValue  = valueForThisPeriod.subtotal.integerValue
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
         //totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
-        localValueBtn.setTitle(localValue, forState: UIControlState.Normal)
+        //localValueBtn.setTitle(localValue, forState: UIControlState.Normal)
        // personValueBtn.setTitle(personValue, forState: UIControlState.Normal)
          self.lblPersonValue.text = personValue
         self.lblLocalValue.text = self.localValue

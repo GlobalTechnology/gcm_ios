@@ -72,6 +72,7 @@
         <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
         <attribute name="me" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="period" optional="YES" attributeType="String" minValueString="7" maxValueString="7" syncable="YES"/>
+        <attribute name="subtotal" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="localSources" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementLocalSource" inverseName="measurementValue" inverseEntity="MeasurementLocalSource" syncable="YES"/>
         <relationship name="measurement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Measurements" inverseName="measurementValue" inverseEntity="Measurements" syncable="YES"/>
@@ -150,7 +151,7 @@
         <element name="MeasurementLocalSource" positionX="-50616" positionY="-21735" width="128" height="103"/>
         <element name="MeasurementMeSource" positionX="-50841" positionY="-21816" width="128" height="103"/>
         <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="208"/>
-        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="223"/>
+        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="238"/>
         <element name="MeasurementValueSelfAssigned" positionX="-50778" positionY="-22158" width="128" height="118"/>
         <element name="MeasurementValueSubTeam" positionX="-50438" positionY="-21748" width="128" height="103"/>
         <element name="MeasurementValueTeam" positionX="-50787" positionY="-21976" width="128" height="148"/>

@@ -76,34 +76,42 @@ extension Measurements {
         }
         
         
-    
+        var subT = 0
             
         if m["total"] != nil{
             if mv.total != m["total"] as NSNumber{
                 rtn = true
                 mv.total = m["total"] as NSNumber
+               
                 println("*mv.total: \(mv.total)")
             }
+             subT = mv.total.integerValue
         }
         
         if m["person"] != nil{
            // let temp = m["person"]
            // println("*mv.me: \(mv.me), mPerson: \(temp)")
-            if mv.me != m["person"] as NSNumber{
+            if mv.me != m["person"] as NSNumber && mv.changed != 0{
                 rtn = true
+                
                 mv.me = m["person"] as NSNumber
-
+                
             }
+            subT -= (m["person"] as NSNumber).integerValue
         }
         
         if m["local"] != nil{
-            if mv.local != m["local"] as NSNumber{
+            if mv.local != m["local"] as NSNumber  && mv.changed != 0{
                 rtn = true
                 mv.local = m["local"] as NSNumber
+                
                 println("*mv.local: \(mv.local)")
             }
+            subT -= (m["local"] as NSNumber).integerValue
         }
         
+        
+        mv.subtotal = subT
 //        else if m["my_values"] != nil{
 //            mv.updateMeSource(period, input: m["my_values"] as JSONDictionary, managedContext: managedContext)
 //        }

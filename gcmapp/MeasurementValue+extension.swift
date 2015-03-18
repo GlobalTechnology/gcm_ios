@@ -9,7 +9,12 @@
 import Foundation
 import CoreData
 extension MeasurementValue{
-
+    
+    func getLiveTotal() -> NSNumber{
+         return (subtotal.integerValue + local.integerValue + me.integerValue)
+    }
+    
+    
     func updateMeSource(period:String, input:JSONDictionary, managedContext:NSManagedObjectContext){
         if input["total"] != nil {
             self.me = input["total"] as NSNumber

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7d1-Ba-scg">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="yyF-O6-fKw">
+            <objects>
+                <viewController storyboardIdentifier="SplashScreen" id="7d1-Ba-scg" customClass="SplashViewController" customModule="GMA" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k2O-25-ZAu"/>
+                        <viewControllerLayoutGuide type="bottom" id="IMu-vT-eQW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Gc-WI-XHu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App_Banner_tall_01" translatesAutoresizingMaskIntoConstraints="NO" id="rLg-v5-4kb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="242"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rLg-v5-4kb" secondAttribute="height" multiplier="300:121" id="uMQ-EN-kk4"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_bg_03" translatesAutoresizingMaskIntoConstraints="NO" id="cma-m5-hyd">
+                                <rect key="frame" x="16" y="262" width="568" height="568"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="cma-m5-hyd" secondAttribute="height" multiplier="1:1" id="DgZ-aM-aeg"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46b-Mf-V18" userLabel="BottomBar">
+                                <rect key="frame" x="0.0" y="844" width="600" height="56"/>
+                                <color key="backgroundColor" red="0.050980392159999999" green="0.098039215690000001" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="IXU-Bb-gXa"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92941176469999998" green="0.92156862750000001" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="46b-Mf-V18" secondAttribute="trailing" constant="-16" id="5M9-yn-h3a"/>
+                            <constraint firstItem="cma-m5-hyd" firstAttribute="top" secondItem="rLg-v5-4kb" secondAttribute="bottom" constant="20" id="6uN-Xf-uEh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rLg-v5-4kb" secondAttribute="trailing" constant="-16" id="C3e-qC-3dA"/>
+                            <constraint firstItem="46b-Mf-V18" firstAttribute="leading" secondItem="6Gc-WI-XHu" secondAttribute="leadingMargin" constant="-16" id="LgZ-4w-b8H"/>
+                            <constraint firstItem="cma-m5-hyd" firstAttribute="leading" secondItem="6Gc-WI-XHu" secondAttribute="leadingMargin" id="OHc-fG-ViZ"/>
+                            <constraint firstItem="rLg-v5-4kb" firstAttribute="top" secondItem="k2O-25-ZAu" secondAttribute="bottom" constant="-20" id="e3K-49-j26"/>
+                            <constraint firstItem="rLg-v5-4kb" firstAttribute="leading" secondItem="6Gc-WI-XHu" secondAttribute="leadingMargin" constant="-16" id="jy6-h1-Zr0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cma-m5-hyd" secondAttribute="trailing" id="or8-MR-K2m"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="900"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rgQ-29-rkI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-238" y="1585"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="App_Banner_tall_01" width="1080" height="432"/>
+        <image name="Splash_bg_03" width="874" height="1067"/>
+    </resources>
+</document>
