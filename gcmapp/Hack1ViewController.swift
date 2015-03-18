@@ -295,19 +295,31 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             let count = self.measurementsFaith.count
             
             self.loadData()
-            
+            if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.FAITH) {
+                self.pageViewControllerFaith.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+            }
+            if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.FRUIT) {
+                self.pageViewControllerFruit.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+            }
+            if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.OUTCOMES) {
+                self.pageViewControllerOutcomes.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+            }
+            if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.OTHER) {
+                self.pageViewControllerOther.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+            }
+
             
             // if we were in a case where the existing page was displayed with 0 measurements in a section:
-            if (count == 0) {
-                
-                // we need to rebuild the pageViewControllers:
-                self.pageViewControllerFaith.removeFromParentViewController()
-                self.pageViewControllerFaith = self.pageViewControllerForCategory(self.FAITH, view:self.measurementsViewFaith)
-                
-                self.pageViewControllerFruit = self.pageViewControllerForCategory(self.FRUIT, view:self.measurementsViewFruit)
-                self.pageViewControllerOutcomes = self.pageViewControllerForCategory(self.OUTCOMES, view:self.measurementsViewOutcomes)
-                self.pageViewControllerOther = self.pageViewControllerForCategory(self.OTHER, view:self.measurementsViewOther)
-            }
+//            if (count == 0) {
+//                
+//                // we need to rebuild the pageViewControllers:
+//                self.pageViewControllerFaith.removeFromParentViewController()
+//                self.pageViewControllerFaith = self.pageViewControllerForCategory(self.FAITH, view:self.measurementsViewFaith)
+//                
+//                self.pageViewControllerFruit = self.pageViewControllerForCategory(self.FRUIT, view:self.measurementsViewFruit)
+//                self.pageViewControllerOutcomes = self.pageViewControllerForCategory(self.OUTCOMES, view:self.measurementsViewOutcomes)
+//                self.pageViewControllerOther = self.pageViewControllerForCategory(self.OTHER, view:self.measurementsViewOther)
+//            }
             
             return
         }
