@@ -918,6 +918,11 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         self.periodControl.setTitle(GlobalFunctions.convertPeriodToPrettyString(period), forSegmentAtIndex: 1)
         //tableView.reloadData()
         self.loadData()
+        self.pageViewControllerFaith = pageViewControllerForCategory(FAITH, view: measurementsViewFaith)
+        self.pageViewControllerFruit = pageViewControllerForCategory(FRUIT, view: measurementsViewFruit)
+        self.pageViewControllerOutcomes = pageViewControllerForCategory(OUTCOMES, view: measurementsViewOutcomes)
+        self.pageViewControllerOther = pageViewControllerForCategory(OTHER, view: measurementsViewOther)
+        
         
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
