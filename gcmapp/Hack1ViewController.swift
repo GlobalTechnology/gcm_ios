@@ -950,6 +950,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
             let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
             detail.measurement = pcvc.measurement
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kShouldLoadMeasurmentDetail, object: detail, userInfo: ["measurement": detail.measurement] )
+           
         }
     }
 

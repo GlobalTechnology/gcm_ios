@@ -18,6 +18,11 @@ class measurementDetailViewController: UITableViewController {
     @IBOutlet weak var NavItem: UINavigationItem!
     
     @IBOutlet weak var graph: GraphView!
+    
+    @IBOutlet weak var activity: UIActivityIndicatorView!
+    
+    
+    
     var period:String!
     var team_role:String!
     var minus:UIButton!
@@ -129,9 +134,9 @@ class measurementDetailViewController: UITableViewController {
         case 1:
             switch self.team_role{
             case "leader":
-                 return this_period_values.teamValues.count + 1
+                 return this_period_values.teamValues.count
             case "member":
-                return 2
+                return 1
             case "inherited_leader":
                 return this_period_values.teamValues.count
             default:
@@ -162,61 +167,21 @@ class measurementDetailViewController: UITableViewController {
             else{
                 var localValue = self.this_period_values.localSources.allObjects[indexPath.row] as MeasurementLocalSource
                 
-                if localValue.name == GlobalConstants.LOCAL_SOURCE && (self.team_role == "leader" || self.team_role == "inherited_leader"){
-                    var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
-                    cell.lblTitle.text = localValue.name
-                    cell.isLocalSource = true
-                    cell.mls = localValue
-                    cell.editValue.text = localValue.value.stringValue
-                    
-                    return cell
-                    
-                }
-                else{
+               
                     var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as UITableViewCell
                     cell.textLabel!.text = localValue.name
                     cell.detailTextLabel?.text  = localValue.value.stringValue
                     return cell
                     
-                }
+                
 
             }
             
         case 1:
-            if indexPath.row == 0 && self.team_role != "inherited_leader"{
-                var cell = tableView.dequeueReusableCellWithIdentifier("measDetailEditCell", forIndexPath: indexPath) as MeasDetailEditCell
-                cell.lblTitle.text = "You"
-                var mes =  (this_period_values.meSources.allObjects as [MeasurementMeSource]).filter {$0.name == GlobalConstants.LOCAL_SOURCE as String}
-                if mes.count==0{
-                    var error: NSError?
-                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-                    
-                    let managedContext = appDelegate.managedObjectContext!
-                    let entity =  NSEntityDescription.entityForName( "MeasurementMeSource", inManagedObjectContext: managedContext)
-                    
-                    var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
-                    ms.measurementValue = this_period_values
-                    ms.name = GlobalConstants.LOCAL_SOURCE
-                    ms.changed = false
-                    ms.value = 0
-                    if !managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
-                    }
-                    cell.me = ms
-                }
-                else{
-                    cell.me = mes.first!
-                }
-                cell.editValue.text = cell.me.value.stringValue
-                cell.isLocalSource = false
-                
-                return cell
-            }
-            else{
-                switch self.team_role{
+            switch self.team_role{
                 case "leader":
                     var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as UITableViewCell
-                    let tm = (self.this_period_values.teamValues.allObjects[indexPath.row-1] as MeasurementValueTeam)
+                    let tm = (self.this_period_values.teamValues.allObjects[indexPath.row] as MeasurementValueTeam)
                     cell.textLabel!.text = tm.first_name + " " + tm.last_name
                     cell.detailTextLabel?.text  = tm.total.stringValue
                     return cell
@@ -241,7 +206,7 @@ class measurementDetailViewController: UITableViewController {
 
                
 
-            }
+            
             
         case 2:
             var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as UITableViewCell

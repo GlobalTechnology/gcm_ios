@@ -75,7 +75,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         self.autocompleteTableView.delegate=self
         self.autocompleteTableView.dataSource = self
-        //redrawMap()
+        redrawMap()
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear( animated)
