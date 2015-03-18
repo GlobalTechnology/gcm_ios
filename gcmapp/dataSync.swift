@@ -62,6 +62,8 @@ class dataSync: NSObject {
                 self.loadChurches(ministryID)
                 self.loadTraining(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString)
                 self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+                //load previous period too
+                self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: GlobalFunctions.prevPeriod( NSUserDefaults.standardUserDefaults().objectForKey("period") as String))
                 NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 
@@ -126,6 +128,15 @@ class dataSync: NSObject {
         var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateMinistry((notification.userInfo as JSONDictionary)["ministry"] as Ministry)
         }
+        var observer_load_meas_det = nc.addObserverForName(GlobalConstants.kShouldLoadMeasurmentDetail, object: nil, queue: myQueue) {(notification:NSNotification!) in
+            
+            
+            
+            self.loadMeasurmentDetails(notification.userInfo?.values.first as Measurements , ministryId: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period")  as String, sender: notification.object as measurementDetailViewController)
+            
+        }
+        
+        
         
         var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
             if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
@@ -386,6 +397,27 @@ class dataSync: NSObject {
         }
     }
     
+    
+    func loadMeasurmentDetails(measurement: Measurements, ministryId: String, mcc: String, period: String, sender: measurementDetailViewController ){
+        API(token: self.token).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
+                                            (data: AnyObject?,error: NSError?) -> Void in
+                                            if data == nil {
+                                                return
+                                            }
+                                            if let md = data as? JSONDictionary{
+                                                dispatch_async(dispatch_get_main_queue(),{
+                                                    measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: self.managedContext)
+            
+                                                    //let notificationCenter = NSNotificationCenter.defaultCenter()
+                                                    sender.tableView.reloadData()
+                                                    sender.activity.hidden = true
+                                                    //notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+                                                    
+                                                });
+                                            }
+        }
+
+    }
     
     func loadMeasurments(ministryId: String, mcc: String, period: String ){
         if checkTokenAndConnection() == false{

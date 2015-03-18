@@ -26,7 +26,7 @@ struct GlobalConstants {
     static let kShouldUpdateMin = "ShouldUpdateMin"
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
-    
+    static let kShouldLoadMeasurmentDetail = "ShouldLoadMeasurmentDetail"
     // these are used when an API request is started and stopped
     //   - displays can show busy indicators to indicate when an action is in progress
     static let kDidBeginMeasurementRequest = "DidBeginMeasurementRequest"
