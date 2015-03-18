@@ -113,7 +113,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             hack.setTotal(self.measurementType)
 
             valueForThisPeriod.local = lblLocalValue.text.toInt()!
-            valueForThisPeriod.changed = true
+            valueForThisPeriod.changed_local = true
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
@@ -121,6 +121,8 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
         }
         
     }
@@ -136,7 +138,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             personValue = lblPersonValue.text
             hack.setTotal(self.measurementType)
             valueForThisPeriod.me = lblPersonValue.text.toInt()!
-            valueForThisPeriod.changed = true
+            valueForThisPeriod.changed_me = true
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
@@ -145,6 +147,8 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
         }
     }
     

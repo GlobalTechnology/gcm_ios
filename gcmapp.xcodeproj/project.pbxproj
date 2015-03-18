@@ -46,6 +46,8 @@
 		FC13ABAC1A79280100CB2713 /* SecurityTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */; };
 		FC13ABAF1A7A58B600CB2713 /* church+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABAE1A7A58B600CB2713 /* church+extension.swift */; };
 		FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */; };
+		FC22B46B1AB9C8D900FF39AE /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B46A1AB9C8D900FF39AE /* MeasurementValue.swift */; };
+		FC22B46C1AB9C8D900FF39AE /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B46A1AB9C8D900FF39AE /* MeasurementValue.swift */; };
 		FC2E0DEF1A2E171A00DAC5A3 /* dataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */; };
 		FC2E0DF11A2E181500DAC5A3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2E0DF01A2E181500DAC5A3 /* API.swift */; };
 		FC41ED6C1A31CFA600915ED7 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC41ED6B1A31CFA600915ED7 /* HTAutocompleteManager.m */; };
@@ -68,8 +70,6 @@
 		FC4D27811A2DE69600C20288 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27801A2DE69600C20288 /* QuartzCore.framework */; };
 		FC4D27831A2DE6A000C20288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC4D27821A2DE6A000C20288 /* SystemConfiguration.framework */; };
 		FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */; };
-		FC566ABA1AB8870B0082EE33 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */; };
-		FC566ABB1AB8870B0082EE33 /* MeasurementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */; };
 		FC5EE6B61AA06B4E00F86627 /* MeasurementValueSubTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */; };
 		FC5EE6B81AA06B4F00F86627 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B71AA06B4F00F86627 /* Training.swift */; };
 		FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */; };
@@ -220,6 +220,7 @@
 		FC13ABAB1A79280100CB2713 /* SecurityTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityTVC.swift; sourceTree = "<group>"; };
 		FC13ABAE1A7A58B600CB2713 /* church+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "church+extension.swift"; sourceTree = "<group>"; };
 		FC13ABB21A7A726D00CB2713 /* ParentTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentTVC.swift; sourceTree = "<group>"; };
+		FC22B46A1AB9C8D900FF39AE /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataSync.swift; sourceTree = "<group>"; };
 		FC2E0DF01A2E181500DAC5A3 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		FC41ED6A1A31CFA600915ED7 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
@@ -252,7 +253,6 @@
 		FC4D278D1A2DEC6800C20288 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		FC4D278F1A2DEC8F00C20288 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		FC4D27921A2DFBC400C20288 /* gcmModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = gcmModel.xcdatamodel; sourceTree = "<group>"; };
-		FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValue.swift; sourceTree = "<group>"; };
 		FC5EE6B51AA06B4E00F86627 /* MeasurementValueSubTeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementValueSubTeam.swift; sourceTree = "<group>"; };
 		FC5EE6B71AA06B4F00F86627 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
 		FC5EE6B91AA06B4F00F86627 /* TrainingCompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingCompletion.swift; sourceTree = "<group>"; };
@@ -518,7 +518,7 @@
 		FC4D27961A2E004300C20288 /* datamodel */ = {
 			isa = PBXGroup;
 			children = (
-				FC566AB91AB8870B0082EE33 /* MeasurementValue.swift */,
+				FC22B46A1AB9C8D900FF39AE /* MeasurementValue.swift */,
 				FC13ABAD1A7A588000CB2713 /* extensions */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
@@ -863,7 +863,6 @@
 			files = (
 				FC5EE6BA1AA06B4F00F86627 /* TrainingCompletion.swift in Sources */,
 				FC9B9D721A35FE3E00C9E353 /* TrainingCompCell.swift in Sources */,
-				FC566ABA1AB8870B0082EE33 /* MeasurementValue.swift in Sources */,
 				FC5EE6CA1AA06B4F00F86627 /* MeasurementValueTeam.swift in Sources */,
 				FC4D274D1A2DDF8500C20288 /* lmi.swift in Sources */,
 				FC41ED6E1A31EF9A00915ED7 /* mapOptionsViewController.swift in Sources */,
@@ -897,6 +896,7 @@
 				FC5EE6C61AA06B4F00F86627 /* Church.swift in Sources */,
 				FC13ABB31A7A726D00CB2713 /* ParentTVC.swift in Sources */,
 				FC9401C51A850EDF002D54D1 /* createTrainingStage.swift in Sources */,
+				FC22B46B1AB9C8D900FF39AE /* MeasurementValue.swift in Sources */,
 				FC5EE6BE1AA06B4F00F86627 /* MeasurementValueSelfAssigned.swift in Sources */,
 				FC93E0101A30C6E3008D4221 /* assignmentsViewController.swift in Sources */,
 				FC5EE6C81AA06B4F00F86627 /* Ministry.swift in Sources */,
@@ -933,7 +933,7 @@
 			files = (
 				FC5EE6D01AA073A600F86627 /* TrainingCompletion.swift in Sources */,
 				FC5EE6D11AA073A600F86627 /* TrainingCompCell.swift in Sources */,
-				FC566ABB1AB8870B0082EE33 /* MeasurementValue.swift in Sources */,
+				FC22B46C1AB9C8D900FF39AE /* MeasurementValue.swift in Sources */,
 				FC5EE6D21AA073A600F86627 /* MeasurementValueTeam.swift in Sources */,
 				FC5EE6D31AA073A600F86627 /* lmi.swift in Sources */,
 				FC5EE6D41AA073A600F86627 /* mapOptionsViewController.swift in Sources */,

@@ -91,7 +91,7 @@ extension Measurements {
         if m["person"] != nil{
            // let temp = m["person"]
            // println("*mv.me: \(mv.me), mPerson: \(temp)")
-            if mv.me != m["person"] as NSNumber && !mv.changed.boolValue{
+            if mv.me != m["person"] as NSNumber && !mv.changed_me.boolValue{
                 rtn = true
                 
                 mv.me = m["person"] as NSNumber
@@ -101,7 +101,7 @@ extension Measurements {
         }
         
         if m["local"] != nil{
-            if mv.local != m["local"] as NSNumber  && !mv.changed.boolValue {
+            if mv.local != m["local"] as NSNumber  && !mv.changed_local.boolValue {
                 rtn = true
                 mv.local = m["local"] as NSNumber
                 

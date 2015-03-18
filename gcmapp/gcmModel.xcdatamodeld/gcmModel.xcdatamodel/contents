@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assignment" representedClassName="Assignment" syncable="YES">
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
@@ -67,7 +67,8 @@
         <relationship name="measurementValue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="measurement" inverseEntity="MeasurementValue" syncable="YES"/>
     </entity>
     <entity name="MeasurementValue" representedClassName="MeasurementValue" syncable="YES">
-        <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="changed_local" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="changed_me" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="local" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
         <attribute name="me" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -151,7 +152,7 @@
         <element name="MeasurementLocalSource" positionX="-50616" positionY="-21735" width="128" height="103"/>
         <element name="MeasurementMeSource" positionX="-50841" positionY="-21816" width="128" height="103"/>
         <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="208"/>
-        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="238"/>
+        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="253"/>
         <element name="MeasurementValueSelfAssigned" positionX="-50778" positionY="-22158" width="128" height="118"/>
         <element name="MeasurementValueSubTeam" positionX="-50438" positionY="-21748" width="128" height="103"/>
         <element name="MeasurementValueTeam" positionX="-50787" positionY="-21976" width="128" height="148"/>

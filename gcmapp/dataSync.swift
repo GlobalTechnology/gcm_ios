@@ -13,6 +13,7 @@ class dataSync: NSObject {
     var managedContext: NSManagedObjectContext!
     var token:NSString!
     let myQueue = NSOperationQueue()
+    var saving:Bool = false
     override init(){
         
         super.init()
@@ -104,9 +105,24 @@ class dataSync: NSObject {
         var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateTrainingCompletion()
         }
-        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.updateMeasurements()
+        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: NSOperationQueue()) {(notification:NSNotification!) in
+            if !self.saving{
+                self.saving=true
+                var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, 5 * Int64( Double(NSEC_PER_SEC)))
+                
+                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                    self.saving=false
+                    self.updateMeasurements()
+                })
+            }
+            
+            
+            //dispatch_async(NSOperationQueue() ,{
+            
+            //});
+            
         }
+        
         var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateChurch()
         }
@@ -936,34 +952,46 @@ class dataSync: NSObject {
         if self.checkTokenAndConnection() == false{
             return;
         }
+        
+       
+       
+        
         dispatch_async(dispatch_get_main_queue(),{
             var error: NSError?
             //var mcc:String = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String
             //Get My Staff Measurements that have changed
-            let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementMeSource" )
-            let pred = NSPredicate(format: "changed == true" )
+            let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
+            let pred = NSPredicate(format: "changed_me == true || changed_local == true" )
             frMeasurementValue.predicate=pred
-            let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementMeSource]
+            let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as [MeasurementValue]
             var update_values: Array<Measurement> = []
-            for mv in mv_changed{
-                update_values.append(Measurement(measurement_type_id: mv.measurementValue.measurement.id_person, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as String , period: mv.measurementValue.period, mcc: mv.measurementValue.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.value))
-            }
-            
-            
-            //Get local source measurmenets that I have changed
-            let frMeasurementLocalValue =  NSFetchRequest(entityName:"MeasurementLocalSource" )
-            frMeasurementLocalValue.predicate=pred
-            let mlv_changed = self.managedContext.executeFetchRequest(frMeasurementLocalValue,error: &error) as [MeasurementLocalSource]
-            
-            for mlv in mlv_changed{
-                println(mlv.measurementValue.measurement.id_local)
-                println(mlv.measurementValue.period)
-                println(mlv.measurementValue.mcc)
+            for mv  in mv_changed {
                 
-                update_values.append(Measurement(measurement_type_id: mlv.measurementValue.measurement.id_local, related_entity_id: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String  , period: mlv.measurementValue.period, mcc: mlv.measurementValue.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mlv.value))
+                //need to check the team role...
+                if mv.changed_me.boolValue{
+                    //lookup the AssignmentId
+                    let frAssignment =  NSFetchRequest(entityName:"Assignment" )
+                    frAssignment.predicate=NSPredicate(format: "ministry.id == %@ && person_id == %@", mv.measurement.ministry_id, NSUserDefaults.standardUserDefaults().objectForKey("person_id") as String )
+                    let this_ass = self.managedContext.executeFetchRequest(frAssignment,error: &error) as [Assignment]
+                    if this_ass.count>0 {
+                        println(mv.measurement.id_person)
+                         update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: this_ass.first!.id! , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.me))
+                    }
+                    
+                    
+                   
+                }
+                if mv.changed_local.boolValue{
+                    update_values.append(Measurement(measurement_type_id: mv.measurement.id_local, related_entity_id: mv.measurement.ministry_id  , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.local))
+                }
+                
+                
             }
+            
+            		
+            
             if(update_values.count > 0){
-                dispatch_async(self.myQueue,{
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),{
                     API(token: self.token).saveMeasurement(update_values ){
                         (data: AnyObject?,error: NSError?) -> Void in
                         if data != nil{
@@ -972,13 +1000,11 @@ class dataSync: NSObject {
                                 //   tc.changed=false
                                 dispatch_async(dispatch_get_main_queue(),{
                                     for mv in mv_changed{
-                                        mv.changed = false
+                                        mv.changed_me = false
+                                        mv.changed_local = false
                                         
                                     }
-                                    for mv in mlv_changed{
-                                        mv.changed = false
-                                        
-                                    }
+                                   
                                     //                        var error: NSError?
                                     //                        if !self.managedContext.save(&error) {
                                     //                            println("Could not save \(error), \(error?.userInfo)")
@@ -997,7 +1023,7 @@ class dataSync: NSObject {
                 
             }
         });
-        
+       
     }
     
     /*func savePendingTransactions( ){
