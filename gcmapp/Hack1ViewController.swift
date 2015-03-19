@@ -955,17 +955,30 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+         let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+        var pcvc:PageContentViewController!
         if (segue.identifier == "showMeasurementDetailFaith") {
             // pass data to next view
-            let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
-            //let indexPath = self.tableView.indexPathForSelectedRow()
-            //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
-            let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
-            detail.measurement = pcvc.measurement
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kShouldLoadMeasurmentDetail, object: detail, userInfo: ["measurement": detail.measurement] )
+             pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+        
            
+        } else if (segue.identifier == "showMeasurementDetailFruit") {
+            // pass data to next view
+             pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
+            
+        } else if (segue.identifier == "showMeasurementDetailOutcomes") {
+            // pass data to next view
+             pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
+            
+        } else if (segue.identifier == "showMeasurementDetailOther") {
+            // pass data to next view
+            pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
+            
+            
+            
         }
+        detail.measurement = pcvc.measurement
+         NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kShouldLoadMeasurmentDetail, object: detail, userInfo: ["measurement": detail.measurement] )
     }
 
     /*
