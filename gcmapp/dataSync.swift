@@ -108,7 +108,7 @@ class dataSync: NSObject {
         var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: NSOperationQueue()) {(notification:NSNotification!) in
             if !self.saving{
                 self.saving=true
-                var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, 5 * Int64( Double(NSEC_PER_SEC)))
+                var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, 3 * Int64( Double(NSEC_PER_SEC)))
                 
                 dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
                     self.saving=false

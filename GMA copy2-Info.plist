@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>484</string>
+	<string>489</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -52,6 +52,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>api_url</key>
-	<string>https://stage-measurements.global-registry.org/v2/</string>
+	<string>https://stage-measurements.global-registry.org/v3/</string>
 </dict>
 </plist>
