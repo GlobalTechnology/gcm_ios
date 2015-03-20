@@ -106,8 +106,9 @@
             }
             func getMeasurement(ministryId: String, mcc: String, period: String, callback: APICallback)
             {
-                let url = "\(GlobalConstants.SERVICE_ROOT)measurements?token=\(self.token)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)"
-                println("\(url)")
+              
+                let url = "\(GlobalConstants.SERVICE_ROOT)measurements?token=\(self.token)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)&source=\(GlobalConstants.LOCAL_SOURCE)"
+                
                 self.cur_url = url
                 makeHTTPGetRequest( Path.GET_MEASUREMENTS, callback: callback, url: url)
             }
