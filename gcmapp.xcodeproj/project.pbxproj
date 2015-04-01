@@ -150,7 +150,6 @@
 		FC5EE7141AA073A600F86627 /* GMALoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD61A2FAE04008D4221 /* GMALoginViewController.xib */; };
 		FC5EE7151AA073A600F86627 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC4D27511A2DDF8500C20288 /* Images.xcassets */; };
 		FC5EE7161AA073A600F86627 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC93DFD21A2FA5D7008D4221 /* Config.plist */; };
-		FC67B9AA1AB97AA600530105 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67B9A91AB97AA600530105 /* SplashViewController.swift */; };
 		FC67B9AC1AB9842000530105 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC67B9AB1AB9842000530105 /* Launch.storyboard */; };
 		FC67B9AD1AB9847400530105 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC67B9AB1AB9842000530105 /* Launch.storyboard */; };
 		FC8F3D011A7B91320091854D /* TrainingTypeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8F3D001A7B91320091854D /* TrainingTypeTVC.swift */; };
@@ -915,7 +914,6 @@
 				FC9401C91A88D869002D54D1 /* Ministry+extension.swift in Sources */,
 				FC4D274B1A2DDF8500C20288 /* mapViewController.swift in Sources */,
 				474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */,
-				FC67B9AA1AB97AA600530105 /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
