@@ -26,7 +26,7 @@ extension Measurements {
         var error: NSError?
         var rtn:Bool = false
         self.name = m["name"] as String
-        self.id = m["measurement_id"] as String
+       // self.id = m["measurement_id"] as String
         self.perm_link = m["perm_link"] as String
         self.section = m["section"] as String
         self.sort_order = self.sortOrder()
@@ -67,6 +67,7 @@ extension Measurements {
         
         if ids["total"] != nil {
             self.id_total = (ids["total"] as String)
+            self.id = self.id_total!;
         }
         if ids["local"] != nil {
             self.id_local = ids["local"] as String

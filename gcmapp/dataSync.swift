@@ -242,27 +242,28 @@ class dataSync: NSObject {
                             } // end if assignments were provided
                             
                             NSUserDefaults.standardUserDefaults().synchronize()
+                            // if we we have a saved ministry_id then initialize our
+                            // churches, training and measurements
+                            if let currMinistryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+                                
+                                
+                                //let currMCC = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+                                //
+                                //let currPeriod = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+                                 NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+                               // self.loadChurches(currMinistryID)
+                               // self.loadTraining(currMinistryID, mcc:currMCC)
+                               // self.loadMeasurments(currMinistryID, mcc: currMCC, period: currPeriod)
+                            }
+                            
+                            // update our last refresh setting:
+                            //NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                            //NSUserDefaults.standardUserDefaults().synchronize()
                         });
                     } // end if response was a success
                     
                     
-                    // if we we have a saved ministry_id then initialize our
-                    // churches, training and measurements
-                    if let currMinistryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
-                        
-                        
-                        let currMCC = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
-                        
-                        let currPeriod = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-                        
-                        self.loadChurches(currMinistryID)
-                        self.loadTraining(currMinistryID, mcc:currMCC)
-                        self.loadMeasurments(currMinistryID, mcc: currMCC, period: currPeriod)
-                    }
-                    
-                    // update our last refresh setting:
-                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                    NSUserDefaults.standardUserDefaults().synchronize()
+                   
                     
                 }  // end API{}
                 
@@ -481,7 +482,7 @@ class dataSync: NSObject {
                     
                     let entity =  NSEntityDescription.entityForName( "Measurements", inManagedObjectContext: self.managedContext)
                     
-                    let this_meas = meas?.filter {$0.id == (m["measurement_id"] as String)}
+                    let this_meas = meas?.filter {$0.perm_link == (m["perm_link"] as String)}
                     var measurement:Measurements!
                     var getDetail:Bool = false
                     
@@ -563,7 +564,7 @@ class dataSync: NSObject {
                     // println(tmp)
                     
                     
-                    let this_t = allTraining.filter {$0.id == (t["Id"] as NSNumber)}
+                    let this_t = allTraining.filter {$0.id == (t["id"] as NSNumber)}
                     var training:Training!
                     
                     if this_t.count > 0{
@@ -576,7 +577,7 @@ class dataSync: NSObject {
                     }
                     //END: ADD or Update
                     if !(training.changed as Bool) { // don't update if we have a pending change...
-                        training.id = t["Id"] as NSNumber
+                        training.id = t["id"] as NSNumber
                         training.ministry_id = t["ministry_id"] as String
                         training.name = t["name"] as String
                         if t["date"] as String? != NSNull(){
@@ -610,7 +611,7 @@ class dataSync: NSObject {
                                 
                                 //BEGIN: Add or update
                                 var training_comp:TrainingCompletion!
-                                let this_tc = allTC.filter {$0.id == (tc["Id"] as NSNumber)}
+                                let this_tc = allTC.filter {$0.id == (tc["id"] as NSNumber)}
                                 if this_tc.count > 0{
                                     training_comp=this_tc.first?
                                     
@@ -621,7 +622,7 @@ class dataSync: NSObject {
                                 }
                                 //END: Add or Update
                                 if !(training_comp.changed as Bool) { //don't update if we have a pending value
-                                    training_comp.id = tc["Id"] as NSNumber
+                                    training_comp.id = tc["id"] as NSNumber
                                     training_comp.phase = tc["phase"] as NSNumber
                                     training_comp.number_completed = tc["number_completed"] as NSNumber
                                     if(tc["date"] as String? != nil){
@@ -827,7 +828,7 @@ class dataSync: NSObject {
             let pred = NSPredicate(format: "changed == true" )
             frChurch.predicate=pred
             let ch_changed = self.managedContext.executeFetchRequest(frChurch,error: &error) as [Church]
-            dispatch_async(self.myQueue,{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),{
                 for ch in ch_changed{
                     
                     if ch.id == -1{
@@ -883,7 +884,7 @@ class dataSync: NSObject {
             let pred = NSPredicate(format: "changed == true" )
             frTraining.predicate=pred
             let tr_changed = self.managedContext.executeFetchRequest(frTraining,error: &error) as [Training]
-            dispatch_async(self.myQueue,{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),{
                 for tr in tr_changed{
                     if tr.id == -1{
                         API(token: self.token).addTraining(tr){
@@ -930,7 +931,7 @@ class dataSync: NSObject {
             let pred = NSPredicate(format: "changed == true" )
             frTrainingCompletion.predicate=pred
             let tc_changed = self.managedContext.executeFetchRequest(frTrainingCompletion,error: &error) as [TrainingCompletion]
-            dispatch_async(self.myQueue,{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),{
                 for tc in tc_changed{
                     API(token: self.token).saveTrainingCompletion(tc){
                         (data: AnyObject?,error: NSError?) -> Void in
