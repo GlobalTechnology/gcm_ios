@@ -42,7 +42,10 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         
         
      //   println(fetchedResultController.indexPathForObject(selected_parent.first!))
+        if selected_parent.count>0{
+        
         tableView.scrollToRowAtIndexPath(fetchedResultController.indexPathForObject(selected_parent.first!)!, atScrollPosition: UITableViewScrollPosition.None, animated: true)
+        }
       // tableView.selectRowAtIndexPath(fetchedResultController.indexPathForObject(selected_parent.first!), animated: false, scrollPosition: UITableViewScrollPosition.None)
         //tableView.reloadData()
     }
