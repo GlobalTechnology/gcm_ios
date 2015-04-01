@@ -662,7 +662,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
         //println("presentationCountForPageViewController: \(cnt)")
-        
+        if pageViewController.viewControllers.count == 0{
+            return 1;
+        }
         let pcvc = pageViewController.viewControllers[0] as PageContentViewController
         var cnt:Int = 1
         switch (pcvc.measurementType) {
