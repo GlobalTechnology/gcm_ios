@@ -160,7 +160,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
 
       
         
-        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
         
         } else {
         
@@ -239,7 +239,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         
         //// setup the coreData managedContext
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         self.managedContext = appDelegate.managedObjectContext!
         
         
@@ -339,10 +339,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
 //        openView(FAITH)
 
         // check to see if we have an active ministry_id
-        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
             
             
-            period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+            period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
             updatePeriodControl()
             
             
@@ -380,7 +380,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     func pageViewControllerForCategory( category : Int, view: UIView ) -> UIPageViewController {
         
         // make an instance of our storyboard "PageViewController"
-        let pvc = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as UIPageViewController
+        let pvc = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as! UIPageViewController
         
         // lock in us as the dataSource for our pageViewController
         
@@ -418,13 +418,13 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         self.measurementsOther = []
         
         
-        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
             
             //
             // get Ministry and display Name
             //
             
-            let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+            let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
             
             
             // ministry_name might be undefined
@@ -502,7 +502,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // now run the fetchRequest (Query)
         var error: NSError?
-        let results = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as [Measurements]?
+        let results = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Measurements]?
         
         
         return results!
@@ -521,7 +521,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         println("pageViewControllerAFTER")
         
-        let pcvc = viewController as PageContentViewController
+        let pcvc = viewController as! PageContentViewController
         
         var cnt:Int = 1
         switch (pcvc.measurementType) {
@@ -537,12 +537,19 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             cnt = 1
         }
         
-        var index = (viewController as PageContentViewController).pageIndex!
-        index++
-        if(index >= cnt){
+        if  var  index = (viewController as! PageContentViewController).pageIndex{
+            index++
+            if(index >= cnt){
+                return nil
+            }
+            return self.viewControllerAtIndex(index, measurementType: pcvc.measurementType)
+            
+        }
+        else {
             return nil
         }
-        return self.viewControllerAtIndex(index, measurementType: pcvc.measurementType)
+        
+       
     }
     
     
@@ -558,9 +565,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         println("pageViewControllerBEFORE")
         
-        let pcvc = viewController as PageContentViewController
+        let pcvc = viewController as! PageContentViewController
         
-        var index = (viewController as PageContentViewController).pageIndex!
+        var index = (viewController as! PageContentViewController).pageIndex!
         if(index <= 0){
             return nil
         }
@@ -569,7 +576,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     }
     
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-        let pcvc = pageViewController.viewControllers.last  as PageContentViewController
+        let pcvc = pageViewController.viewControllers.last  as! PageContentViewController
         switch (pcvc.measurementType) {
         case FAITH:
             btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
@@ -624,7 +631,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         
         // create a new PageContentViewController to be displayed by the Scroller
-        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as PageContentViewController
+        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as! PageContentViewController
         
         
         // assign the current measurement's details to this new PCVC
@@ -638,9 +645,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         // get the value for the current period
         var values = measurements[index].measurementValue
 
-        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
+        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period))
+        if periodVals.count>0{
+        var valueForThisPeriod = periodVals.first as! MeasurementValue
         
         println("s:\(valueForThisPeriod.total.stringValue)")
        
@@ -656,7 +664,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         //pageContentViewController.localPersonChooser.selectedSegmentIndex = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
         
-        
+        }
         return pageContentViewController
     }
     
@@ -665,7 +673,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         if pageViewController.viewControllers.count == 0{
             return 1;
         }
-        let pcvc = pageViewController.viewControllers[0] as PageContentViewController
+        let pcvc = pageViewController.viewControllers[0] as! PageContentViewController
         var cnt:Int = 1
         switch (pcvc.measurementType) {
         case FAITH:
@@ -703,7 +711,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
         let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
-        let pcvcs = pageViewControllerFaith.viewControllers as [PageContentViewController]
+        let pcvcs = pageViewControllerFaith.viewControllers as! [PageContentViewController]
         println("pcvcs.count: \(pcvcs.count)")
         for pcvc in pcvcs {
             pcvc.selectLocalPersonProgrammatically(state)
@@ -722,7 +730,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
         let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
-        let pcvcs = pageViewControllerFruit.viewControllers as [PageContentViewController]
+        let pcvcs = pageViewControllerFruit.viewControllers as! [PageContentViewController]
         println("pcvcs.count: \(pcvcs.count)")
         for pcvc in pcvcs {
             pcvc.selectLocalPersonProgrammatically(state)
@@ -741,7 +749,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
         let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
-        let pcvcs = pageViewControllerOutcomes.viewControllers as [PageContentViewController]
+        let pcvcs = pageViewControllerOutcomes.viewControllers as! [PageContentViewController]
         println("pcvcs.count: \(pcvcs.count)")
         for pcvc in pcvcs {
             pcvc.selectLocalPersonProgrammatically(state)
@@ -762,7 +770,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         // Make sure local/person chooser is persisted. Can't do it in viewWillAppear, because it's already appeared (just 'hidden' and height=0)
         let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
-        let pcvcs = pageViewControllerOutcomes.viewControllers as [PageContentViewController]
+        let pcvcs = pageViewControllerOutcomes.viewControllers as! [PageContentViewController]
         println("pcvcs.count: \(pcvcs.count)")
         for pcvc in pcvcs {
             pcvc.selectLocalPersonProgrammatically(state)
@@ -811,16 +819,16 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             switch (measurementType) {
             case FAITH:
                 
-                let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+                let pcvc = self.pageViewControllerFaith.viewControllers.last  as! PageContentViewController
                 btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             case FRUIT:
-                let pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
+                let pcvc = self.pageViewControllerFruit.viewControllers.last  as! PageContentViewController
                 btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             case OUTCOMES:
-                let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
+                let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as! PageContentViewController
                 btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             case OTHER:
-                let pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
+                let pcvc = self.pageViewControllerOther.viewControllers.last  as! PageContentViewController
                 btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
             default:
                 break;
@@ -838,33 +846,43 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
         switch (viewType) {
         case FAITH:
+            
             heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
-            let pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
-            btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            if self.pageViewControllerFaith.viewControllers.count > 0{
+                let pcvc = self.pageViewControllerFaith.viewControllers.last  as! PageContentViewController
+                btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            }
+           
         case FRUIT:
             heightConstraint = measurementsViewFruitHeight
             mView = measurementsViewFruit
             viewsHeaderTop = self.fruitHeader
             viewsHeaderBottom = self.outcomesHeader
-            let pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
-            btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            if self.pageViewControllerFruit.viewControllers.count > 0{
+                let pcvc = self.pageViewControllerFruit.viewControllers.last  as! PageContentViewController
+                btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            }
         case OUTCOMES:
             heightConstraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
             viewsHeaderTop = self.outcomesHeader
             viewsHeaderBottom = nil
-            let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
-            btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            if self.pageViewControllerOutcomes.viewControllers.count > 0{
+                let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as! PageContentViewController
+                btnTotalOutcome.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            }
         case OTHER:
             heightConstraint = measurmentsViewOtherHeight
             mView = measurementsViewOther
             viewsHeaderTop = self.otherHeader
             viewsHeaderBottom = nil
-            let pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
-            btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            if self.pageViewControllerOther.viewControllers.count > 0{
+                let pcvc = self.pageViewControllerOther.viewControllers.last  as! PageContentViewController
+                btnTotalOther.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
+            }
         default:
             heightConstraint = measurementsViewFaithHeight
             mView = measurementsViewFaith
@@ -957,24 +975,24 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-         let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+         let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
         var pcvc:PageContentViewController!
         if (segue.identifier == "showMeasurementDetailFaith") {
             // pass data to next view
-             pcvc = self.pageViewControllerFaith.viewControllers.last  as PageContentViewController
+             pcvc = self.pageViewControllerFaith.viewControllers.last  as! PageContentViewController
         
            
         } else if (segue.identifier == "showMeasurementDetailFruit") {
             // pass data to next view
-             pcvc = self.pageViewControllerFruit.viewControllers.last  as PageContentViewController
+             pcvc = self.pageViewControllerFruit.viewControllers.last  as! PageContentViewController
             
         } else if (segue.identifier == "showMeasurementDetailOutcomes") {
             // pass data to next view
-             pcvc = self.pageViewControllerOutcomes.viewControllers.last  as PageContentViewController
+             pcvc = self.pageViewControllerOutcomes.viewControllers.last  as! PageContentViewController
             
         } else if (segue.identifier == "showMeasurementDetailOther") {
             // pass data to next view
-            pcvc = self.pageViewControllerOther.viewControllers.last  as PageContentViewController
+            pcvc = self.pageViewControllerOther.viewControllers.last  as! PageContentViewController
             
             
             

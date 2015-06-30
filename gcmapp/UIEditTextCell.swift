@@ -14,7 +14,7 @@ class UIEditTextCell: UITableViewCell {
     @IBAction func tbEditingDidEnd(sender: UITextField) {
         if self.isChurch{
             if field_name == "size"{
-                if church.data[field_name] as NSNumber != (value.text! as NSString).integerValue{
+                if church.data[field_name] as! NSNumber != (value.text! as NSString).integerValue{
                     church.data[field_name] = (value.text! as NSString).integerValue
                     church.changed = true
                     //let notificationCenter = NSNotificationCenter.defaultCenter()

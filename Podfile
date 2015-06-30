@@ -1,8 +1,10 @@
-	platform :ios, '8.1'
-
-pod 'TheKeyOAuth2', '0.5.3'
+platform :ios, '7.0'
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/GlobalTechnology/cocoapods-specs.git'
 pod 'AFNetworking', '~> 1.3.0'
+pod 'TheKeyOAuth2', '~> 0.5.3'
 pod 'MMDrawerController', '~> 0.5.0'
 pod 'SMCalloutView', '~> 2.0'
 pod 'HTAutocompleteTextField'
 pod 'Google-Maps-iOS-SDK', '1.9.0'
+pod 'GoogleAnalytics-iOS-SDK'

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 class assignmentsViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     
     
@@ -42,18 +42,18 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-        let ministry = fetchedResultController.objectAtIndexPath(indexPath) as Ministry
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
         cell.textLabel!.text = ministry.name
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-         let ministry = fetchedResultController.objectAtIndexPath(indexPath) as Ministry
+         let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
         
        
-        for a:Assignment in ministry.assignments.allObjects as [Assignment]{
-            if a.person_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as String?{
+        for a:Assignment in ministry.assignments.allObjects as! [Assignment]{
+            if a.person_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String?{
                // if a.id != nil {
                     NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
                     
@@ -80,7 +80,7 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     }
 
 
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
     }
 }

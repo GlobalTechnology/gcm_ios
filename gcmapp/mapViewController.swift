@@ -13,7 +13,7 @@ import CoreData
 
 
 
-class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
     
@@ -39,7 +39,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.screenName = "Home Screen"
         let nc = NSNotificationCenter.defaultCenter()
         let myQueue = NSOperationQueue.mainQueue()
         var observer = nc.addObserverForName(GlobalConstants.kDidReceiveChurches, object: nil, queue: myQueue) {(notification:NSNotification!) in
@@ -57,7 +57,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         self.calloutView = SMCalloutView()
-        var button = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
+        var button = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as! UIButton
         
         button.addTarget( self, action: "calloutAccessoryButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -86,6 +86,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         super.viewWillAppear(animated)
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+      
+        
     }
     
   
@@ -109,8 +111,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         
-        var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String?
-        var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String?)
+        var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
+        var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
         
         if(mcc != nil){
             mcc = mcc!.lowercaseString
@@ -118,13 +120,13 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
 
         if ministryId != nil{
-            let min_name=NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String!
-            let mcc=NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String!
+            let min_name=NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as! String!
+            let mcc=NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String!
             
             lblMinistry.text = "\(min_name) (\(mcc))"
             
             
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
             var error: NSError?
@@ -137,7 +139,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             let fr =  NSFetchRequest(entityName:"Ministry" )
             fr.predicate = NSPredicate(format: "id == %@", ministryId! )
             
-            let min = managedContext.executeFetchRequest(fr,error: &error) as [Ministry]
+            let min = managedContext.executeFetchRequest(fr,error: &error) as! [Ministry]
             if min.count>0{
                 self.ministry = min.first!
                 
@@ -151,10 +153,10 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             
             var devs:[Int] = Array()
-            if ((NSUserDefaults.standardUserDefaults().objectForKey("showTargets") as Bool?) != false) { devs.append(1) }
-            if ((NSUserDefaults.standardUserDefaults().objectForKey("showGroups") as Bool?) != false) { devs.append(2) }
-            if ((NSUserDefaults.standardUserDefaults().objectForKey("showChurches") as Bool?) != false) { devs.append(3) }
-            if ((NSUserDefaults.standardUserDefaults().objectForKey("showMultiplyingChurches") as Bool?) != false) { devs.append(5) }
+            if ((NSUserDefaults.standardUserDefaults().objectForKey("showTargets") as! Bool?) != false) { devs.append(1) }
+            if ((NSUserDefaults.standardUserDefaults().objectForKey("showGroups") as! Bool?) != false) { devs.append(2) }
+            if ((NSUserDefaults.standardUserDefaults().objectForKey("showChurches") as! Bool?) != false) { devs.append(3) }
+            if ((NSUserDefaults.standardUserDefaults().objectForKey("showMultiplyingChurches") as! Bool?) != false) { devs.append(5) }
             
             let pred1=NSPredicate(format: "ministry_id = %@", ministryId!)
             let pred2=NSPredicate(format: "development in %@", devs)
@@ -164,25 +166,25 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
            // let pred = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType,  subpredicates: [pred1, pred2])
             
             
-            fetchRequest.predicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1!, pred2!])
+            fetchRequest.predicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1, pred2])
            
             
             
             self.churches =
                 managedContext.executeFetchRequest(fetchRequest,
-                    error: &error) as [Church]?
+                    error: &error) as! [Church]?
             
             
             println("Found \(churches.count) results")
             
             //Find Items to delete
-           var toDelete = markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as JSONDictionary)["id"]  as NSNumber, churches: self.churches)}
+           var toDelete = markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
             for m in toDelete{
                 m.map = nil
             }
             
             //Filter the current list
-            self.markers = markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String == "church" && mapViewController.churchesContainsId((($0 as GMSMarker).userData as JSONDictionary)["id"]  as NSNumber, churches: self.churches)}
+            self.markers = markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String == "church" && mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
             
             
 
@@ -202,9 +204,9 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             for c  in self.churches {
                 //determine add or update.
                 var marker: GMSMarker!
-                let searchMarkers = (self.markers.filter { (($0 as GMSMarker).userData as JSONDictionary)["marker_type"] as String == "church" && (($0 as GMSMarker).userData as JSONDictionary)["id"] as NSNumber == c.id} ) as [GMSMarker]
+                let searchMarkers = (self.markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String == "church" && (($0 as GMSMarker).userData as! JSONDictionary)["id"] as! NSNumber == c.id} ) as [GMSMarker]
                
-                var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as CLLocationDegrees,c.valueForKey("longitude") as CLLocationDegrees)
+                var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as! CLLocationDegrees,c.valueForKey("longitude") as! CLLocationDegrees)
                 if searchMarkers.count > 0{
                     //update
                     marker = searchMarkers.first
@@ -225,15 +227,15 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 dict["marker_type"] = "church"
             
                 for key in c.entity.attributesByName.keys.array{
-                    dict[key as String]=c.valueForKey(key as String)
+                    dict[key as! String]=c.valueForKey(key as! String)
                 }
             
                 
                 
                
-                marker.icon = UIImage(named: mapViewController.getIconNameForChurch(c.valueForKey("development") as NSNumber ) )
+                marker.icon = UIImage(named: mapViewController.getIconNameForChurch(c.valueForKey("development") as! NSNumber ) )
                 
-                marker.title = c.valueForKey("name") as String
+                marker.title = c.valueForKey("name") as! String
                 
                 marker.userData = dict
                 
@@ -282,21 +284,21 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 fetchRequest2.predicate = NSPredicate(format: "ministry_id = %@ AND mcc = %@ AND !( latitude =0 AND longitude = 0)", ministryId!, mcc.lowercaseString)
                 self.training =
                     managedContext.executeFetchRequest(fetchRequest2,
-                        error: &error) as [Training]?
+                        error: &error) as! [Training]?
                 for t  in training {
                     var dict = JSONDictionary()
                     dict["marker_type"] = "training"
                     for key in t.entity.attributesByName.keys.array{
-                        dict[key as String]=t.valueForKey(key as String)
+                        dict[key as! String]=t.valueForKey(key as! String)
                     }
                     
                     dict["stages"] = t.stages
                     
-                    var  position  = CLLocationCoordinate2DMake( t.valueForKey("latitude") as CLLocationDegrees, t.valueForKey("longitude") as CLLocationDegrees)
+                    var  position  = CLLocationCoordinate2DMake( t.valueForKey("latitude") as! CLLocationDegrees, t.valueForKey("longitude") as! CLLocationDegrees)
                     var  marker = GMSMarker(position: position)
                     marker.icon = UIImage(named: "train" )
                     
-                    marker.title = t.valueForKey("name") as String
+                    marker.title = t.valueForKey("name") as! String
                     marker.map = self.mapView
                     marker.userData = dict
                     marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
@@ -390,17 +392,17 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             //self.performSegueWithIdentifier("churchDetail", sender: self)
             
             let marker = self.mapView.selectedMarker
-            var data = marker.userData as JSONDictionary
+            var data = marker.userData as! JSONDictionary
             var vc:UIViewController!
-            switch data["marker_type"] as String!{
+            switch data["marker_type"] as! String!{
                 case "church":
-                    let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as ChurchTVC
+                    let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as! ChurchTVC
                     ch.data = data
                     ch.mapVC = self
                     vc=ch as UIViewController
                 
                 case "training":
-                    let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as trainingViewController
+                    let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as! trainingViewController
                     tr.data = data
                     tr.mapVC = self
                     vc=tr as UIViewController
@@ -435,7 +437,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         return autocompleteList.count
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("autocompleteCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("autocompleteCell", forIndexPath: indexPath) as! UITableViewCell
         cell.textLabel!.text = autocompleteList[indexPath.row]
         return cell
     }
@@ -492,14 +494,14 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         lblMove.hidden = true
         searchMap.hidden = false
         
-        if (marker.userData as JSONDictionary)["marker_type"] as String == "church"{
+        if (marker.userData as! JSONDictionary)["marker_type"] as! String == "church"{
             let fetchRequest = NSFetchRequest(entityName:"Church")
             var error: NSError?
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
-            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
-            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
+            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as! JSONDictionary)["id"] as! NSNumber)
+            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [Church]
             if church.count>0{
                 church.first!.changed=true
                 church.first!.latitude = marker.position.latitude
@@ -514,16 +516,17 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+            GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "move", label: nil, value: nil).build()  as [NSObject: AnyObject])
 
         }
-        else if (marker.userData as JSONDictionary)["marker_type"] as String == "training"{
+        else if (marker.userData as! JSONDictionary)["marker_type"] as! String == "training"{
             let fetchRequest = NSFetchRequest(entityName:"Training")
             var error: NSError?
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
-            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as JSONDictionary)["id"] as NSNumber)
-            let training = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Training]
+            fetchRequest.predicate = NSPredicate(format: "id = %@", (marker.userData as! JSONDictionary)["id"] as! NSNumber)
+            let training = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [Training]
             if training.count>0{
                 training.first!.changed=true
                 training.first!.latitude = marker.position.latitude
@@ -538,12 +541,13 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "move", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
-        else if (marker.userData as JSONDictionary)["marker_type"] as String == "new_church"{
+        else if (marker.userData as! JSONDictionary)["marker_type"] as! String == "new_church"{
             println("Moved New_Church")
             
-            let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as ChurchTVC
-            ch.data = marker.userData as JSONDictionary
+            let ch = self.storyboard?.instantiateViewControllerWithIdentifier("ChurchTVC") as! ChurchTVC
+            ch.data = marker.userData as! JSONDictionary
             ch.data["latitude"] = marker.position.latitude
             ch.data["longitude"] = marker.position.longitude
             ch.mapVC = self
@@ -554,11 +558,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             
         }
-        else if (marker.userData as JSONDictionary)["marker_type"] as String == "new_training"{
+        else if (marker.userData as! JSONDictionary)["marker_type"] as! String == "new_training"{
             println("Moved New_Training")
             
-            let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as trainingViewController
-            tr.data = marker.userData as JSONDictionary
+            let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as! trainingViewController
+            tr.data = marker.userData as! JSONDictionary
             tr.data["latitude"] = marker.position.latitude
             tr.data["longitude"] = marker.position.longitude
             println(tr.data["type"])
@@ -583,7 +587,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier=="ShowOptions"{
             
-            let tvc = segue.destinationViewController as mapOptionsViewController
+            let tvc = segue.destinationViewController as! mapOptionsViewController
             tvc.mapVC = self
 
         }

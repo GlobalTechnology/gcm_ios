@@ -39,7 +39,7 @@
             
             init(st: String, callback: APICallback) {
                 super.init()
-                self.getToken(st, callback)
+                self.getToken(st, callback: callback)
             }
             
             init(token: String){
@@ -108,11 +108,11 @@
             {
               
                 let url = "\(GlobalConstants.SERVICE_ROOT)measurements?token=\(self.token)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)&source=\(GlobalConstants.LOCAL_SOURCE)"
-                
+                  println("\(url)")
                 self.cur_url = url
                 makeHTTPGetRequest( Path.GET_MEASUREMENTS, callback: callback, url: url)
             }
-            func getMeasurementDetail(measurementId: String,ministryId: String, mcc: String, period: String, callback: APICallback)
+            func getMeasurementDetail(measurementId: String, ministryId: String, mcc: String, period: String, callback: APICallback)
             {
                 let url = "\(GlobalConstants.SERVICE_ROOT)measurements/\(measurementId)?token=\(self.token)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)"
                 println("\(url)")
@@ -194,8 +194,8 @@
                 makeHTTPPutRequest( Path.UPDATE_GENERAL, callback: callback, url: url, body:  body)
             }
             
-            func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
-                let httpResponse = response as NSHTTPURLResponse
+            func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
+                let httpResponse = response as! NSHTTPURLResponse
                 statusCode = httpResponse.statusCode
                 switch (httpResponse.statusCode) {
                 case 201, 200, 401:
@@ -210,12 +210,12 @@
                 println(error)
                 
             }
-            func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
+            func connection(connection: NSURLConnection, didReceiveData data: NSData) {
                 self.responseData.appendData(data)
             }
             
             
-            func connectionDidFinishLoading(connection: NSURLConnection!) {
+            func connectionDidFinishLoading(connection: NSURLConnection) {
                 var error: NSError?
                 var json : AnyObject!
                 if responseData.length>0{
@@ -263,12 +263,12 @@
                     
                 default:
                     if statusCode == 401 {
-                        if (json as JSONDictionary)["reason"] as String == GlobalConstants.apiSessionInvalid{
+                        if (json as! JSONDictionary)["reason"] as! String == GlobalConstants.apiSessionInvalid{
                             if login_attempts < 5{
                                 login_attempts += 1
                                 println("401:  reauthenticating - attempt \(login_attempts)")
                                 
-                               var isRefreshing =  NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kIsRefreshingToken) as Bool?
+                               var isRefreshing =  NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kIsRefreshingToken) as! Bool?
                                 if isRefreshing == nil || isRefreshing == false {
                                     
                                     NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kIsRefreshingToken)
@@ -336,7 +336,7 @@
                 self.path = path
                 self.callback = callback
                 
-                let request = NSURLRequest(URL: NSURL(string: url)!)
+                let request = NSURLRequest(URL: NSURL(string: url as String)!)
                 let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
             
                 
@@ -355,7 +355,7 @@
             func makeHTTPPostRequest(path: Path, callback: APICallback, url: NSString, body: NSString) {
                 self.path = path
                 self.callback = callback
-                let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+                let request = NSMutableURLRequest(URL: NSURL(string: url as String)!)
                 request.HTTPMethod = "POST"
                 request.HTTPBody = body.dataUsingEncoding(NSUTF8StringEncoding)
                 let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
@@ -370,7 +370,7 @@
             func makeHTTPPutRequest(path: Path, callback: APICallback, url: NSString, body: NSString) {
                 self.path = path
                 self.callback = callback
-                let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+                let request = NSMutableURLRequest(URL: NSURL(string: url as String)!)
                 request.HTTPMethod = "PUT"
                 request.HTTPBody = body.dataUsingEncoding(NSUTF8StringEncoding)
                 let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)

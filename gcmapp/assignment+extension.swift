@@ -11,14 +11,14 @@ import CoreData
 
 extension Assignment {
     class func getAssignmentForMinistryId(ministryId: String) -> Assignment?{
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         let fr =  NSFetchRequest(entityName:"Assignment" )
         fr.predicate = NSPredicate(format: "ministry.id=%@",  ministryId)
         
         var error: NSError?
         
-        let assignments = managedContext.executeFetchRequest(fr,error: &error) as [Assignment]
+        let assignments = managedContext.executeFetchRequest(fr,error: &error) as! [Assignment]
         if assignments.count>0{
             return assignments.first
         }

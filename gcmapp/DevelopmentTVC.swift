@@ -24,7 +24,7 @@ class DevelopmentTVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var row:Int = -1
-        switch(church.data["development"] as NSNumber){
+        switch(church.data["development"] as! NSNumber){
         case 1:
             row=0
             break
@@ -74,7 +74,7 @@ class DevelopmentTVC: UITableViewController {
         if church.data["security"] == nil{
             church.data["secutiry"] = 2
         }
-        var old_value = church.data["security"]  as NSNumber
+        var old_value = church.data["security"]  as! NSNumber
 
         
         switch(indexPath.row){
@@ -95,7 +95,7 @@ class DevelopmentTVC: UITableViewController {
             
         }
         
-        self.church.changed = old_value != church.data["development"] as NSNumber
+        self.church.changed = old_value != church.data["development"] as! NSNumber
         
         self.church.tableView.reloadData()
         

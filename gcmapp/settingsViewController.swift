@@ -20,12 +20,15 @@ class settingsViewController: UITableViewController {
         super.viewWillAppear(animated)
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "Settings")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var min_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))!
-        let min_name = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as String?
+        let min_name = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as! String?
         if min_name != nil {
             min_cell.detailTextLabel!.text = min_name
         } else{
@@ -33,7 +36,7 @@ class settingsViewController: UITableViewController {
         }
     
         var mcc_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))!
-        let mcc = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String?
+        let mcc = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?
        
         if mcc != nil {
             mcc_cell.detailTextLabel!.text = mcc
@@ -42,7 +45,7 @@ class settingsViewController: UITableViewController {
         }
         
         var team_role_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0))!
-        let team_role = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String?
+        let team_role = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String?
         if team_role != nil {
             team_role_cell.detailTextLabel!.text = GlobalFunctions.getTeamRoleFormatted(team_role!)
         } else{

@@ -26,7 +26,7 @@ class TrainingTypeTVC: UITableViewController {
         super.viewDidAppear(animated)
         var selected_row:NSNumber = 3
         if training.data["type"] != nil{
-            switch training.data["type"] as String{
+            switch training.data["type"] as! String{
             case "MC2":
                 selected_row=0
                 break

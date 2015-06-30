@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>13</string>
+	<string>17</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -70,6 +70,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>api_url</key>
-	<string>https://measurements.global-registry.org/v3/</string>
+	<string>https://measurements.global-registry.org/v4/</string>
 </dict>
 </plist>

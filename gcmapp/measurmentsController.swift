@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 class measurmentsController: UITableViewController, NSFetchedResultsControllerDelegate {
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     var mcc:String!
     var period:String!
@@ -57,7 +57,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         self.tableView.allowsSelection = !self_assigned
         
         
-        let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
+        let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
         mcc = currMcc
         
         
@@ -85,7 +85,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         
         // It is possible for the current user to not have a ministry_id defined 
         // so check first:
-        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String? {
+        if let ministryId=NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
             
             let fetchRequest =  NSFetchRequest(entityName:"Measurements")
           /*  let pred1=NSPredicate(format: "ministry_id = %@", ministryId)
@@ -176,8 +176,12 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         super.viewWillAppear(animated)
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
-        period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as String)
+        period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
         self.updatePeriodControl()
+        
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "Measurements")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
 
     }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -195,28 +199,28 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary2", forIndexPath: indexPath) as MeasurementSummaryCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("lmiSummary2", forIndexPath: indexPath) as! MeasurementSummaryCell
         
         if fetchedResultController.fetchedObjects?.count == 0{
             return cell
         }
-        let measurement:Measurements! = fetchedResultController.objectAtIndexPath(indexPath) as Measurements
+        let measurement:Measurements! = fetchedResultController.objectAtIndexPath(indexPath) as! Measurements
      
-        let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
+        let this_meas_value:[MeasurementValue] =  (measurement.measurementValue.allObjects as! [MeasurementValue]).filter {$0.period == self.period && $0.mcc == self.mcc}
         if this_meas_value.count>0{
             cell.lblDetail.text = this_meas_value.first?.total.stringValue
             
             if self_assigned{
                 
-                var mes =  (this_meas_value.first!.meSources.allObjects as [MeasurementMeSource]).filter {$0.name == GlobalConstants.LOCAL_SOURCE as String}
+                var mes =  (this_meas_value.first!.meSources.allObjects as! [MeasurementMeSource]).filter {$0.name == GlobalConstants.LOCAL_SOURCE as String}
                 if mes.count==0{
                     var error: NSError?
-                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                     
                     let managedContext = appDelegate.managedObjectContext!
                     let entity =  NSEntityDescription.entityForName( "MeasurementMeSource", inManagedObjectContext: managedContext)
                     
-                    var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as MeasurementMeSource
+                    var ms =  NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext) as! MeasurementMeSource
                     ms.measurementValue = this_meas_value.first!
                     ms.name = GlobalConstants.LOCAL_SOURCE
                     ms.changed = false
@@ -249,7 +253,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     
     
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
         
     }
@@ -265,9 +269,9 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         
         if (segue.identifier == "showMeasurementDetail") {
             // pass data to next view
-            let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+            let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
             let indexPath = self.tableView.indexPathForSelectedRow()
-            detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
+            detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as! Measurements
            
         }
         

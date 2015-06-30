@@ -8,3 +8,8 @@
 #import "GMALoginViewController.h"
 #import <HTAutoCompleteTextField.h>
 #import "HTAutoCompleteManager.h"
+#import <GAI.h>
+#import <GAITrackedViewController.h>
+
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"

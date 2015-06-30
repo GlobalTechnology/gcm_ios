@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class mccViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext!
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -27,7 +27,7 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
         
         
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("MccCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("MccCell", forIndexPath: indexPath) as! UITableViewCell
         
         switch(indexPath.row){
         case 0:
@@ -53,7 +53,7 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
             
             let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
             fetchRequest.predicate=NSPredicate(format: "id = %@", ministryID )
-            let fetchedResults =  managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as [Ministry]
+            let fetchedResults =  managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as! [Ministry]
             if fetchedResults.count > 0{
                 if let ministry:Ministry = fetchedResults.first {
                     

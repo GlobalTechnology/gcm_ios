@@ -32,8 +32,8 @@ struct GlobalConstants {
     static let kDidBeginMeasurementRequest = "DidBeginMeasurementRequest"
     static let kDidEndMeasurementRequest   = "DidEndMeasurementRequest"
    
-    static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as String
-     static let SERVICE_API = SERVICE_ROOT + "token"
+    static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as! String
+     static let SERVICE_API = SERVICE_ROOT.stringByReplacingOccurrencesOfString("192.168.0.5:8080", withString: "localhost:52195", options: NSStringCompareOptions.LiteralSearch, range: nil) + "token"
     static let LOCAL_SOURCE = "gma-app"
     static let MEMBERS_ONLY = ["leader","inherited_leader","member"]
     static let LEADERS_ONLY = ["leader","inherited_leader"]
