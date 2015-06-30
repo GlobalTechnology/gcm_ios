@@ -58,18 +58,18 @@ class mapOptionsViewController: UITableViewController {
         var ns =  NSUserDefaults.standardUserDefaults()
         
         
-        targets.on = (ns.objectForKey("showTargets") as Bool?) != false
-        groups.on = (ns.objectForKey("showGroups") as Bool?) != false
-        churches.on = (ns.objectForKey("showChurches") as Bool?) != false
-        multiplyingChurches.on = (ns.objectForKey("showMultiplyingChurches") as Bool?) != false
-        training.on = (ns.objectForKey("showTraining") as Bool?) != false
+        targets.on = (ns.objectForKey("showTargets") as! Bool?) != false
+        groups.on = (ns.objectForKey("showGroups") as! Bool?) != false
+        churches.on = (ns.objectForKey("showChurches") as! Bool?) != false
+        multiplyingChurches.on = (ns.objectForKey("showMultiplyingChurches") as! Bool?) != false
+        training.on = (ns.objectForKey("showTraining") as! Bool?) != false
         
         
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String
         
         self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
@@ -154,10 +154,10 @@ class mapOptionsViewController: UITableViewController {
                 break
             case 3: //default map view
                 
-                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
                 let managedContext = appDelegate.managedObjectContext!
-                var ministry_id  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String
+                var ministry_id  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String
                 var error: NSError?
            
                                  mapVC.ministry.zoom = mapVC.mapView.camera.zoom

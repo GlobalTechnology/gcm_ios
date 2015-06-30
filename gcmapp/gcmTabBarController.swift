@@ -21,7 +21,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
       
         // Do any additional setup after loading the view.
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
-            var dict = NSDictionary(contentsOfFile: path) as Dictionary<String, String>
+            var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
             // Use your dict here
             let url = dict["TheKeyServerURL"]
             let client_id = dict["TheKeyClientId"]

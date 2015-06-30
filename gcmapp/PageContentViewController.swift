@@ -98,23 +98,29 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     
     
     func getLiveTotal() -> String{
-        return String(self.subTotalValue + localValue.toInt()! + personValue.toInt()!)
+        if self.subTotalValue == nil || localValue == nil || personValue == nil{
+            return ""
+        }
+        else{
+            return String(self.subTotalValue + localValue.toInt()! + personValue.toInt()!)
+        }
+        
     }
     
     func saveLocal(){
         if localValue != lblLocalValue.text{
             var values = self.measurement!.measurementValue
         
-            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-            var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
+            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period))
+            var valueForThisPeriod = periodVals.first as! MeasurementValue
             
             localValue = lblLocalValue.text
             hack.setTotal(self.measurementType)
 
             valueForThisPeriod.local = lblLocalValue.text.toInt()!
             valueForThisPeriod.changed_local = true
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
             var error: NSError?
@@ -131,15 +137,15 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             
             var values = self.measurement!.measurementValue
             
-            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-            var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
+            var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period))
+            var valueForThisPeriod = periodVals.first as! MeasurementValue
             
             personValue = lblPersonValue.text
             hack.setTotal(self.measurementType)
             valueForThisPeriod.me = lblPersonValue.text.toInt()!
             valueForThisPeriod.changed_me = true
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext!
             var error: NSError?
@@ -227,7 +233,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
          
             let fetchRequest =  NSFetchRequest(entityName:"MeasurementValue")
             
-            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
+            var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
             // where ministry_id = X
             if self.measurement!.id_total == nil {
                 println("error: \(self.measurement!.name)")
@@ -239,11 +245,11 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             fetchRequest.predicate = NSPredicate(format: "measurement.id_total = %@ && period = %@", self.measurement!.id_total!, period)
             
             
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             // now run the fetchRequest (Query)
             var error: NSError?
-            let results = appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest,error: &error) as [MeasurementValue]?
+            let results = appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest,error: &error) as! [MeasurementValue]?
 
             if results!.count > 0 {
               
@@ -301,15 +307,17 @@ println("... kDidEndRequest : caught")
         // get the value for the current period
         var values = self.measurement!.measurementValue
         
-        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period)!)
-        var valueForThisPeriod = periodVals.allObjects.first as MeasurementValue
+        var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
+        var periodVals = values.filteredSetUsingPredicate(NSPredicate(format: "period = %@", period))
+        if(periodVals.count > 0 ){
+            var valueForThisPeriod = periodVals.first  as! MeasurementValue
         
-        println("s:\(valueForThisPeriod.total.stringValue)")
-        //self.totalValue = valueForThisPeriod.total.stringValue
-        self.localValue = valueForThisPeriod.local.stringValue
-        self.personValue = valueForThisPeriod.me.stringValue
-        self.subTotalValue  = valueForThisPeriod.subtotal.integerValue
+            println("s:\(valueForThisPeriod.total.stringValue)")
+            //self.totalValue = valueForThisPeriod.total.stringValue
+            self.localValue = valueForThisPeriod.local.stringValue
+            self.personValue = valueForThisPeriod.me.stringValue
+            self.subTotalValue  = valueForThisPeriod.subtotal.integerValue
+        }
         //measurementValueLbl.text = measurementValue
         //measurementValueBtn.titleLabel!.text = measurementValue
         //totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
@@ -354,7 +362,7 @@ println("... kDidEndRequest : caught")
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if (segue.identifier == "showMeasurementDetail") {
             // pass data to next view
-            let detail:measurementDetailViewController = segue.destinationViewController as measurementDetailViewController
+            let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
             //let indexPath = self.tableView.indexPathForSelectedRow()
             //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
             detail.measurement = self.measurement!

@@ -21,7 +21,7 @@
 
         
         @IBAction func editValueDidChanged(sender: UITextField) {
-             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             var error: NSError?
             let managedContext = appDelegate.managedObjectContext!
             if(isLocalSource){

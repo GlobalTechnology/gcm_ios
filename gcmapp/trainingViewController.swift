@@ -31,23 +31,23 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             return;
         }
         var error: NSError?
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
-        if(data["marker_type"] as String == "new_training"){   //create new training
+        if(data["marker_type"] as! String == "new_training"){   //create new training
             let entity =  NSEntityDescription.entityForName( "Training", inManagedObjectContext: managedContext)
             var training = NSManagedObject(entity: entity!,
-                insertIntoManagedObjectContext:managedContext) as Training
+                insertIntoManagedObjectContext:managedContext) as! Training
             training.changed=true
-            training.name=data["name"] as String
-            training.type=data["type"] as String
+            training.name=data["name"] as! String
+            training.type=data["type"] as! String
             println(training.type)
-            training.longitude = data["longitude"] as Float
-            training.latitude = data["latitude"] as Float
+            training.longitude = data["longitude"] as! Float
+            training.latitude = data["latitude"] as! Float
             training.id = -1  //indicates new church
-            training.ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String
-            training.mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
-            training.date = data["date"] as String
+            training.ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String
+            training.mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
+            training.date = data["date"] as! String
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
@@ -56,18 +56,18 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
-            
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         else if self.changed {
             let fetchRequest = NSFetchRequest(entityName:"Training")
             
             
-            fetchRequest.predicate = NSPredicate(format: "id = %@", data["id"] as NSNumber)
-            let training = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Training]
+            fetchRequest.predicate = NSPredicate(format: "id = %@", data["id"] as! NSNumber)
+            let training = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [Training]
             if training.count>0{
                 training.first!.changed=true
-                training.first!.name=data["name"] as String
-                training.first!.type=data["type"] as String
+                training.first!.name=data["name"] as! String
+                training.first!.type=data["type"] as! String
                 
             }
             
@@ -83,11 +83,12 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             //broadcast for update
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
-            
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         if changed_tc{
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTrainingCompletion, object: nil)
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
     }
     
@@ -97,14 +98,14 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         if(data["name"] != nil){
             name.text = data["name"] as? String
         }
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String
         
         self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
         
         let descriptor = NSSortDescriptor(key: "phase", ascending: true)
         
-        tc = (data["stages"] as NSSet).sortedArrayUsingDescriptors([descriptor]) as [TrainingCompletion]
+        tc = (data["stages"] as! NSSet).sortedArrayUsingDescriptors([descriptor]) as! [TrainingCompletion]
         // var tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
         //  tableView.addGestureRecognizer(tap)
         /* if data["marker_type"] as String == "new_training"{
@@ -133,7 +134,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         
         let stage = tc[textField.tag ] as TrainingCompletion
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         if stage.number_completed != (textField.text as NSString).integerValue
@@ -153,7 +154,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return data["marker_type"] as String == "new_training" ? 1 : 2
+        return data["marker_type"] as! String == "new_training" ? 1 : 2
     }
     
     
@@ -187,12 +188,12 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         
         if indexPath.section == 1{
             if indexPath.row == tc.count {
-                let cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
                 
             }
             else{
-                var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as TrainingCompCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as! TrainingCompCell
                 
                 var stage = tc[indexPath.row] as TrainingCompletion
                 cell.stage.text = stage.phase.stringValue
@@ -212,19 +213,19 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         else if indexPath.section == 0{
             switch(indexPath.row){
             case 0: // Back
-                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
-                cell.textLabel!.text = data["marker_type"] as String == "new_training" ? "Save" : "Back to Map"
+                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.textLabel!.text = data["marker_type"] as! String == "new_training" ? "Save" : "Back to Map"
                 return cell
             case 1: //Move
-                let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
-                cell.userInteractionEnabled = data["marker_type"] as String != "new_training" && !read_only
-                cell.textLabel!.enabled = data["marker_type"] as String != "new_training" && !read_only
+                let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.userInteractionEnabled = data["marker_type"] as! String != "new_training" && !read_only
+                cell.textLabel!.enabled = data["marker_type"] as! String != "new_training" && !read_only
                 cell.alpha=0.5
                 
                 return cell
             case 2: //name
                 if read_only{
-                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as UITableViewCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
                     
                     cell.textLabel!.text = "Name"
                     
@@ -234,7 +235,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 }
                 else{
                     
-                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.isChurch=false
                     cell.training=self
                     cell.field_name="name"
@@ -245,7 +246,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 }
             case 3: //type
                 if read_only{
-                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as UITableViewCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
                     
                     cell.textLabel!.text = "Type"
                     
@@ -254,7 +255,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     
                 }
                 else{
-                    var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
                     cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : ""
                     return cell
                 }
@@ -267,7 +268,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             
             
         }
-        var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -284,7 +285,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 break
             case 1: //move
-                if(data["marker_type"] as String != "new_training"){
+                if(data["marker_type"] as! String != "new_training"){
                     self.mapVC.makeSelectedMarkerDraggable()
                      self.dismissViewControllerAnimated(true, completion: nil)
                     dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
@@ -307,7 +308,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             if indexPath.row == tc.count {
                 //add new Training Stage.
                 let notificationCenter = NSNotificationCenter.defaultCenter()
-                var insert = createTrainingStage(training_id: data["id"] as NSNumber, phase: tc.count + 1, date: GlobalFunctions.currentDate(), number_completed: 0)
+                var insert = createTrainingStage(training_id: data["id"] as! NSNumber, phase: tc.count + 1, date: GlobalFunctions.currentDate(), number_completed: 0)
                 notificationCenter.postNotificationName(GlobalConstants.kShouldAddNewTrainingPhase, object: self, userInfo: ["createTrainingStage": insert])
                
             }
@@ -317,7 +318,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowType"{
-            let tvc = segue.destinationViewController as TrainingTypeTVC
+            let tvc = segue.destinationViewController as! TrainingTypeTVC
             tvc.training = self
             
             

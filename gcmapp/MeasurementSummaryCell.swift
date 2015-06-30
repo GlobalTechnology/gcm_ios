@@ -31,7 +31,7 @@ class MeasurementSummaryCell: UITableViewCell {
                 me.changed=true
                 me.value = (tbValue.text as NSString!).integerValue
                 var error: NSError?
-                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
                 let managedContext = appDelegate.managedObjectContext!
                 if !managedContext.save(&error) {

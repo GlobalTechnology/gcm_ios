@@ -29,24 +29,24 @@ class ChurchTVC: UITableViewController {
             return
         }
         var error: NSError?
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
-        if(data["marker_type"] as String == "new_church"){   //create new church
+        if(data["marker_type"] as! String == "new_church"){   //create new church
             let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: managedContext)
             var church = NSManagedObject(entity: entity!,
-                insertIntoManagedObjectContext:managedContext) as Church
+                insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
-            church.name=data["name"] as String
-            church.contact_name=data["contact_name"] as String
-            church.contact_email=data["contact_email"] as String
-            church.size=data["size"] as NSNumber
-            church.development=data["development"] as NSNumber
-            church.security=data["security"] as NSNumber
-            church.longitude = data["longitude"] as Float
-            church.latitude = data["latitude"] as Float
+            church.name=data["name"] as! String
+            church.contact_name=data["contact_name"] as! String
+            church.contact_email=data["contact_email"] as! String
+            church.size=data["size"] as! NSNumber
+            church.development=data["development"] as! NSNumber
+            church.security=data["security"] as! NSNumber
+            church.longitude = data["longitude"] as! Float
+            church.latitude = data["latitude"] as! Float
             church.id = -1  //indicates new church
-            church.ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as String
+            church.ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
@@ -55,34 +55,34 @@ class ChurchTVC: UITableViewController {
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
-            
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         else if(changed){
             let fetchRequest = NSFetchRequest(entityName:"Church")
             
             
-            fetchRequest.predicate = NSPredicate(format: "id = %@", data["id"] as NSNumber)
-            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as [Church]
+            fetchRequest.predicate = NSPredicate(format: "id = %@", data["id"] as! NSNumber)
+            let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [Church]
             if church.count>0{
                 church.first!.changed=true
-                church.first!.name=data["name"] as String
-                church.first!.contact_name=data["contact_name"] as String
-                church.first!.contact_email=data["contact_email"] as String
-                church.first!.size=data["size"] as NSNumber
-                church.first!.development=data["development"] as NSNumber
-                church.first!.security=data["security"] as NSNumber
+                church.first!.name=data["name"] as! String
+                church.first!.contact_name=data["contacas!name"] as! String
+                church.first!.contact_email=data["contactas!mail"] as! String
+                church.first!.size=data["]size"] as! NSNumber
+                church.first!.development=data["develas!ment"] as! NSNumber
+                church.first!.security=data["seas!rity"] as! NSNumber
                 if data["parent_id"] != nil {
                     
-                    if( (church.first!.parent_id != data["parent_id"] as NSNumber)){
+                    if( (church.first!.parent_id != data["paras!t_id"] as! NSNumber)){
                         
                         //parent_id has changed
                         //lookup parent...
                         let fetchRequest2 = NSFetchRequest(entityName:"Church")
-                        fetchRequest2.predicate = NSPredicate(format: "id = %@", data["parent_id"] as NSNumber)
-                        let parent = managedContext.executeFetchRequest(fetchRequest2, error: &error) as [Church]
+                        fetchRequest2.predicate = NSPredicate(format: "id = %@", data["parent_id"] as! NSNumber)
+                        let parent = managedContext.executeFetchRequest(fetchRequest2, error: &error) as! [Church]
                         if parent.count>0{
                             church.first!.parent = parent.first!
-                            church.first!.parent_id = data["parent_id"] as NSNumber
+                            church.first!.parent_id = data["parent_id"] as! NSNumber
                         }
                         
                         
@@ -104,20 +104,20 @@ class ChurchTVC: UITableViewController {
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
-            
+             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as String
+        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String
         
         self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
         
         name.text = data["name"] as? String
-        Icon.image = UIImage(named: mapViewController.getIconNameForChurch(data["development"] as NSNumber))
+        Icon.image = UIImage(named: mapViewController.getIconNameForChurch(data["development"] as! NSNumber))
         
         /*if data["marker_type"] as String == "new_church"{
         btnClose.titleLabel!.text = "Save"
@@ -151,10 +151,10 @@ class ChurchTVC: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if section == 1{
-            return data["marker_type"] as String == "new_church" ? 6 : 7
+            return data["marker_type"] as! String == "new_church" ? 6 : 7
         }
         else{
-            return (data["marker_type"] as String == "new_church") || !read_only ? 1 : 2
+            return (data["marker_type"] as! String == "new_church") || !read_only ? 1 : 2
         }
     }
     
@@ -163,7 +163,7 @@ class ChurchTVC: UITableViewController {
         if indexPath.section == 1{
             // Configure the cell...
             if read_only{
-                let cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyCell", forIndexPath: indexPath) as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyCell", forIndexPath: indexPath) as! UITableViewCell
                 switch (indexPath.row){
                 case 0:
                     cell.textLabel!.text = "Name"
@@ -179,20 +179,20 @@ class ChurchTVC: UITableViewController {
                     break
                 case 3:
                     cell.textLabel!.text = "Size"
-                    cell.detailTextLabel!.text = (data["size"] as NSNumber).stringValue
+                    cell.detailTextLabel!.text = (data["size"] as! NSNumber).stringValue
                     break
                 case 4:
                     cell.textLabel!.text = "Type"
-                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as NSNumber))
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as! NSNumber))
                     break
                 case 5:
                     cell.textLabel!.text = "Size"
-                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as NSNumber))
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as! NSNumber))
                     break
                 case 6:
                      cell.textLabel!.text = "Parent"
                     if (data["parent_name"] != nil){
-                        cell.detailTextLabel!.text = (data["parent_name"]as String)
+                        cell.detailTextLabel!.text = (data["parent_name"]as! String)
                         
                     }
                     else{
@@ -202,7 +202,7 @@ class ChurchTVC: UITableViewController {
                     return cell
                     
                 default:
-                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                     return cell
                 }
 
@@ -212,49 +212,49 @@ class ChurchTVC: UITableViewController {
             else{
                 switch (indexPath.row){
                 case 0:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Name"
                     cell.value.text = data["name"] as? String
                     cell.field_name = "name"
                     cell.church=self
                     return cell
                 case 1:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Contact Name"
                     cell.value.text = data["contact_name"] as? String
                     cell.field_name = "contact_name"
                     cell.church=self
                     return cell
                 case 2:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UIEditTextCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Contact Email"
                     cell.value.text = data["contact_email"] as? String
                     cell.field_name = "contact_email"
                     cell.church=self
                     return cell
                 case 3:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as UIEditTextCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Size"
-                    cell.value.text = (data["size"] as NSNumber).stringValue
+                    cell.value.text = (data["size"] as! NSNumber).stringValue
                     cell.field_name = "size"
                     cell.church=self
                     return cell
                 case 4:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as UITableViewCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
                     // cell.textLabel!.text = "Type"
-                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as NSNumber))
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForDevelopment((data["development"] as! NSNumber))
                     
                     return cell
                 case 5:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("SecurityCell", forIndexPath: indexPath) as UITableViewCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("SecurityCell", forIndexPath: indexPath) as! UITableViewCell
                     // cell.textLabel!.text = "Size"
-                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as NSNumber))
+                    cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as! NSNumber))
                     return cell
                 case 6:
-                    let cell = tableView.dequeueReusableCellWithIdentifier("ParentCell", forIndexPath: indexPath) as UITableViewCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ParentCell", forIndexPath: indexPath) as! UITableViewCell
                     // cell.textLabel!.text = "Size"
                     if (data["parent_name"] != nil){
-                        cell.detailTextLabel!.text = (data["parent_name"]as String)
+                        cell.detailTextLabel!.text = (data["parent_name"] as! String)
                         
                     }
                     else{
@@ -264,7 +264,7 @@ class ChurchTVC: UITableViewController {
                     return cell
                     
                 default:
-                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
+                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                     return cell
                 }
             }
@@ -273,15 +273,15 @@ class ChurchTVC: UITableViewController {
         else{
             switch(indexPath.row){
             case 1:
-                let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
                 
                 return cell
             case 0:
-                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as UITableViewCell
-                cell.textLabel!.text = data["marker_type"] as String == "new_church" ? "Save" : "Back to Map"
+                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as! UITableViewCell
+                cell.textLabel!.text = data["marker_type"] as! String == "new_church" ? "Save" : "Back to Map"
                 return cell
             default:
-                var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as UITableViewCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
                 
             }
@@ -371,17 +371,17 @@ class ChurchTVC: UITableViewController {
         
         switch segue.identifier!{
         case "ShowDevelopment":
-            let tvc = segue.destinationViewController as DevelopmentTVC
+            let tvc = segue.destinationViewController as! DevelopmentTVC
             tvc.church = self
             break
         case "ShowSecurity":
-            let tvc = segue.destinationViewController as SecurityTVC
+            let tvc = segue.destinationViewController as! SecurityTVC
             tvc.church = self
         case "ShowParent":
-            let tvc = segue.destinationViewController as ParentTVC
+            let tvc = segue.destinationViewController as! ParentTVC
             tvc.church = self
-            tvc.parent_church_id = data["parent_id"]as NSNumber?
-            tvc.this_church_id = data["id"] as NSNumber
+            tvc.parent_church_id = data["parent_id"] as! NSNumber?
+            tvc.this_church_id = data["id"] as! NSNumber
             break
         default:
             break

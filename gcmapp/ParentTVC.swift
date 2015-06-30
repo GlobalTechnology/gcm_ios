@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
     var this_church_id: NSNumber!
     var parent_church_id: NSNumber?
@@ -38,7 +38,7 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         
         //tableView.selectRowAtIndexPath(self.selected_index_path, animated: false, scrollPosition: UITableViewScrollPosition.None)
         
-        var selected_parent =  fetchedResultController.fetchedObjects?.filter{($0 as Church).id == (self.parent_church_id)} as [Church]
+        var selected_parent =  fetchedResultController.fetchedObjects?.filter{($0 as! Church).id == (self.parent_church_id)} as! [Church]
         
         
      //   println(fetchedResultController.indexPathForObject(selected_parent.first!))
@@ -64,12 +64,12 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
        
-        let church = fetchedResultController.objectAtIndexPath(indexPath) as Church
+        let church = fetchedResultController.objectAtIndexPath(indexPath) as! Church
         
         //cell.selected=(church.id == self.parent_church_id)
         if(church.id == self.parent_church_id){
        
-             var cell = tableView.dequeueReusableCellWithIdentifier("ParentSelectedCell", forIndexPath: indexPath) as UITableViewCell
+             var cell = tableView.dequeueReusableCellWithIdentifier("ParentSelectedCell", forIndexPath: indexPath) as! UITableViewCell
            cell.selected = true
             cell.textLabel!.text = church.name
 
@@ -80,7 +80,7 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
        
         }
         else{
-             var cell = tableView.dequeueReusableCellWithIdentifier("ParentListCell", forIndexPath: indexPath) as UITableViewCell
+             var cell = tableView.dequeueReusableCellWithIdentifier("ParentListCell", forIndexPath: indexPath) as! UITableViewCell
             cell.selected = false
             cell.textLabel!.text = church.name
 
@@ -92,7 +92,7 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selected = fetchedResultController.objectAtIndexPath(indexPath) as Church
+        let selected = fetchedResultController.objectAtIndexPath(indexPath) as! Church
         if(selected.id != parent_church_id){
             church.data["parent_id"] = selected.id
             church.data["parent_name"] = selected.name

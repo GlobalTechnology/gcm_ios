@@ -18,6 +18,10 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
         super.viewDidLoad()
         getAllMinistries()
         tbSearchBox.delegate=self
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: "Join Ministry")
+        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -53,7 +57,7 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
             API(token: token).getMinistries(false){
                 (data: AnyObject?,error: NSError?) -> Void in
                 if data != nil{
-                    self.ministryList = data as JSONArray
+                    self.ministryList = data as! JSONArray
                     
                 }
             }
@@ -78,9 +82,9 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
     func searchAutocompleteEntriesWithSubstring(substring: String){
         autocompleteList.removeAll(keepCapacity: false)
         for m  in self.ministryList{
-            var r:NSRange = (((m as JSONDictionary)["name"] as String).lowercaseString as NSString).rangeOfString(substring.lowercaseString)
+            var r:NSRange = (((m as! JSONDictionary)["name"] as! String).lowercaseString as NSString).rangeOfString(substring.lowercaseString)
             if r.location == 0{
-                autocompleteList.append(m as JSONDictionary)
+                autocompleteList.append(m as! JSONDictionary)
             }
         }
         self.tableView.reloadData()
@@ -106,13 +110,13 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
             let notificationCenter = NSNotificationCenter.defaultCenter()
             
             notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: userInfo)
-
+            
             
             self.navigationController?.popViewControllerAnimated(true)
             if self.isModal {
                 self.removeFromParentViewController()
             }
-            
+            GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "assignments", action: "join ministry", label: nil, value: nil).build()  as [NSObject: AnyObject])
         
         } else {
             println("NewMinistryTVC.tableView( didSelectRowAtIndexPath:)");
@@ -124,7 +128,7 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("autocompleteMinCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("autocompleteMinCell", forIndexPath: indexPath) as! UITableViewCell
         cell.textLabel!.text = autocompleteList[indexPath.row]["name"] as? String
         return cell
     }
