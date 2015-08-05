@@ -7,7 +7,10 @@
 //
 
 #import <TheKeyOAuth2LoginViewController.h>
-
+#import "MBProgressHUD.h"
 @interface GMALoginViewController : TheKeyOAuth2LoginViewController
+{
+
+}
 
 @end
