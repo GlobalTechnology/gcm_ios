@@ -24,6 +24,10 @@ struct GlobalConstants {
     static let kDidChangeChurch = "DidChangeChurch"
     static let kDidChangeTraining = "DidChangeTraining"
     static let kShouldUpdateMin = "ShouldUpdateMin"
+    static let kShouldSaveUserPreferences = "ShouldSaveUserPreferences" // for save preferences
+    static let kShouldLoadUserPreferences = "ShouldLoadUserPreferences" // for load preferences
+    static let kShouldDeleteTraining = "ShouldDeleteTraining" // for delete training
+
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
     static let kShouldLoadMeasurmentDetail = "ShouldLoadMeasurmentDetail"
