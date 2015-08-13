@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         // Override point for customization after application launch.
         println("path: " + self.applicationDocumentsDirectory.path!)
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
@@ -29,11 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }	
         
-        let pageControl: UIPageControl = UIPageControl.appearance()
-        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
-        //pageControl.backgroundColor = UIColor.blueColor()
-        pageControl.backgroundColor = UIColor.clearColor()
         
         GAI.sharedInstance().trackUncaughtExceptions = true
         GAI.sharedInstance().dispatchInterval = 20
@@ -111,25 +108,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
         }()
     
+    
+    lazy var backgroundContext: NSManagedObjectContext? = {
+        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
+        let coordinator = self.persistentStoreCoordinator
+        if coordinator == nil {
+            return nil
+        }
+        var backgroundContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
+        backgroundContext.persistentStoreCoordinator = coordinator
+        return backgroundContext
+        }()
+    
     // MARK: - Core Data Saving support
     
-    func saveContext () {
-        if let moc = self.managedObjectContext {
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
-            }
+    // save NSManagedObjectContext
+    func saveContext (context: NSManagedObjectContext) {
+        var error: NSError? = nil
+        if context.hasChanges && !context.save(&error) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            abort()
         }
     }
-
+    
+    func saveContext () {
+        self.saveContext( self.backgroundContext! )
+    }
     
     
 
