@@ -15,6 +15,8 @@ class dataSync: NSObject {
     let myQueue = NSOperationQueue()
     var saving:Bool = false
     let tracker = GAI.sharedInstance().defaultTracker
+
+    
     override init(){
         
         super.init()
@@ -26,11 +28,15 @@ class dataSync: NSObject {
         let mainQueue = NSOperationQueue.mainQueue()
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("mcc") == nil{
-            NSUserDefaults.standardUserDefaults().setObject("GCM", forKey: "mcc")
-            
+        if (NSUserDefaults.standardUserDefaults().objectForKey("mcc") != nil) {
             
         }
+        else {
+            
+            NSUserDefaults.standardUserDefaults().setObject("GCM", forKey: "mcc")
+
+        }
+        
         NSUserDefaults.standardUserDefaults().synchronize()
         var observer_measurements = nc.addObserverForName(GlobalConstants.kDidChangePeriod, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
@@ -48,6 +54,8 @@ class dataSync: NSObject {
         }
         var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
             println("... caught kDidChangeAssignment")
+            
+             println(notification)
             
             // Verify minitryID is valid before performing this action:
             if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
@@ -145,8 +153,23 @@ class dataSync: NSObject {
         var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: myQueue) {(notification:NSNotification!) in
             self.updateMinistry((notification.userInfo as! JSONDictionary)["ministry"] as! Ministry)
         }
-        var observer_load_meas_det = nc.addObserverForName(GlobalConstants.kShouldLoadMeasurmentDetail, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // by justin
+        var observer_saveUserPreferences = nc.addObserverForName(GlobalConstants.kShouldSaveUserPreferences, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
+            var mapInfo : NSDictionary = notification.userInfo as! JSONDictionary
+            
+            println(mapInfo)
+            
+            self.saveUser_preferences(mapInfo)
+            
+        }
+        
+        
+       
+
+        // end point by justin
+        
+        var observer_load_meas_det = nc.addObserverForName(GlobalConstants.kShouldLoadMeasurmentDetail, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
             
             self.loadMeasurmentDetails(notification.userInfo?.values.first as! Measurements , ministryId: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period")  as! String, sender: notification.object as! measurementDetailViewController)
@@ -191,6 +214,10 @@ class dataSync: NSObject {
                             self.token = resp["session_ticket"] as! String
                             
                             NSUserDefaults.standardUserDefaults().setObject(self.token, forKey: "token")
+                            
+                            let notificationCenter = NSNotificationCenter.defaultCenter()
+                            notificationCenter.postNotificationName(GlobalConstants.kShouldLoadUserPreferences, object: nil)  // call for get userpreference by justin
+                            
                             let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
                             NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kIsRefreshingToken)
                             
@@ -813,22 +840,13 @@ class dataSync: NSObject {
     
     func saveContext() {
         
-        //// This is an attempt to debug some threading issues with Core Data
-        
-        
-        // let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        // let backgroundQueue = dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
-        //dispatch_async(self.myQueue, {
-        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        var managedContext = appDelegate.backgroundContext!
         var error: NSError? = nil
-        if !self.managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-            
-        }
-        // })
+        managedContext.save(&error)
+
         
     }
-    
     
     func updateChurch(){
         if self.checkTokenAndConnection() == false{
@@ -933,6 +951,10 @@ class dataSync: NSObject {
             });
         });
         
+        
+        
+        
+        
     }
     
     func updateTrainingCompletion(){
@@ -963,6 +985,9 @@ class dataSync: NSObject {
         });
         
     }
+    
+    
+    
     func updateMeasurements(){
         if self.checkTokenAndConnection() == false{
             return;
@@ -1153,6 +1178,33 @@ class dataSync: NSObject {
         
     }
     
+    //>---------------------------------------------------------------------------------------------------
+    // Author Name      :   Justin Mohit
+    // Date             :   Aug, 2 2015
+    // Input Parameters :   N/A.
+    // Purpose          :   Post user_preferences.
+    //>---------------------------------------------------------------------------------------------------
+    
+
+    func saveUser_preferences(mapInfo: NSDictionary){
+        
+        API(token: token! as String).saveUser_preferences(mapInfo){
+            (data: AnyObject?,error: NSError?) -> Void in
+            //Nothing to do...
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+   
+    
+
+    
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
         println(ministry_id)
         API(token: token! as String).addAssignment( NSUserDefaults.standardUserDefaults().objectForKey("cas_username") as! String , ministry_id: ministry_id, team_role: "self_assigned"){
@@ -1185,15 +1237,23 @@ class dataSync: NSObject {
     }
     
     func reset(){
+        
+        
         dispatch_async(dispatch_get_main_queue(),{
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            var managedContext = appDelegate.backgroundContext!
             var error: NSError?
             let entityList=["MCC", "Assignment", "Ministry", "Church", "TrainingCompletion", "Training","MeasurementLocalSource", "MeasurementValueSubTeam", "MeasurementValueSelfAssigned", "MeasurementValueTeam", "MeasurementValue", "Measurements"]
+
             for e in entityList{
                 let fr =  NSFetchRequest(entityName:e)
-                let items = self.managedContext.executeFetchRequest(fr,error: &error) as! Array<NSManagedObject>
+                fr.includesPropertyValues = false
+
+                let items = managedContext.executeFetchRequest(fr,error: &error) as! Array<NSManagedObject>
                 for obj in items {
                     
-                    self.managedContext.deleteObject(obj)
+                    managedContext.deleteObject(obj)
                 }
                 
             }
@@ -1201,6 +1261,11 @@ class dataSync: NSObject {
             //            println("Could not delete objects \(error), \(error?.userInfo)")
             //        }
             self.saveContext()
+            
+            
+            
+            self.resetDefaults()  // reset all user defaults
+            // self.resetDataBase()  // reset all entity in DB
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             
@@ -1218,6 +1283,50 @@ class dataSync: NSObject {
             }
         });
     }
+    
+    // Justin mohit
+    
+    func resetDataBase() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        var managedContext = appDelegate.managedObjectContext!
+        managedContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
+
+        if let psc = managedContext.persistentStoreCoordinator{
+            
+            if let store = psc.persistentStores.last as? NSPersistentStore{
+                
+                let storeUrl = psc.URLForPersistentStore(store)
+                
+                managedContext.performBlockAndWait(){
+                    
+                    managedContext.reset()
+                    
+                    var error:NSError?
+                    if psc.removePersistentStore(store, error: &error){
+                        NSFileManager.defaultManager().removeItemAtURL(storeUrl, error: &error)
+                        psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeUrl, options: nil, error: &error)
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    
+    // justin Mohit
+    
+    func resetDefaults() {
+        
+        var appDomain : String = NSBundle.mainBundle().bundleIdentifier!
+        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
+        
+      
+    }
+    
     func logout(){
         
         API(token: self.token! as String).deleteToken()
