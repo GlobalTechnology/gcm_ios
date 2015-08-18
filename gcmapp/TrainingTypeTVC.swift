@@ -14,6 +14,8 @@ class TrainingTypeTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+
         //tableView.selectRowAtIndexPath(NSIndexPath(forRow: selected_row.integerValue, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
         
         // Uncomment the following line to preserve selection between presentations

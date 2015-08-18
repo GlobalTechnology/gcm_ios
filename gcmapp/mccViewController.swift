@@ -97,6 +97,7 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         var error: NSError?
+        self.title = "MCC"
         
         
     }

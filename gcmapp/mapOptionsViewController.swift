@@ -49,7 +49,7 @@ class mapOptionsViewController: UITableViewController {
         if section == 0{
             
         }
-        return section==0 ? 5 : read_only ? 1:4
+        return section==0 ? 5 : read_only ? 4:4   // allow to all member to create traning and church icons
         
     }
     
@@ -69,20 +69,30 @@ class mapOptionsViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let team_role =  NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String
         
-        self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
         
+        if var team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
+            
+            self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
+
+        }
+
+        
+        
+        
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
        
         if indexPath.section==1{
             switch indexPath.row{
-            case 1: //addChurch
+            case 2: //addChurch
+                /*
                 if read_only{
                     return
                 }
+*/
                 for m in mapVC.markers{
                     m.opacity=0.2
                     m.tappable = false
@@ -116,17 +126,19 @@ class mapOptionsViewController: UITableViewController {
 
                 self.dismissViewControllerAnimated(true, completion: nil)
                 break
-            case 2: //addTraining
+            case 3: //addTraining
+                
+                /*
                 if read_only{
                     return
-                }
+                }*/
+                
                 for m in mapVC.markers{
                     m.opacity=0.2
                     m.tappable = false
                 }
                 var  marker = GMSMarker(position: mapVC.mapView.projection.coordinateForPoint(mapVC.mapView.center))
                 marker.icon = UIImage(named: "train" )
-                
                 
                 marker.title = ""
                 marker.map = mapVC.mapView
@@ -142,7 +154,6 @@ class mapOptionsViewController: UITableViewController {
                 marker.opacity=1.0
                 mapVC.markers.append(marker)
                 
-                
                 mapVC.searchMap.hidden=true
                 
                 mapVC.lblMove.hidden = false
@@ -152,7 +163,7 @@ class mapOptionsViewController: UITableViewController {
             case 0: //back
                 self.dismissViewControllerAnimated(true, completion: nil)
                 break
-            case 3: //default map view
+            case 1: //default map view
                 
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
@@ -160,17 +171,22 @@ class mapOptionsViewController: UITableViewController {
                 var ministry_id  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String
                 var error: NSError?
            
-                                 mapVC.ministry.zoom = mapVC.mapView.camera.zoom
+                    mapVC.ministry.zoom = mapVC.mapView.camera.zoom
                     mapVC.ministry.latitude = mapVC.mapView.camera.target.latitude
                     mapVC.ministry.longitude = mapVC.mapView.camera.target.longitude
-                    
+
+                
                     if !managedContext.save(&error) {
                         println("Could not save \(error), \(error?.userInfo)")
                     }
-
+                // get map info(lat ,long,zoom)
+                
+                var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: ministry_id,"min_id",mapVC.mapView.camera.target.latitude,"lat",mapVC.mapView.camera.target.longitude,"long",mapVC.mapView.camera.zoom,"zoom" )
+                
                     let notificationCenter = NSNotificationCenter.defaultCenter()
-                    notificationCenter.postNotificationName(GlobalConstants.kShouldUpdateMin, object: nil, userInfo: ["ministry": mapVC.ministry])
-                    
+                   notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
+               
+                //  notificationCenter.postNotificationName(GlobalConstants.kShouldUpdateMin, object: nil, userInfo: ["ministry": mapVC.ministry])
                     self.dismissViewControllerAnimated(true, completion: nil)
 
                 break

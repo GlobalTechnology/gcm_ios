@@ -27,6 +27,9 @@ struct GlobalConstants {
     static let kShouldSaveUserPreferences = "ShouldSaveUserPreferences" // for save preferences
     static let kShouldLoadUserPreferences = "ShouldLoadUserPreferences" // for load preferences
     static let kShouldDeleteTraining = "ShouldDeleteTraining" // for delete training
+    static let kShouldDeleteChurch = "kShouldDeleteChurch" // for delete Church
+    
+    
 
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
