@@ -9,6 +9,10 @@
 import UIKit
 
 class settingsViewController: UITableViewController {
+   
+    private let notificationManager = NotificationManager()
+  
+    
     @IBAction func Logout(sender: UIButton) {
         
         TheKeyOAuth2Client.sharedOAuth2Client().logout()
@@ -20,9 +24,9 @@ class settingsViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         self.title = "Settings"
-
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
+        // let notificationCenter = NSNotificationCenter.defaultCenter()
+        // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
         let tracker = GAI.sharedInstance().defaultTracker
         tracker.set(kGAIScreenName, value: "Settings")
         tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
@@ -58,17 +62,33 @@ class settingsViewController: UITableViewController {
             
             team_role_cell.detailTextLabel!.text = ""
         }
+
+        if HasMcc().hasMcc() == true {
+            
+            if let mcc = NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String? {
+                mcc_cell.detailTextLabel!.text = mcc
+            }
+        }
+        else {
+            
+            mcc_cell.detailTextLabel!.text = ""
+
+        }
         
-        // 
+        
+        
+        //
         // Now register for kDidChangeAssignment  -> so we update our TeamRole value
         //
+       
         let nc = NSNotificationCenter.defaultCenter()
         let myQueue = NSOperationQueue()
-        var observer_update_min = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // update ministry
+        notificationManager.registerObserver(GlobalConstants.kDidChangeAssignment, forObject: nil) { note  in
+            
         println(" *** settingsViewController: kDidChangeAssignment: telling tableView.reloadData()")
             self.tableView.reloadData()
         }
-
 
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -84,8 +104,6 @@ class settingsViewController: UITableViewController {
             // TheKeyOAuth2Client.sharedOAuth2Client().logout()
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
-             
-             
             
             break
         default:

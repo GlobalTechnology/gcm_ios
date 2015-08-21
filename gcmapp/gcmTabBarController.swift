@@ -10,12 +10,12 @@ import UIKit
 
 class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     var sync: dataSync!
-
+    private let notificationManager = NotificationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        self.tabBar.selectedImageTintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
+        self.tabBar.tintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
         
         self.sync=dataSync()
       
@@ -25,23 +25,26 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
             // Use your dict here
             let url = dict["TheKeyServerURL"]
             let client_id = dict["TheKeyClientId"]
-            println("TheKeyerverURL: \(url) ClientId: \(client_id)")
+            
+            //  println("TheKeyerverURL: \(url) ClientId: \(client_id)")
             
             
-            TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: dict["TheKeyServerURL"]!)! , clientId: dict["TheKeyClientId"]  )
+            TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: url!) , clientId: client_id!  )
         
             let notificationCenter = NSNotificationCenter.defaultCenter()
             let mainQueue = NSOperationQueue.mainQueue()
             
-            var observer = notificationCenter.addObserverForName(TheKeyOAuth2ClientDidChangeGuidNotification, object: TheKeyOAuth2Client.sharedOAuth2Client(), queue: mainQueue) {(notification:NSNotification!) in
+            
+            notificationManager.registerObserver(TheKeyOAuth2ClientDidChangeGuidNotification, forObject: TheKeyOAuth2Client.sharedOAuth2Client()){ note in
+                
                 if  TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() {
-                     self.postLoginNotification()
+                    self.postLoginNotification()
                 } else{
                     self.sync.token=""
-                     TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
+                    TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
                 }
-                
             }
+           
             
             if (TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
                 postLoginNotification()
@@ -52,11 +55,12 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
             
-            var observer_logout = notificationCenter.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            notificationManager.registerObserver(GlobalConstants.kLogout){ note in
+              
                 self.sync.token=""
-
-               // TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: notification.object as UIViewController , loginDelegate: self)
             }
+            
+            
         }
         
     }

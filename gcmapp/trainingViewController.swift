@@ -119,7 +119,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
+
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
 
         // Do view setup here.
@@ -215,6 +216,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             
         }
         else{
+            
+            if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false) {
+            
             if data["stages"] == nil{
                 return 1
             }
@@ -222,6 +226,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             {
                 return   tc.count + 1
             }
+            
+          }
+            return 0
         }
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -240,7 +247,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         var cell = UITableViewCell()
 
         if indexPath.section == 1{
-            
+        if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training" {
             if indexPath.row == tc.count {
                 cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
@@ -258,6 +265,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
              
                 return cell
             }
+            
+         }
             
         }
         else if indexPath.section == 0 {
@@ -374,6 +383,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
               
                 self.dismissViewControllerAnimated(true, completion: nil)
                 dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+              
+                
                 break
                 
             case 3: //move
@@ -382,9 +393,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     
                     self.mapVC.makeSelectedMarkerDraggable()
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-
-                    
+               
+                
                 }
                 
                 break
@@ -400,7 +410,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     var longitude  =   data["longitude"] as! Double
 
                     var traningInfoDic = NSDictionary(objectsAndKeys:data["id"]!,"training_id",data["latitude"]!,"lat",data["longitude"]!,"long",mapVC.mapView.camera.zoom,"zoom" )
-                    
+                // dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+
                     let notificationCenter = NSNotificationCenter.defaultCenter()
                     notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteTraining, object: nil, userInfo: traningInfoDic as! JSONDictionary)
                 
