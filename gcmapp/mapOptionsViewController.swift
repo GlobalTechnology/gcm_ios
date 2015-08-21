@@ -49,12 +49,15 @@ class mapOptionsViewController: UITableViewController {
         if section == 0{
             
         }
-        return section==0 ? 5 : read_only ? 4:4   // allow to all member to create traning and church icons
+        return section==0 ? 5 : HasMcc().hasMcc() ? 4:2   // allow to all member to create traning and church icons
         
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
+
         var ns =  NSUserDefaults.standardUserDefaults()
         
         
@@ -93,6 +96,8 @@ class mapOptionsViewController: UITableViewController {
                     return
                 }
 */
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
+
                 for m in mapVC.markers{
                     m.opacity=0.2
                     m.tappable = false
@@ -127,7 +132,8 @@ class mapOptionsViewController: UITableViewController {
                 self.dismissViewControllerAnimated(true, completion: nil)
                 break
             case 3: //addTraining
-                
+              
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
                 /*
                 if read_only{
                     return

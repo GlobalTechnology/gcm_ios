@@ -15,9 +15,10 @@ import CoreData
 
 class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    private let notificationManager = NotificationManager()
+
     
-    
-    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet var mapView: GMSMapView!
     @IBOutlet var calloutView: SMCalloutView!
     @IBOutlet var emptyCalloutView: UIView!
     
@@ -35,45 +36,67 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
     var churchLines:[GMSPolyline]! = Array()
     var churchdots:[GMSMarker]! = Array()
     var ministry: Ministry!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.screenName = "Home Screen"
         let nc = NSNotificationCenter.defaultCenter()
         let myQueue = NSOperationQueue.mainQueue()
-       
-        
-        //  let notificationCenter = NSNotificationCenter.defaultCenter()
-        //   notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
-        
-        // self.getUserPreferences() // call api for set userpreferences
         
         
-        var observer_getUserPreferences = nc.addObserverForName(GlobalConstants.kShouldLoadUserPreferences, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // observer_getUserPreferences
+        notificationManager.registerObserver(GlobalConstants.kShouldLoadUserPreferences) { note in
             
            self.getUserPreferences() // call api for set userpreferences
             
         }
         
-        var observer_deleteTraningIcon = nc.addObserverForName(GlobalConstants.kShouldDeleteTraining, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // observer_deleteTraning
+        notificationManager.registerObserver(GlobalConstants.kShouldDeleteTraining) { note in
             
-            var trainingDic : NSDictionary = notification.userInfo as! JSONDictionary
-            
-            
+            var trainingDic : NSDictionary = note.userInfo as! JSONDictionary
+            for m in self.markers {
+                
+                var mark = m
+                if (mark.userData as! JSONDictionary)["id"]  as! NSNumber == trainingDic["training_id"] as! NSNumber
+                {
+                    
+                    m.map = nil
+                }
+                
+            }
             self.deleteTraning(trainingDic as! JSONDictionary)
             
         }
-        var observer_deleteChurchIcon = nc.addObserverForName(GlobalConstants.kShouldDeleteChurch, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        
+        //observer_deleteChurch
+        notificationManager.registerObserver(GlobalConstants.kShouldDeleteChurch) { note in
            
-            var churchDic : NSDictionary = notification.userInfo as! JSONDictionary
+            var churchDic : NSDictionary = note.userInfo as! JSONDictionary
+            for m in self.markers {
+                
+               var mark = m
+                if (mark.userData as! JSONDictionary)["id"]  as! NSNumber == churchDic["id"] as! NSNumber
+                {
+
+                    m.map = nil
+                }
+
+            }
+            
             self.deleteChurch(churchDic as! JSONDictionary)
             
         }
-        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveChurches, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        
+        //observer receive church
+        notificationManager.registerObserver(GlobalConstants.kDidReceiveChurches) {(notification:NSNotification!) in
             self.redrawMap()
         }
-        var observer2 = nc.addObserverForName(GlobalConstants.kDidReceiveTraining, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.redrawMap()
+     
+        //observer receive training
+        notificationManager.registerObserver(GlobalConstants.kDidReceiveTraining) {(notification:NSNotification!) in
+            self.redrawTrainingMap()
         }
         
         
@@ -102,19 +125,25 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
         
         self.autocompleteTableView.delegate=self
         self.autocompleteTableView.dataSource = self
-         redrawMap()
+        // redrawMap()
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear( animated)
         
-        //self.redrawMap()
+        if NSUserDefaults.standardUserDefaults().boolForKey("noRedrawMap") == true {
+        
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "noRedrawMap")
+        }
+        else
+        {
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+        }
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
-      
-        
+         
     }
     
   
@@ -248,22 +277,14 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
         API(token: token).deleteTraning(trainingInfo["training_id"] as! Int){
             (data: AnyObject?,error: NSError?) -> Void in
             //Nothing to do...
-            if data! as! NSObject == 1
-            {
-               
-                var locationCoord = CLLocationCoordinate2D(latitude: trainingInfo["lat"] as! Double , longitude: trainingInfo["long"] as! Double)
-                var marker = GMSMarker(position:locationCoord)
-                marker.map = nil
-   
-          
-            }
-                
+            
 
             
             
             
+            }
             
-            }}
+        }
         
         
         
@@ -282,10 +303,6 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
         
         var token : String = NSUserDefaults.standardUserDefaults().objectForKey("token") as! String
         println(token)
-        
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
         
         API(token: token).deleteChurch(churchInfo as JSONDictionary){
             (data: AnyObject?,error: NSError?) -> Void in
@@ -308,24 +325,82 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
                     
                     appDelegate.backgroundContext!.save(&error)
                     
-                    self.redrawMap()
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                    })
                     
                 }
-            
             
             
         }
     }
 
+   
+    
+    func redrawTrainingMap(){
+        
+        var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
+        var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
+        
+        if(mcc != nil){
+            mcc = mcc!.lowercaseString
+        }
+        
+        
+        if ministryId != nil{
+        if mcc != nil{
+            
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let managedContext = appDelegate.managedObjectContext!
+            var error: NSError?
+
+            
+            let fetchRequest2 = NSFetchRequest(entityName:"Training")
+            fetchRequest2.predicate = NSPredicate(format: "ministry_id = %@ AND mcc = %@ AND !( latitude =0 AND longitude = 0)", ministryId!, mcc!.lowercaseString)
+            self.training =
+                appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest2,  // change managedContext
+                    error: &error) as! [Training]?
+            
+            
+            for t  in self.training {
+                var dict = JSONDictionary()
+                dict["marker_type"] = "training"
+                for key in t.entity.attributesByName.keys.array{
+                    dict[key as! String]=t.valueForKey(key as! String)
+                }
+                
+                dict["stages"] = t.stages
+                
+                var  position  = CLLocationCoordinate2DMake( t.valueForKey("latitude") as! CLLocationDegrees, t.valueForKey("longitude") as! CLLocationDegrees)
+                
+                var  marker = GMSMarker(position: position)
+                marker.icon = UIImage(named: "train" )
+                
+                marker.title = t.valueForKey("name") as! String
+                marker.map = self.mapView
+                marker.userData = dict
+                marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                marker.groundAnchor = CGPointMake(0.5, 1.0)
+                self.markers.append(marker)
+                
+            }
+            
+            
+            
+            
+            
+        }
+            
+        }
+
+    }
+    
+    
     
     func redrawMap(){
        
+      self.mapView.clear()
+
     dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) {
-            
+        
         var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
         var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
         
@@ -389,8 +464,9 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
                     error: &error) as! [Church]?
             
             
-            println("Found \(self.churches.count) results")
+            //  println("Found \(self.churches.count) results")
             
+       
             //Find Items to delete
            var toDelete = self.markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
            
@@ -407,6 +483,7 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
               
             }
          
+                     
             
             //Filter the current list
             self.markers = self.markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String == "church" && mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
@@ -520,7 +597,7 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
                         self.churchdots.append(marker2)
                     }
                     
-                    if mcc != nil{
+                   /* if mcc != nil{
                         
                         
                         
@@ -558,7 +635,7 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
                         
                         
                         
-                    }
+                    } */
 
                 //  })
                 
@@ -776,7 +853,7 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
-            self.redrawMap()  /// to recreate church
+            // self.redrawMap()  /// to recreate church
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
@@ -784,6 +861,7 @@ class mapViewController: GAITrackedViewController, GMSMapViewDelegate,UITextFiel
 
         }
         else if (marker.userData as! JSONDictionary)["marker_type"] as! String == "training"{
+            
             let fetchRequest = NSFetchRequest(entityName:"Training")
             var error: NSError?
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

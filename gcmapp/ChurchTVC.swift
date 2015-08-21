@@ -20,6 +20,7 @@ class ChurchTVC: UITableViewController {
     var created_id = String()
     
     @IBAction func btnSetParent(sender: UIButton) {
+    
     }
     
     
@@ -27,28 +28,58 @@ class ChurchTVC: UITableViewController {
     
     func SaveChanges() {
         
-//        if read_only{
-//            return
-//        }
+
         var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
-        let managedContext = appDelegate.backgroundContext!
+        let managedContext = appDelegate.managedObjectContext!
         if(data["marker_type"] as! String == "new_church"){   //create new church
             let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: managedContext)
             var church = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
-            church.name=data["name"] as! String
-            church.contact_name=data["contact_name"] as! String
-            church.contact_email=data["contact_email"] as! String
-            church.contact_mobile = data["contact_mobile"] as! String
-            church.size=data["size"] as! NSNumber
-            church.development=data["development"] as! NSNumber
-            church.security=data["security"] as! NSNumber
-            church.longitude = data["longitude"] as! Float
-            church.latitude = data["latitude"] as! Float
+
+            if let name = data["name"] as? String {
+                
+                church.name = name
+            }
+            if let contact_name = data["contact_name"] as? String {
+                
+                church.contact_name = contact_name
+            }
+
+            if let contact_email = data["contact_email"] as? String {
+                
+                church.contact_email = contact_email
+            }
+            
+            if let contact_mobile = data["contact_mobile"] as? String {
+                
+                church.contact_mobile = contact_mobile
+            }
+            if let size = data["size"] as? NSNumber {
+               
+                church.size = size
+            }
+            if let development = data["development"] as? NSNumber {
+                
+                church.development = development
+            }
+            if let security = data["security"] as? NSNumber {
+                
+                church.security = security
+            }
+            if let longitude = data["longitude"] as? Float {
+                
+                church.longitude = longitude
+            }
+            if let latitude = data["latitude"] as? Float {
+                
+                church.latitude = latitude
+            }
+            
             church.id = -1  //indicates new church
+            
             if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
                 
                 church.ministry_id = ministry_id
@@ -63,10 +94,11 @@ class ChurchTVC: UITableViewController {
             var error: NSError? = nil
             managedContext.save(&error)
             
+           
+
             
-            
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+              let notificationCenter = NSNotificationCenter.defaultCenter()
+               notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
              GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         else if(changed){
@@ -115,7 +147,8 @@ class ChurchTVC: UITableViewController {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
-            
+           
+
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
@@ -128,6 +161,7 @@ class ChurchTVC: UITableViewController {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
 
         if let team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
             
@@ -346,11 +380,6 @@ class ChurchTVC: UITableViewController {
                     
                 }
                 else{
-                    var created_id = String()
-                    if let created_by = data["created_by"] as? String
-                    {
-                        created_id = created_by
-                    }
                     
                     if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
                         cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
@@ -370,11 +399,7 @@ class ChurchTVC: UITableViewController {
                 }
                 else {
                     
-                    var created_id = String()
-                    if let created_by = data["created_by"] as? String
-                    {
-                        created_id = created_by
-                    }
+
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
                     cell = tableView.dequeueReusableCellWithIdentifier("DeleteCell", forIndexPath: indexPath) as! UITableViewCell
                     
@@ -399,37 +424,35 @@ class ChurchTVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.section == 0{
-            self.tableView.resignFirstResponder()
             
+            self.tableView.resignFirstResponder()
             
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
 
             switch(indexPath.row){
             case 1: // move
+                
 
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
+                    
                 self.mapVC.makeSelectedMarkerDraggable()
                 self.dismissViewControllerAnimated(true, completion: nil)
-                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                    
                 }
 
                 break
             case 2: // delete
 
+
                 if(data["marker_type"] as! String != "new_church"){
-                    // self.mapVC.makeSelectedMarkerDraggable()
+                    
                     if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
+                        
                     self.dismissViewControllerAnimated(true, completion: nil)
+                        
                     let notificationCenter = NSNotificationCenter.defaultCenter()
                     notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteChurch, object: nil, userInfo: data as JSONDictionary)
                         
-                    }
-                    else {
-                        
-                        let alertController = UIAlertController(title: "gcm", message:
-                            "You have not Permisition to allow delete,edit and move", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
                     }
                     
                 }
@@ -437,24 +460,12 @@ class ChurchTVC: UITableViewController {
                
                 break
             case 0:
-                 self.dismissViewControllerAnimated(true, completion: nil)
                 
-                 println(data)
-                 var created_id = String()
-                 if let created_by = data["created_by"] as? String
-                 {
-                    created_id = created_by
-                 }
-                 if data["marker_type"] as! String == "new_church" {
-                    
-                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                 NSUserDefaults.standardUserDefaults().setBool(false, forKey: "noRedrawMap")
+                  self.dismissViewControllerAnimated(true, completion: nil)
+                  dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
 
-                 }
-                 else if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)  {
-                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-                    
-                 }
-                 mapVC.redrawMap()
+
                  
                 break
             default:
