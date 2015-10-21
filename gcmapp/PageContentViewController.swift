@@ -8,10 +8,13 @@
 
 import UIKit
 import CoreData
-class PageContentViewController: UIViewController, UITextFieldDelegate {
+class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopoverPresentationControllerDelegate {
 
-    var measurement: Measurements?
     
+    private let notificationManager = NotificationManager()  // manage notification
+    let picker = UIView()//UIImageView(image: UIImage(named: ""))
+    var measurement: Measurements?
+    var permlink : String!
     var pageIndex: Int?
     //var titleText : String!
     //var imageName : String!
@@ -25,17 +28,19 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     var personValue: String!
     var subTotalValue: Int!
    
-    var hack: Hack1ViewController!
+    var btnArr = ["add Favourite","remove favourite"]
     
+    var hack: Hack1ViewController!
+    let button = UIButton()
     @IBOutlet var busySpinner: UIActivityIndicatorView!
+    
     
     //@IBOutlet weak var measurementDescriptionLbl: UITextView!
     @IBOutlet weak var measurementDescriptionLbl: UILabel!
     //@IBOutlet weak var measurementValueLbl: UILabel!
     //@IBOutlet weak var totalValueBtn: UIButton!
     
-    
-    
+
     
     @IBAction func localChanged(sender: UITextField) {
         if sender.text != ""{
@@ -49,6 +54,9 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             savePerson()
         }
     }
+    
+    
+    @IBOutlet var btnGear: UIButton!
 
     @IBOutlet weak var localValueBtn: UIButton!
     @IBOutlet weak var personValueBtn: UIButton!
@@ -76,6 +84,143 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             savePerson()
         }
     }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+       
+        
+        if (segue.identifier == "showMeasurementDetail") {
+            // pass data to next view
+            let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
+            //let indexPath = self.tableView.indexPathForSelectedRow()
+            //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
+            detail.measurement = self.measurement!
+        }
+
+    }
+    
+    
+
+
+    @IBAction func btnGearTap(sender: AnyObject) {
+        
+        //  println(self.permlink)
+        
+        picker.hidden ? openPicker() : closePicker()
+    }
+    
+    func createPicker()
+    {
+        picker.frame = CGRect(x: (self.view.frame.width  - 180), y: 40, width: 150, height: 50)
+        picker.alpha = 0
+        picker.hidden = true
+        picker.userInteractionEnabled = true
+        
+        var offset = 5
+ 
+      
+        button.frame = CGRect(x: 0, y: offset, width: 150, height: 50)
+        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        button.backgroundColor = UIColor.lightGrayColor()
+        button.tag = 1
+    
+        button.addTarget(self, action: "add_remove_favourite:", forControlEvents: UIControlEvents.TouchUpInside)
+        picker.addSubview(button)
+        
+        view.addSubview(picker)
+    }
+    
+    func add_remove_favourite(sender: UIButton)
+    {
+        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
+        var context: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        var fetchRequest = NSFetchRequest(entityName: "MeasurementSettings")
+        fetchRequest.predicate = NSPredicate(format: "perm_link = %@", self.permlink)
+        
+        if let fetchResults = appDel.managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [NSManagedObject] {
+            if fetchResults.count != 0{
+                
+                var managedObject = fetchResults[0]
+                if managedObject.valueForKey("status") as! Int == 1 {
+                    managedObject.setValue(0, forKey: "status")
+
+                }
+                else {
+                     managedObject.setValue(1, forKey: "status")
+                }
+                context.save(nil)
+            }
+        }
+        
+        self.closePicker()
+        
+    }
+
+    func openPicker()
+    {
+        self.picker.hidden = false
+        
+        UIView.animateWithDuration(0.3,
+            animations: {
+                self.picker.frame = CGRect(x: self.view.frame.width  - 180, y: 40, width: 150, height: 50)
+                self.picker.alpha = 1
+        })
+        
+        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
+        var context: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        var fetchRequest = NSFetchRequest(entityName: "MeasurementSettings")
+        fetchRequest.predicate = NSPredicate(format: "perm_link = %@", self.permlink)
+
+        if let fetchResults = appDel.managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [NSManagedObject] {
+            if fetchResults.count != 0{
+                
+                var managedObject = fetchResults[0]
+                
+                if managedObject.valueForKey("status") as! Int == 1{
+                    button.setTitle(btnArr[1], forState: .Normal)
+                    button.tag = 0
+                }
+                else{
+                    button.setTitle(btnArr[0], forState: .Normal)
+                    button.tag = 1
+                }
+
+                
+//                if managedObject.valueForKey("status") as! Int == 1   //.status
+//               {
+//                managedObject.setValue(0, forKey: "status")
+//
+//                }
+//                else
+//                {
+//                    managedObject.setValue(1, forKey: "status")
+//                }
+                
+                context.save(nil)
+            }
+        }
+        
+        
+
+        
+        
+    }
+    
+    func closePicker()
+    {
+        UIView.animateWithDuration(0.3,
+            animations: {
+                self.picker.frame = CGRect(x: self.view.frame.width  - 180, y: 40, width: 150, height: 50)
+                self.picker.alpha = 0
+            },
+            completion: { finished in
+                self.picker.hidden = true
+            }
+        )
+    }
+    
+
     
     @IBAction func decrBtn(sender: UIButton) {
         var newValStr = ""
@@ -125,7 +270,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             let managedContext = appDelegate.managedObjectContext!
             var error: NSError?
             if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+                //println("Could not save \(error), \(error?.userInfo)")
             }
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
@@ -151,7 +296,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
             var error: NSError?
             
             if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+                //println("Could not save \(error), \(error?.userInfo)")
             }
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
@@ -164,22 +309,33 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var wbsCategory: UILabel!
     
+    var read_only: Bool = true
+
     @IBAction func localPersonChooserChanged(sender: UISegmentedControl) {
-        println("localPersonChooserChanged")
+        //println("localPersonChooserChanged")
         if sender.selectedSegmentIndex == 0 {
+            
+
             onLocalSelected()
+           
+
             /*
             localValueBtn.hidden = false
             personValueBtn.hidden = true
             NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "LocalPersonChooserState")
             */
-        } else {
-            onPersonSelected()
+        }
+        else {
+            
+           
+                onPersonSelected()
+                
             /*
             localValueBtn.hidden = true
             personValueBtn.hidden = false
             NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "LocalPersonChooserState")
             */
+            
         }
     }
     
@@ -201,11 +357,11 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func onLocalValueBtnClicked(sender: UIButton) {
         
-        println("onLocalValueBtnClicked")
+        //println("onLocalValueBtnClicked")
     }
     
     @IBAction func onPersonValueBtnClicked(sender: UIButton) {
-        println("onPersonValueBtnClicked")
+        //println("onPersonValueBtnClicked")
     }
     
     func dismissKeyboard(){
@@ -227,21 +383,21 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
         self.view.addGestureRecognizer(tap)
         
         
-        let nc = NSNotificationCenter.defaultCenter()
-        let myQueue = NSOperationQueue()
-        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
-         
+        createPicker()
+        
+        
+         notificationManager.registerObserver(GlobalConstants.kDidReceiveMeasurements, forObject: nil){ note in
+
             let fetchRequest =  NSFetchRequest(entityName:"MeasurementValue")
             
             var period = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
             // where ministry_id = X
             if self.measurement!.id_total == nil {
-                println("error: \(self.measurement!.name)")
+                //println("error: \(self.measurement!.name)")
                 return;
             }
             
-            
-            //println("id_total: \(self.measurement!.id_total!)")
+            ////println("id_total: \(self.measurement!.id_total!)")
             fetchRequest.predicate = NSPredicate(format: "measurement.id_total = %@ && period = %@", self.measurement!.id_total!, period)
             
             
@@ -259,7 +415,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
                 self.subTotalValue = results?.first?.subtotal.integerValue
             } else {
                 
-                println("... no values for current period: \(period)")
+                //println("... no values for current period: \(period)")
                 //self.totalValue = "??"
             }
             
@@ -284,16 +440,19 @@ class PageContentViewController: UIViewController, UITextFieldDelegate {
         
         
         // Show Busy Indicator when a Request has been started ...
-        var observer_request_begin = nc.addObserverForName(GlobalConstants.kDidBeginMeasurementRequest, object: nil, queue: myQueue) {(notification:NSNotification!) in
-println(" .... kDidBeginRequest : caught")
+        //observer_request_begin
+        notificationManager.registerObserver(GlobalConstants.kDidBeginMeasurementRequest, forObject: nil){ note in
+
+             //println(" .... kDidBeginRequest : caught")
             self.busySpinner.startAnimating()
 //            self.measurementValueBtn.setTitle("", forState:UIControlState.Normal)
         }
         
         
         // Stop Busy Indicator when a Request has Ended
-        var observer_request_end = nc.addObserverForName(GlobalConstants.kDidEndMeasurementRequest, object: nil, queue: myQueue) {(notification:NSNotification!) in
-println("... kDidEndRequest : caught")
+        //observer_request_end
+         notificationManager.registerObserver(GlobalConstants.kDidEndMeasurementRequest, forObject: nil){ note in
+            //println("... kDidEndRequest : caught")
             self.busySpinner.stopAnimating()
 //            self.measurementValueBtn.setTitle(self.measurementValue, forState: UIControlState.Normal)
         }
@@ -302,7 +461,7 @@ println("... kDidEndRequest : caught")
         
         
         // load our Description Label == name
-        measurementDescriptionLbl.text = self.measurement!.name
+        measurementDescriptionLbl.text = self.measurement!.localized_name
         
         // get the value for the current period
         var values = self.measurement!.measurementValue
@@ -312,7 +471,7 @@ println("... kDidEndRequest : caught")
         if(periodVals.count > 0 ){
             var valueForThisPeriod = periodVals.first  as! MeasurementValue
         
-            println("s:\(valueForThisPeriod.total.stringValue)")
+            //println("s:\(valueForThisPeriod.total.stringValue)")
             //self.totalValue = valueForThisPeriod.total.stringValue
             self.localValue = valueForThisPeriod.local.stringValue
             self.personValue = valueForThisPeriod.me.stringValue
@@ -323,15 +482,14 @@ println("... kDidEndRequest : caught")
         //totalValueBtn.setTitle(totalValue, forState: UIControlState.Normal)
         //localValueBtn.setTitle(localValue, forState: UIControlState.Normal)
        // personValueBtn.setTitle(personValue, forState: UIControlState.Normal)
-         self.lblPersonValue.text = personValue
+        self.lblPersonValue.text = personValue
         self.lblLocalValue.text = self.localValue
     }
     
     override func viewWillAppear(animated: Bool) {
-        println("viewWillAppear")
+        //println("viewWillAppear")
         let state = NSUserDefaults.standardUserDefaults().integerForKey("LocalPersonChooserState")
 
-        selectLocalPersonProgrammatically(state)
         
         /*
         localPersonChooser.selectedSegmentIndex = state
@@ -342,6 +500,28 @@ println("... kDidEndRequest : caught")
             self.onPersonSelected()
         }
         */
+        
+        
+        if let team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
+            
+            self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_WITHOUT_INHERITED_ONLY)
+            
+        }
+        if read_only == false {
+            
+            localPersonChooser.setEnabled(true, forSegmentAtIndex: 0)
+            selectLocalPersonProgrammatically(state)
+
+        }
+        else {
+            
+            localPersonChooser.setEnabled(false, forSegmentAtIndex: 0)
+            selectLocalPersonProgrammatically(1)
+        }
+        
+
+        
+        
     }
     
     func selectLocalPersonProgrammatically(state:Int) {
@@ -359,21 +539,11 @@ println("... kDidEndRequest : caught")
         // Dispose of any resources that can be recreated.
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if (segue.identifier == "showMeasurementDetail") {
-            // pass data to next view
-            let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
-            //let indexPath = self.tableView.indexPathForSelectedRow()
-            //detail.measurement = fetchedResultController.objectAtIndexPath(indexPath!) as Measurements
-            detail.measurement = self.measurement!
-        }
-    }
-   
     
     
 //    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
 //    {
-//        println(textField.text)
+//        //println(textField.text)
 //        if textField == lblLocalValue && textField.text != ""{
 //            saveLocal()
 //        }

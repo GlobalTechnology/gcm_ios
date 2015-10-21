@@ -10,7 +10,7 @@ import Foundation
 
 class NotificationManager {
     private var observerTokens: [AnyObject] = []
-    
+    let mainQueue = NSOperationQueue.mainQueue()
     deinit {
         deregisterAll()
     }
@@ -24,6 +24,8 @@ class NotificationManager {
     }
     
     func registerObserver(name: String!, block: (NSNotification! -> Void)) {
+        
+
         let newToken = NSNotificationCenter.defaultCenter().addObserverForName(name, object: nil, queue: nil) {note in
             block(note)
         }
@@ -32,7 +34,7 @@ class NotificationManager {
     }
     
     func registerObserver(name: String!, forObject object: AnyObject!, block: (NSNotification! -> Void)) {
-        let newToken = NSNotificationCenter.defaultCenter().addObserverForName(name, object: object, queue: nil) {note in
+        let newToken = NSNotificationCenter.defaultCenter().addObserverForName(name, object: object, queue: mainQueue) {note in
             block(note)
         }
         
@@ -44,6 +46,6 @@ private let notificationManager = NotificationManager()
 
 override init() {
 notificationManager.registerObserver(MyNotificationItemAdded) { note in
-println("item added!")
+//println("item added!")
 }
 */

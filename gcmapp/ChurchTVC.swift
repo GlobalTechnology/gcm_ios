@@ -28,13 +28,12 @@ class ChurchTVC: UITableViewController {
     
     func SaveChanges() {
         
-
         var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         if(data["marker_type"] as! String == "new_church"){   //create new church
-            let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: managedContext)
+            let entity =  NSEntityDescription.entityForName("Church", inManagedObjectContext: managedContext)
             var church = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
@@ -78,7 +77,7 @@ class ChurchTVC: UITableViewController {
                 church.latitude = latitude
             }
             
-            church.id = -1  //indicates new church
+            church.id = -22  //indicates new church
             
             if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
                 
@@ -94,12 +93,16 @@ class ChurchTVC: UITableViewController {
             var error: NSError? = nil
             managedContext.save(&error)
             
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
            
+            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawChurchPinKey, object: nil, userInfo: data as JSONDictionary)
 
             
-              let notificationCenter = NSNotificationCenter.defaultCenter()
-               notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
-             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
+            self.dismissViewControllerAnimated(true, completion: nil)
+
+            
+            // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         else if(changed){
             let fetchRequest = NSFetchRequest(entityName:"Church")
@@ -108,7 +111,7 @@ class ChurchTVC: UITableViewController {
             let church = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [Church]
             if church.count>0{
                 
-                println(data)
+                //println(data)
                 church.first!.changed=true
                 church.first!.name=data["name"] as! String
                 church.first!.contact_name=data["contact_name"] as! String
@@ -131,37 +134,27 @@ class ChurchTVC: UITableViewController {
                             church.first!.parent = parent.first!
                             church.first!.parent_id = data["parent_id"] as! NSNumber
                         }
-                        
-                        
-                        
-                        
                     }
-                    
                 }
-                
             }
-            
-            
             
             if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+                //println("Could not save \(error), \(error?.userInfo)")
             }
-            
            
-
-            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
-             GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
+
+            //GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
 
         if let team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
             
@@ -209,7 +202,7 @@ class ChurchTVC: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if section == 1{
-            return data["marker_type"] as! String == "new_church" ? 6 : 7
+            return data["marker_type"] as! String == "new_church" ? 7 : 8
         }
         else{
             // return (data["marker_type"] as! String == "new_church") ? 1 : 3 //!read_only ? 3 : 3
@@ -285,7 +278,7 @@ class ChurchTVC: UITableViewController {
                     return cell
                 case 6:
                     let cell = tableView.dequeueReusableCellWithIdentifier("SecurityCell", forIndexPath: indexPath) as! UITableViewCell
-                    // cell.textLabel!.text = "Size"
+                    cell.textLabel!.text = "Security"
                     cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as! NSNumber))
                     return cell
                 case 7:
@@ -367,7 +360,7 @@ class ChurchTVC: UITableViewController {
         else {
            
             
-            println(data)
+            //println(data)
             
             var cell = UITableViewCell()
             
@@ -461,11 +454,9 @@ class ChurchTVC: UITableViewController {
                 break
             case 0:
                 
-                 NSUserDefaults.standardUserDefaults().setBool(false, forKey: "noRedrawMap")
                   self.dismissViewControllerAnimated(true, completion: nil)
-                  dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-
-
+                 dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                 
                  
                 break
             default:

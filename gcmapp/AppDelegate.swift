@@ -1,4 +1,4 @@
-				//
+     				//
 //  AppDelegate.swift
 //  gcmapp
 //
@@ -8,39 +8,65 @@
 
 import UIKit
 import CoreData
-
-
-                
-
+ 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
    
-   
+    private let notificationManager = NotificationManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         // Override point for customization after application launch.
-        println("path: " + self.applicationDocumentsDirectory.path!)
+        // //println("path: " + self.applicationDocumentsDirectory.path!)
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
             var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
            
-            GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
+             GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
             
         }	
         
         
-        GAI.sharedInstance().trackUncaughtExceptions = true
-        GAI.sharedInstance().dispatchInterval = 20
-        GAI.sharedInstance().logger.logLevel =  GAILogLevel.Verbose
-        GAI.sharedInstance().trackerWithTrackingId("UA-29919940-7")
+//        GAI.sharedInstance().trackUncaughtExceptions = true
+//        GAI.sharedInstance().dispatchInterval = 20
+//        GAI.sharedInstance().logger.logLevel =  GAILogLevel.Verbose
+//        GAI.sharedInstance().trackerWithTrackingId("UA-29919940-7")
+        
+        var pre: String = NSLocale.preferredLanguages()[0] as! String
+        println(pre)
+        
+        OneSkyOTAPlugin.provideAPIKey("CsdvDT7Ucuduf6PsvKmbubaB8S8cszzU", APISecret: nil, projectID: "101956")
+        OneSkyOTAPlugin.checkForUpdate()
+        OneSkyOTAPlugin.setLanguage("es")
+        
+        
+//        var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
+//        
+//        println(languageCode)
+        
+        
+        //  [OneSkyOTAPlugin localizedStringForKey:(key) value:@"" table:nil]
+
+       println(OneSkyOTAPlugin.localizedStringForKey("Targets", value: nil, table: nil))
+       println(OneSkyOTAPlugin.localizedStringForKey("Groups", value: nil, table: nil))
+ 
+        
+        
+
+      
         
         
         return true
     }
 
+    
+    
+       
+    
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -57,13 +83,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-       
+         OneSkyOTAPlugin.checkForUpdate()
         
     }
-
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // self.cdh.saveContext()
+        self.saveContext()
     }
+   
     // MARK: - Core Data stack
     
     lazy var applicationDocumentsDirectory: NSURL = {
@@ -77,6 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let modelURL = NSBundle.mainBundle().URLForResource("gcmModel", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
         }()
+    
+    
+    
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
@@ -141,8 +172,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveContext () {
         self.saveContext( self.backgroundContext! )
     }
-    
-    
+  
+   
 
 }
 	

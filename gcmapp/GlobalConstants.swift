@@ -25,11 +25,27 @@ struct GlobalConstants {
     static let kDidChangeTraining = "DidChangeTraining"
     static let kShouldUpdateMin = "ShouldUpdateMin"
     static let kShouldSaveUserPreferences = "ShouldSaveUserPreferences" // for save preferences
+    static let kShouldSaveSupportStaffUserPreferences = "ShouldSaveSupportStaffUserPreferences"
     static let kShouldLoadUserPreferences = "ShouldLoadUserPreferences" // for load preferences
     static let kShouldDeleteTraining = "ShouldDeleteTraining" // for delete training
     static let kShouldDeleteChurch = "kShouldDeleteChurch" // for delete Church
+    static let kDidLoadMinistryMap = "kDidLoadMinistryMap" // for delete Church
     
+    static let kNoMinistrySelected = "NoMinistrySelected" // for post if there is no ministry
+    static let kDrawChurchPinKey = "drawChurchPinKey" // for Draw the church pin
+    static let kDrawTrainingPinKey = "drawTrainingPinKey" // for Draw the training pin
+    static let kUpdatePinInforamtionKey = "updatePinInforamtionKey" // for update the pin information
+    static let kLogoutNotification = "logoutNotification" // for logout
     
+    static let kFromLeftMenuHomeTap = "FromLeftMenuHomeTap" // for come from left slider menu
+
+    static let kShowTargets = "showTargets" // for show only targets
+    static let kShowGroups = "showGroups" // for show only Groups
+    static let kShowChurches = "showChurches" // for show only Churches
+    static let kShowMultiplyingChurches = "showMultiplyingChurches" // for show only MultiplyingChurches
+    static let kShowParents = "showParents" // for show only showParents
+    static let kShowTraining = "showTraining" // for show only showTraining
+
 
     static let kShouldRefreshAll = "ShouldRefreshAll"
     static let kIsRefreshingToken = "IsRefreshingToken"
@@ -42,10 +58,10 @@ struct GlobalConstants {
     static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as! String
      static let SERVICE_API = SERVICE_ROOT.stringByReplacingOccurrencesOfString("192.168.0.5:8080", withString: "localhost:52195", options: NSStringCompareOptions.LiteralSearch, range: nil) + "token"
     static let LOCAL_SOURCE = "gma-app"
-    static let MEMBERS_ONLY = ["leader","inherited_leader","member"]
-    static let LEADERS_ONLY = ["leader","inherited_leader"]
-    static let NOT_BLOCKED =  ["leader","inherited_leader","member","self_assigned"]
-    
+    static let MEMBERS_ONLY = ["inherited_admin","admin","leader","inherited_leader","member"]
+    static let LEADERS_ONLY = ["inherited_admin","admin","leader","inherited_leader"]
+    static let NOT_BLOCKED =  ["inherited_admin","admin","leader","inherited_leader","member","self_assigned"]
+    static let LEADERS_WITHOUT_INHERITED_ONLY = ["admin","leader"]
     static let RefreshInterval = 300
     static let apiSessionInvalid = "SESSION_INVALID"
     

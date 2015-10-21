@@ -218,7 +218,7 @@ class GraphView: UIView {
         else {
             rtn += (1000 - (maxnum % 1000))
         }
-        println("scale: \(rtn)")
+        //println("scale: \(rtn)")
         return rtn
     }
     

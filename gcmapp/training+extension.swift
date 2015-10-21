@@ -12,19 +12,17 @@ import Foundation
 extension Training {
     
     func toJson() -> String{
+//        //println("\"date\": \"\(self.date)\",")
+
         var rtn:String = "{"
         rtn += "\"name\": \"\(self.name)\","
         rtn += "\"mcc\": \"\(self.mcc)\","
         rtn += "\"type\": \"\(self.type)\","
         rtn += "\"ministry_id\": \"\(self.ministry_id)\","
         rtn += "\"date\": \"\(self.date)\","
-        // rtn += "\"date\": \"2015-01-01\","
         rtn += "\"longitude\": \(self.longitude.stringValue),"
         rtn += "\"latitude\": \(self.latitude.stringValue)"
-
         rtn += "}"
         return rtn
     }
-   
-    
 }

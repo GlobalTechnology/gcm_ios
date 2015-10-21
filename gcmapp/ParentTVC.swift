@@ -31,7 +31,8 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+
         fetchedResultController = getFetchedResultController()
         fetchedResultController.delegate = self
         fetchedResultController.performFetch(nil)
@@ -41,7 +42,7 @@ class ParentTVC: UITableViewController, NSFetchedResultsControllerDelegate {
         var selected_parent =  fetchedResultController.fetchedObjects?.filter{($0 as! Church).id == (self.parent_church_id)} as! [Church]
         
         
-     //   println(fetchedResultController.indexPathForObject(selected_parent.first!))
+     //   //println(fetchedResultController.indexPathForObject(selected_parent.first!))
         if selected_parent.count>0{
         
         tableView.scrollToRowAtIndexPath(fetchedResultController.indexPathForObject(selected_parent.first!)!, atScrollPosition: UITableViewScrollPosition.None, animated: true)

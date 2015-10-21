@@ -20,13 +20,18 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     
     func taskFetchRequest() -> NSFetchRequest {
         let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
+        // fetchRequest.propertiesToFetch = ["id"]
+        //  fetchRequest.resultType = NSFetchRequestResultType.DictionaryResultType
+        // fetchRequest.returnsDistinctResults = true
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         return fetchRequest
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "Ministry/Team"
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+
         fetchedResultController = getFetchedResultController()
         fetchedResultController.delegate = self
         fetchedResultController.performFetch(nil)
@@ -35,7 +40,6 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
          return 1
     }
 
- 
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultController.sections![0].numberOfObjects!
@@ -45,37 +49,40 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
         var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
         cell.textLabel!.text = ministry.name
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
-        
        
         for a:Assignment in ministry.assignments.allObjects as! [Assignment]{
-            if a.person_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String?{
-               // if a.id != nil {
+            
+            if let p_id = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String? {
+                
+                if a.person_id == p_id {
+                    // if a.id != nil {
                     NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
                     
-               // } else {
-               //
-                //}
-                
+                    // } else {
+                    //
+                    //}
+                    
+                }
             }
             
-            
-            
-            
+                
         }
         
         NSUserDefaults.standardUserDefaults().setObject(ministry.id, forKey: "ministry_id")
         NSUserDefaults.standardUserDefaults().setObject(ministry.name, forKey: "ministry_name")
-  
 
         NSUserDefaults.standardUserDefaults().synchronize()
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+        
         self.navigationController?.popToRootViewControllerAnimated(true)
+
 
     }
 

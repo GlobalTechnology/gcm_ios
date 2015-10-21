@@ -52,6 +52,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>api_url</key>
-	<string>https://stage-measurements.global-registry.org/v4/</string>
+	<string>https://stage-measurements.global-registry.org/v5/</string>
 </dict>
 </plist>

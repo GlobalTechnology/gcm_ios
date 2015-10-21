@@ -57,6 +57,5 @@ class HasMcc {
       return flag
     }
     
-    
-
+ 
 }

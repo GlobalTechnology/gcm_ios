@@ -35,7 +35,7 @@ class MeasurementSummaryCell: UITableViewCell {
                 
                 let managedContext = appDelegate.managedObjectContext!
                 if !managedContext.save(&error) {
-                    println("Could not save \(error), \(error?.userInfo)")
+                    //println("Could not save \(error), \(error?.userInfo)")
                     
                 }
                 

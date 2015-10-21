@@ -82,8 +82,8 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
         }  else {
             
             //// TODO: what should happen when we don't have a ministry ID?
-            println("mccViewController.tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:):")
-            println("... called when we don't have a ministry_id set.  Why?")
+            //println("mccViewController.tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:):")
+            //println("... called when we don't have a ministry_id set.  Why?")
         }
         
         return cell
@@ -126,7 +126,6 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
         
         NSUserDefaults.standardUserDefaults().setObject(mcc, forKey: "mcc")
         NSUserDefaults.standardUserDefaults().setObject(mcc_name, forKey: "mcc_name")
-        
         
         NSUserDefaults.standardUserDefaults().synchronize()
         let notificationCenter = NSNotificationCenter.defaultCenter()

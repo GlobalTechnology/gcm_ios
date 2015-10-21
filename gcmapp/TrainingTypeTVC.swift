@@ -38,7 +38,7 @@ class TrainingTypeTVC: UITableViewController {
             case "CPMI":
                 selected_row=2
                 break
-            case "":
+            case " ":
                 selected_row=3
                 break
             default:
@@ -89,10 +89,10 @@ class TrainingTypeTVC: UITableViewController {
             training.data["type"]="CPMI"
             break
         case 3:
-            training.data["type"]=""
+            training.data["type"]=" "
             break
         default:
-            training.data["type"]=""
+            training.data["type"]=" "
             break
         }
         training.tableView.reloadData()

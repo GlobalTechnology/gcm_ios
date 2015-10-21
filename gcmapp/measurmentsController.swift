@@ -14,6 +14,10 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     var mcc:String!
     var period:String!
     var self_assigned: Bool = true
+    private let notificationManager = NotificationManager()  // manage notification
+
+    @IBOutlet var menuButton: UIBarButtonItem!
+
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSubTitle: UILabel!
   
@@ -81,7 +85,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     
     func taskFetchRequest() -> NSFetchRequest {
     
-    println(" ++++++ measurementsController.taskFetchRequest() ++++++++")
+    //println(" ++++++ measurementsController.taskFetchRequest() ++++++++")
         
         // It is possible for the current user to not have a ministry_id defined 
         // so check first:
@@ -127,11 +131,17 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "last_refresh")
         NSUserDefaults.standardUserDefaults().synchronize()
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        menuButton.target = self.revealViewController()
+        menuButton.action = Selector("revealToggle:")
+        
+        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+       
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refersh")
         self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -140,9 +150,9 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         
         
         self.reloadData()
-        let nc = NSNotificationCenter.defaultCenter()
-        let myQueue = NSOperationQueue()
-        var observer = nc.addObserverForName(GlobalConstants.kDidReceiveMeasurements, object: nil, queue: myQueue) {(notification:NSNotification!) in
+      
+        notificationManager.registerObserver(GlobalConstants.kDidReceiveMeasurements , forObject: nil) { note in
+        
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
@@ -151,7 +161,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
              var error: NSError?
            
             if !self.fetchedResultController.performFetch(&error) {
-                println("Could not fetch \(error), \(error?.userInfo)")
+                //println("Could not fetch \(error), \(error?.userInfo)")
             }
             */
             
@@ -174,14 +184,15 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
+        
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+        // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
         period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
         self.updatePeriodControl()
         
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "Measurements")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker.set(kGAIScreenName, value: "Measurements")
+//        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
 
     }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -226,7 +237,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
                     ms.changed = false
                     ms.value = 0
                     if !managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
+                        //println("Could not save \(error), \(error?.userInfo)")
                     }
                     cell.me = ms
                 }
