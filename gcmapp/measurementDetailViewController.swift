@@ -41,13 +41,13 @@ class measurementDetailViewController: UITableViewController {
         //return; //!!!!!
         
         self.NavItem.title = measurement.name
-        self.NavItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Bordered, target: self, action: Selector("backButtonClicked:"))
+        self.NavItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("backButtonClicked:"))
         self.NavItem.hidesBackButton = false
         self.graph.values = measurement.measurementValue.allObjects as! Array<MeasurementValue>
         
         period = (NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
        var mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
-        println(mcc)
+        //println(mcc)
         var search_this_period = (measurement.measurementValue.allObjects as! [MeasurementValue]).filter {$0.period == self.period as String && $0.mcc == mcc}
         if search_this_period.count>0{
             self.this_period_values = search_this_period[0] as MeasurementValue
@@ -62,16 +62,16 @@ class measurementDetailViewController: UITableViewController {
             self.this_period_values.addLocalSource(GlobalConstants.LOCAL_SOURCE, value: 0, managedContext: managedContext)
             var error: NSError?
             if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+                //println("Could not save \(error), \(error?.userInfo)")
             }
             
             
         }
 
         self.tableView.reloadData()
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker.set(kGAIScreenName, value: "Measurement Details")
-        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker.set(kGAIScreenName, value: "Measurement Details")
+//        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
     }
     
     func backButtonClicked(sender: AnyObject){
@@ -82,7 +82,7 @@ class measurementDetailViewController: UITableViewController {
         
         let managedContext = appDelegate.managedObjectContext!
         if !managedContext.save(&error) {
-        println("Could not save \(error), \(error?.userInfo)")
+        //println("Could not save \(error), \(error?.userInfo)")
         }
         
         let notificationCenter = NSNotificationCenter.defaultCenter()

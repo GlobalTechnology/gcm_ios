@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assignment" representedClassName="Assignment" syncable="YES">
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
@@ -16,7 +16,9 @@
     <entity name="Church" representedClassName="Church" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="contact_email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contact_mobile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contact_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_by" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="development" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="1" syncable="YES"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="jf_contrib" attributeType="Boolean" defaultValueString="0.0" syncable="YES"/>
@@ -59,12 +61,19 @@
         <attribute name="id_local" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="id_person" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="id_total" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
+        <attribute name="leader_only" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="localized_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" maxValueString="36" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="perm_link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sort_order" optional="YES" attributeType="Integer 16" defaultValueString="3" syncable="YES"/>
+        <attribute name="supported_staff_only" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <relationship name="measurementValue" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MeasurementValue" inverseName="measurement" inverseEntity="MeasurementValue" syncable="YES"/>
+    </entity>
+    <entity name="MeasurementSettings" representedClassName="MeasurementSettings" syncable="YES">
+        <attribute name="perm_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="MeasurementValue" representedClassName="MeasurementValue" syncable="YES">
         <attribute name="changed_local" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -127,6 +136,7 @@
     </entity>
     <entity name="Training" representedClassName="Training" syncable="YES">
         <attribute name="changed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="created_by" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" maxValueString="10" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -134,7 +144,7 @@
         <attribute name="mcc" optional="YES" attributeType="String" maxValueString="3" syncable="YES"/>
         <attribute name="ministry_id" optional="YES" attributeType="String" minValueString="36" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="stages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrainingCompletion" inverseName="training" inverseEntity="TrainingCompletion" syncable="YES"/>
     </entity>
     <entity name="TrainingCompletion" representedClassName="TrainingCompletion" syncable="YES">
@@ -147,17 +157,18 @@
     </entity>
     <elements>
         <element name="Assignment" positionX="-50969" positionY="-22018" width="128" height="133"/>
-        <element name="Church" positionX="-51248" positionY="-21627" width="128" height="283"/>
+        <element name="Church" positionX="-51248" positionY="-21627" width="128" height="315"/>
         <element name="MCC" positionX="-51156" positionY="-22059" width="128" height="88"/>
         <element name="MeasurementLocalSource" positionX="-50616" positionY="-21735" width="128" height="103"/>
         <element name="MeasurementMeSource" positionX="-50841" positionY="-21816" width="128" height="103"/>
-        <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="208"/>
-        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="253"/>
+        <element name="Measurements" positionX="-50283" positionY="-22041" width="128" height="255"/>
+        <element name="MeasurementSettings" positionX="-51201" positionY="-22014" width="128" height="75"/>
+        <element name="MeasurementValue" positionX="-50483" positionY="-22012" width="128" height="255"/>
         <element name="MeasurementValueSelfAssigned" positionX="-50778" positionY="-22158" width="128" height="118"/>
         <element name="MeasurementValueSubTeam" positionX="-50438" positionY="-21748" width="128" height="103"/>
         <element name="MeasurementValueTeam" positionX="-50787" positionY="-21976" width="128" height="148"/>
         <element name="Ministry" positionX="-51401" positionY="-21970" width="128" height="253"/>
-        <element name="Training" positionX="-51039" positionY="-21645" width="128" height="193"/>
+        <element name="Training" positionX="-51039" positionY="-21645" width="128" height="210"/>
         <element name="TrainingCompletion" positionX="-50832" positionY="-21645" width="128" height="133"/>
     </elements>
 </model>

@@ -17,16 +17,16 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
        
         self.tabBar.tintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
         
-        self.sync=dataSync()
+        // self.sync=dataSync()
       
         // Do any additional setup after loading the view.
-        if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
+      if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
             var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
             // Use your dict here
             let url = dict["TheKeyServerURL"]
             let client_id = dict["TheKeyClientId"]
             
-            //  println("TheKeyerverURL: \(url) ClientId: \(client_id)")
+            //  //println("TheKeyerverURL: \(url) ClientId: \(client_id)")
             
             
             TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: url!) , clientId: client_id!  )
@@ -61,7 +61,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
             }
             
             
-        }
+        } 
         
     }
     
@@ -78,7 +78,7 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     }
 
     func loginViewController(loginViewController: TheKeyOAuth2LoginViewController!, loginError error: NSError!) {
-        println(error)
+        //println(error)
     }
     
     

@@ -20,6 +20,9 @@ class DevelopmentTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)

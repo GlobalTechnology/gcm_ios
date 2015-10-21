@@ -21,6 +21,10 @@ class Measurements: NSManagedObject {
     @NSManaged var perm_link: String
     @NSManaged var section: String
     @NSManaged var sort_order: NSNumber
+    @NSManaged var leader_only: NSNumber
+    @NSManaged var supported_staff_only: NSNumber
     @NSManaged var measurementValue: NSSet
+    @NSManaged var localized_name: String
+
 
 }

@@ -9,8 +9,6 @@
 import Foundation
 class createTrainingStage {
     
-    
-    
     var training_id: NSNumber!
     var phase: NSNumber!
     var date: String!
@@ -26,7 +24,7 @@ class createTrainingStage {
     }
     func toJSON() -> String{
         
-        return "{\"training_id\": \(self.training_id), \"phase\": \(self.phase),\"date\": \"\(self.date)\", \"number_completed\":\(self.number_completed) }"
+        return "{\"training_id\": \(self.training_id), \"phase\": \(self.phase),\"date\": \"\(self.date)\", \"number_completed\": \(self.number_completed)}"
         
     }
     

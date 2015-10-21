@@ -117,7 +117,7 @@ extension MeasurementValue{
             managedContext.deleteObject(sa as! NSManagedObject)
         }
         if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+            //println("Could not save \(error), \(error?.userInfo)")
         }
         
         for t in team{
@@ -206,6 +206,8 @@ extension MeasurementValue{
                 mv = mvs.first as! MeasurementValue
                 
             }
+            
+            
             mv.total = total[p] as! NSNumber
             mv.local = local[p] as! NSNumber
             mv.me = me[p] as! NSNumber

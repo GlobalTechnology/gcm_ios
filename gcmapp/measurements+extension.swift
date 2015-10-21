@@ -1,4 +1,4 @@
-//
+ //
 //  measurements+extension.swift
 //  gcmapp
 //
@@ -26,6 +26,10 @@ extension Measurements {
         var error: NSError?
         var rtn:Bool = false
         self.name = m["name"] as! String
+        self.supported_staff_only = m["supported_staff_only"] as! Bool
+        self.leader_only = m["leader_only"] as! Bool
+        self.localized_name = m["localized_name"] as! String
+
        // self.id = m["measurement_id"] as String
         self.perm_link = m["perm_link"] as! String
         self.section = m["section"] as! String
@@ -84,14 +88,14 @@ extension Measurements {
                 rtn = true
                 mv.total = m["total"] as! NSNumber
                
-                println("*mv.total: \(mv.total)")
+                //println("*mv.total: \(mv.total)")
             }
              subT = mv.total.integerValue
         }
         
         if m["person"] != nil{
            // let temp = m["person"]
-           // println("*mv.me: \(mv.me), mPerson: \(temp)")
+           // //println("*mv.me: \(mv.me), mPerson: \(temp)")
             if mv.me != m["person"] as! NSNumber && !mv.changed_me.boolValue{
                 rtn = true
                 
@@ -106,7 +110,7 @@ extension Measurements {
                 rtn = true
                 mv.local = m["local"] as! NSNumber
                 
-                //println("*mv.local: \(mv.local)")
+                ////println("*mv.local: \(mv.local)")
             }
             subT -= (m["local"] as! NSNumber).integerValue
         }
@@ -121,11 +125,15 @@ extension Measurements {
             self.id_person = m["person_measurement_type_id"]  as! String
         }
         
+//        
+//        if !managedContext.save(&error) {
+//            //println("Could not save \(error), \(error?.userInfo)")
+//        }
         
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
         
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        var managedContext = appDelegate.backgroundContext!
+        managedContext.save(&error)
         
         
         return rtn
@@ -164,7 +172,7 @@ extension Measurements {
         
         
         if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+            //println("Could not save \(error), \(error?.userInfo)")
         }
        
     }

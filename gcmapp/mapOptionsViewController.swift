@@ -24,23 +24,23 @@ class mapOptionsViewController: UITableViewController {
     }
     
     @IBAction func targetChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(targets.on, forKey: "showTargets")
+        NSUserDefaults.standardUserDefaults().setValue(targets.on, forKey: GlobalConstants.kShowTargets)
     }
     
     @IBAction func groupsChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(groups.on, forKey: "showGroups")
+        NSUserDefaults.standardUserDefaults().setValue(groups.on, forKey: GlobalConstants.kShowGroups)
     }
     
     @IBAction func churchesChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(churches.on, forKey: "showChurches")
+        NSUserDefaults.standardUserDefaults().setValue(churches.on, forKey: GlobalConstants.kShowChurches)
     }
     
     @IBAction func multiplyingChurchesChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(multiplyingChurches.on, forKey: "showMultiplyingChurches")
+        NSUserDefaults.standardUserDefaults().setValue(multiplyingChurches.on, forKey: GlobalConstants.kShowMultiplyingChurches)
     }
     
     @IBAction func trainingChanged(sender: UISwitch) {
-        NSUserDefaults.standardUserDefaults().setValue(training.on, forKey: "showTraining")
+        NSUserDefaults.standardUserDefaults().setValue(training.on, forKey: GlobalConstants.kShowTraining)
     }
     
     
@@ -55,21 +55,20 @@ class mapOptionsViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
 
         var ns =  NSUserDefaults.standardUserDefaults()
         
         
-        targets.on = (ns.objectForKey("showTargets") as! Bool?) != false
-        groups.on = (ns.objectForKey("showGroups") as! Bool?) != false
-        churches.on = (ns.objectForKey("showChurches") as! Bool?) != false
-        multiplyingChurches.on = (ns.objectForKey("showMultiplyingChurches") as! Bool?) != false
-        training.on = (ns.objectForKey("showTraining") as! Bool?) != false
+        targets.on = (ns.objectForKey(GlobalConstants.kShowTargets) as! Bool?) != false
+        groups.on = (ns.objectForKey(GlobalConstants.kShowGroups) as! Bool?) != false
+        churches.on = (ns.objectForKey(GlobalConstants.kShowChurches) as! Bool?) != false
+        multiplyingChurches.on = (ns.objectForKey(GlobalConstants.kShowMultiplyingChurches) as! Bool?) != false
+        training.on = (ns.objectForKey(GlobalConstants.kShowTraining) as! Bool?) != false
         
         
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -96,7 +95,6 @@ class mapOptionsViewController: UITableViewController {
                     return
                 }
 */
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
 
                 for m in mapVC.markers{
                     m.opacity=0.2
@@ -133,7 +131,6 @@ class mapOptionsViewController: UITableViewController {
                 break
             case 3: //addTraining
               
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "noRedrawMap")
                 /*
                 if read_only{
                     return
@@ -183,7 +180,7 @@ class mapOptionsViewController: UITableViewController {
 
                 
                     if !managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
+                        //println("Could not save \(error), \(error?.userInfo)")
                     }
                 // get map info(lat ,long,zoom)
                 

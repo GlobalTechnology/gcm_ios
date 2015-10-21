@@ -1,4 +1,4 @@
-//
+ //
 //  dataSync.swift
 //  gcmapp
 //
@@ -12,20 +12,18 @@ class dataSync: NSObject {
     
     var managedContext: NSManagedObjectContext!
     var token:NSString!
-    let myQueue = NSOperationQueue()
     var saving:Bool = false
-    let tracker = GAI.sharedInstance().defaultTracker
+    // let tracker = GAI.sharedInstance().defaultTracker
 
-    
+    private let notificationManager = NotificationManager()  // manage notification
+
     override init(){
-        
         super.init()
+        
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         self.managedContext = appDelegate.managedObjectContext!
-        
-        let nc = NSNotificationCenter.defaultCenter()
-        
-        let mainQueue = NSOperationQueue.mainQueue()
+
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         
         if (NSUserDefaults.standardUserDefaults().objectForKey("mcc") != nil) {
@@ -34,11 +32,12 @@ class dataSync: NSObject {
         else {
             
             NSUserDefaults.standardUserDefaults().setObject("GCM", forKey: "mcc")
-
         }
         
         NSUserDefaults.standardUserDefaults().synchronize()
-        var observer_measurements = nc.addObserverForName(GlobalConstants.kDidChangePeriod, object: nil, queue: myQueue) {(notification:NSNotification!) in
+      
+        //observer_measurements
+        notificationManager.registerObserver(GlobalConstants.kDidChangePeriod, forObject: nil) { note  in
             
             if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
                 
@@ -48,168 +47,206 @@ class dataSync: NSObject {
             } else {
                 
                 //// TODO: what happens here?
-                println("Notification:kDidChangePeriod:");
-                println("... still don't have a ministry ID assigned");
+                //println("Notification:kDidChangePeriod:");
+                //println("... still don't have a ministry ID assigned");
             }
         }
-        var observer_assignnment = nc.addObserverForName(GlobalConstants.kDidChangeAssignment, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            println("... caught kDidChangeAssignment")
+        
+        // observer Change Assignment
+        
+        notificationManager.registerObserver(GlobalConstants.kDidChangeAssignment, forObject: nil) { note  in
+            //println("...caught kDidChangeAssignment")
             
-             println(notification)
+             //println(note)
             
-            // Verify minitryID is valid before performing this action:
-            if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
-                println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
-                //update team role
-                let ass = Assignment.getAssignmentForMinistryId(ministryID) as Assignment?
-                var team_role:String = "self_assigned"
-                if ass != nil{
-                    team_role = ass!.team_role
+            let queue = NSOperationQueue()
+            
+            queue.addOperationWithBlock() {
+                // do something in the background
+                if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+                    //println("... kDidChangeAssignment:  ministryID[\(ministryID)] ")
+                    //update team role
+                    
+                    let ass = Assignment.getAssignmentForMinistryId(ministryID) as Assignment?
+                    var team_role:String = "self_assigned"
+                    if ass != nil{
+                        team_role = ass!.team_role
+                    }
+                    
+                    NSUserDefaults.standardUserDefaults().setObject(team_role, forKey: "team_role")
+                    
+                    self.loadChurches(ministryID)
+                    self.loadTraining(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
+                    self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
+                    //load previous period too
+                    self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: GlobalFunctions.prevPeriod( NSUserDefaults.standardUserDefaults().objectForKey("period") as! String))
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                } else {
+                    
+                    //// TODO: what should happen here?
+                    //println("dataSync: kDidChangeAssignment ")
+                    //println("... called when there was no ministry_id defined")
+                    
                 }
-                
-                NSUserDefaults.standardUserDefaults().setObject(team_role, forKey: "team_role")
-                
-                self.loadChurches(ministryID)
-                self.loadTraining(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
-                self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
-                //load previous period too
-                self.loadMeasurments(ministryID, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: GlobalFunctions.prevPeriod( NSUserDefaults.standardUserDefaults().objectForKey("period") as! String))
-                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                NSUserDefaults.standardUserDefaults().synchronize()
-                
-            } else {
-                
-                //// TODO: what should happen here?
-                println("dataSync: kDidChangeAssignment ")
-                println("... called when there was no ministry_id defined")
-                
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+                    // when done, update your UI and/or model on the main queue
+                }
             }
-        }
-        
-        
-        var observer_mcc = nc.addObserverForName(GlobalConstants.kDidChangeMcc, object: nil, queue: myQueue) {(notification:NSNotification!) in
             
-            // Verify user has a ministry_id before we update all these
-            if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
-                
-                let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
-                
-                self.loadChurches(ministryID)
-                self.loadTraining(ministryID, mcc:currMcc )
-                self.loadMeasurments(ministryID, mcc: currMcc, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
-                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                NSUserDefaults.standardUserDefaults().synchronize()
-                
-            } else {
-                
-                //// TODO: so what should really happen if this was called?
-                println("dataSync: Notification: kDidChangeMcc:")
-                println("... attempted to update Mcc change when user doesn't have a ministry_id")
-                
+            
+                  
+        }
+        
+        //observer_mcc
+        
+        notificationManager.registerObserver(GlobalConstants.kDidChangeMcc, forObject: nil) { note  in
+            
+            
+            
+            let queue = NSOperationQueue()
+            
+            queue.addOperationWithBlock() {
+                // do something in the background
+                if let ministryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
+                    
+                    let currMcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
+                    
+                    self.loadChurches(ministryID)
+                    self.loadTraining(ministryID, mcc:currMcc )
+                    self.loadMeasurments(ministryID, mcc: currMcc, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                } else {
+                    
+                    //// TODO: so what should really happen if this was called?
+                    //println("dataSync: Notification: kDidChangeMcc:")
+                    //println("... attempted to update Mcc change when user doesn't have a ministry_id")
+                    
+                }
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+                    // when done, update your UI and/or model on the main queue
+                }
             }
         }
         
-        
-        
-        var observer_tc = nc.addObserverForName(GlobalConstants.kDidChangeTrainingCompletion, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // observer_tc
+        notificationManager.registerObserver(GlobalConstants.kDidChangeTrainingCompletion, forObject: nil) { note in
             self.updateTrainingCompletion()
         }
-        var observer_mv = nc.addObserverForName(GlobalConstants.kDidChangeMeasurementValues, object: nil, queue: NSOperationQueue()) {(notification:NSNotification!) in
-            if !self.saving{
-                self.saving=true
-                var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, 3 * Int64( Double(NSEC_PER_SEC)))
+        
+        //observer_mv
+        notificationManager.registerObserver(GlobalConstants.kDidChangeMeasurementValues, forObject: nil) { note in
                 
-                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                    self.saving=false
-                    self.updateMeasurements()
-                })
+            if !self.saving{
+                
+            let queue = NSOperationQueue()
+            queue.addOperationWithBlock() {
+                // do something in the background
+                self.saving=false
+                self.updateMeasurements()
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+                    // when done, update your UI and/or model on the main queue
+                }
             }
-            
-            
-            //dispatch_async(NSOperationQueue() ,{
-            
-            //});
             
         }
         
-        var observer_ch = nc.addObserverForName(GlobalConstants.kDidChangeChurch, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        }
+        
+        //observer_ch
+        notificationManager.registerObserver(GlobalConstants.kDidChangeChurch, forObject: nil) { note in
             self.updateChurch()
         }
-        var observer_tr = nc.addObserverForName(GlobalConstants.kDidChangeTraining, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        //observer_tr
+        notificationManager.registerObserver(GlobalConstants.kDidChangeTraining, forObject: nil) { note in
             self.updateTraining()
+        
         }
-        var observer_logout = nc.addObserverForName(GlobalConstants.kLogout, object: nil, queue: myQueue) {(notification:NSNotification!) in
+       
+        //logout observer
+        notificationManager.registerObserver(GlobalConstants.kLogout, forObject: nil){ note in
+            
             self.logout()
         }
-        var observer_reset = nc.addObserverForName(GlobalConstants.kReset, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        //observer_reset
+        notificationManager.registerObserver(GlobalConstants.kReset, forObject: nil){ note in
             self.reset()
         }
-        var observer_join = nc.addObserverForName(GlobalConstants.kShouldJoinMinistry, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.joinMinistry((notification.userInfo as! JSONDictionary)["ministry_id"] as! String, sender: notification.object as! NewMinistryTVC)
+        
+        //observer_join
+        notificationManager.registerObserver(GlobalConstants.kShouldJoinMinistry, forObject: nil){ note in
+            self.joinMinistry((note.userInfo as! JSONDictionary)["ministry_id"] as! String, sender: note.object as! NewMinistryTVC)
         }
-        var observer_new_tc = nc.addObserverForName(GlobalConstants.kShouldAddNewTrainingPhase, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.addTrainingStage((notification.userInfo as! JSONDictionary)["createTrainingStage"] as! createTrainingStage,sender: notification.object as! trainingViewController)
+        
+        //observer_new_tc
+        notificationManager.registerObserver(GlobalConstants.kShouldAddNewTrainingPhase, forObject: nil){ note in
+            self.addTrainingStage((note.userInfo as! JSONDictionary)["createTrainingStage"] as! createTrainingStage,sender: note.object as! trainingViewController)
         }
-        var observer_update_min = nc.addObserverForName(GlobalConstants.kShouldUpdateMin, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            self.updateMinistry((notification.userInfo as! JSONDictionary)["ministry"] as! Ministry)
+        
+        //observer_update_min
+        notificationManager.registerObserver(GlobalConstants.kShouldUpdateMin, forObject: nil){ note in
+       
+            self.updateMinistry((note.userInfo as! JSONDictionary)["ministry"] as! Ministry)
         }
-        // by justin
-        var observer_saveUserPreferences = nc.addObserverForName(GlobalConstants.kShouldSaveUserPreferences, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        
+        // observer_saveUserPreferences
+        notificationManager.registerObserver(GlobalConstants.kShouldSaveUserPreferences, forObject: nil){ note in
             
-            var mapInfo : NSDictionary = notification.userInfo as! JSONDictionary
-            
-            println(mapInfo)
-            
+            var mapInfo : NSDictionary = note.userInfo as! JSONDictionary
             self.saveUser_preferences(mapInfo)
             
         }
         
-        
-       
-
-        // end point by justin
-        
-        var observer_load_meas_det = nc.addObserverForName(GlobalConstants.kShouldLoadMeasurmentDetail, object: nil, queue: myQueue) {(notification:NSNotification!) in
+        // observer_saveSupprotStaffUserPreferences
+        notificationManager.registerObserver(GlobalConstants.kShouldSaveSupportStaffUserPreferences, forObject: nil){ note in
             
-            
-            self.loadMeasurmentDetails(notification.userInfo?.values.first as! Measurements , ministryId: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period")  as! String, sender: notification.object as! measurementDetailViewController)
+            var mapInfo : NSDictionary = note.userInfo as! JSONDictionary
+            self.saveSupportStaff_User_preferences(mapInfo)
             
         }
         
+
+        //observer_load_meas_det
+        notificationManager.registerObserver(GlobalConstants.kShouldLoadMeasurmentDetail, forObject: nil){ note in
+            self.loadMeasurmentDetails(note.userInfo?.values.first as! Measurements , ministryId: NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period")  as! String, sender: note.object as! measurementDetailViewController)
+        }
         
-        
-        var observer = nc.addObserverForName(GlobalConstants.kLogin, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+        //observer login
+        notificationManager.registerObserver(GlobalConstants.kLogin, forObject: nil){ note in
+            
             if !(TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
-                println("... kLogin: .logout()")
+                //println("... kLogin: .logout()")
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
                 return;
             }
             
+        // On kLogin -> Authorize the client
             
-            
-            // On kLogin -> Authorize the client
             TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
-                    println("... ticketForService() : ticket == nil!")
+                    //println("... ticketForService() : ticket == nil!")
                     //TheKeyOAuth2Client.sharedOAuth2Client().logout()
                     return
                 }
                 
-                var s = API(st: ticket!){
-                    (data: AnyObject?, error: NSError?) -> Void in
-                    if data == nil{
-                        return
-                    }
-                    
-                    var resp:JSONDictionary = data as! JSONDictionary
-                    
-                    if(resp["status"] as! String == "success"){
+                let queue = NSOperationQueue()
+                
+                queue.addOperationWithBlock() {
+                    // do something in the background
+                    var s = API(st: ticket!){
+                        (data: AnyObject?, error: NSError?) -> Void in
+                        if data == nil{
+                            return
+                        }
+                        var resp:JSONDictionary = data as! JSONDictionary
                         
-                        dispatch_async(dispatch_get_main_queue(),{
+                        if(resp["status"] as! String == "success"){
                             
-                        
-                            self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "login", label: nil, value: nil).build()  as [NSObject: AnyObject])
                             
+                            //println("This is run on the main queue, after the previous code in outer block")
                             
                             self.token = resp["session_ticket"] as! String
                             
@@ -217,7 +254,6 @@ class dataSync: NSObject {
                             
                             let notificationCenter = NSNotificationCenter.defaultCenter()
                             notificationCenter.postNotificationName(GlobalConstants.kShouldLoadUserPreferences, object: nil)  // call for get userpreference by justin
-                            
                             let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
                             NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kIsRefreshingToken)
                             
@@ -238,7 +274,7 @@ class dataSync: NSObject {
                             if let assignments=resp["assignments"] as? Array<JSONDictionary> {
                                 
                                 let current_ass_id = NSUserDefaults.standardUserDefaults().objectForKey("assignment_id") as! String?
-                                println(assignments.count)
+                                //println(assignments.count)
                                 for a:JSONDictionary in assignments{
                                     
                                     
@@ -254,7 +290,6 @@ class dataSync: NSObject {
                                     if  assignments.count > 0 {
                                         
                                         let this_ass = assignments.first!
-                                        
                                         NSUserDefaults.standardUserDefaults().setObject(this_ass["team_role"] as! String, forKey: "team_role")
                                         NSUserDefaults.standardUserDefaults().setObject(this_ass["id"] as! String, forKey: "assignment_id")
                                         NSUserDefaults.standardUserDefaults().setObject(this_ass["ministry_id"] as! String, forKey: "ministry_id")
@@ -266,7 +301,7 @@ class dataSync: NSObject {
                             } else {
                                 
                                 // TODO: what happens if user is not attached to any assignments?
-                                println(" *** Hey, you are not assigned to anything! *** ")
+                                //println(" *** Hey, you are not assigned to anything! *** ")
                                 
                             } // end if assignments were provided
                             
@@ -279,64 +314,106 @@ class dataSync: NSObject {
                                 //let currMCC = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as String).lowercaseString
                                 //
                                 //let currPeriod = NSUserDefaults.standardUserDefaults().objectForKey("period") as String
-                                 NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
-                               // self.loadChurches(currMinistryID)
-                               // self.loadTraining(currMinistryID, mcc:currMCC)
-                               // self.loadMeasurments(currMinistryID, mcc: currMCC, period: currPeriod)
+                                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+                                // self.loadChurches(currMinistryID)
+                                //self.loadTraining(currMinistryID, mcc:currMCC)
+                                //self.loadMeasurments(currMinistryID, mcc: currMCC, period: currPeriod)
                             }
                             
                             // update our last refresh setting:
                             //NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
                             //NSUserDefaults.standardUserDefaults().synchronize()
-                        });
-                    } // end if response was a success
+                            
+                            
+                            
+                            
+                            
+                        } // end if response was a success
+                        
+                        
+                        
+                        
+                    }  // end API{}
                     
-                    
-                   
-                    
-                }  // end API{}
+                    NSOperationQueue.mainQueue().addOperationWithBlock() {
+                        // when done, update your UI and/or model on the main queue
+                        
+                    }
+                }
                 
-                
+//                let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+//                let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+//                dispatch_async(backgroundQueue, {
+//                    //println("This is run on the background queue")
+//                    
+//                    
+//                    // self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "login", label: nil, value: nil).build()  as [NSObject: AnyObject])
+//                    
+//                    
+//                    
+//                
+//               
+//                
+//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//     
+//                    })
+//                })
                 
             })
             
         }
-        var observer_refresh = nc.addObserverForName(GlobalConstants.kShouldRefreshAll, object: nil, queue: myQueue) {(notification:NSNotification!) in
-            if self.token==nil{
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                // notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
-                return;
-            }
-            if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
-                var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as! NSDate
-                if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
+        
+         // for refress All
+           notificationManager.registerObserver(GlobalConstants.kShouldRefreshAll, forObject: nil) { note in
+            
+           
+            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue, {
+                //println("This is run on the background queue")
+                
+                if self.token==nil{
+                    let notificationCenter = NSNotificationCenter.defaultCenter()
+                    notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
                     return;
                 }
                 
+                if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
+                    var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as! NSDate
+                    if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
+                        return;
+                    }
+                }
                 
-            }
-            var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
-            if ministry_id != nil{
-                
-                
-                self.updateChurch()
-                self.updateMeasurements()
-                self.updateTraining()
-                self.updateTrainingCompletion()
-                
-                
-                self.loadChurches(ministry_id!)
-                self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
-                self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
-                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                NSUserDefaults.standardUserDefaults().synchronize()
-            }
-            
+                var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
+                if ministry_id != nil{
+                    
+                    
+                    self.updateChurch()
+                    self.updateMeasurements()
+                    self.updateTraining()
+                    self.updateTrainingCompletion()
+                    
+                    
+                    self.loadChurches(ministry_id!)
+                    self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
+                    self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
+                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    //main Queque
+
+        })
+    })
+
         }
         
-        
-        
-    }
+    } // end init and resisterd all observers
+    
+    
+    
     func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String?{
         var newList = allMinistries
         var error: NSError?
@@ -383,7 +460,7 @@ class dataSync: NSObject {
         
         
         //        if !self.managedContext.save(&error) {
-        //            println("Could not save \(error), \(error?.userInfo)")
+        //            //println("Could not save \(error), \(error?.userInfo)")
         //        }
         self.saveContext()
         let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
@@ -423,7 +500,7 @@ class dataSync: NSObject {
         
         
         //            if !self.managedContext.save(&error) {
-        //                println("Could not save \(error), \(error?.userInfo)")
+        //                //println("Could not save \(error), \(error?.userInfo)")
         //            }
         self.saveContext()
         
@@ -433,14 +510,15 @@ class dataSync: NSObject {
         //    has_current_ass_id = true
         //}
         
-        /*
+       
         if a["sub_ministries"] != nil {
-        for row in a["sub_ministries"] as Array<JSONDictionary> {
+        for row in a["sub_ministries"] as! Array<JSONDictionary> {
         
-        self.addAssignment(row, user: user, allMinistries: newList)
+            // self.addAssignment(row, user: user, allMinistries: newList)
+            
         }
         }
-        */
+       
         
         if (a["id"] != nil) {
             return assignment.id
@@ -453,7 +531,13 @@ class dataSync: NSObject {
     func loadMeasurmentDetails(measurement: Measurements, ministryId: String, mcc: String, period: String, sender: measurementDetailViewController ){
         if checkTokenAndConnection() == false{
             return;
-        } 
+        }
+        
+//        if(mcc == nil)
+//        {
+//            mcc = ""
+//        }
+        
         API(token: self.token! as String).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
                                             (data: AnyObject?,error: NSError?) -> Void in
                                             if data == nil {
@@ -511,11 +595,11 @@ class dataSync: NSObject {
                 for m in data as! JSONArray{
                     
                     for (myKey,myValue) in m as! JSONDictionary {
-                        println("\(myKey) \t \(myValue)")
+                        //println("\(myKey) \t \(myValue)")
                     }
                     
                     
-                    println( m["name"])
+                    //println( m["name"])
                     
                     
                     
@@ -566,17 +650,17 @@ class dataSync: NSObject {
                 
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
-                
-                
             }
         });
     }
     
     
     func loadTraining(ministryId: String, mcc: String){
+        
         if checkTokenAndConnection() == false{
             return;
         }
+        
         if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String, list: GlobalConstants.MEMBERS_ONLY){
             return
         }
@@ -586,6 +670,7 @@ class dataSync: NSObject {
             if data == nil {
                 return
             }
+            
             dispatch_async(dispatch_get_main_queue(),{
                 
                 let fetchRequest =  NSFetchRequest(entityName:"Training" )
@@ -598,9 +683,9 @@ class dataSync: NSObject {
                 
                 for t in data as! JSONArray{
                     //BEGIN: Add or update
-                    //println(t);
+                    ////println(t);
                     // var tmp = t["latitude"]
-                    // println(tmp)
+                    // //println(tmp)
                     
                     
                     let this_t = allTraining.filter {$0.id == (t["id"] as! NSNumber)}
@@ -673,15 +758,16 @@ class dataSync: NSObject {
                             }
                         }
                     }
-                    
                 }
                 //            if !self.managedContext.save(&error) {
-                //                println("Could not save \(error), \(error?.userInfo)")
+                //                //println("Could not save \(error), \(error?.userInfo)")
                 //            }
                 self.saveContext()
                 
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
+                
+                
             });
         }
         
@@ -707,16 +793,13 @@ class dataSync: NSObject {
                     
                     var error: NSError?
                     let churches = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Church]
-                    
-                    
-                    
-                    
+
                     var relationships = Dictionary<NSNumber, NSNumber>()
                     
                     for c in data as! JSONArray{
                         //BEGIN: Add or update
                         
-                        //println(c["id"])
+                        ////println(c["id"])
                         
                         let this_ch = churches.filter {$0.id == (c["id"] as! NSNumber)}
                         var church:Church!
@@ -729,11 +812,9 @@ class dataSync: NSObject {
                             church = NSManagedObject(entity: entity!,
                                 insertIntoManagedObjectContext:self.managedContext) as! Church
                         }
+                        
                         //END: Add or update
                         if !(church.changed as Bool) {//don't update if we have a pending change
-                            
-                            
-                            
                             
                             church.id = c["id"] as! NSNumber
                             church.name = c["name"] as! String
@@ -741,24 +822,26 @@ class dataSync: NSObject {
                             church.size = c["size"] as! NSNumber
                             if c["latitude"] != nil && c["longitude"]  != nil {
                                 
-                                println("lat:")
-                                println(c["latitude"])
-                                println("long:")
-                                println(c["longitude"])
+                                //println("lat:")
+                                //println(c["latitude"])
+                                //println("long:")
+                                //println(c["longitude"])
                                 if c["latitude"] as? NSNull  != NSNull() {
                                     church.latitude = c["latitude"] as! Float
                                 } else {
-                                    println("*** church without a lat: \(church.name)")
+                                    //println("*** church without a lat: \(church.name)")
                                 }
                                 if c["longitude"] as? NSNull != NSNull() {
                                     church.longitude = c["longitude"] as! Float
                                 } else {
-                                    println("*** church without a long: \(church.name)")
+                                    //println("*** church without a long: \(church.name)")
                                 }
                             }
+                            
                             //church.security = c["security"] as NSNumber
                             church.contact_name = c["contact_name"] as! String
                             church.contact_email = c["contact_email"] as! String
+                            church.contact_mobile = c["contact_mobile"] as! String
                             church.ministry_id = c["ministry_id"] as! String
                             if (c["parents"] as! Array<NSNumber>).count  > 0 {
                                 church.parent_id = (c["parents"] as! Array<NSNumber>)[0]
@@ -773,7 +856,7 @@ class dataSync: NSObject {
                             
                             //                        var error2: NSError?
                             //                        if !self.managedContext.save(&error2) {
-                            //                            println("Could not save \(error2), \(error2?.userInfo)")
+                            //                            //println("Could not save \(error2), \(error2?.userInfo)")
                             //                        }
                             self.saveContext()
                             
@@ -790,15 +873,12 @@ class dataSync: NSObject {
                             if c1.count>0 && c2.count>0{
                                 c2[0].parent=c1[0]
                             }
-                            
                         }
-                        
-                        
                     }
                     
                     
                     //                if !self.managedContext.save(&error) {
-                    //                    println("Could not save \(error), \(error?.userInfo)")
+                    //                    //println("Could not save \(error), \(error?.userInfo)")
                     //                }
                     self.saveContext()
                     
@@ -841,9 +921,9 @@ class dataSync: NSObject {
     func saveContext() {
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        var managedContext = appDelegate.backgroundContext!
-        var error: NSError? = nil
-        managedContext.save(&error)
+         appDelegate.saveContext()
+//        var error: NSError? = nil
+//        managedContext.save(&error)
 
         
     }
@@ -852,6 +932,7 @@ class dataSync: NSObject {
         if self.checkTokenAndConnection() == false{
             return;
         }
+        
         dispatch_async(dispatch_get_main_queue(),{
             var error: NSError?
             let frChurch =  NSFetchRequest(entityName:"Church" )
@@ -868,10 +949,10 @@ class dataSync: NSObject {
                                 dispatch_async(dispatch_get_main_queue(),{
                                     ch.changed=false
                                     ch.id=(data as! JSONDictionary)["id"]  as! NSNumber
-                                    println("saved: \(ch.id)")
+                                    //println("saved: \(ch.id)")
                                     //                        var error: NSError?
                                     //                        if !self.managedContext.save(&error) {
-                                    //                            println("Could not save \(error), \(error?.userInfo)")
+                                    //                            //println("Could not save \(error), \(error?.userInfo)")
                                     //                        }
                                     self.saveContext()
                                 });
@@ -890,7 +971,7 @@ class dataSync: NSObject {
                                         self.saveContext()
                                         //                            var error: NSError?
                                         //                            if !self.managedContext.save(&error) {
-                                        //                                println("Could not save \(error), \(error?.userInfo)")
+                                        //                                //println("Could not save \(error), \(error?.userInfo)")
                                         //                            }
                                     });
                                 }
@@ -901,7 +982,6 @@ class dataSync: NSObject {
                 }
             });
         });
-        
     }
     
     func updateTraining(){
@@ -925,7 +1005,7 @@ class dataSync: NSObject {
                                 dispatch_async(dispatch_get_main_queue(),{
                                     tr.changed=false
                                     tr.id=(data as! JSONDictionary)["id"]  as! NSNumber
-                                    println("saved: \(tr.id)")
+                                    //println("saved: \(tr.id)")
                                     self.saveContext()
                                 });
                                 
@@ -1014,7 +1094,7 @@ class dataSync: NSObject {
                     frAssignment.predicate=NSPredicate(format: "ministry.id == %@ && person_id == %@", mv.measurement.ministry_id, NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String )
                     let this_ass = self.managedContext.executeFetchRequest(frAssignment,error: &error) as! [Assignment]
                     if this_ass.count>0 {
-                        println(mv.measurement.id_person)
+                        //println(mv.measurement.id_person)
                          update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: this_ass.first!.id! , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.me))
                     }
                     
@@ -1048,7 +1128,7 @@ class dataSync: NSObject {
                                    
                                     //                        var error: NSError?
                                     //                        if !self.managedContext.save(&error) {
-                                    //                            println("Could not save \(error), \(error?.userInfo)")
+                                    //                            //println("Could not save \(error), \(error?.userInfo)")
                                     //                        }
                                     self.saveContext()
                                     
@@ -1125,7 +1205,7 @@ class dataSync: NSObject {
                         let allTC = tr.first!.stages.allObjects as! [TrainingCompletion]
                         
                         var training_comp:TrainingCompletion!
-                        let this_tc = allTC.filter {$0.id == (tc["Id"] as! NSNumber)}
+                        let this_tc = allTC.filter {$0.id == (tc["id"] as! NSNumber)}
                         if this_tc.count > 0{
                             training_comp=this_tc.first
                             
@@ -1134,8 +1214,9 @@ class dataSync: NSObject {
                             training_comp = NSManagedObject(entity: entity2!,
                                 insertIntoManagedObjectContext:self.managedContext) as! TrainingCompletion
                         }
+                        
                         //END: Add or Update
-                        training_comp.id = tc["Id"] as! NSNumber
+                        training_comp.id = tc["id"] as! NSNumber
                         training_comp.phase = tc["phase"] as! NSNumber
                         training_comp.number_completed = tc["number_completed"] as! NSNumber
                         if(tc["date"] as! String? != nil){
@@ -1145,7 +1226,7 @@ class dataSync: NSObject {
                         
                         
                         //                    if !self.managedContext.save(&error) {
-                        //                        println("Could not save \(error), \(error?.userInfo)")
+                        //                        //println("Could not save \(error), \(error?.userInfo)")
                         //                    }
                         self.saveContext()
                         sender.tc.append(training_comp)
@@ -1174,8 +1255,6 @@ class dataSync: NSObject {
             
         }
         
-        
-        
     }
     
     //>---------------------------------------------------------------------------------------------------
@@ -1191,13 +1270,24 @@ class dataSync: NSObject {
         API(token: token! as String).saveUser_preferences(mapInfo){
             (data: AnyObject?,error: NSError?) -> Void in
             //Nothing to do...
-            
-            
-            
-            
+         }
+        
+    }
+    
+    //>---------------------------------------------------------------------------------------------------
+    // Author Name      :   Justin Mohit
+    // Date             :   Aug, 2 2015
+    // Input Parameters :   N/A.
+    // Purpose          :   Post SupportStaff user_preferences.
+    //>---------------------------------------------------------------------------------------------------
+    
+    
+    func saveSupportStaff_User_preferences(mapInfo: NSDictionary){
+        
+        API(token: token! as String).save_StaffSupprot_User_preferences(mapInfo){
+            (data: AnyObject?,error: NSError?) -> Void in
+            //Nothing to do...
         }
-        
-        
         
     }
     
@@ -1206,7 +1296,7 @@ class dataSync: NSObject {
 
     
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
-        println(ministry_id)
+
         API(token: token! as String).addAssignment( NSUserDefaults.standardUserDefaults().objectForKey("cas_username") as! String , ministry_id: ministry_id, team_role: "self_assigned"){
             (data: AnyObject?,error: NSError?) -> Void in
             if data != nil{
@@ -1226,7 +1316,7 @@ class dataSync: NSObject {
                     
                     // broadcast kChangedAssignment to make sure our settings and system are updated 
                     // with this newly joined Ministry!
-                    println("... dataSync.joinMinistry() --> kDidChangeAssignment")
+                    //println("... dataSync.joinMinistry() --> kDidChangeAssignment")
                     let nc = NSNotificationCenter.defaultCenter()
                     nc.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
                 });
@@ -1238,11 +1328,10 @@ class dataSync: NSObject {
     
     func reset(){
         
-        
-        dispatch_async(dispatch_get_main_queue(),{
+        self.token = nil
             
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            var managedContext = appDelegate.backgroundContext!
+            var managedContext = appDelegate.managedObjectContext!
             var error: NSError?
             let entityList=["MCC", "Assignment", "Ministry", "Church", "TrainingCompletion", "Training","MeasurementLocalSource", "MeasurementValueSubTeam", "MeasurementValueSelfAssigned", "MeasurementValueTeam", "MeasurementValue", "Measurements"]
 
@@ -1257,11 +1346,10 @@ class dataSync: NSObject {
                 }
                 
             }
-            //        if !self.managedContext.save(&error) {
-            //            println("Could not delete objects \(error), \(error?.userInfo)")
-            //        }
-            self.saveContext()
-            
+          
+            if !self.managedContext.save(&error) {
+                //println("Could not delete objects \(error), \(error?.userInfo)")
+            }
             
             
             self.resetDefaults()  // reset all user defaults
@@ -1269,19 +1357,18 @@ class dataSync: NSObject {
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             
-            
             if self.token != nil{
-                notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                //notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                TheKeyOAuth2Client.sharedOAuth2Client().logout()
+
             }
             else{
+                
+                 NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kLogoutNotification, object: nil) // pop to login view
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
-                
-                
-                //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveChurches, object: nil)
-                
-                //  notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+              
             }
-        });
+       
     }
     
     // Justin mohit
@@ -1312,10 +1399,7 @@ class dataSync: NSObject {
         }
         
         
-    }
-    
-    
-    
+    }  // not using this time
     
     // justin Mohit
     
@@ -1331,9 +1415,9 @@ class dataSync: NSObject {
         
         API(token: self.token! as String).deleteToken()
         
-        self.token = nil
-        self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "logout", label: nil, value: nil).build()  as [NSObject: AnyObject])
+        //  self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "logout", label: nil, value: nil).build()  as [NSObject: AnyObject])
         //Delete everything in the database
         reset()
     }
+    
 }

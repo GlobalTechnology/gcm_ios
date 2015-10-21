@@ -1,0 +1,88 @@
+/* 
+  Localizable.strings
+  gcmapp
+
+  Created by Justin Mohit on 05/10/15.
+  Copyright (c) 2015 Expidev. All rights reserved.
+*/
+
+
+"Targets" = "Targets";
+
+"Groups" = "Groups";
+
+"Churches" = "Churches";
+
+"Multiplying Churches" = "Multiplying Churches";
+
+"Church Parents" = "Church Parents";
+
+"Training Activities" = "Training Activities";
+
+"Set Default Map" = "Set Default Map";
+
+"Search" = "Search";
+
+"Cancel" = "Cancel";
+
+"Welcome" = "Welcome";
+
+"Home" = "Home";
+
+"Measurements" = "Measurements";
+
+"Refresh" = "Refresh";
+
+"JNM" = "Join New Ministry";
+
+"SS" = "Supported Staff";
+
+"Setting" = "Setting";
+
+"Logout" = "Logout";
+
+"AM" = "All Measurements";
+
+"Favourites" = "Favourites";
+
+"FA" = "Faith Actions";
+
+"Fruit" = "Fruit";
+
+"Outcomes" = "Outcomes";
+
+"Other" = "Other";
+
+"Team" = "Team";
+
+"Personal" = "Personal";
+
+"SubTitle" = "Enter/select the name of a ministry/team to join";
+
+"JM" = "Join Ministry";
+
+"Back" = "Back";
+
+"MT" = "Ministry/Team";
+
+"MCC" = "MCC";
+
+"Reset" = "Reset";
+
+"CLCAR" = "Clear local cache and resync";
+
+"SL" = "Student Led";
+
+"LL" = "Leader Led";
+
+"GCMove" = "Global Church Movements";
+
+"DigS" = "Digital Strategies";
+
+"SLM" = "SLM";
+
+"LLM" = "LLM";
+
+"GCM" = "GCM";
+
+"DS" = "DS";
