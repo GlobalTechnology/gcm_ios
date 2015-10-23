@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         OneSkyOTAPlugin.provideAPIKey("CsdvDT7Ucuduf6PsvKmbubaB8S8cszzU", APISecret: nil, projectID: "101956")
         OneSkyOTAPlugin.checkForUpdate()
-        OneSkyOTAPlugin.setLanguage("es")
+        //  OneSkyOTAPlugin.setLanguage("es")
         
         
 //        var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
@@ -50,8 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //  [OneSkyOTAPlugin localizedStringForKey:(key) value:@"" table:nil]
 
-       println(OneSkyOTAPlugin.localizedStringForKey("Targets", value: nil, table: nil))
-       println(OneSkyOTAPlugin.localizedStringForKey("Groups", value: nil, table: nil))
+        //  println(OneSkyOTAPlugin.localizedStringForKey("Targets", value: nil, table: nil))
+        //   println(OneSkyOTAPlugin.localizedStringForKey("Groups", value: nil, table: nil))
  
         
         

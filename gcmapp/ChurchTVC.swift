@@ -14,6 +14,8 @@ class ChurchTVC: UITableViewController {
     @IBOutlet weak var Icon: UIImageView!
     var data:JSONDictionary!
     
+    var isEmptyField = Bool()
+    
     var changed:Bool = false
     var mapVC:  mapViewController!
     var read_only: Bool = true
@@ -153,6 +155,8 @@ class ChurchTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isEmptyField = false
         
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
 
@@ -454,8 +458,31 @@ class ChurchTVC: UITableViewController {
                 break
             case 0:
                 
-                  self.dismissViewControllerAnimated(true, completion: nil)
-                 dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                if data["name"] as? String == "" {
+                    isEmptyField = true
+                }
+                
+                
+                if data["contact_name"] as? String == ""{
+                    isEmptyField = true
+                }
+                
+                if data["contact_email"] as? String == ""{
+                    isEmptyField = true
+                }
+                
+                if(isEmptyField == false){
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                }
+                else{
+                    isEmptyField = false
+                    
+                    let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
+                    
+                    alertView.show()
+                }
                  
                  
                 break

@@ -11,6 +11,8 @@ import CoreData
 
 class trainingViewController: UITableViewController, UITableViewDelegate,UITextFieldDelegate,UINavigationControllerDelegate{
     
+    var isEmptyField = Bool()
+    
     var data:JSONDictionary!
     var tc:[TrainingCompletion]!
     var changed:Bool = false
@@ -195,6 +197,8 @@ override func viewDidAppear(animated: Bool) {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isEmptyField = false
 
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
         
@@ -504,8 +508,27 @@ override func viewDidAppear(animated: Bool) {
             switch(indexPath.row){
             case 0: // back
               
-                self.dismissViewControllerAnimated(true, completion: nil)
-                dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                if data["name"] as? String == "" {
+                    isEmptyField = true
+                }
+                
+                if data["type"] as? String == ""{
+                    isEmptyField = true
+                }
+                
+                if(isEmptyField == false){
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                }
+                else
+                {
+                    isEmptyField = false
+                    
+                    let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
+                    
+                    alertView.show()
+                }
               
                 
                 break

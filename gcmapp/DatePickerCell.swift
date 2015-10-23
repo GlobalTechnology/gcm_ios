@@ -46,11 +46,56 @@ public class DatePickerCell: UITableViewCell {
     /// The selected date, set to current date/time on initialization.
     public var date:NSDate = NSDate() {
         didSet {
-            datePicker.date = date
-            datePicker.datePickerMode = UIDatePickerMode.Date
-            DatePickerCell.Stored.dateFormatter.dateFormat = "dd/MM/yyyy"
-            // DatePickerCell.Stored.dateFormatter.timeStyle = timeStyle
-            rightLabel.text = DatePickerCell.Stored.dateFormatter.stringFromDate(date)
+            if(NSUserDefaults.standardUserDefaults().boolForKey("calloutButtonTap") as Bool == true)
+            {
+                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "calloutButtonTap")
+                
+                datePicker.date = date
+                datePicker.datePickerMode = UIDatePickerMode.Date
+                DatePickerCell.Stored.dateFormatter.dateFormat = "dd/MM/yyyy"
+                
+                if(NSUserDefaults.standardUserDefaults().boolForKey("new_training") as Bool == true){
+                    
+                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "new_training")
+                    
+                    rightLabel.text = DatePickerCell.Stored.dateFormatter.stringFromDate(date)
+                }
+                else{
+                    
+                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "new_training")
+                    
+                    if(NSUserDefaults.standardUserDefaults().objectForKey("createdDate") == nil)
+                    {
+                        return
+                    }
+                    
+                    var dateName: String = NSUserDefaults.standardUserDefaults().objectForKey("createdDate")! as! String
+                    
+                    
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd" //"yyyy-MM-dd"
+                    
+                    
+                    let date = dateFormatter.dateFromString(dateName)
+                    
+                    let strDate = dateFormatter.stringFromDate(date!)
+                    
+                    if let date = dateFormatter.dateFromString(strDate) {
+                        
+                        dateFormatter.dateFormat = "dd/MM/yyyy"
+                        
+                        rightLabel.text = dateFormatter.stringFromDate (date)
+                    }
+                }
+            }
+            else{
+                
+                datePicker.date = date
+                datePicker.datePickerMode = UIDatePickerMode.Date
+                DatePickerCell.Stored.dateFormatter.dateFormat = "dd/MM/yyyy"
+                
+                rightLabel.text = DatePickerCell.Stored.dateFormatter.stringFromDate(date)
+            }
         }
     }
     /// The timestyle.

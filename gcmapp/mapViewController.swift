@@ -1127,6 +1127,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func calloutAccessoryButtonTapped(obj: AnyObject?){
         
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "calloutButtonTap")
         
         if let marker1 = self.mapView.selectedMarker {  // prevent to nil
             
