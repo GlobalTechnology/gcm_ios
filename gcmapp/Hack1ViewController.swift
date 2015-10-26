@@ -1125,6 +1125,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
              })
         }
     }
+    
     func setTotal(measurementType: Int ){
         if currentlyOpenMeasurementCategory == measurementType{
             switch (measurementType) {
@@ -1132,11 +1133,12 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 
                 let pcvc = self.pageViewControllerFaith.viewControllers.last  as! PageContentViewController
                 // btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
-                lblTotalFaith.text = pcvc.getLiveTotal()
+                println(pcvc.getLiveTotal())
+                //lblTotalFaith.text = pcvc.getLiveTotal()
             case FRUIT:
                 let pcvc = self.pageViewControllerFruit.viewControllers.last  as! PageContentViewController
                 // btnTotalFruit.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
-                lblTotalFruit.text = pcvc.getLiveTotal()
+                //lblTotalFruit.text = pcvc.getLiveTotal()
                 
             case OUTCOMES:
                 let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as! PageContentViewController
@@ -1150,8 +1152,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 break;
             }
         }
-        
     }
+    
     func openView(viewType:Int) {
         
         

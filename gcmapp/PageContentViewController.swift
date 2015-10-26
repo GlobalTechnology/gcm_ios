@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopoverPresentationControllerDelegate {
+class PageContentViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
 
     
     private let notificationManager = NotificationManager()  // manage notification
@@ -261,7 +261,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopover
             var valueForThisPeriod = periodVals.first as! MeasurementValue
             
             localValue = lblLocalValue.text
-            hack.setTotal(self.measurementType)
+            //hack.setTotal(self.measurementType)
 
             valueForThisPeriod.local = lblLocalValue.text.toInt()!
             valueForThisPeriod.changed_local = true
@@ -272,11 +272,12 @@ class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopover
             if !managedContext.save(&error) {
                 //println("Could not save \(error), \(error?.userInfo)")
             }
+            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
         }
-        
     }
+    
     func savePerson(){
         if personValue != lblPersonValue.text{
             
@@ -287,7 +288,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopover
             var valueForThisPeriod = periodVals.first as! MeasurementValue
             
             personValue = lblPersonValue.text
-            hack.setTotal(self.measurementType)
+            //hack.setTotal(self.measurementType)
             valueForThisPeriod.me = lblPersonValue.text.toInt()!
             valueForThisPeriod.changed_me = true
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -298,6 +299,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopover
             if !managedContext.save(&error) {
                 //println("Could not save \(error), \(error?.userInfo)")
             }
+            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
         }
@@ -516,7 +518,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate,UIPopover
         else {
             
             localPersonChooser.setEnabled(false, forSegmentAtIndex: 0)
-            selectLocalPersonProgrammatically(1)
+            //selectLocalPersonProgrammatically(1)
         }
         
 
