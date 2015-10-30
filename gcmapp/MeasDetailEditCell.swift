@@ -21,7 +21,7 @@
 
         
         @IBAction func editValueDidChanged(sender: UITextField) {
-             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             var error: NSError?
             let managedContext = appDelegate.managedObjectContext!
             if(isLocalSource){
@@ -29,7 +29,7 @@
                     mls.changed = true
                     mls.value = (editValue.text as NSString!).integerValue
                     if !managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
+                        //println("Could not save \(error), \(error?.userInfo)")
                     }
                     let notificationCenter = NSNotificationCenter.defaultCenter()
                     notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)
@@ -43,7 +43,7 @@
                     me.changed=true
                     me.value = (editValue.text as NSString!).integerValue
                     if !managedContext.save(&error) {
-                        println("Could not save \(error), \(error?.userInfo)")
+                        //println("Could not save \(error), \(error?.userInfo)")
                     }
                     let notificationCenter = NSNotificationCenter.defaultCenter()
                     notificationCenter.postNotificationName(GlobalConstants.kDidChangeMeasurementValues, object: nil)

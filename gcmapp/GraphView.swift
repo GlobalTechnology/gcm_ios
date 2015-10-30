@@ -42,7 +42,7 @@ class GraphView: UIView {
         
         
         let font = UIFont.systemFontOfSize(9)
-        let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle
+        let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.Center
         let textFontAttributes = [
             NSFontAttributeName: font,
@@ -218,7 +218,7 @@ class GraphView: UIView {
         else {
             rtn += (1000 - (maxnum % 1000))
         }
-        println("scale: \(rtn)")
+        //println("scale: \(rtn)")
         return rtn
     }
     

@@ -18,13 +18,16 @@ class SecurityTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
+
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if church.data["security"] == nil{
             church.data["secutiry"] = 2
             }
-            var old_value = church.data["security"]  as NSNumber
+            var old_value = church.data["security"]  as! NSNumber
         
         switch(indexPath.row){
         case 0:
@@ -41,7 +44,7 @@ class SecurityTVC: UITableViewController {
             
         }
         
-        self.church.changed = old_value != church.data["security"] as NSNumber
+        self.church.changed = old_value != church.data["security"] as! NSNumber
         
         self.church.tableView.reloadData()
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -51,7 +54,7 @@ class SecurityTVC: UITableViewController {
         super.viewDidAppear(animated)
         var row:Int = -1
         if church.data["security"] != nil{
-        switch(church.data["security"] as NSNumber){
+        switch(church.data["security"] as! NSNumber){
         case 0:
             row=0
             break

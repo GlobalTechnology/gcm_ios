@@ -1,4 +1,4 @@
-				//
+     				//
 //  AppDelegate.swift
 //  gcmapp
 //
@@ -8,31 +8,65 @@
 
 import UIKit
 import CoreData
-
-
-                
-
+ 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
    
-   
+    private let notificationManager = NotificationManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         // Override point for customization after application launch.
-        println("path: " + self.applicationDocumentsDirectory.path!)
+        // //println("path: " + self.applicationDocumentsDirectory.path!)
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
-            var dict = NSDictionary(contentsOfFile: path) as Dictionary<String, String>
+            var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
            
-            GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
+             GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
             
         }	
+        
+        
+//        GAI.sharedInstance().trackUncaughtExceptions = true
+//        GAI.sharedInstance().dispatchInterval = 20
+//        GAI.sharedInstance().logger.logLevel =  GAILogLevel.Verbose
+//        GAI.sharedInstance().trackerWithTrackingId("UA-29919940-7")
+        
+        var pre: String = NSLocale.preferredLanguages()[0] as! String
+        println(pre)
+        
+        OneSkyOTAPlugin.provideAPIKey("CsdvDT7Ucuduf6PsvKmbubaB8S8cszzU", APISecret: nil, projectID: "101956")
+        OneSkyOTAPlugin.checkForUpdate()
+        //  OneSkyOTAPlugin.setLanguage("es")
+        
+        
+//        var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
+//        
+//        println(languageCode)
+        
+        
+        //  [OneSkyOTAPlugin localizedStringForKey:(key) value:@"" table:nil]
+
+        //  println(OneSkyOTAPlugin.localizedStringForKey("Targets", value: nil, table: nil))
+        //   println(OneSkyOTAPlugin.localizedStringForKey("Groups", value: nil, table: nil))
+ 
+        
+        
+
+      
         
         
         return true
     }
 
+    
+    
+       
+    
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -49,19 +83,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-       
+         OneSkyOTAPlugin.checkForUpdate()
         
     }
-
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // self.cdh.saveContext()
+        self.saveContext()
     }
+   
     // MARK: - Core Data stack
     
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "expidev.TestCoreData" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
         }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -70,11 +106,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return NSManagedObjectModel(contentsOfURL: modelURL)!
         }()
     
+    
+    
+    
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("gma-app.sqlite")
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("gma-app1_1.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
@@ -84,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
@@ -100,27 +139,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
         }()
     
+    
+    lazy var backgroundContext: NSManagedObjectContext? = {
+        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
+        let coordinator = self.persistentStoreCoordinator
+        if coordinator == nil {
+            return nil
+        }
+        var backgroundContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
+        backgroundContext.persistentStoreCoordinator = coordinator
+        return backgroundContext
+        }()
+    
     // MARK: - Core Data Saving support
     
-    func saveContext () {
-        if let moc = self.managedObjectContext {
-            var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
-            }
+    // save NSManagedObjectContext
+    func saveContext (context: NSManagedObjectContext) {
+        var error: NSError? = nil
+        if context.hasChanges && !context.save(&error) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog("Unresolved error \(error), \(error!.userInfo)")
+            abort()
         }
     }
-
     
-    
+    func saveContext () {
+        self.saveContext( self.backgroundContext! )
+    }
+  
+   
 
 }
 	

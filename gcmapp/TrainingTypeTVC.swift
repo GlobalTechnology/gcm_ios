@@ -14,6 +14,7 @@ class TrainingTypeTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
         //tableView.selectRowAtIndexPath(NSIndexPath(forRow: selected_row.integerValue, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
         
         // Uncomment the following line to preserve selection between presentations
@@ -26,7 +27,7 @@ class TrainingTypeTVC: UITableViewController {
         super.viewDidAppear(animated)
         var selected_row:NSNumber = 3
         if training.data["type"] != nil{
-            switch training.data["type"] as String{
+            switch training.data["type"] as! String{
             case "MC2":
                 selected_row=0
                 break
@@ -36,7 +37,7 @@ class TrainingTypeTVC: UITableViewController {
             case "CPMI":
                 selected_row=2
                 break
-            case "":
+            case "Other":
                 selected_row=3
                 break
             default:
@@ -87,14 +88,16 @@ class TrainingTypeTVC: UITableViewController {
             training.data["type"]="CPMI"
             break
         case 3:
-            training.data["type"]=""
+            training.data["type"]="Other"
             break
         default:
-            training.data["type"]=""
+            training.data["type"]=" "
             break
         }
-        training.tableView.reloadData()
+        
+        
         self.dismissViewControllerAnimated(true, completion: nil)
+        training.tableView.reloadData()
     }
     
     /*

@@ -10,39 +10,44 @@ import UIKit
 
 class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
     var sync: dataSync!
-
+    private let notificationManager = NotificationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
-          self.sync=dataSync()
+        self.tabBar.tintColor = UIColor(red: 13.0/255, green: 25.0/255, blue: 49.0/255, alpha: 1.0)
+        
+        // self.sync=dataSync()
       
         // Do any additional setup after loading the view.
-        if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
-            var dict = NSDictionary(contentsOfFile: path) as Dictionary<String, String>
+      if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
+            var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
             // Use your dict here
             let url = dict["TheKeyServerURL"]
             let client_id = dict["TheKeyClientId"]
-            println("TheKeyerverURL: \(url) ClientId: \(client_id)")
+            
+            //  //println("TheKeyerverURL: \(url) ClientId: \(client_id)")
             
             
-            TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: dict["TheKeyServerURL"]!)! , clientId: dict["TheKeyClientId"]  )
+            TheKeyOAuth2Client.sharedOAuth2Client().setServerURL(NSURL(string: url!) , clientId: client_id!  )
         
             let notificationCenter = NSNotificationCenter.defaultCenter()
             let mainQueue = NSOperationQueue.mainQueue()
             
-            var observer = notificationCenter.addObserverForName(TheKeyOAuth2ClientDidChangeGuidNotification, object: TheKeyOAuth2Client.sharedOAuth2Client(), queue: mainQueue) {(notification:NSNotification!) in
+            
+            notificationManager.registerObserver(TheKeyOAuth2ClientDidChangeGuidNotification, forObject: TheKeyOAuth2Client.sharedOAuth2Client()){ note in
+                
                 if  TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() {
-                     self.postLoginNotification()
+                    self.postLoginNotification()
                 } else{
                     self.sync.token=""
-                     TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
+                    TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
                 }
-                
             }
+           
+            
             if (TheKeyOAuth2Client.sharedOAuth2Client().isAuthenticated() && TheKeyOAuth2Client.sharedOAuth2Client().guid() != nil){
                 postLoginNotification()
-                
                 
             }else
             {
@@ -50,12 +55,13 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
                 TheKeyOAuth2Client.sharedOAuth2Client().logout()
             }
             
-            var observer_logout = notificationCenter.addObserverForName(GlobalConstants.kLogout, object: nil, queue: mainQueue) {(notification:NSNotification!) in
+            notificationManager.registerObserver(GlobalConstants.kLogout){ note in
+              
                 self.sync.token=""
-
-               // TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: notification.object as UIViewController , loginDelegate: self)
             }
-        }
+            
+            
+        } 
         
     }
     
@@ -71,13 +77,32 @@ class gcmTabBarController: UITabBarController , TheKeyOAuth2ClientLoginDelegate{
          notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
     }
 
+    func loginViewController(loginViewController: TheKeyOAuth2LoginViewController!, loginError error: NSError!) {
+        //println(error)
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
+    /*
+    override func shouldAutorotate() -> Bool {
+        //return false
+        return self.selectedViewController!.shouldAutorotate()
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        if let vc = self.selectedViewController {
+            return vc.supportedInterfaceOrientations()
+        }
+        return super.supportedInterfaceOrientations()
+        
+        //return self.selectedViewController!.supportedInterfaceOrientations()
+    }
+    */
+    
     /*
     // MARK: - Navigation
 

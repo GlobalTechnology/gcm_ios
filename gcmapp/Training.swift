@@ -21,5 +21,6 @@ class Training: NSManagedObject {
     @NSManaged var name: String
     @NSManaged var type: String
     @NSManaged var stages: NSSet
+    @NSManaged var created_by: String
 
 }

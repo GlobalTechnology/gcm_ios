@@ -27,6 +27,7 @@ class Measurement {
         self.mcc = mcc
         self.value = value
     }
+    
     func toJSON() -> String{
        
         return "{\"measurement_type_id\": \"\(self.measurement_type_id)\", \"related_entity_id\": \"\(self.related_entity_id)\",\"period\": \"\(self.period)\", \"mcc\":\"\(self.mcc)\", \"value\":\(self.value) }"
