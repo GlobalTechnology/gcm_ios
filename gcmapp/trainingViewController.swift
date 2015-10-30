@@ -59,7 +59,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 //            data["type"] = ""
                 data["date"] = GlobalFunctions.currentDate()
                 //            data["id"] = -1
-                
+                data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
+
                 if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String
                 {
                     training.ministry_id = ministry_id
@@ -106,8 +107,10 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
+            
                 // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
-                
+            // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+            
                 NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawTrainingPinKey, object: nil, userInfo: data as JSONDictionary)
             
             
@@ -359,7 +362,7 @@ override func viewDidAppear(animated: Bool) {
                     cell.title.text =   "Name"
                     cell.value.text =   (data["name"] != nil) ? data["name"] as? String : ""
                     cell.value.delegate = self
-                    cell.value.tag  =   1
+                    cell.value.tag  =   -1
 
                     return cell
   
@@ -394,7 +397,7 @@ override func viewDidAppear(animated: Bool) {
                     
                         cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
                     
-                    
+                    println(data)
                         cell.detailTextLabel!.text =  (data["type"] != nil) ? data["type"] as? String : " "
                  }
                     
@@ -526,7 +529,6 @@ override func viewDidAppear(animated: Bool) {
                     isEmptyField = false
                     
                     let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
-                    
                     alertView.show()
                 }
               
@@ -547,20 +549,50 @@ override func viewDidAppear(animated: Bool) {
                 
             case 6: //Delete
                 
-               if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training" {
-                    // self.mapVC.makeSelectedMarkerDraggable()
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                var alertController = UIAlertController(title: "", message: "Are you sure you want to delete this training?", preferredStyle: .Alert)
                 
-                    var training_id  = data["id"] as! Int
-                    var latitude  =    data["latitude"] as! Double
-                    var longitude  =   data["longitude"] as! Double
-
-                    var traningInfoDic = NSDictionary(objectsAndKeys:data["id"]!,"training_id",data["latitude"]!,"lat",data["longitude"]!,"long",mapVC.mapView.camera.zoom,"zoom" )
-                // dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-
-                    let notificationCenter = NSNotificationCenter.defaultCenter()
-                    notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteTraining, object: nil, userInfo: traningInfoDic as! JSONDictionary)
-               }
+                // Create the actions
+                var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                    UIAlertAction in
+                    
+                    NSLog("OK Pressed")
+                    
+                    
+                    
+                    if (self.created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  self.data["ministry_id"] as! String && self.read_only == false)) && self.data["marker_type"] as! String != "new_training" {
+                        // self.mapVC.makeSelectedMarkerDraggable()
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        
+                        var training_id  = self.data["id"] as! Int
+                        var latitude  =    self.data["latitude"] as! Double
+                        var longitude  =   self.data["longitude"] as! Double
+                        
+                        var traningInfoDic = NSDictionary(objectsAndKeys:self.data["id"]!,"training_id",self.data["latitude"]!,"lat",self.data["longitude"]!,"long",self.mapVC.mapView.camera.zoom,"zoom" )
+                        // dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                        
+                        let notificationCenter = NSNotificationCenter.defaultCenter()
+                        notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteTraining, object: nil, userInfo: traningInfoDic as! JSONDictionary)
+                    }
+                    
+                }
+                var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                    UIAlertAction in
+                    NSLog("Cancel Pressed")
+                }
+                
+                // Add the actions
+                alertController.addAction(okAction)
+                alertController.addAction(cancelAction)
+                
+                // Present the controller
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
+                
+                
+                
+                
+                
+                
                 break
                 
             case 2:
@@ -617,43 +649,46 @@ override func viewDidAppear(animated: Bool) {
     
     // MARK:- UITextField delegate method
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-    if(textField.text.isEmpty)
-    {
-        self.callAlertView("", Message: "Please enter name.")
-    }
-
-        
-        textField.resignFirstResponder()
-        
-        
-        return true
-    }
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        
+//    if(textField.text.isEmpty)
+//    {
+//        self.callAlertView("", Message: "Please enter name.")
+//    }
+//
+//        
+//        textField.resignFirstResponder()
+//        
+//        
+//        return true
+//    }
     
     func textFieldDidEndEditing(textField: UITextField) {
+        if(textField.tag == -1)
+        {
+            return
+        }
+        else{
+                let stage = tc[textField.tag] as TrainingCompletion
         
-//        let stage = tc[textField.tag] as TrainingCompletion
-//        
-//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//        
-//        let managedContext = appDelegate.backgroundContext!
-//        if stage.number_completed != (textField.text as NSString).integerValue
-//        {
-//            stage.number_completed = (textField.text as NSString).integerValue
-//            stage.changed = true
-//            self.changed = true
-//            
-//            var error: NSError?
-//            
-//            if !managedContext.save(&error) {
-//                //println("Could not save \(error), \(error?.userInfo)")
-//            }
-//            
-//        }
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
+                let managedContext = appDelegate.backgroundContext!
+                if stage.number_completed != (textField.text as NSString).integerValue
+                {
+                    stage.number_completed = (textField.text as NSString).integerValue
+                    stage.changed = true
+                    self.changed = true
         
-            }
+                    var error: NSError?
+        
+                    if !managedContext.save(&error) {
+                        //println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    
+                }
+           }
+        }
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

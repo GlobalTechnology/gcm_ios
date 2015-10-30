@@ -50,20 +50,6 @@ public class DatePickerCell: UITableViewCell {
             {
                 NSUserDefaults.standardUserDefaults().setBool(false, forKey: "calloutButtonTap")
                 
-                datePicker.date = date
-                datePicker.datePickerMode = UIDatePickerMode.Date
-                DatePickerCell.Stored.dateFormatter.dateFormat = "dd/MM/yyyy"
-                
-                if(NSUserDefaults.standardUserDefaults().boolForKey("new_training") as Bool == true){
-                    
-                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "new_training")
-                    
-                    rightLabel.text = DatePickerCell.Stored.dateFormatter.stringFromDate(date)
-                }
-                else{
-                    
-                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "new_training")
-                    
                     if(NSUserDefaults.standardUserDefaults().objectForKey("createdDate") == nil)
                     {
                         return
@@ -76,17 +62,16 @@ public class DatePickerCell: UITableViewCell {
                     dateFormatter.dateFormat = "yyyy-MM-dd" //"yyyy-MM-dd"
                     
                     
-                    let date = dateFormatter.dateFromString(dateName)
+                    let date1 = dateFormatter.dateFromString(dateName)
                     
-                    let strDate = dateFormatter.stringFromDate(date!)
+                    let strDate = dateFormatter.stringFromDate(date1!)
                     
-                    if let date = dateFormatter.dateFromString(strDate) {
+                    if let date2 = dateFormatter.dateFromString(strDate) {
                         
                         dateFormatter.dateFormat = "dd/MM/yyyy"
                         
-                        rightLabel.text = dateFormatter.stringFromDate (date)
+                        rightLabel.text = dateFormatter.stringFromDate (date2)
                     }
-                }
             }
             else{
                 

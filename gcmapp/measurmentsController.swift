@@ -131,7 +131,7 @@ class measurmentsController: UITableViewController, NSFetchedResultsControllerDe
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "last_refresh")
         NSUserDefaults.standardUserDefaults().synchronize()
         let notificationCenter = NSNotificationCenter.defaultCenter()
-         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+        // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
     }
     
     override func viewDidLoad() {

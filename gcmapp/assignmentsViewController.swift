@@ -56,37 +56,56 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
          let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
        
-        for a:Assignment in ministry.assignments.allObjects as! [Assignment]{
+        
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            println("Work Dispatched")
             
-            if let p_id = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String? {
+            NSUserDefaults.standardUserDefaults().synchronize()
+            NSUserDefaults.standardUserDefaults().setObject(ministry.id, forKey: "ministry_id")
+            NSUserDefaults.standardUserDefaults().setObject(ministry.name, forKey: "ministry_name")
+            // Do heavy or time consuming work
+            for a:Assignment in ministry.assignments.allObjects as! [Assignment]{
                 
-                if a.person_id == p_id {
-                    // if a.id != nil {
-                    NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
+                if let p_id = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String? {
                     
-                    // } else {
-                    //
-                    //}
-                    
+                    if a.person_id == p_id {
+                        // if a.id != nil {
+                        NSUserDefaults.standardUserDefaults().setObject(a.id, forKey: "assignment_id")
+                         NSUserDefaults.standardUserDefaults().setObject(a.team_role, forKey: "team_role")
+                        // } else {
+                        //
+                        //}
+                        
+                    }
+                }
+                
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                //notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+                
+                //let notificationCenter = NSNotificationCenter.defaultCenter()
+                //notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+                
+            }
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                [weak self] in
+                // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
+                if let weakSelf = self {
+                    weakSelf.navigationController?.popToRootViewControllerAnimated(true)
                 }
             }
-            
-                
         }
         
-        NSUserDefaults.standardUserDefaults().setObject(ministry.id, forKey: "ministry_id")
-        NSUserDefaults.standardUserDefaults().setObject(ministry.name, forKey: "ministry_name")
-
-        NSUserDefaults.standardUserDefaults().synchronize()
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
         
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+      
+        
+        
+        
+        }
 
-
-    }
-
-
+  
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.reloadData()
     }

@@ -63,6 +63,7 @@
         });
     });
 }
+
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     //[loadingView setHidden:NO];
     

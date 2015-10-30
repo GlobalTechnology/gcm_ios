@@ -241,12 +241,15 @@
             func deleteChurch(church: JSONDictionary , callback: APICallback)
             {
                 
-                var church_id  = church["id"] as? Int
+                
+                var church_id  = church["id"] as? NSNumber
                 var ministry_id = church["ministry_id"] as? String
                 var name = church["name"] as? String
  
                 let url = "\(GlobalConstants.SERVICE_ROOT)churches/\(church_id!)?token=\(self.token)"
-                //println("\(url)")
+                
+                
+                // println("url church ==>\(url)")
                 let calendar = NSCalendar.currentCalendar()
                 // Set up date object
                 let date = NSDate()
@@ -260,9 +263,11 @@
                
                 // var body = "{\"end_date\": \( dateFormatter.stringFromDate(lastDateOfMonth))}"
                 
+               
+                
                 var body = "{\"ministry_id\": \"\(ministry_id!)\",\"name\":\"\(name!)\",\"end_date\":\"\(dateFormatter.stringFromDate(lastDateOfMonth))\"}"
                 
-                 //println(body)
+                //println(body)
                 //self.cur_url = url
                 makeHTTPPutRequest(Path.UPDATE_GENERAL, callback: callback, url: url,body : body)
             }

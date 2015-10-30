@@ -39,7 +39,9 @@ class ChurchTVC: UITableViewController {
             var church = NSManagedObject(entity: entity!,
                 insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
-
+            data["marker_type"] = "church"
+            data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
+            data["id"] = -1
             if let name = data["name"] as? String {
                 
                 church.name = name
@@ -79,12 +81,14 @@ class ChurchTVC: UITableViewController {
                 church.latitude = latitude
             }
             
-            church.id = -22  //indicates new church
+            church.id = -1  //indicates new church
             
             if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
                 
                 church.ministry_id = ministry_id
+                data["ministry_id"] = ministry_id
             }
+            
             
             if let created_by = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String
             {
@@ -96,12 +100,12 @@ class ChurchTVC: UITableViewController {
             managedContext.save(&error)
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+            //  notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
            
             NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawChurchPinKey, object: nil, userInfo: data as JSONDictionary)
-
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
+            
 
             
             // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
@@ -236,7 +240,7 @@ class ChurchTVC: UITableViewController {
         if indexPath.section == 1{
             // Configure the cell...
             
-            if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || ((NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false) || data["marker_type"] as! String == "new_church"){
+            if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || ((NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false)) || data["marker_type"] as! String == "new_church"{
                 
                 switch (indexPath.row){
                 case 0:
@@ -440,20 +444,45 @@ class ChurchTVC: UITableViewController {
                 break
             case 2: // delete
 
-
-                if(data["marker_type"] as! String != "new_church"){
+                var alertController = UIAlertController(title: "", message: "Are you sure you want to delete this church?", preferredStyle: .Alert)
+                
+                // Create the actions
+                var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                    UIAlertAction in
                     
-                    if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
+                    NSLog("OK Pressed")
+                    
+                    
+                    if(self.data["marker_type"] as! String != "new_church"){
                         
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                        
-                    let notificationCenter = NSNotificationCenter.defaultCenter()
-                    notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteChurch, object: nil, userInfo: data as JSONDictionary)
+                        if self.created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  self.data["ministry_id"] as! String && self.read_only == false){
+                            
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                            
+                            let notificationCenter = NSNotificationCenter.defaultCenter()
+                            notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteChurch, object: nil, userInfo: self.data as JSONDictionary)
+                            
+                        }
                         
                     }
                     
                 }
+                var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                    UIAlertAction in
+                    NSLog("Cancel Pressed")
+                }
+                
+                // Add the actions
+                alertController.addAction(okAction)
+                alertController.addAction(cancelAction)
+                
+                // Present the controller
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
 
+                
+
+               
                
                 break
             case 0:

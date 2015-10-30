@@ -171,71 +171,90 @@ class LeftMenuController: UIViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var storyboard = UIStoryboard(name: "Main", bundle: nil)
-        switch (indexPath.row)
-        {
-            case 0:
-                //println(indexPath.row
-                break
+        
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            println("Work Dispatched")
+            // Do heavy or time consuming work
+           
+           
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                [weak self] in
+                // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
                 
-            case 1:
-                //println(indexPath.row)
+                if let weakSelf = self {
+                    
+                    var storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    switch (indexPath.row)
+                    {
+                    case 0:
+                        //println(indexPath.row
+                        break
+                        
+                    case 1:
+                        //println(indexPath.row)
+                        
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        break
+                        
+                    case 2:
+                        //println(indexPath.row)
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("Measurements") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        //println(indexPath.row)
+                        //println(indexPath.row)
+                        break
+                        
+                    case 3:
+                        //println(indexPath.row)
+                        let notificationCenter = NSNotificationCenter.defaultCenter()
+                        notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
+                        
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        break
+                        
+                    case 4:
+                        //println(indexPath.row)
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("NewMinistryTVC") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        //println(indexPath.row)
+                        break
+                        
+                    case 5:
+                        //println(indexPath.row)
+                        break
+                        
+                    case 6:
+                        //println(indexPath.row)
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("settings") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        //println(indexPath.row)
+                        break
+                        
+                        
+                    case 7:
+                        //println(indexPath.row)
+                        let notificationCenter = NSNotificationCenter.defaultCenter()
+                        notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
+                        break
+                        
+                    default:
+                        break
+                    }
+                    
+                }
                 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
-                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                self.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                    })
-                
-                break
-                
-            case 2:
-                //println(indexPath.row)
-                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("Measurements") as! UIViewController
-                self.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                //println(indexPath.row)
-                //println(indexPath.row)
-                break
-                
-            case 3:
-                //println(indexPath.row)
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
-
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
-                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                self.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                break
-                
-            case 4:
-                //println(indexPath.row)
-                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("NewMinistryTVC") as! UIViewController
-                self.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                //println(indexPath.row)
-                break
-                
-            case 5:
-                //println(indexPath.row)
-                break
-                
-            case 6:
-                //println(indexPath.row)
-                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("settings") as! UIViewController
-                self.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                //println(indexPath.row)
-                break
-                
-                
-            case 7:
-                //println(indexPath.row)
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
-                break
-                
-            default:
-                break
+            }
         }
+        
+        
+      
     }
     
     func SupprotedStaffSwichChange(swtch: UISwitch)

@@ -29,7 +29,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
    
     // @IBOutlet var menuButton: UIButton!
     @IBOutlet var menuButton: UIBarButtonItem!//
-    var rightAddBarButtonItem: UIBarButtonItem!//
+    //  var rightAddBarButtonItem: UIBarButtonItem!//
 
     @IBOutlet weak var lblMove: UILabel!
     
@@ -56,22 +56,32 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        hasBeenFetchData = true
+        // self.makeMenuButtonActive()
+        
         isMarkerDraggable = false
         isFilterPopupOpen = false
         autocompleteTableView.tag = 0
         self.calloutView = SMCalloutView()
         menuButton.target = self.revealViewController()
         menuButton.action = Selector("revealToggle:")
-        
+
         // 1
-        rightAddBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "rightMenuTap")
-        rightAddBarButtonItem.image = UIImage(named: "mapFilters")
         
+        let button: UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        //set image for button
+        button.setImage(UIImage(named: "mapFilters"), forState: UIControlState.Normal)
+        //add function for button
+        button.addTarget(self, action: "rightMenuTap", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        button.frame = CGRectMake(0, 0, 20, 20)
+        
+        var rightAddBarButtonItem = UIBarButtonItem(customView: button)
         // 2
         var rightSearchBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Search, target: self, action: "showSearchBar:")
         // 3
-        self.navigationItem.setRightBarButtonItems([rightAddBarButtonItem,rightSearchBarButtonItem], animated: true)
+        self.navigationItem.setRightBarButtonItems([rightAddBarButtonItem,rightSearchBarButtonItem], animated: false)
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext!
@@ -93,7 +103,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         self.mapView.settings.compassButton = true
 
-        self.makeMenuButtonActive()
         
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "makeMenuButtonActive", name: "makeMenuButtonActiveKey", object: nil)
     }
@@ -102,13 +111,13 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     {
         if hasBeenFetchData == true{
             menuButton.enabled = true
-            rightAddBarButtonItem.enabled = true
-            self.navigationController?.navigationBarHidden = false
+            // rightAddBarButtonItem.enabled = true
+            // self.navigationController?.navigationBarHidden = false
         }
         else{
             menuButton.enabled = false
-            rightAddBarButtonItem.enabled = true
-            self.navigationController?.navigationBarHidden = true
+            // rightAddBarButtonItem.enabled = true
+            //f self.navigationController?.navigationBarHidden = true
         }
     }
     
@@ -139,7 +148,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     
                     m.map = nil
                 }
-                
             }
             
             self.deleteTraning(trainingDic as! JSONDictionary)
@@ -342,7 +350,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             self.isFilterPopupOpen = false
             self.subView.removeFromSuperview()
-            self.redrawMap()
+            // self.redrawMap()
         }
         else
         {
@@ -394,20 +402,23 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     {
         
        
-
-        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-        dispatch_async(backgroundQueue, {
-            //println("This is run on the background queue")
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            println("Work Dispatched")
+            // Do heavy or time consuming work
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                //println("This is run on the main queue, after the previous code in outer block")
-               
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                
                 self.isFilterPopupOpen = false
                 self.subView.removeFromSuperview()
-                self.redrawMap()
-                })
-            })
+                
+                
+                
+            }
+            
+        }
+        
+
         
        
            }
@@ -476,7 +487,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         data["marker_type"] = "new_training"
         data["name"] = ""
-        data["type"] = ""
+        data["type"] = "Other"
         data["date"] = GlobalFunctions.currentDate()
         
         let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as! trainingViewController
@@ -679,17 +690,293 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func redrawMap(){
        
-        hasBeenFetchData = true
-        self.makeMenuButtonActive()
+//        hasBeenFetchData = true
+//        self.makeMenuButtonActive()
+       /*
+        var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
+        var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            println("Work Dispatched")
+            // Do heavy or time consuming work
+    
+     
+            
+            if(mcc != nil){
+                mcc = mcc!.lowercaseString
+            }
+            if  mcc! == "llm" || mcc! == "slm"  {
+                
+                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowTargets)
+                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowGroups)
+                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowChurches)
+                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowMultiplyingChurches)
+                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowParents)
+            }
 
-        //
+            if ministryId != nil{
+                let min_name=NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as! String!
+                let mcc=NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String!
+                
+                //  self.lblMinistry.text = "\(min_name) (\(mcc))"
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let managedContext = appDelegate.managedObjectContext!
+                var error: NSError?
+                
+                
+                
+                let fetchRequest = NSFetchRequest(entityName:"Church")
+                
+                
+                let fr =  NSFetchRequest(entityName:"Ministry" )
+                fr.predicate = NSPredicate(format: "id == %@", ministryId! )
+                
+                
+                let min = managedContext.executeFetchRequest(fr,error: &error) as! [Ministry]
+                if min.count>0{
+                    self.ministry = min.first!
+                    
+                    
+                    //  mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(ministry!.latitude.doubleValue as CLLocationDegrees,ministry!.longitude.doubleValue as CLLocationDegrees), zoom: ministry.zoom.floatValue , bearing: 0, viewingAngle: 0)
+                }
+                var devs:[Int] = Array()
+                if ((NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kShowTargets) as! Bool?) != false) { devs.append(1) }
+                if ((NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kShowGroups) as! Bool?) != false) { devs.append(2) }
+                
+                if ((NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kShowChurches) as! Bool?) != false) { devs.append(3) }
+                
+                if ((NSUserDefaults.standardUserDefaults().objectForKey(GlobalConstants.kShowMultiplyingChurches) as! Bool?) != false) { devs.append(5) }
+                
+                let pred1=NSPredicate(format: "ministry_id = %@", ministryId!)
+                let pred2=NSPredicate(format: "development in %@", devs)
+                
+                
+                
+                // let pred = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType,  subpredicates: [pred1, pred2])
+                
+                
+                fetchRequest.predicate = NSCompoundPredicate(type: NSCompoundPredicateType.AndPredicateType, subpredicates: [pred1, pred2])
+                
+                self.churches =
+                    managedContext.executeFetchRequest(fetchRequest,
+                        error: &error) as! [Church]?
+            }
+            
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                
+                
+                //Find Items to delete
+                var toDelete = self.markers.filter {  (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
+                
+                // update some UI
+                
+                for m in toDelete{
+                    
+                    m.map = nil
+                    
+                }
+                
+                //Filter the current list
+                self.markers = self.markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String == "church" && mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
+                
+                //  markers.removeAll(keepCapacity: false)
+                for l in self.churchLines{
+                    
+                    l.map = nil
+                    
+                }
+                
+                for d in self.churchdots{
+                    
+                    d.map = nil
+                    
+                }
+                
+                self.churchLines.removeAll(keepCapacity: false)
+                self.churchdots.removeAll(keepCapacity: false)
+                
+                for c  in self.churches {
+                    //determine add or update.
+                    var marker: GMSMarker!
+                    let searchMarkers = (self.markers.filter { (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String == "church" && (($0 as GMSMarker).userData as! JSONDictionary)["id"] as! NSNumber == c.id} ) as [GMSMarker]
+                    
+                    var  position  = CLLocationCoordinate2DMake( c.valueForKey("latitude") as! CLLocationDegrees,c.valueForKey("longitude") as! CLLocationDegrees)
+                    
+                    if searchMarkers.count > 0{
+                        //update
+                        marker = searchMarkers.first
+                        
+                    }
+                    else{
+                        
+                        marker = GMSMarker(position: position)
+                        marker.map = self.mapView
+                        marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                        marker.groundAnchor = CGPointMake(0.5, 1.0)
+                        self.markers.append(marker)
+                    }
+                    
+                    
+                    
+                    
+                    var dict = JSONDictionary()
+                    dict["marker_type"] = "church"
+                    
+                    for key in c.entity.attributesByName.keys.array{
+                        dict[key as! String]=c.valueForKey(key as! String)
+                    }
+                    
+                    marker.icon = UIImage(named: mapViewController.getIconNameForChurch(c.valueForKey("development") as! NSNumber ) )
+                    
+                    marker.title = c.valueForKey("name") as! String
+                    
+                    marker.userData = dict
+                    
+                    if NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kShowParents) == true {
+                        
+                        if let parent = c.parent as Church? {
+                            let  path =  GMSMutablePath()
+                            
+                            path.addLatitude(parent.latitude as CLLocationDegrees, longitude: parent.longitude as CLLocationDegrees)
+                            path.addLatitude(c.latitude as CLLocationDegrees, longitude: c.longitude as CLLocationDegrees)
+                            
+                            let  line = GMSPolyline(path: path)
+                            line.strokeWidth = 2
+                            
+                            var grad = GMSStrokeStyle.gradientFromColor(UIColor.blackColor(), toColor: UIColor.lightGrayColor())
+                            
+                            line.spans = [GMSStyleSpan(style: grad)]
+                            
+                            
+                            line.strokeColor = UIColor.lightGrayColor()
+                            
+                            line.map = self.mapView
+                            var  marker2 = GMSMarker(position: CLLocationCoordinate2DMake( parent.latitude as CLLocationDegrees,parent.longitude as CLLocationDegrees))
+                            marker2.icon = UIImage(named:"dot" )
+                            
+                            
+                            marker2.map = self.mapView
+                            marker2.userData = c.id
+                            
+                            marker2.groundAnchor = CGPointMake(0.5, 0.5)
+                            
+                            
+                            /*
+                            var circle = CLLocationCoordinate2D(latitude: parent.latitude as CLLocationDegrees, longitude: parent.longitude as CLLocationDegrees)
+                            var circ = GMSCircle(position: circle, radius: 80)
+                            circ.fillColor=UIColor.blackColor()
+                            circ.map = self.mapView */
+                            
+                            dict["parent_name"] = parent.name
+                            marker.userData = dict
+                            
+                            
+                            self.churchLines.append(line)
+                            self.churchdots.append(marker2)
+                            
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
+                }
+
+                
+            }
+        }
         
         
-//        if HasMcc().hasMcc() == false {
-//            
-//            return
-//        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            println("Work Dispatched")
+            // Do heavy or time consuming work
+            if mcc != nil{
+                
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let managedContext = appDelegate.managedObjectContext!
+                var error: NSError?
+                
+                let fetchRequest2 = NSFetchRequest(entityName:"Training")
+                fetchRequest2.predicate = NSPredicate(format: "ministry_id = %@ AND mcc = %@ AND !( latitude = 0 AND longitude = 0)", ministryId!, mcc!.lowercaseString)
+                self.training =
+                    appDelegate.managedObjectContext!.executeFetchRequest(fetchRequest2,  // change managedContext
+                        error: &error) as! [Training]?
+                
+            }
+            
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                
+                
+                if NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kShowTraining) == false {
+                    
+                    //Find Items to delete
+                    var toDelete = self.markers.filter {  (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
+                    
+                    
+                    // update some UI
+                    
+                    
+                    
+                    for m in toDelete{
+                        
+                        if(m.userData.valueForKey("marker_type") as! String == "training"){
+                            
+                            m.map = nil
+                            
+                        }
+                        else {
+                            
+                            
+                        }
+                        
+                    }
+                    
+                    
+                }
+                
+                
+                if NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kShowTraining) == true {
+                    
+                    
+                    for t  in self.training {
+                        var dict = JSONDictionary()
+                        dict["marker_type"] = "training"
+                        for key in t.entity.attributesByName.keys.array{
+                            dict[key as! String] = t.valueForKey(key as! String)
+                        }
+                        
+                        dict["stages"] = t.stages
+                        
+                        var  position  = CLLocationCoordinate2DMake(t.valueForKey("latitude") as! CLLocationDegrees, t.valueForKey("longitude") as! CLLocationDegrees)
+                        
+                        var  marker = GMSMarker(position: position)
+                        marker.icon = UIImage(named: "train" )
+                        
+                        marker.title = t.valueForKey("name") as! String
+                        marker.map = self.mapView
+                        marker.userData = dict
+                        marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+                        marker.groundAnchor = CGPointMake(0.5, 1.0)
+                        self.markers.append(marker)
+                    }
+                    
+                }
+                
+            
+            
+
+            }
         
+        }
+    
+    */
+    
+    
+    
+      
         let qualityOfServiceClass = QOS_CLASS_BACKGROUND
         let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
         dispatch_async(backgroundQueue, {
@@ -779,13 +1066,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     
                     for m in toDelete{
                         
-//                        if(m.userData.valueForKey("marker_type") as! String == "training"){
-//                            
-//                        }
-//                        else {
-                        
                              m.map = nil
-                        // }
                        
                     }
                     
@@ -978,6 +1259,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 
             })
         })
+       
         
      
 }
@@ -1035,14 +1317,18 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     func searchAutocompleteEntriesWithSubstring(substring: String){
         
         autocompleteList.removeAll(keepCapacity: false)
-        
-        for c in churches{
-            var r:NSRange = (c.name.lowercaseString as NSString).rangeOfString(substring.lowercaseString)
-            if r.location == 0{
-                autocompleteList.append(c.name)
+        if let allChurch = churches {
+            for c in allChurch{
+                var r:NSRange = (c.name.lowercaseString as NSString).rangeOfString(substring.lowercaseString)
+                if r.location == 0{
+                    autocompleteList.append(c.name)
+                }
             }
+            autocompleteTableView.reloadData()
+
         }
-        autocompleteTableView.reloadData()
+        
+        
     }
 
     
@@ -1145,6 +1431,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 
                 data = JSONDictionary()
             }
+            
             var vc:UIViewController!
             switch data["marker_type"] as! String!{
                 case "church":
@@ -1154,6 +1441,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     vc=ch as UIViewController
                 
                 case "training":
+                    NSUserDefaults.standardUserDefaults().setObject(data["date"], forKey: "createdDate")
                     let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as! trainingViewController
                     tr.data = data
                     tr.mapVC = self
@@ -1501,62 +1789,92 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func changeSwitch(switchIndex: UISwitch)
     {
-        if((switchIndex.tag % 1000) == 0)
-            {
-                    if(switchIndex.on){
-                        NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowTargets)
-                    }
-                    else{
-                        NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowTargets)
-                    }
-            }
-            else if((switchIndex.tag % 1000) == 1)
-            {
-                if(switchIndex.on){
-                    NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowGroups)
-                }
-                else{
-                    NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowGroups)
-                }
-            }
-            else if((switchIndex.tag % 1000) == 2)
-            {
-                if(switchIndex.on){
-                    NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowChurches)
-                }
-                else{
-                    NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowChurches)
-                }
+        
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            println("Work Dispatched")
+            // Do heavy or time consuming work
+              self.redrawMap()
+            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            dispatch_async(dispatch_get_main_queue()){
+                [weak self] in
+                // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
                 
-                //call the method for reset the data//
-            }
-            else if((switchIndex.tag % 1000) == 3)
-            {
-                if(switchIndex.on){
-                    NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowMultiplyingChurches)
+                if let weakSelf = self {
+                    
+                    if((switchIndex.tag % 1000) == 0)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowTargets)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowTargets)
+                        }
+                    }
+                    else if((switchIndex.tag % 1000) == 1)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowGroups)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowGroups)
+                        }
+                    }
+                    else if((switchIndex.tag % 1000) == 2)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowChurches)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowChurches)
+                        }
+                        
+                        //call the method for reset the data//
+                    }
+                    else if((switchIndex.tag % 1000) == 3)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowMultiplyingChurches)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowMultiplyingChurches)
+                        }
+                    }
+                    else if ((switchIndex.tag % 1000) == 4)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowParents)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowParents)
+                        }
+                    }
+                    else if ((switchIndex.tag % 1000) == 5)
+                    {
+                        if(switchIndex.on){
+                            NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowTraining)
+                        }
+                        else{
+                            NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowTraining)
+                        }
+                    }
+                    
+
+                    
+                    
+                    
+                    
                 }
-                else{
-                    NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowMultiplyingChurches)
-                }
-            }
-        else if ((switchIndex.tag % 1000) == 4)
-        {
-            if(switchIndex.on){
-                NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowParents)
-            }
-            else{
-                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowParents)
+        
             }
         }
-        else if ((switchIndex.tag % 1000) == 5)
-        {
-            if(switchIndex.on){
-                NSUserDefaults.standardUserDefaults().setValue(switchIndex.on, forKey: GlobalConstants.kShowTraining)
-            }
-            else{
-                NSUserDefaults.standardUserDefaults().setValue(false, forKey: GlobalConstants.kShowTraining)
-            }
-        }
+
+        
+        
+        
+        
+        
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
