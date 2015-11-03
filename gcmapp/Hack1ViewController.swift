@@ -142,6 +142,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
     */
     
     @IBAction func segmentNavigationChanged(sender: UISegmentedControl) {
+        
         switch segmentNavigation.selectedSegmentIndex{
         case 0:
             flag = false
@@ -158,6 +159,32 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         default:
             break
         }
+        
+        /*Done By caleb for remove the crash if there is no measurement.*/
+        if self.pageViewControllerFaith.viewControllers.count > 0{
+            let pcvc = self.pageViewControllerFaith.viewControllers.last  as! PageContentViewController
+            btnTotalFaith.hidden = false
+        }
+        else{
+            btnTotalFaith.hidden = true
+        }
+        
+        if self.pageViewControllerFruit.viewControllers.count > 0{
+            let pcvc = self.pageViewControllerFruit.viewControllers.last  as! PageContentViewController
+            btnTotalFruit.hidden = false
+        }
+        else{
+            btnTotalFruit.hidden = true
+        }
+        
+        if self.pageViewControllerOutcomes.viewControllers.count > 0{
+            let pcvc = self.pageViewControllerOutcomes.viewControllers.last  as! PageContentViewController
+            btnTotalOutcome.hidden = false
+        }
+        else{
+            btnTotalOutcome.hidden = true
+        }
+        //_________________________//
     }
     
     @IBAction func periodChanged(sender: UISegmentedControl) {
@@ -462,8 +489,6 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.OTHER) {
             self.pageViewControllerOther.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         }
-        
- 
     }
     
     
@@ -1176,7 +1201,6 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 // btnTotalFaith.setTitle(pcvc.getLiveTotal(), forState: UIControlState.Normal)
                 // lblTotalFaith.text = pcvc.getLiveTotal()
             }
-           
         case FRUIT:
             heightConstraint = measurementsViewFruitHeight
             mView = measurementsViewFruit
@@ -1188,6 +1212,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 
                 //lblTotalFruit.text = pcvc.getLiveTotal()
             }
+            
         case OUTCOMES:
             heightConstraint = measurementsViewOutcomesHeight
             mView = measurementsViewOutcomes
@@ -1213,9 +1238,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             viewsHeaderTop = self.faithHeader
             viewsHeaderBottom = self.fruitHeader
         }
-        btnTotalFaith.hidden = (viewType != FAITH)
-        btnTotalFruit.hidden = (viewType != FRUIT)
-        btnTotalOutcome.hidden = (viewType != OUTCOMES)
+//        btnTotalFaith.hidden = (viewType != FAITH)
+//        btnTotalFruit.hidden = (viewType != FRUIT)
+//        btnTotalOutcome.hidden = (viewType != OUTCOMES)
         btnTotalOther.hidden = (viewType != OTHER)
         
         mView.hidden = false

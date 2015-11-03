@@ -138,6 +138,7 @@ extension Measurements {
         
         return rtn
     }
+    
     func updateMeasurementDetailFromResponse(md: JSONDictionary,ministry_id:String,period:String,mcc:String, managedContext:NSManagedObjectContext) {
         self.id_total = ((md["measurement_type_ids"] as! JSONDictionary)["total"] as! String)
         self.id_local = (md["measurement_type_ids"] as! JSONDictionary)["local"] as! String
@@ -166,9 +167,6 @@ extension Measurements {
         
         //Process the details
         mv.updateDetailFromResp(md, managedContext: managedContext)
-        
-        
-        
         
         
         if !managedContext.save(&error) {

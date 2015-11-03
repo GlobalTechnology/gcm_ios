@@ -62,6 +62,7 @@ extension MeasurementValue{
        
         
     }
+    
     func addLocalSource(source: String, value: NSNumber, managedContext: NSManagedObjectContext){
         var ls:MeasurementLocalSource!
         var lss = self.localSources.filteredSetUsingPredicate(NSPredicate(format: "name = %@", source))
@@ -111,6 +112,8 @@ extension MeasurementValue{
             managedContext.deleteObject(sm as! NSManagedObject)
         }
         for t in self.teamValues{
+            
+            //causing crash
             managedContext.deleteObject(t as! NSManagedObject)
         }
         for sa in self.selfAssigned{

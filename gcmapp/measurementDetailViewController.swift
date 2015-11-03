@@ -21,8 +21,6 @@ class measurementDetailViewController: UITableViewController {
     
     @IBOutlet weak var activity: UIActivityIndicatorView!
     
-    
-    
     var period:String!
     var team_role:String!
     var minus:UIButton!
@@ -30,8 +28,6 @@ class measurementDetailViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         team_role=(NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String)
-        
-        
     }
     
     
@@ -49,6 +45,7 @@ class measurementDetailViewController: UITableViewController {
         var mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
         //println(mcc)
         var search_this_period = (measurement.measurementValue.allObjects as! [MeasurementValue]).filter {$0.period == self.period as String && $0.mcc == mcc}
+        
         if search_this_period.count>0{
             self.this_period_values = search_this_period[0] as MeasurementValue
         }
@@ -64,18 +61,20 @@ class measurementDetailViewController: UITableViewController {
             if !managedContext.save(&error) {
                 //println("Could not save \(error), \(error?.userInfo)")
             }
-            
-            
         }
         
-        self.tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
+        
+        //self.tableView.reloadData()
         //        let tracker = GAI.sharedInstance().defaultTracker
         //        tracker.set(kGAIScreenName, value: "Measurement Details")
         //        tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
     }
     
     func backButtonClicked(sender: AnyObject){
-        self.tableView.resignFirstResponder()
+        //self.tableView.resignFirstResponder()
         /* var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
@@ -90,11 +89,7 @@ class measurementDetailViewController: UITableViewController {
         */
         
         
-        
         self.dismissViewControllerAnimated(true, completion: nil)
-        
-        
-        
     }
     
     
@@ -103,6 +98,7 @@ class measurementDetailViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
+
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch(section){
@@ -115,7 +111,6 @@ class measurementDetailViewController: UITableViewController {
         default:
             return ""
         }
-        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,12 +146,11 @@ class measurementDetailViewController: UITableViewController {
         default:
             return 0
         }
-        
-        
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+                
         switch(indexPath.section){
         case 0:
             if self.team_role == "member"{
@@ -164,20 +158,16 @@ class measurementDetailViewController: UITableViewController {
                 cell.textLabel!.text = "Local Team Value:"
                 
                 cell.detailTextLabel?.text  = (self.this_period_values.localSources.valueForKeyPath("@sum.value") as! NSNumber).stringValue
-                
+                                                                                                                                                                                       
                 return cell
             }
             else{
                 var localValue = self.this_period_values.localSources.allObjects[indexPath.row] as! MeasurementLocalSource
                 
-                
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as! UITableViewCell
                 cell.textLabel!.text = localValue.name
                 cell.detailTextLabel?.text  = localValue.value.stringValue
                 return cell
-                
-                
-                
             }
             
         case 1:
@@ -187,6 +177,7 @@ class measurementDetailViewController: UITableViewController {
                 let tm = (self.this_period_values.teamValues.allObjects[indexPath.row] as! MeasurementValueTeam)
                 cell.textLabel!.text = tm.first_name + " " + tm.last_name
                 cell.detailTextLabel?.text  = tm.total.stringValue
+                
                 return cell
             case "member":
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as! UITableViewCell
@@ -206,10 +197,6 @@ class measurementDetailViewController: UITableViewController {
                 var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
             }
-            
-            
-            
-            
             
         case 2:
             var cell = tableView.dequeueReusableCellWithIdentifier("measDetailCell", forIndexPath: indexPath) as! UITableViewCell
