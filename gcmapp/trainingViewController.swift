@@ -46,8 +46,13 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 training.changed   =  true
                 training.name      =  data["name"] as! String
-                training.type      =  data["type"] as! String
-                
+                if(data["type"] as! String == "Other"){
+                    training.type =  ""
+                }
+                else{
+                    training.type =  data["type"] as! String
+                }
+            
                 //println(training.type)
                 training.longitude =  data["longitude"] as! Float
                 training.latitude  =  data["latitude"] as! Float
@@ -686,8 +691,8 @@ override func viewDidAppear(animated: Bool) {
 //    }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool{
-    //func textFieldDidEndEditing(textField: UITextField) {
+    //func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool{
+    func textFieldDidEndEditing(textField: UITextField) {
         self.changed = true
 
         if(textField.tag == -1)
@@ -714,7 +719,6 @@ override func viewDidAppear(animated: Bool) {
                 }
         }
         
-        return true
     }
     
     

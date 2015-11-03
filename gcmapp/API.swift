@@ -338,7 +338,7 @@
                 //println(url)
                 
                 var body = training.toJson()
-                 //println(body)
+                println(body)
                 makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
             }
             func updateMinistry(ministry: Ministry, callback: APICallback){

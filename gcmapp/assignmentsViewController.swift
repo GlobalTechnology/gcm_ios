@@ -80,11 +80,9 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
                     }
                 }
                 
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                //notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
                 
-                //let notificationCenter = NSNotificationCenter.defaultCenter()
-                //notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
+//                let notificationCenter = NSNotificationCenter.defaultCenter()
+//                notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
                 
             }
             // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes

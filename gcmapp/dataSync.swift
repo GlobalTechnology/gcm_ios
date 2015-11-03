@@ -965,29 +965,38 @@ class dataSync: NSObject {
     
     func saveContext() {
         
+        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-         appDelegate.saveContext()
+
+        appDelegate.saveContext()
+        
+      
 //        var error: NSError? = nil
 //        managedContext.save(&error)
 
+      
         
     }
+    
+    
     
     func updateChurch(){
         if self.checkTokenAndConnection() == false{
             return;
         }
         
-         var  temp = Bool()
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
-            // Do heavy or time consuming work
+        moc?.performBlock ({
+            
+        
             var error: NSError?
             let frChurch =  NSFetchRequest(entityName:"Church" )
             let pred = NSPredicate(format: "changed == true" )
             frChurch.predicate=pred
-            let ch_changed = self.managedContext.executeFetchRequest(frChurch,error: &error) as! [Church]
+            let ch_changed = moc!.executeFetchRequest(frChurch,error: &error) as! [Church]
             for ch in ch_changed{
                 
                 if ch.id == -1{
@@ -996,16 +1005,15 @@ class dataSync: NSObject {
                         if data != nil{
                             ch.changed=false
                             ch.id=(data as! JSONDictionary)["id"]  as! NSNumber
-                            //println("saved: \(ch.id)")
-                            //                        var error: NSError?
-                            //                        if !self.managedContext.save(&error) {
-                            //                            //println("Could not save \(error), \(error?.userInfo)")
-                            //                        }
-                            self.saveContext()
+                            var error: NSError?
+                            if !moc!.save(&error) {
+                                //println("Could not save \(error), \(error?.userInfo)")
+                            }
                             
-                                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
                         }
-                    }                    
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
+                    }
                 }
                 else{
                     API(token: self.token! as String).saveChurch(ch){
@@ -1013,44 +1021,55 @@ class dataSync: NSObject {
                         if data != nil{
                             if (data as! Bool){
                                 ch.changed=false
-                                self.saveContext()
-                                
-                                
-                                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
-                                //                            var error: NSError?
-                                //                            if !self.managedContext.save(&error) {
-                                //                                //println("Could not save \(error), \(error?.userInfo)")
-                                //                            }
+                                var error: NSError?
+                                if !moc!.save(&error) {
+                                    //println("Could not save \(error), \(error?.userInfo)")
+                                }
                                 
                             }
                         }
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
+
                     }
                 }
                 
             }
+     
             
-            
-        }
+        })
+        
+   
+        
+        
     }
+    
+    
     
     func updateTraining(){
         if self.checkTokenAndConnection() == false{
             return;
         }
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        //NSManagedObjectContext(concurrencyType:  NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
         
-        var  temp = Bool()
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
-            // Do heavy or time consuming work
+        moc?.performBlock ({
+        
             var error: NSError?
             let frTraining =  NSFetchRequest(entityName:"Training" )
             let pred = NSPredicate(format: "changed == true" )
             frTraining.predicate=pred
-            let tr_changed = self.managedContext.executeFetchRequest(frTraining,error: &error) as! [Training]
+            let tr_changed = moc!.executeFetchRequest(frTraining,error: &error) as! [Training]
             println(tr_changed)
             for tr in tr_changed{
                 if tr.id == -1{
+                    
+                    println(self.token!)
+                    println(tr)
+
                     API(token: self.token! as String).addTraining(tr){
                         (data: AnyObject?,error: NSError?) -> Void in
                         
@@ -1060,9 +1079,17 @@ class dataSync: NSObject {
                             tr.changed=false
                             tr.id=(data as! JSONDictionary)["id"]  as! NSNumber
                             //println("saved: \(tr.id)")
-                            self.saveContext()
+                            var error: NSError?
+                            if !moc!.save(&error) {
+                                //println("Could not save \(error), \(error?.userInfo)")
+                            }
+
                             
                         }
+                        
+                       
+                            NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
+                       
                     }
                 }
                 else{
@@ -1071,30 +1098,30 @@ class dataSync: NSObject {
                         if data != nil{
                             if (data as! Bool){
                                 tr.changed=false
-                                self.saveContext()
+                                var error: NSError?
+                                if !moc!.save(&error) {
+                                    //println("Could not save \(error), \(error?.userInfo)")
+                                }
                                 
                                 
                             }
                         }
+                    
+                        
+                            NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
+                        
+                    
                     }
                 }
             }
-
-//            let nc = NSNotificationCenter.defaultCenter()
-//            nc.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
             
-            if(temp == false){
-                temp = true
-                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
-            }
             
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
             
-        }
+           
+        })
         
+        
+ 
        
         
     }
@@ -1103,15 +1130,18 @@ class dataSync: NSObject {
         if self.checkTokenAndConnection() == false{
             return;
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
-            // Do heavy or time consuming work
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
             
             var error: NSError?
             let frTrainingCompletion =  NSFetchRequest(entityName:"TrainingCompletion" )
             let pred = NSPredicate(format: "changed == true" )
             frTrainingCompletion.predicate=pred
-            let tc_changed = self.managedContext.executeFetchRequest(frTrainingCompletion,error: &error) as! [TrainingCompletion]
+            let tc_changed = moc!.executeFetchRequest(frTrainingCompletion,error: &error) as! [TrainingCompletion]
             for tc in tc_changed{
                 API(token: self.token! as String).saveTrainingCompletion(tc){
                     (data: AnyObject?,error: NSError?) -> Void in
@@ -1120,16 +1150,16 @@ class dataSync: NSObject {
                         
                         if (data as! Bool){
                             tc.changed=false
-                            self.saveContext()
+                            var error: NSError?
+                            if !moc!.save(&error) {
+                                //println("Could not save \(error), \(error?.userInfo)")
+                            }
                         }
                     }
                 }
             }
 
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-            }
-        }
+        })
         
         
     }
@@ -1262,17 +1292,26 @@ class dataSync: NSObject {
     }*/
     
     func addTrainingStage(insert:createTrainingStage, sender: trainingViewController){
-        API(token: token! as String).addTrainingCompletion(insert){
-            (data: AnyObject?,error: NSError?) -> Void in
-            if data != nil{
-                dispatch_async(dispatch_get_main_queue(),{
+        
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+            
+            
+            API(token: self.token! as String).addTrainingCompletion(insert){
+                (data: AnyObject?,error: NSError?) -> Void in
+                if data != nil{
+                    
                     let tc:JSONDictionary = data as! JSONDictionary
                     var error: NSError?
                     //get Training
                     let fr =  NSFetchRequest(entityName:"Training" )
                     fr.predicate = NSPredicate(format: "id == %@", insert.training_id )
                     
-                    let tr = self.managedContext.executeFetchRequest(fr,error: &error) as! [Training]
+                    let tr = moc!.executeFetchRequest(fr,error: &error) as! [Training]
                     if tr.count>0{
                         
                         let allTC = tr.first!.stages.allObjects as! [TrainingCompletion]
@@ -1283,9 +1322,12 @@ class dataSync: NSObject {
                             training_comp=this_tc.first
                             
                         } else {
+                            
+                            
                             let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: self.managedContext)
                             training_comp = NSManagedObject(entity: entity2!,
-                                insertIntoManagedObjectContext:self.managedContext) as! TrainingCompletion
+                                insertIntoManagedObjectContext:moc!) as! TrainingCompletion
+                            
                         }
                         
                         //END: Add or Update
@@ -1297,11 +1339,11 @@ class dataSync: NSObject {
                         }
                         training_comp.training = tr.first!
                         
+                        var error: NSError?
+                        if !moc!.save(&error) {
+                            //println("Could not save \(error), \(error?.userInfo)")
+                        }
                         
-                        //                    if !self.managedContext.save(&error) {
-                        //                        //println("Could not save \(error), \(error?.userInfo)")
-                        //                    }
-                        self.saveContext()
                         sender.tc.append(training_comp)
                         sender.tableView.reloadData()
                         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -1309,14 +1351,14 @@ class dataSync: NSObject {
                         
                     }
                     
-                    
-                    
-                    
-                });
-                
-                
+                }
             }
-        }
+        
+        
+        })
+        
+        
+        
     }
     
     
@@ -1342,7 +1384,7 @@ class dataSync: NSObject {
         
         if let t = token {
             
-            if let ministry_id : AnyObject = mapInfo["default_map_views"]?.valueForKey("ministry_id") {
+            if let ministry_id : AnyObject = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
                 
                 API(token: t as String).saveUser_preferences(mapInfo){
                     (data: AnyObject?,error: NSError?) -> Void in
