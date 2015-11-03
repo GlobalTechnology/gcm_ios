@@ -732,7 +732,7 @@ class dataSync: NSObject {
                             training.type = t["type"] as! String
                         }
                         else{
-                            training.type=""
+                            training.type=" "
                         }
                         
                         if !(t["latitude"]   is NSNull)   {
@@ -749,8 +749,6 @@ class dataSync: NSObject {
                     if t["gcm_training_completions"] as! Array<JSONDictionary>? != nil{
                         if ((t["gcm_training_completions"] as! Array<JSONDictionary>).count > 0){
                             let allTC = training.stages.allObjects as! [TrainingCompletion]
-                            
-                            
                             
                             for tc in t["gcm_training_completions"] as! Array<JSONDictionary>{
                                 
@@ -796,11 +794,6 @@ class dataSync: NSObject {
             }
             
         }
-        
-        
-        
-        
-        
        
         
     }
@@ -941,10 +934,8 @@ class dataSync: NSObject {
         
         
         //   api.st = service_ticket
-    
-        
-        
     }
+    
     func checkTokenAndConnection() -> Bool {
         
         switch (self.token != nil && self.token != "", Reachability.isConnectedToNetwork()){
@@ -987,6 +978,8 @@ class dataSync: NSObject {
             return;
         }
         
+         var  temp = Bool()
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             println("Work Dispatched")
             // Do heavy or time consuming work
@@ -1010,10 +1003,9 @@ class dataSync: NSObject {
                             //                        }
                             self.saveContext()
                             
+                                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
                         }
-                    }
-                    
-                    
+                    }                    
                 }
                 else{
                     API(token: self.token! as String).saveChurch(ch){
@@ -1022,6 +1014,9 @@ class dataSync: NSObject {
                             if (data as! Bool){
                                 ch.changed=false
                                 self.saveContext()
+                                
+                                
+                                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
                                 //                            var error: NSError?
                                 //                            if !self.managedContext.save(&error) {
                                 //                                //println("Could not save \(error), \(error?.userInfo)")
@@ -1033,15 +1028,9 @@ class dataSync: NSObject {
                 }
                 
             }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
+            
             
         }
-        
-  
-    
     }
     
     func updateTraining(){
@@ -1049,6 +1038,7 @@ class dataSync: NSObject {
             return;
         }
         
+        var  temp = Bool()
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             println("Work Dispatched")
@@ -1058,7 +1048,7 @@ class dataSync: NSObject {
             let pred = NSPredicate(format: "changed == true" )
             frTraining.predicate=pred
             let tr_changed = self.managedContext.executeFetchRequest(frTraining,error: &error) as! [Training]
-            
+            println(tr_changed)
             for tr in tr_changed{
                 if tr.id == -1{
                     API(token: self.token! as String).addTraining(tr){
@@ -1072,14 +1062,8 @@ class dataSync: NSObject {
                             //println("saved: \(tr.id)")
                             self.saveContext()
                             
-                            
-                            let notificationCenter = NSNotificationCenter.defaultCenter()
-                            notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
-                            
                         }
                     }
-                    
-                    
                 }
                 else{
                     
@@ -1088,20 +1072,30 @@ class dataSync: NSObject {
                             if (data as! Bool){
                                 tr.changed=false
                                 self.saveContext()
+                                
+                                
                             }
                         }
                     }
                 }
             }
 
+//            let nc = NSNotificationCenter.defaultCenter()
+//            nc.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
             // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
+            
+            if(temp == false){
+                temp = true
+                NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
+            }
+            
             dispatch_async(dispatch_get_main_queue()){
                 
             }
             
         }
         
-        
+       
         
     }
     

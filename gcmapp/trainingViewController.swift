@@ -111,7 +111,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
             // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
             
-                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawTrainingPinKey, object: nil, userInfo: data as JSONDictionary)
+//                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawTrainingPinKey, object: nil, userInfo: data as JSONDictionary)
             
             
 //            }
@@ -126,6 +126,24 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 training.first!.changed=true
                 training.first!.name=data["name"] as! String
                 training.first!.type=data["type"] as! String
+                
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy" //"yyyy-MM-dd"
+                
+                let strDate = dateFormatter.stringFromDate(datePickerCell.date)
+                
+                if let date = dateFormatter.dateFromString(strDate) {
+                    
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    training.first!.date = dateFormatter.stringFromDate(date)
+                    data["date"] = dateFormatter.stringFromDate(date)
+
+                } else {
+                    
+                    //println("Error message") // "Error message"
+                }
+                
             }
             
             if !managedContext.save(&error) {
@@ -138,7 +156,8 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             //broadcast for update
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
-            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
+            
+            //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
 
             //GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
@@ -510,7 +529,8 @@ override func viewDidAppear(animated: Bool) {
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
             switch(indexPath.row){
             case 0: // back
-              
+
+                println(data)
                 if data["name"] as? String == "" {
                     isEmptyField = true
                 }
@@ -601,6 +621,8 @@ override func viewDidAppear(animated: Bool) {
                 break
                 
             case 3:
+                self.changed = true
+
                 var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
                 if (cell.isKindOfClass(DatePickerCell)) {
                     var datePickerTableViewCell = cell as! DatePickerCell
@@ -663,10 +685,14 @@ override func viewDidAppear(animated: Bool) {
 //        return true
 //    }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool{
+    //func textFieldDidEndEditing(textField: UITextField) {
+        self.changed = true
+
         if(textField.tag == -1)
         {
-            return
+            data["name"] = textField.text as NSString
         }
         else{
                 let stage = tc[textField.tag] as TrainingCompletion
@@ -678,7 +704,6 @@ override func viewDidAppear(animated: Bool) {
                 {
                     stage.number_completed = (textField.text as NSString).integerValue
                     stage.changed = true
-                    self.changed = true
         
                     var error: NSError?
         
@@ -687,13 +712,14 @@ override func viewDidAppear(animated: Bool) {
                     }
                     
                 }
-           }
         }
+        
+        return true
+    }
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return data["marker_type"] as! String == "new_training" ? 1 : 2
     }
-    
     
 }
