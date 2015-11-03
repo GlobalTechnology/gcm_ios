@@ -86,7 +86,6 @@ class ChurchTVC: UITableViewController {
             if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String {
                 
                 church.ministry_id = ministry_id
-                data["ministry_id"] = ministry_id
             }
             
             
@@ -96,13 +95,14 @@ class ChurchTVC: UITableViewController {
             }
 
 
-            var error: NSError? = nil
-            managedContext.save(&error)
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             //  notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
            
-            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawChurchPinKey, object: nil, userInfo: data as JSONDictionary)
+            //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawChurchPinKey, object: nil, userInfo: data as JSONDictionary)
             
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
             
@@ -151,7 +151,7 @@ class ChurchTVC: UITableViewController {
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
             
-            NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
+            //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
 
             //GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
