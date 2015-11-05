@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectionDataDelegate  {
     @IBOutlet weak var tbSearchBox: UITextField!
@@ -156,7 +157,8 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
         self.tableView.reloadData()
     }
     
-    
+    var mapVC:  mapViewController!
+
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
        // tbSearchBox.text = autocompleteList[indexPath.row]["name"] as String
@@ -188,6 +190,8 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
                 notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: userInfo)
                 
                 
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kJoinAnyMinistry)
+
                 if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kNoMinistrySelected) as Bool == true)
                 {
                     NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kNoMinistrySelected)

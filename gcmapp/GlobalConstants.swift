@@ -31,11 +31,14 @@ struct GlobalConstants {
     static let kShouldDeleteChurch = "kShouldDeleteChurch" // for delete Church
     static let kDidLoadMinistryMap = "kDidLoadMinistryMap" // for delete Church
     
+    static let kJoinAnyMinistry = "joinAnyMinistry" // for check any new ministry
     static let kNoMinistrySelected = "NoMinistrySelected" // for post if there is no ministry
     static let kDrawChurchPinKey = "drawChurchPinKey" // for Draw the church pin
     static let kDrawTrainingPinKey = "drawTrainingPinKey" // for Draw the training pin
     static let kUpdatePinInforamtionKey = "updatePinInforamtionKey" // for update the pin information
     static let kLogoutNotification = "logoutNotification" // for logout
+    
+    
     
     static let kFromLeftMenuHomeTap = "FromLeftMenuHomeTap" // for come from left slider menu
 
