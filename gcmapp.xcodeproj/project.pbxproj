@@ -31,6 +31,8 @@
 		30BADAF31B8485E500B9C74A /* HasMcc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BADAF11B847D4700B9C74A /* HasMcc.swift */; };
 		30BADAF51B849BDA00B9C74A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BADAF41B849BDA00B9C74A /* NotificationManager.swift */; };
 		30BADAF61B849BDA00B9C74A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BADAF41B849BDA00B9C74A /* NotificationManager.swift */; };
+		30BE6B631BEA58270014946B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BE6B621BEA58270014946B /* Utility.swift */; };
+		30BE6B641BEA58270014946B /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BE6B621BEA58270014946B /* Utility.swift */; };
 		30C82C6A1B901396004B5BDB /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C82C691B901396004B5BDB /* LoginVC.swift */; };
 		30C82C6B1B901396004B5BDB /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C82C691B901396004B5BDB /* LoginVC.swift */; };
 		47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
@@ -230,6 +232,7 @@
 		30B45CFA1B8F128B00F58D54 /* LeftMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuController.swift; sourceTree = "<group>"; };
 		30BADAF11B847D4700B9C74A /* HasMcc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasMcc.swift; sourceTree = "<group>"; };
 		30BADAF41B849BDA00B9C74A /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		30BE6B621BEA58270014946B /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		30C82C691B901396004B5BDB /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GMA copy-Info.plist"; sourceTree = "<group>"; };
 		47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GMA copy2-Info.plist"; sourceTree = "<group>"; };
@@ -595,6 +598,7 @@
 				FC5EE6C51AA06B4F00F86627 /* Church.swift */,
 				FC2E0DEE1A2E171A00DAC5A3 /* dataSync.swift */,
 				FC2E0DF01A2E181500DAC5A3 /* API.swift */,
+				30BE6B621BEA58270014946B /* Utility.swift */,
 				FCD401911A6D640C00950802 /* Measurement.swift */,
 				FC9401C41A850EDF002D54D1 /* createTrainingStage.swift */,
 				FC4D27911A2DFBC400C20288 /* gcmModel.xcdatamodeld */,
@@ -908,6 +912,7 @@
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
+				30BE6B631BEA58270014946B /* Utility.swift in Sources */,
 				FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */,
 				FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */,
 				FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */,
@@ -1014,6 +1019,7 @@
 				FC5EE6FE1AA073A600F86627 /* MeasurementValueSubTeam.swift in Sources */,
 				FC5EE6FF1AA073A600F86627 /* church+extension.swift in Sources */,
 				FC5EE7001AA073A600F86627 /* MeasurementMeSource+extension.swift in Sources */,
+				30BE6B641BEA58270014946B /* Utility.swift in Sources */,
 				30B45CF71B8F07E900F58D54 /* SWRevealViewController.m in Sources */,
 				30BADAF61B849BDA00B9C74A /* NotificationManager.swift in Sources */,
 				FC5EE7011AA073A600F86627 /* MeasurementValue+extension.swift in Sources */,

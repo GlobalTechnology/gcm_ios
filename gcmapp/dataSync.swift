@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 class dataSync: NSObject {
     
-    var managedContext: NSManagedObjectContext!
+    //var managedContext: NSManagedObjectContext!
     var token:NSString!
     var saving:Bool = false
     // let tracker = GAI.sharedInstance().defaultTracker
@@ -21,8 +21,8 @@ class dataSync: NSObject {
         super.init()
         
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        self.managedContext = appDelegate.managedObjectContext!
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        self.managedContext = appDelegate.managedObjectContext!
 
         NSUserDefaults.standardUserDefaults().setObject(GlobalFunctions.currentPeriod(), forKey: "period")
         
@@ -225,17 +225,20 @@ class dataSync: NSObject {
             
         // On kLogin -> Authorize the client
             
-            TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
+        TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
                     //println("... ticketForService() : ticket == nil!")
                     //TheKeyOAuth2Client.sharedOAuth2Client().logout()
                     return
                 }
                 
-                let queue = NSOperationQueue()
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
-                queue.addOperationWithBlock() {
-                    // do something in the background
+                var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+                
+                moc?.performBlock ({
+
+                    
                     var s = API(st: ticket!){
                         (data: AnyObject?, error: NSError?) -> Void in
                         if data == nil{
@@ -257,7 +260,7 @@ class dataSync: NSObject {
                             NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kIsRefreshingToken)
                             
                             var error: NSError?
-                            let allMinistries = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Ministry]?
+                            let allMinistries = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Ministry]?
                             
                             var user = resp["user"] as! Dictionary<String, String>
                             
@@ -309,11 +312,10 @@ class dataSync: NSObject {
                             // churches, training and measurements
                             if let currMinistryID = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String? {
                                 
-                                
                                 //  let currMCC = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString
                                 //
                                 //let currPeriod = NSUserDefaults.standardUserDefaults().objectForKey("period") as! String
-                                //   temp block   
+                                //   temp block
                                 NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
                                 // self.loadChurches(currMinistryID)
                                 // self.loadTraining(currMinistryID, mcc:currMCC)
@@ -324,100 +326,73 @@ class dataSync: NSObject {
                             //NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
                             //NSUserDefaults.standardUserDefaults().synchronize()
                             
-                            
-                            
-                            
-                            
                         } // end if response was a success
                         
-                        
-                        
-                        
                     }  // end API{}
-                    
-                    NSOperationQueue.mainQueue().addOperationWithBlock() {
-                        // when done, update your UI and/or model on the main queue
-                        
-                    }
-                }
                 
-//                let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-//                let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-//                dispatch_async(backgroundQueue, {
-//                    //println("This is run on the background queue")
-//                    
-//                    
-//                    // self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "login", label: nil, value: nil).build()  as [NSObject: AnyObject])
-//                    
-//                    
-//                    
-//                
-//               
-//                
-//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//     
-//                    })
-//                })
+                })
                 
             })
             
         }
         
-         // for refress All
-           notificationManager.registerObserver(GlobalConstants.kShouldRefreshAll, forObject: nil) { note in
+     // for refress All
+       notificationManager.registerObserver(GlobalConstants.kShouldRefreshAll, forObject: nil) { note in
+        
+       
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue, {
+            //println("This is run on the background queue")
             
-           
-            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-            dispatch_async(backgroundQueue, {
-                //println("This is run on the background queue")
-                
-                if self.token==nil{
-                    let notificationCenter = NSNotificationCenter.defaultCenter()
-                    notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+            if self.token==nil{
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.postNotificationName(GlobalConstants.kLogin, object: nil)
+                return;
+            }
+            
+            if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
+                var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as! NSDate
+                if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
                     return;
                 }
+            }
+            
+            var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
+            if ministry_id != nil{
                 
-                if NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") != nil{
-                    var last_update=NSUserDefaults.standardUserDefaults().objectForKey("last_refresh") as! NSDate
-                    if (-(last_update.timeIntervalSinceNow)  < (NSTimeInterval(GlobalConstants.RefreshInterval))){
-                        return;
-                    }
-                }
                 
-                var ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
-                if ministry_id != nil{
-                    
-                    
-                    self.updateChurch()
-                    self.updateMeasurements()
-                    self.updateTraining()
-                    self.updateTrainingCompletion()
-                    
-                    
-                    self.loadChurches(ministry_id!)
-                    self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
-                    self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
-                    NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                    
-                }
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    //main Queque
+                self.updateChurch()
+                self.updateMeasurements()
+                self.updateTraining()
+                self.updateTrainingCompletion()
+                
+                self.loadChurches(ministry_id!)
+                self.loadTraining(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString)
+                self.loadMeasurments(ministry_id!, mcc: (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
+                NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "last_refresh")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                //main Queque
 
-        })
     })
+})
 
-        }
+    }
         
     } // end init and resisterd all observers
     
-    
-    
     func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String?{
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
         var newList = allMinistries
         var error: NSError?
-        let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: self.managedContext)
+        let entity =  NSEntityDescription.entityForName( "Ministry", inManagedObjectContext: moc!)
         
         let this_min = allMinistries?.filter {$0.id == (a["ministry_id"] as! String)}
         var ministry:Ministry!
@@ -426,7 +401,7 @@ class dataSync: NSObject {
             ministry=this_min?.first
         } else {
             
-            ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:self.managedContext) as! Ministry
+            ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:moc!) as! Ministry
         }
         
         
@@ -457,13 +432,11 @@ class dataSync: NSObject {
         
         newList!.append(ministry)
         
+        if !moc!.save(&error) {
+            //println("Could not save \(error), \(error?.userInfo)")
+        }
         
-        
-        //        if !self.managedContext.save(&error) {
-        //            //println("Could not save \(error), \(error?.userInfo)")
-        //        }
-        self.saveContext()
-        let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: self.managedContext)
+        let entity_a =  NSEntityDescription.entityForName( "Assignment", inManagedObjectContext: moc!)
         var assignment:Assignment!
         //if (a["id"] != nil) {
         if ministry.assignments.count>0 {
@@ -473,7 +446,7 @@ class dataSync: NSObject {
                 if this_ass.allObjects.count > 0{
                     assignment=this_ass.allObjects.first as! Assignment
                 } else {
-                    assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as! Assignment
+                    assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:moc!) as! Assignment
                     assignment.id=(a["id"] as! String)
                 }
             } else {
@@ -481,7 +454,7 @@ class dataSync: NSObject {
             }
         }else{
             
-            assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:self.managedContext) as! Assignment
+            assignment = NSManagedObject(entity: entity_a!, insertIntoManagedObjectContext:moc!) as! Assignment
             if a["id"] != nil {
                 assignment.id=(a["id"] as! String)
             }
@@ -499,10 +472,9 @@ class dataSync: NSObject {
         
         
         
-        //            if !self.managedContext.save(&error) {
-        //                //println("Could not save \(error), \(error?.userInfo)")
-        //            }
-        self.saveContext()
+        if !moc!.save(&error) {
+            //println("Could not save \(error), \(error?.userInfo)")
+        }
         
         //}
         
@@ -527,40 +499,68 @@ class dataSync: NSObject {
         }
     }
     
-    
     func loadMeasurmentDetails(measurement: Measurements, ministryId: String, mcc: String, period: String, sender: measurementDetailViewController ){
         if checkTokenAndConnection() == false{
             return;
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+            
+        
             // Do heavy or time consuming work
-            
-            API(token: self.token! as String).getMeasurementDetail(measurement.id, ministryId: ministryId, mcc: mcc, period: period){
-                (data: AnyObject?,error: NSError?) -> Void in
-                if data == nil {
-                    return
-                }
-                if let md = data as? JSONDictionary{
-                    measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: self.managedContext)
-                    
-                    //let notificationCenter = NSNotificationCenter.defaultCenter()
-                    sender.tableView.reloadData()
-                    sender.activity.hidden = true
-                    //notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
-                    
-                    
-                }
-            }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
+        
+            if measurement.id == nil {
                 
+                
+                var alertController = UIAlertController(title: "", message: "No chart data available.", preferredStyle: .Alert)
+                
+                // Create the actions
+                var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+                    UIAlertAction in
+                    
+                    sender.dismissViewControllerAnimated(true, completion: nil)
+                }
+                
+                // Add the actions
+                alertController.addAction(okAction)
+                
+                // Present the controller
+                sender.presentViewController(alertController, animated: true, completion: nil)
+                
+                
+                //println("error: \(self.measurement!.name)")
+                return;
             }
             
-        }
+                API(token: self.token! as String).getMeasurementDetail(measurement.id!, ministryId: ministryId, mcc: mcc, period: period){
+                    (data: AnyObject?,error: NSError?) -> Void in
+                    if data == nil {
+                        return
+                    }
+                    if let md = data as? JSONDictionary{
+                        measurement.updateMeasurementDetailFromResponse(md, ministry_id: ministryId, period: period, mcc: mcc, managedContext: moc!)
+                        
+                        //let notificationCenter = NSNotificationCenter.defaultCenter()
+                        
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "reloadMeasurementDetailTblOnce")
+                        
+                        dispatch_async(dispatch_get_main_queue()){
+                                sender.tableView.reloadData()
+                                sender.activity.hidden = true
+                            }
+                        
+                        //notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
+                        
+                        
+                    }
+                }
         
-        
+        })
+     
 
     }
     
@@ -576,8 +576,12 @@ class dataSync: NSObject {
                 return
             }
             
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+            
             // Do heavy or time consuming work
             
             API(token: self.token! as String).getMeasurement(ministryId, mcc: mcc, period: period) { (data: AnyObject?,error: NSError?) -> Void in
@@ -595,7 +599,7 @@ class dataSync: NSObject {
                 fetchRequest.predicate = NSPredicate(format: "ministry_id = %@", ministryId )
                 
                 var error: NSError?
-                let meas = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Measurements]?
+                let meas = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Measurements]?
                 /* for m in meas!{
                 self.managedContext.deleteObject(m)
                 }*/
@@ -611,7 +615,7 @@ class dataSync: NSObject {
                     
                     
                     
-                    let entity =  NSEntityDescription.entityForName( "Measurements", inManagedObjectContext: self.managedContext)
+                    let entity =  NSEntityDescription.entityForName( "Measurements", inManagedObjectContext: moc!)
                     
                     let this_meas = meas?.filter {$0.perm_link == (m["perm_link"] as! String)}
                     var measurement:Measurements!
@@ -624,11 +628,11 @@ class dataSync: NSObject {
                         
                     } else {
                         
-                        measurement = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:self.managedContext) as! Measurements
+                        measurement = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:moc!) as! Measurements
                         getDetail = true
                     }
                     
-                    var should_update_detail:Bool = measurement.updateMeasurementFromResponse(m as! JSONDictionary, ministry_id: ministryId, period: period,mcc: mcc, managedContext: self.managedContext)
+                    var should_update_detail:Bool = measurement.updateMeasurementFromResponse(m as! JSONDictionary, ministry_id: ministryId, period: period,mcc: mcc, managedContext: moc!)
                     
                     
                     //                    if should_update_detail && false {
@@ -659,19 +663,15 @@ class dataSync: NSObject {
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
             }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
+           
             
-        }
         
+        })
         
         
        
     
     }
-    
     
     func loadTraining(ministryId: String, mcc: String){
         
@@ -683,9 +683,12 @@ class dataSync: NSObject {
             return
         }
         
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+
             // Do heavy or time consuming work
             API(token: self.token! as String).getTraining(ministryId, mcc: mcc){
                 (data: AnyObject?,error: NSError?) -> Void in
@@ -700,7 +703,7 @@ class dataSync: NSObject {
                 
                 
                 var error: NSError?
-                let allTraining = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Training]
+                let allTraining = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Training]
                 
                 for t in data as! JSONArray{
                     //BEGIN: Add or update
@@ -716,9 +719,9 @@ class dataSync: NSObject {
                         training=this_t.first
                         
                     } else {
-                        let entity =  NSEntityDescription.entityForName( "Training", inManagedObjectContext: self.managedContext)
+                        let entity =  NSEntityDescription.entityForName( "Training", inManagedObjectContext: moc!)
                         training = NSManagedObject(entity: entity!,
-                            insertIntoManagedObjectContext:self.managedContext) as! Training
+                            insertIntoManagedObjectContext:moc!) as! Training
                     }
                     //END: ADD or Update
                     if !(training.changed as Bool) { // don't update if we have a pending change...
@@ -759,9 +762,9 @@ class dataSync: NSObject {
                                     training_comp=this_tc.first
                                     
                                 } else {
-                                    let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: self.managedContext)
+                                    let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: moc!)
                                     training_comp = NSManagedObject(entity: entity2!,
-                                        insertIntoManagedObjectContext:self.managedContext) as! TrainingCompletion
+                                        insertIntoManagedObjectContext:moc!) as! TrainingCompletion
                                 }
                                 //END: Add or Update
                                 if !(training_comp.changed as Bool) { //don't update if we have a pending value
@@ -778,24 +781,20 @@ class dataSync: NSObject {
                         }
                     }
                 }
-                //            if !self.managedContext.save(&error) {
-                //                //println("Could not save \(error), \(error?.userInfo)")
-                //            }
-                self.saveContext()
+//                if !moc!.save(&error) {
+//                    //println("Could not save \(error), \(error?.userInfo)")
+//                }
                 
+                appDelegate.saveContext()
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveTraining, object: nil)
                 
                 
             }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
             
-        }
-       
+        })
         
+    
     }
     
     func loadChurches(ministryId: String) {
@@ -808,9 +807,13 @@ class dataSync: NSObject {
         }
         
         
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+
+       
             // Do heavy or time consuming work
             API(token: self.token! as String).getChurches(ministryId){
                 (data: AnyObject?,error: NSError?) -> Void in
@@ -820,7 +823,7 @@ class dataSync: NSObject {
                     fetchRequest.predicate=NSPredicate(format: "ministry_id = %@" , ministryId)
                     
                     var error: NSError?
-                    let churches = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Church]
+                    let churches = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Church]
                     
                     var relationships = Dictionary<NSNumber, NSNumber>()
                     
@@ -836,9 +839,9 @@ class dataSync: NSObject {
                             church=this_ch.first
                             
                         } else {
-                            let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: self.managedContext)
+                            let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: moc!)
                             church = NSManagedObject(entity: entity!,
-                                insertIntoManagedObjectContext:self.managedContext) as! Church
+                                insertIntoManagedObjectContext:moc!) as! Church
                         }
                         
                         //END: Add or update
@@ -882,12 +885,14 @@ class dataSync: NSObject {
                             // if(contains(c.allKeys as [String],"parent_id")) {church.setValue(c["parent_id"], forKey: "parent_id")}
                             
                             
-                            //                        var error2: NSError?
-                            //                        if !self.managedContext.save(&error2) {
-                            //                            //println("Could not save \(error2), \(error2?.userInfo)")
-                            //                        }
-                            self.saveContext()
                             
+                            
+                            var error2: NSError?
+//                            if !moc!.save(&error2) {
+//                                //println("Could not save \(error2), \(error2?.userInfo)")
+//                            }
+                            
+                            appDelegate.saveContext()
                         }
                         
                     }
@@ -895,7 +900,7 @@ class dataSync: NSObject {
                     //   for c in data as! JSONArray{
                         
                         
-                        let fetchedResults2 = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Church]?
+                        let fetchedResults2 = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Church]?
                         if let churches = fetchedResults2 {
                             for r in relationships{
                                 let c1 = churches.filter{$0.id == r.0} as [Church]
@@ -907,11 +912,10 @@ class dataSync: NSObject {
                         }
                         
                         
-                                        if !self.managedContext.save(&error) {
-                                            println("Could not save \(error), \(error?.userInfo)")
-                                        }
-                    //self.saveContext()
-                        
+                        if !moc!.save(&error) {
+                            println("Could not save \(error), \(error?.userInfo)")
+                        }
+                    
                     // }
 
                     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -920,20 +924,13 @@ class dataSync: NSObject {
                 }
                 
                 
-                
-               
-  
-                
             }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
-            
-        }
-        
-        
+         
         //   api.st = service_ticket
+    
+            
+        })
+        
     }
     
     func checkTokenAndConnection() -> Bool {
@@ -962,7 +959,6 @@ class dataSync: NSObject {
         
     }
     
-    
     func saveContext() {
         
         
@@ -977,8 +973,6 @@ class dataSync: NSObject {
       
         
     }
-    
-    
     
     func updateChurch(){
         if self.checkTokenAndConnection() == false{
@@ -1043,8 +1037,6 @@ class dataSync: NSObject {
         
         
     }
-    
-    
     
     func updateTraining(){
         if self.checkTokenAndConnection() == false{
@@ -1164,15 +1156,17 @@ class dataSync: NSObject {
         
     }
     
-    
-    
     func updateMeasurements(){
         if self.checkTokenAndConnection() == false{
             return;
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
+
             // Do heavy or time consuming work
             
             var error: NSError?
@@ -1181,7 +1175,7 @@ class dataSync: NSObject {
             let frMeasurementValue =  NSFetchRequest(entityName:"MeasurementValue" )
             let pred = NSPredicate(format: "changed_me == true || changed_local == true" )
             frMeasurementValue.predicate=pred
-            let mv_changed = self.managedContext.executeFetchRequest(frMeasurementValue,error: &error) as! [MeasurementValue]
+            let mv_changed = moc!.executeFetchRequest(frMeasurementValue,error: &error) as! [MeasurementValue]
             var update_values: Array<Measurement> = []
             for mv  in mv_changed {
                 
@@ -1190,7 +1184,7 @@ class dataSync: NSObject {
                     //lookup the AssignmentId
                     let frAssignment =  NSFetchRequest(entityName:"Assignment" )
                     frAssignment.predicate=NSPredicate(format: "ministry.id == %@ && person_id == %@", mv.measurement.ministry_id, NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String )
-                    let this_ass = self.managedContext.executeFetchRequest(frAssignment,error: &error) as! [Assignment]
+                    let this_ass = moc!.executeFetchRequest(frAssignment,error: &error) as! [Assignment]
                     if this_ass.count>0 {
                         //println(mv.measurement.id_person)
                         update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: this_ass.first!.id! , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.me))
@@ -1222,11 +1216,10 @@ class dataSync: NSObject {
                                 
                             }
                             
-                            //                        var error: NSError?
-                            //                        if !self.managedContext.save(&error) {
-                            //                            //println("Could not save \(error), \(error?.userInfo)")
-                            //                        }
-                            self.saveContext()
+                                var error: NSError?
+                                if !moc!.save(&error) {
+                                    //println("Could not save \(error), \(error?.userInfo)")
+                                }
                             
                             //now update the measurements
                             self.loadMeasurments( NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String, mcc:  (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String).lowercaseString, period: (NSUserDefaults.standardUserDefaults().objectForKey("period") as! String))
@@ -1238,18 +1231,11 @@ class dataSync: NSObject {
                 }
                 
             }
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-                
-            }
             
-        }
-       
         
- 
-           
-            
+       
+        })
+   
        
     }
     
@@ -1324,7 +1310,7 @@ class dataSync: NSObject {
                         } else {
                             
                             
-                            let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: self.managedContext)
+                            let entity2 =  NSEntityDescription.entityForName( "TrainingCompletion", inManagedObjectContext: moc!)
                             training_comp = NSManagedObject(entity: entity2!,
                                 insertIntoManagedObjectContext:moc!) as! TrainingCompletion
                             
@@ -1361,7 +1347,6 @@ class dataSync: NSObject {
         
     }
     
-    
     func updateMinistry(ministry: Ministry){
         
         API(token: token! as String).updateMinistry(ministry){
@@ -1379,7 +1364,6 @@ class dataSync: NSObject {
     // Purpose          :   Post user_preferences.
     //>---------------------------------------------------------------------------------------------------
     
-
     func saveUser_preferences(mapInfo: NSDictionary){
         
         if let t = token {
@@ -1405,7 +1389,6 @@ class dataSync: NSObject {
     // Purpose          :   Post SupportStaff user_preferences.
     //>---------------------------------------------------------------------------------------------------
     
-    
     func saveSupportStaff_User_preferences(mapInfo: NSDictionary){
         
         API(token: token! as String).save_StaffSupprot_User_preferences(mapInfo){
@@ -1415,15 +1398,14 @@ class dataSync: NSObject {
         
     }
     
-   
-    
-
-    
     func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+        
+        moc?.performBlock ({
             // Do heavy or time consuming work
             API(token: self.token! as String).addAssignment( NSUserDefaults.standardUserDefaults().objectForKey("cas_username") as! String , ministry_id: ministry_id, team_role: "self_assigned"){
                 (data: AnyObject?,error: NSError?) -> Void in
@@ -1431,7 +1413,7 @@ class dataSync: NSObject {
                     let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
                     
                     var error: NSError?
-                    let allMinistries = self.managedContext.executeFetchRequest(fetchRequest,error: &error) as! [Ministry]?
+                    let allMinistries = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Ministry]?
                     
                     var user = Dictionary<String, String>()
                     user["person_id"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String
@@ -1451,12 +1433,8 @@ class dataSync: NSObject {
             }
 
            
-            // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
-            dispatch_async(dispatch_get_main_queue()){
-                
-            }
             
-        }
+        })
 
                //sender.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -1482,7 +1460,7 @@ class dataSync: NSObject {
                 
             }
           
-            if !self.managedContext.save(&error) {
+            if managedContext.save(&error) {
                 //println("Could not delete objects \(error), \(error?.userInfo)")
             }
             

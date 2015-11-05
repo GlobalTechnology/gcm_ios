@@ -1335,6 +1335,9 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "reloadMeasurementDetailTblOnce")
+
          let detail:measurementDetailViewController = segue.destinationViewController as! measurementDetailViewController
         var pcvc:PageContentViewController!
         if (segue.identifier == "showMeasurementDetailFaith") {

@@ -57,6 +57,10 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+            self.title = title
+        }
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "redrawMap", name: "callRedrawMethod", object: nil)
         
 //         hasBeenFetchData = false
@@ -126,9 +130,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear( animated)
         
-        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-            self.title = title
-        }
+       
         
         
         // observer_getUserPreferences
@@ -699,7 +701,9 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
         var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
-        
+        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+            self.title = title
+        }
         if(mcc != nil){
             mcc = mcc!.lowercaseString
         }
