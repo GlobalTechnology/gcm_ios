@@ -2102,10 +2102,6 @@
                                 </connections>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="AQB-UJ-YKg" id="k1g-rS-VRw"/>
-                            <outlet property="delegate" destination="AQB-UJ-YKg" id="ys3-3D-CSG"/>
-                        </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <connections>

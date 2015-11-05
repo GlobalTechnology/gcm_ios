@@ -69,12 +69,12 @@ class settingsViewController: UITableViewController {
        
         
         
-        // update ministry
-        notificationManager.registerObserver(GlobalConstants.kDidChangeAssignment, forObject: nil) { note  in
-            
-        //println(" *** settingsViewController: kDidChangeAssignment: telling tableView.reloadData()")
-            self.tableView.reloadData()
-        }
+//        // update ministry
+//        notificationManager.registerObserver(GlobalConstants.kDidChangeAssignment, forObject: nil) { note  in
+//            
+//        //println(" *** settingsViewController: kDidChangeAssignment: telling tableView.reloadData()")
+//            self.tableView.reloadData()
+//        }
 
     }
     

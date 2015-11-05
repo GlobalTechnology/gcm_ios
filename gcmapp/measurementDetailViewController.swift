@@ -63,9 +63,6 @@ class measurementDetailViewController: UITableViewController {
             }
         }
         
-        dispatch_async(dispatch_get_main_queue()) {
-            self.tableView.reloadData()
-        }
         
         //self.tableView.reloadData()
         //        let tracker = GAI.sharedInstance().defaultTracker
@@ -96,7 +93,13 @@ class measurementDetailViewController: UITableViewController {
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        
+        if(NSUserDefaults.standardUserDefaults().boolForKey("reloadMeasurementDetailTblOnce") as Bool == false){
+            return 0
+        }
+        else{
+            return 3
+        }
     }
 
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

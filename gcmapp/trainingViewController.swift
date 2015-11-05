@@ -270,6 +270,11 @@ override func viewDidAppear(animated: Bool) {
     // MARK:- UITableView delegate method
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        })
+
         if section == 0{
             
             if data["marker_type"] as! String == "new_training" {
@@ -647,6 +652,11 @@ override func viewDidAppear(animated: Bool) {
         }
         else if indexPath.section==1{
             if indexPath.row == tc.count {
+                
+                let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                loadingNotification.mode = MBProgressHUDMode.Indeterminate
+                loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
+                
                 //add new Training Stage.
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 var insert = createTrainingStage(training_id: data["id"] as! NSNumber, phase: tc.count + 1, date: GlobalFunctions.currentDate(), number_completed: 0)

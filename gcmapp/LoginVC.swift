@@ -49,9 +49,12 @@ class LoginVC: UIViewController,TheKeyOAuth2ClientLoginDelegate {
                 {
                     
                     self.sync.token=""
-                    TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
+                self.navigationController!.pushViewController(self.storyboard!.instantiateViewControllerWithIdentifier("SWRevealViewController") as! UIViewController, animated: false)
                     
-                    self.navigationController!.pushViewController(self.storyboard!.instantiateViewControllerWithIdentifier("SWRevealViewController") as! UIViewController, animated: false)
+                    TheKeyOAuth2Client.sharedOAuth2Client().presentLoginViewController(NSClassFromString("GMALoginViewController") , fromViewController: self, loginDelegate: self)
+                
+                    
+                
                 }
             }
             

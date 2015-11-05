@@ -154,7 +154,7 @@
             func getUserPreferences(callback: APICallback)
             {
                 let url = "\(GlobalConstants.SERVICE_ROOT)user_preferences?token=\(self.token)"
-                //println("\(url)")
+                println("\(url)")
                 //self.cur_url = url
                 makeHTTPGetRequest( Path.GET_MAP_USER_PREFERENCES, callback: callback, url: url)
             }
