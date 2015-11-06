@@ -104,11 +104,11 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 }
                 
                 
-                if !managedContext.save(&error) {
-                    //println("Could not save \(error), \(error?.userInfo)")
-                }
-                
-                
+//                if !managedContext.save(&error) {
+//                    //println("Could not save \(error), \(error?.userInfo)")
+//                }
+            
+                appDelegate.saveContext()
                 
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
@@ -534,6 +534,8 @@ override func viewDidAppear(animated: Bool) {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        self.view.endEditing(true)
+
         if indexPath.section == 0{
             self.tableView.resignFirstResponder()
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
@@ -607,6 +609,8 @@ override func viewDidAppear(animated: Bool) {
                 }
                 var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                     UIAlertAction in
+                    
+                    self.tableView.reloadData()
                     NSLog("Cancel Pressed")
                 }
                 
@@ -617,11 +621,7 @@ override func viewDidAppear(animated: Bool) {
                 // Present the controller
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
-                
-                
-                
-                
-                
+   
                 
                 break
                 
@@ -651,6 +651,10 @@ override func viewDidAppear(animated: Bool) {
             
         }
         else if indexPath.section==1{
+            if txtFldActive == true{
+                return
+            }
+            
             if indexPath.row == tc.count {
                 
                 let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -700,8 +704,28 @@ override func viewDidAppear(animated: Bool) {
 //        return true
 //    }
     
+ var txtFldActive = Bool()
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool{
+        txtFldActive = true
+        return true
+    }
     
-    //func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool{
+func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    
+        if(textField.tag == -1)
+        {
+            return true
+        }
+        else{
+        
+        let maxLength = 4
+        let currentString: NSString = textField.text
+        let newString: NSString =
+        currentString.stringByReplacingCharactersInRange(range, withString: string)
+        return newString.length <= maxLength
+    }
+}
+    
     func textFieldDidEndEditing(textField: UITextField) {
         self.changed = true
 
@@ -729,6 +753,7 @@ override func viewDidAppear(animated: Bool) {
                 }
         }
         
+        txtFldActive = false
     }
     
     

@@ -424,6 +424,8 @@ class ChurchTVC: UITableViewController {
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        self.view.endEditing(true)
+        
         if indexPath.section == 0{
             
             self.tableView.resignFirstResponder()
@@ -444,6 +446,13 @@ class ChurchTVC: UITableViewController {
                 break
             case 2: // delete
 
+                self.tableView.reloadRowsAtIndexPaths(
+                    [indexPath],
+                    withRowAnimation:UITableViewRowAnimation.None)
+                
+                self.tableView.deselectRowAtIndexPath(indexPath, animated:false)
+                
+                
                 var alertController = UIAlertController(title: "", message: "Are you sure you want to delete this church?", preferredStyle: .Alert)
                 
                 // Create the actions
@@ -469,6 +478,7 @@ class ChurchTVC: UITableViewController {
                 }
                 var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                     UIAlertAction in
+                    
                     NSLog("Cancel Pressed")
                 }
                 

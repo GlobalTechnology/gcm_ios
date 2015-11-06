@@ -175,7 +175,6 @@ class LeftMenuController: UIViewController {
         
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            println("Work Dispatched")
             // Do heavy or time consuming work
            
            
@@ -202,6 +201,24 @@ class LeftMenuController: UIViewController {
                         break
                         
                     case 2:
+                        
+                        
+                        if var team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
+                            
+                            
+                            if team_role == "self_assigned" {
+                                
+                                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
+                                var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                                weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                                return
+                                
+                            }
+                        }
+                        
+                        
+                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "reloadPageControllerOnce")
+
                         //println(indexPath.row)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("Measurements") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)

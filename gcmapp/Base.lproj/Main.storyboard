@@ -323,7 +323,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeleteCell" textLabel="UTj-8s-Zp5" style="IBUITableViewCellStyleDefault" id="Nfa-pA-eaJ">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeleteCell" textLabel="UTj-8s-Zp5" style="IBUITableViewCellStyleDefault" id="Nfa-pA-eaJ">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nfa-pA-eaJ" id="Fit-hg-cyx">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1868,7 +1868,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeleteCell" textLabel="VUZ-nc-vP4" style="IBUITableViewCellStyleDefault" id="pFs-0G-UDs">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeleteCell" textLabel="VUZ-nc-vP4" style="IBUITableViewCellStyleDefault" id="pFs-0G-UDs">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pFs-0G-UDs" id="Kyi-JO-7GY">
                                     <autoresizingMask key="autoresizingMask"/>

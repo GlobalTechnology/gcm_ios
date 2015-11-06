@@ -231,13 +231,20 @@ class dataSync: NSObject {
                     //TheKeyOAuth2Client.sharedOAuth2Client().logout()
                     return
                 }
+                else{
+                    if(NSUserDefaults.standardUserDefaults().boolForKey("hitOnlyOnce") as Bool == false){
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hitOnlyOnce")
+                    }
+                    else{
+                        return
+                    }
+            }
                 
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
                 var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
                 
-                moc?.performBlock ({
-
+                moc?.performBlockAndWait({ () -> Void in
                     
                     var s = API(st: ticket!){
                         (data: AnyObject?, error: NSError?) -> Void in
@@ -247,6 +254,30 @@ class dataSync: NSObject {
                         var resp:JSONDictionary = data as! JSONDictionary
                         
                         if(resp["status"] as! String == "success"){
+                            
+                            
+                            // println(resp)
+                            
+                            
+                            var dic : JSONDictionary = resp["user_preferences"] as! JSONDictionary
+                            
+                            if dic.indexForKey("supported_staff") != nil {
+
+                                // now val is not nil and the Optional has been unwrapped, so use it
+                                
+                                    if dic["supported_staff"]! as! String == "1" {
+                                        
+                                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SupprotedStaffSwichKey")
+                                    }
+                                    else{
+                                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "SupprotedStaffSwichKey")
+                                    }
+                                    
+
+                                }
+                                
+                            
+
                             
                             
                             //println("This is run on the main queue, after the previous code in outer block")
@@ -470,11 +501,11 @@ class dataSync: NSObject {
         
         assignment.ministry = ministry
         
+        appDelegate.saveContext()
         
-        
-        if !moc!.save(&error) {
-            //println("Could not save \(error), \(error?.userInfo)")
-        }
+//        if !moc!.save(&error) {
+//            //println("Could not save \(error), \(error?.userInfo)")
+//        }
         
         //}
         
@@ -663,9 +694,7 @@ class dataSync: NSObject {
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kDidReceiveMeasurements, object: nil)
             }
-           
-            
-        
+
         })
         
         
@@ -839,7 +868,7 @@ class dataSync: NSObject {
                             church=this_ch.first
                             
                         } else {
-                            let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: moc!)
+                            let entity =  NSEntityDescription.entityForName( "Church", inManagedObjectContext: appDelegate.backgroundContext!)
                             church = NSManagedObject(entity: entity!,
                                 insertIntoManagedObjectContext:moc!) as! Church
                         }
@@ -898,9 +927,13 @@ class dataSync: NSObject {
                     }
                     
                     //   for c in data as! JSONArray{
+                    
+                    
+                    var moc1: NSManagedObjectContext? = appDelegate.managedObjectContext
+                    
+                    moc1?.performBlock ({
                         
-                        
-                        let fetchedResults2 = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Church]?
+                        let fetchedResults2 = moc1!.executeFetchRequest(fetchRequest,error: &error) as! [Church]?
                         if let churches = fetchedResults2 {
                             for r in relationships{
                                 let c1 = churches.filter{$0.id == r.0} as [Church]
@@ -912,10 +945,8 @@ class dataSync: NSObject {
                         }
                         
                         
-                        if !moc!.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
-                    
+                        appDelegate.saveContext()
+                    })
                     // }
 
                     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -1193,7 +1224,15 @@ class dataSync: NSObject {
                     
                     
                 }
+                
                 if mv.changed_local.boolValue{
+                    
+//                    println(mv.measurement.id_local)
+//                    println(mv.measurement.ministry_id)
+//                    println(mv.period)
+//                    println(mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE)
+//                    println(mv.local)
+
                     update_values.append(Measurement(measurement_type_id: mv.measurement.id_local, related_entity_id: mv.measurement.ministry_id  , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.local))
                 }
                 
@@ -1526,11 +1565,20 @@ class dataSync: NSObject {
     
     func logout(){
         
-        API(token: self.token! as String).deleteToken()
-        
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hitOnlyOnce")
+
+        API(token: self.token! as String).deleteToken()  {
+            
+            (data: AnyObject?,error: NSError?) -> Void in
+            if data != nil {
+           
+              AppDelegate().saveContext()
+            }
+        }
+         self.reset()
         //  self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "logout", label: nil, value: nil).build()  as [NSObject: AnyObject])
         //Delete everything in the database
-        reset()
+        
     }
     
 }

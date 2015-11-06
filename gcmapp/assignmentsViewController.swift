@@ -54,6 +54,11 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
+        
          let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
        
         var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: ministry.valueForKey("id")!,"min_id",ministry.valueForKey("latitude")!,"lat",ministry.valueForKey("longitude")!,"long",ministry.valueForKey("zoom")!,"zoom" )
@@ -62,7 +67,7 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
         
-        moc?.performBlock ({
+        moc?.performBlockAndWait ({
             
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
@@ -82,21 +87,20 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
                         // } else {
                         //
                         //}
-                        
+                        let notificationCenter = NSNotificationCenter.defaultCenter()
+                        notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
                     }
                 }
-                
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                notificationCenter.postNotificationName(GlobalConstants.kDidChangeAssignment, object: nil)
             }
-        
-            dispatch_async(dispatch_get_main_queue()){
-                [weak self] in
+            
+            
+            
+           
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                self.navigationController?.popToRootViewControllerAnimated(true)
+
                 // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
-                if let weakSelf = self {
-                    weakSelf.navigationController?.popToRootViewControllerAnimated(true)
-                }
-            }
+            
         })
     }
 

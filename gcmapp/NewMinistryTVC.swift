@@ -189,8 +189,6 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 notificationCenter.postNotificationName(GlobalConstants.kShouldJoinMinistry, object: self, userInfo: userInfo)
                 
-                
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kJoinAnyMinistry)
 
                 if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kNoMinistrySelected) as Bool == true)
                 {

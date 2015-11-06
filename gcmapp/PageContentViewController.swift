@@ -68,6 +68,9 @@ class PageContentViewController: UIViewController, UITextFieldDelegate, UIPopove
     @IBAction func incrBtn(sender: UIButton) {
         var newValStr = ""
         
+         
+        
+        
         if localPersonChooser.selectedSegmentIndex == 0 {
             if var i = lblLocalValue.text.toInt() {
                 newValStr = String(++i)
@@ -380,6 +383,7 @@ class PageContentViewController: UIViewController, UITextFieldDelegate, UIPopove
         lblPersonValue.delegate = self
         lblLocalValue.delegate = self
         
+
         var tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
        
         self.view.addGestureRecognizer(tap)
@@ -518,11 +522,10 @@ class PageContentViewController: UIViewController, UITextFieldDelegate, UIPopove
         else {
             
             localPersonChooser.setEnabled(false, forSegmentAtIndex: 0)
-            //selectLocalPersonProgrammatically(1)
+            localPersonChooser.selectedSegmentIndex = 1
+            lblLocalValue.hidden = true
         }
-        
-
-        
+  
         
     }
     

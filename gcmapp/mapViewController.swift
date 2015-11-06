@@ -544,56 +544,59 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             if var userpreferencesData: JSONDictionary = data as? JSONDictionary {
                 
-                //println(userpreferencesData)
+                var error: NSError?
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
+                let fetchRequest =  NSFetchRequest(entityName:"Ministry" )
                 
-                if(userpreferencesData.count > 0)
-                {
-                    
-                    var mapArr = userpreferencesData["default_map_views"] as! JSONArray
-                    for m in mapArr {
-                        
-                        var locationDic = m["location"] as! JSONDictionary
-                        
-                        var minId = m["ministry_id"] as! String
-                        var lat: AnyObject? = locationDic["latitude"]   //["location"]["latitude"]
-                        var long: AnyObject? = locationDic["longitude"]
-                        var zm : AnyObject? = m["location_zoom"]
-
-                        if (minId == NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String) {
-                            
-    //                        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) {
-
-                            dispatch_async(dispatch_get_main_queue(),{
-
-                            self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(lat!.doubleValue as CLLocationDegrees,long!.doubleValue as CLLocationDegrees), zoom: zm!.floatValue , bearing: 0, viewingAngle: 0)
-                            
-                            });
-                            
-                            //}
-                        }
-                        
-                        
-                    }
-                    
-                }
-                else
+                if(moc!.executeFetchRequest(fetchRequest,
+                    error: &error)?.count == 0)
                 {
                     var alertController = UIAlertController(title: "", message: "Please identify a ministry team that you work most closely with and request to join that team.", preferredStyle: .Alert)
                     
-                    // Create the actions
                     var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                         UIAlertAction in
-                        
-                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kNoMinistrySelected)
                         self.performSegueWithIdentifier("NewMinistryView", sender: nil)
                     }
                     
-                    // Add the actions
                     alertController.addAction(okAction)
-                    
-                    // Present the controller
                     self.presentViewController(alertController, animated: true, completion: nil)
-                    
+                }
+                
+                    if(userpreferencesData.count > 0){
+                        
+                        if userpreferencesData.indexForKey("default_map_views") != nil {
+                            // the key exists in the dictionary
+                            
+                            var mapArr = userpreferencesData["default_map_views"] as! JSONArray
+                            for m in mapArr {
+                                
+                                var locationDic = m["location"] as! JSONDictionary
+                                
+                                var minId = m["ministry_id"] as! String
+                                var lat: AnyObject? = locationDic["latitude"]   //["location"]["latitude"]
+                                var long: AnyObject? = locationDic["longitude"]
+                                var zm : AnyObject? = m["location_zoom"]
+                                
+                        if let id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String{
+                                if (minId == id) {
+                                    
+                                    //                        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) {
+                                    
+                                    dispatch_async(dispatch_get_main_queue(),{
+                                        
+                                        self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2DMake(lat!.doubleValue as CLLocationDegrees,long!.doubleValue as CLLocationDegrees), zoom: zm!.floatValue , bearing: 0, viewingAngle: 0)
+                                        
+                                    });
+                                    //}
+                                }
+                            }
+                        }
+                        }
+                        else {
+                            
+                            println("no key found")
+                        }
                 }
             }
         }
@@ -688,6 +691,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     
                     appDelegate.backgroundContext!.save(&error)
                 }
+            
+            self.redrawMap()
         }
     }
     
@@ -1173,7 +1178,14 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 case "training":
                     NSUserDefaults.standardUserDefaults().setObject(data["date"], forKey: "createdDate")
                     let tr = self.storyboard?.instantiateViewControllerWithIdentifier("trainingViewController") as! trainingViewController
-                    tr.data = data
+                   
+                    if(data["type"] as! String == ""){
+                        data["type"] = "Other"
+                        tr.data = data
+                    }
+                    else{
+                        tr.data = data
+                    }
                     tr.mapVC = self
                     vc=tr as UIViewController
             default:
@@ -1565,7 +1577,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             println("Work Dispatched")
             // Do heavy or time consuming work
-              self.redrawMap()
+            
             // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
             dispatch_async(dispatch_get_main_queue()){
                 [weak self] in
@@ -1631,7 +1643,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                     }
                     
 
-                    
+                    self!.redrawMap()
                     
                     
                     

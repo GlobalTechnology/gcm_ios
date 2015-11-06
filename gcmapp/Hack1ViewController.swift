@@ -372,6 +372,10 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             let count = self.measurementsFaith.count
             
             self.loadData()
+        
+        if(NSUserDefaults.standardUserDefaults().boolForKey("reloadPageControllerOnce") as Bool == false){
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "reloadPageControllerOnce")
+        
             if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.FAITH) {
                 self.pageViewControllerFaith.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
             }
@@ -384,7 +388,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.OTHER) {
                 self.pageViewControllerOther.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
             }
-
+        }
             
             // if we were in a case where the existing page was displayed with 0 measurements in a section:
 //            if (count == 0) {
@@ -639,7 +643,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
 //                    //println("mName: \(m.name), mValue: \(valueForThisPeriod.total.stringValue)")
                     
                    
-                    
+                  
                     
                     if self.read_only == true && m.leader_only == true {
                         
@@ -1310,6 +1314,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
         self.periodControl.setTitle(GlobalFunctions.convertPeriodToPrettyString(period), forSegmentAtIndex: 1)
         //tableView.reloadData()
         self.loadData()
+        //PageContentViewController().onPersonSelected()
         if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: FAITH) {
             self.pageViewControllerFaith.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         }
@@ -1333,6 +1338,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
 //        self.pageViewControllerOther = pageViewControllerForCategory(OTHER, view: measurementsViewOther)
         
         
+                
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         

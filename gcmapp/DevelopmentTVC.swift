@@ -98,7 +98,7 @@ class DevelopmentTVC: UITableViewController {
             
         }
         
-        self.church.changed = old_value != church.data["development"] as! NSNumber
+        self.church.changed = true //old_value != church.data["development"] as! NSNumber
         
         self.church.tableView.reloadData()
         

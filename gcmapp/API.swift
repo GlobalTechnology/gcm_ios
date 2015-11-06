@@ -58,7 +58,7 @@
                 makeHTTPGetRequest( Path.GET_TOKEN, callback: callback, url: url)
             }
             
-            func deleteToken(){
+            func deleteToken(callback: APICallback){
                 
                 let url = "\(GlobalConstants.SERVICE_ROOT)token"
                 
@@ -76,12 +76,15 @@
                 
                 
                 
-                let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-                request.HTTPMethod = "DELETE"
-                let conn = NSURLConnection(request: request, delegate:nil)
-                if (conn == nil) {
-                    callback(nil, nil)
-                }
+                makeHTTPDeleteRequest(Path.DELETE_GENERAL, callback: callback, url: url)
+
+
+//                let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+//                request.HTTPMethod = "DELETE"
+//                let conn = NSURLConnection(request: request, delegate:nil)
+//                if (conn == nil) {
+//                    callback(nil, nil)
+//                }
             }
             
             func getMinistries(refresh:Bool, callback: APICallback)
@@ -160,7 +163,7 @@
             }
 
             
-            
+         
             //>---------------------------------------------------------------------------------------------------
             // Author Name      :   Justin Mohit
             // Date             :   July, 31 2015
