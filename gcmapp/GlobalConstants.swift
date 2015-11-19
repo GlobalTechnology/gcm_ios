@@ -61,7 +61,7 @@ struct GlobalConstants {
     static  let SERVICE_ROOT = NSBundle.mainBundle().objectForInfoDictionaryKey("api_url") as! String
      static let SERVICE_API = SERVICE_ROOT.stringByReplacingOccurrencesOfString("192.168.0.5:8080", withString: "localhost:52195", options: NSStringCompareOptions.LiteralSearch, range: nil) + "token"
     static let LOCAL_SOURCE = "gma-app"
-    static let MEMBERS_ONLY = ["inherited_admin","admin","leader","inherited_leader","member"]
+    static let MEMBERS_ONLY = ["inherited_admin","admin","leader","inherited_leader","member", "self_assigned"]
     static let LEADERS_ONLY = ["inherited_admin","admin","leader","inherited_leader"]
     static let NOT_BLOCKED =  ["inherited_admin","admin","leader","inherited_leader","member","self_assigned"]
     static let LEADERS_WITHOUT_INHERITED_ONLY = ["admin","leader"]

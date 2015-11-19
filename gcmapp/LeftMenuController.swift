@@ -172,8 +172,6 @@ class LeftMenuController: UIViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         
-        
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             // Do heavy or time consuming work
            
@@ -181,6 +179,8 @@ class LeftMenuController: UIViewController {
             // Create a weak reference to prevent retain cycle and get nil if self is released before run finishes
             dispatch_async(dispatch_get_main_queue()){
                 [weak self] in
+                
+                
                 // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
                 
                 if let weakSelf = self {
@@ -194,15 +194,24 @@ class LeftMenuController: UIViewController {
                         
                     case 1:
                         //println(indexPath.row)
-                        
+                    if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                    {
                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                    }
+                    else{
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        return
+                    }
                         break
                         
                     case 2:
                         
-                        
+                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                        {
+
                         if var team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
                             
                             
@@ -224,23 +233,45 @@ class LeftMenuController: UIViewController {
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
                         //println(indexPath.row)
                         //println(indexPath.row)
+                        }
+                        else{
+                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                            return
+                        }
                         break
                         
                     case 3:
                         //println(indexPath.row)
+                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                        {
                         let notificationCenter = NSNotificationCenter.defaultCenter()
                         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
                         
                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        }
+                        else{
+                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                            return
+                        }
                         break
                         
                     case 4:
                         //println(indexPath.row)
+                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                        {
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("NewMinistryTVC") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
                         //println(indexPath.row)
+                        }
+                        else{
+                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                            return
+                        }
                         break
                         
                     case 5:
@@ -248,17 +279,33 @@ class LeftMenuController: UIViewController {
                         break
                         
                     case 6:
+                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                        {
                         //println(indexPath.row)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("settings") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
                         //println(indexPath.row)
+                    }
+                    else{
+                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                        return
+                    }
                         break
                         
                         
                     case 7:
+                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
+                        {
                         //println(indexPath.row)
                         let notificationCenter = NSNotificationCenter.defaultCenter()
                         notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
+                        }
+                        else{
+                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
+                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
+                            return
+                        }
                         break
                         
                     default:

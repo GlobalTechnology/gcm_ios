@@ -178,7 +178,7 @@ class dataSync: NSObject {
         
         //observer_join
         notificationManager.registerObserver(GlobalConstants.kShouldJoinMinistry, forObject: nil){ note in
-            self.joinMinistry((note.userInfo as! JSONDictionary)["ministry_id"] as! String, sender: note.object as! NewMinistryTVC)
+            self.joinMinistry((note.userInfo as! JSONDictionary)["ministry_id"] as! String, ministry_name: (note.userInfo as! JSONDictionary)["name"] as! String, sender: note.object as! NewMinistryTVC)
         }
         
         //observer_new_tc
@@ -434,6 +434,7 @@ class dataSync: NSObject {
             
             ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:moc!) as! Ministry
         }
+        
         
         
         ministry.id=a["ministry_id"] as! String
@@ -708,7 +709,7 @@ class dataSync: NSObject {
             return;
         }
         
-        if !GlobalFunctions.contains( NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String, list: GlobalConstants.MEMBERS_ONLY){
+        if !GlobalFunctions.contains(NSUserDefaults.standardUserDefaults().objectForKey("team_role") as! String, list: GlobalConstants.MEMBERS_ONLY){
             return
         }
         
@@ -760,6 +761,14 @@ class dataSync: NSObject {
                         if t["date"] as! String? != NSNull(){
                             training.date  = t["date"] as! String
                         }
+                        
+                        if !(t["created_by"]  is NSNull){
+                            training.created_by = t["created_by"] as! String
+                        }
+                        else{
+                            training.created_by=" "
+                        }
+                        
                         if !(t["type"]  is NSNull){
                             training.type = t["type"] as! String
                         }
@@ -875,6 +884,13 @@ class dataSync: NSObject {
                         
                         //END: Add or update
                         if !(church.changed as Bool) {//don't update if we have a pending change
+                            
+                            if !(c["created_by"]  is NSNull){
+                                church.created_by = c["created_by"] as! String
+                            }
+                            else{
+                                church.created_by=" "
+                            }
                             
                             church.id = c["id"] as! NSNumber
                             church.name = c["name"] as! String
@@ -1090,8 +1106,8 @@ class dataSync: NSObject {
             for tr in tr_changed{
                 if tr.id == -1{
                     
-                    println(self.token!)
-                    println(tr)
+//                    println(self.token!)
+//                    println(tr)
 
                     API(token: self.token! as String).addTraining(tr){
                         (data: AnyObject?,error: NSError?) -> Void in
@@ -1437,7 +1453,7 @@ class dataSync: NSObject {
         
     }
     
-    func joinMinistry(ministry_id: String, sender: NewMinistryTVC){
+    func joinMinistry(ministry_id: String,  ministry_name: String, sender: NewMinistryTVC){
         
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -1461,7 +1477,8 @@ class dataSync: NSObject {
                     self.addAssignment(data as! JSONDictionary, user: user, allMinistries: allMinistries)
                     
                     NSUserDefaults.standardUserDefaults().setObject(ministry_id, forKey: "ministry_id")
-                    
+                    NSUserDefaults.standardUserDefaults().setObject(ministry_name, forKey: "ministry_name")
+
                     // broadcast kChangedAssignment to make sure our settings and system are updated
                     // with this newly joined Ministry!
                     //println("... dataSync.joinMinistry() --> kDidChangeAssignment")
@@ -1575,6 +1592,8 @@ class dataSync: NSObject {
               AppDelegate().saveContext()
             }
         }
+        
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "FetchTheDetail")
          self.reset()
         //  self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "logout", label: nil, value: nil).build()  as [NSObject: AnyObject])
         //Delete everything in the database

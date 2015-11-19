@@ -32,8 +32,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     var rightAddBarButtonItem: UIBarButtonItem!//
 
     @IBOutlet weak var lblMove: UILabel!
-    
-    var hasBeenFetchData = Bool()
 
     var isFilterPopupOpen = Bool()
     
@@ -52,10 +50,15 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     var churchdots:[GMSMarker]! = Array()
     var ministry: Ministry!
     
-    
+    var makeUserEnable = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FetchTheDetail")
+        
+        menuButton.enabled = false
+        makeUserEnable = false
         
         if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
             self.title = title
@@ -63,9 +66,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "redrawMap", name: "callRedrawMethod", object: nil)
         
-//         hasBeenFetchData = false
-//         self.makeMenuButtonActive()
-         menuButton.enabled = false
         isMarkerDraggable = false
         isFilterPopupOpen = false
         autocompleteTableView.tag = 0
@@ -113,17 +113,15 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "makeMenuButtonActive", name: "makeMenuButtonActiveKey", object: nil)
     }
     
-    func makeMenuButtonActive()
-    {
-        if hasBeenFetchData == true{
-            menuButton.enabled = true
-            // rightAddBarButtonItem.enabled = true
-            // self.navigationController?.navigationBarHidden = false
+    func makeMenuBtnEnable(){
+
+        if(self.makeUserEnable == true){
+            self.makeUserEnable = false
+            self.menuButton.enabled = true
         }
         else{
-            menuButton.enabled = false
-            // rightAddBarButtonItem.enabled = false
-            //f self.navigationController?.navigationBarHidden = true
+            self.makeUserEnable = true
+            self.menuButton.enabled = false
         }
     }
     
@@ -699,8 +697,10 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func redrawMap(){
        
-        hasBeenFetchData = true
-        self.makeMenuButtonActive()
+        makeUserEnable = true
+        self.makeMenuBtnEnable()
+        
+//        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FetchTheDetail")
         
         //println("This is run on the background queue")
         

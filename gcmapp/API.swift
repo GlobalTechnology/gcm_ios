@@ -138,7 +138,7 @@
             {
                 
                 var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
-                println(languageCode)
+//                println(languageCode)
                 let url = "\(GlobalConstants.SERVICE_ROOT)measurements/\(measurementId)?token=\(self.token)&locale=\(languageCode)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)"
                 //println("\(url)")
                 self.cur_url = url
@@ -400,7 +400,7 @@
                 case (200, Path.GET_CHURCHES):
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_TRAINING):
-                    //println(NSString(data: self.responseData, encoding: NSUTF8StringEncoding))
+//                    println(NSString(data: self.responseData, encoding: NSUTF8StringEncoding))
                
                     
                     callback(self.handleGetJSONArray(json), nil)
@@ -411,7 +411,7 @@
                 case (200, Path.GET_MINISTRIES):
                     callback(self.handleGetJSONArray(json), nil)
                 case (201, Path.UPDATE_GENERAL):
-                    //println(json)
+                    println(json)
                     callback(true , nil)
                 case (200, Path.UPDATE_GENERAL):
                     callback(true , nil)

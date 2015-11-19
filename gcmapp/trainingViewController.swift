@@ -60,7 +60,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 data["marker_type"] = "training"
                 data["id"] = -1
                 //            data["marker_type"] = "new_training"
-                //            data["name"] = "" v
+                //            data["name"] = ""
                 //            data["type"] = ""
                 data["date"] = GlobalFunctions.currentDate()
                 //            data["id"] = -1
@@ -102,7 +102,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 if let created_by = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String {
                     training.created_by = created_by
                 }
-                
+
                 
 //                if !managedContext.save(&error) {
 //                    //println("Could not save \(error), \(error?.userInfo)")
@@ -243,13 +243,14 @@ override func viewDidAppear(animated: Bool) {
         }
         
         if let team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
-            
             self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
-            
         }
-        if let created_by = data["created_by"] as? String
-        {
+        
+        if let created_by = data["created_by"] as? String{
             created_id = created_by
+        }
+        else{
+            created_id = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
         }
 
         let descriptor = NSSortDescriptor(key: "phase", ascending: true)
@@ -262,12 +263,30 @@ override func viewDidAppear(animated: Bool) {
         btnMove.hidden=true
         }*/
         
-        
-        
-        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowType"{
+            let tvc = segue.destinationViewController as! TrainingTypeTVC
+            tvc.training = self
+        }
+    }
+    
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
+        tableView.reloadData()
+    }
+    
+    func DismissKeyboard(){
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        //tableView.endEditing(true)
     }
     
     // MARK:- UITableView delegate method
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return data["marker_type"] as! String == "new_training" ? 1 : 2
+    }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -309,7 +328,16 @@ override func viewDidAppear(animated: Bool) {
             }
             
           }
-            return 0
+            else{
+               
+                if data["stages"] == nil{
+                    return 0
+                }
+                else
+                {
+                    return   tc.count
+                }
+            }
         }
     }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -328,7 +356,9 @@ override func viewDidAppear(animated: Bool) {
         var cell = UITableViewCell()
 
         if indexPath.section == 1{
-            if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training" {
+            if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training"
+            
+            {
             if indexPath.row == tc.count {
                 cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as! UITableViewCell
                 return cell
@@ -347,7 +377,14 @@ override func viewDidAppear(animated: Bool) {
             }
             
             }
-            
+            else{
+                var stage = tc[indexPath.row] as TrainingCompletion
+                
+                cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
+
+                cell.textLabel?.text = "\(indexPath.row + 1)  \(stage.date)   participants:"
+                cell.detailTextLabel!.text = stage.number_completed.stringValue
+            }
         }
         else if indexPath.section == 0 {
             
@@ -490,11 +527,14 @@ override func viewDidAppear(animated: Bool) {
                 }
                 else{
                     
-                    cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
+//                    cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
+//                    
+//                    cell.textLabel!.text = "date"
+//                    
+//                    cell.detailTextLabel!.text = (data["date"] != nil) ? data["date"] as? String : ""
                     
-                    cell.textLabel!.text = "date"
-                    
-                    cell.detailTextLabel!.text = (data["date"] != nil) ? data["date"] as? String : ""
+                    return cells[0][0] as! UITableViewCell
+
                     
                 }
 
@@ -627,18 +667,24 @@ override func viewDidAppear(animated: Bool) {
                 
             case 2:
                 
-                self.performSegueWithIdentifier("ShowType", sender: self)
+                if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
+                    
+                    self.performSegueWithIdentifier("ShowType", sender: self)
+                }
                 break
                 
             case 3:
-                self.changed = true
+                if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
+                    
+                        self.changed = true
 
-                var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
-                if (cell.isKindOfClass(DatePickerCell)) {
-                    var datePickerTableViewCell = cell as! DatePickerCell
-                    datePickerTableViewCell.selectedInTableView(tableView)
-                    self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-                }
+                        var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+                        if (cell.isKindOfClass(DatePickerCell)) {
+                            var datePickerTableViewCell = cell as! DatePickerCell
+                            datePickerTableViewCell.selectedInTableView(tableView)
+                            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                        }
+                    }
                 break
                 
             default:
@@ -668,24 +714,6 @@ override func viewDidAppear(animated: Bool) {
                
             }
         }
-        
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowType"{
-            let tvc = segue.destinationViewController as! TrainingTypeTVC
-            tvc.training = self
-        }
-    }
-    
-    
-    func controllerDidChangeContent(controller: NSFetchedResultsController!) {
-        tableView.reloadData()
-    }
-    
-    func DismissKeyboard(){
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        //tableView.endEditing(true)
     }
     
     // MARK:- UITextField delegate method
@@ -755,10 +783,4 @@ func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRa
         
         txtFldActive = false
     }
-    
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return data["marker_type"] as! String == "new_training" ? 1 : 2
-    }
-    
 }
