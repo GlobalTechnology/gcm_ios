@@ -94,7 +94,30 @@ class settingsViewController: UITableViewController {
 //        
 //         return cell
 //    }
+    
+    var timer = NSTimer()
+
+    func showLoader(){
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
+        
+     timer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: Selector("stopLoader"), userInfo: nil, repeats: true)
+
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "showLoaderInSetting", object: nil)
+    }
+    
+    func stopLoader(){
+        dispatch_async(dispatch_get_main_queue(), {
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+        })
+        
+        timer.invalidate()
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showLoader", name: "showLoaderInSetting", object: nil)
+
         switch(indexPath.row)
         {
         case 2:

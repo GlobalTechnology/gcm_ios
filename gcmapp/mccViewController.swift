@@ -132,6 +132,6 @@ class mccViewController: UITableViewController, NSFetchedResultsControllerDelega
         notificationCenter.postNotificationName(GlobalConstants.kDidChangeMcc, object: nil)
         self.navigationController?.popToRootViewControllerAnimated(true)
         
+        NSNotificationCenter.defaultCenter().postNotificationName("showLoaderInSetting", object: nil)
     }
-    
 }

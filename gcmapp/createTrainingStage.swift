@@ -22,10 +22,10 @@ class createTrainingStage {
         self.number_completed = number_completed
       
     }
+    
     func toJSON() -> String{
         
         return "{\"training_id\": \(self.training_id), \"phase\": \(self.phase),\"date\": \"\(self.date)\", \"number_completed\": \(self.number_completed)}"
         
     }
-    
 }

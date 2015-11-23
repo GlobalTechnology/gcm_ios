@@ -73,11 +73,20 @@ extension Measurements {
             self.id_total = (ids["total"] as! String)
             self.id = self.id_total!;
         }
+        
+        
         if ids["local"] != nil {
             self.id_local = ids["local"] as! String
         }
+        else{
+            self.id_local = ""
+        }
+        
         if ids["person"] != nil {
             self.id_person = ids["person"] as! String
+        }
+        else{
+            self.id_person = ""
         }
         
         

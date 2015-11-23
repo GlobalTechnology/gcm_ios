@@ -437,7 +437,7 @@ class dataSync: NSObject {
         
         
         
-        ministry.id=a["ministry_id"] as! String
+        ministry.id = a["ministry_id"] as! String
         ministry.name = a["name"] as! String
         ministry.min_code = a["min_code"] as! String
         
@@ -1233,12 +1233,17 @@ class dataSync: NSObject {
                     frAssignment.predicate=NSPredicate(format: "ministry.id == %@ && person_id == %@", mv.measurement.ministry_id, NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String )
                     let this_ass = moc!.executeFetchRequest(frAssignment,error: &error) as! [Assignment]
                     if this_ass.count>0 {
-                        //println(mv.measurement.id_person)
+                        
+//                    println(mv.measurement.id_local)
+//                    println(mv.measurement.ministry_id)
+//                    println(mv.period)
+//                    println(mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE)
+//                    println(mv.local)
+
+                        if(mv.measurement.id_person != ""){
                         update_values.append(Measurement(measurement_type_id: mv.measurement.id_person, related_entity_id: this_ass.first!.id! , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.me))
+                        }
                     }
-                    
-                    
-                    
                 }
                 
                 if mv.changed_local.boolValue{
@@ -1251,8 +1256,6 @@ class dataSync: NSObject {
 
                     update_values.append(Measurement(measurement_type_id: mv.measurement.id_local, related_entity_id: mv.measurement.ministry_id  , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.local))
                 }
-                
-                
             }
             
             

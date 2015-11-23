@@ -55,10 +55,6 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
-        
          let ministry = fetchedResultController.objectAtIndexPath(indexPath) as! Ministry
        
         var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: ministry.valueForKey("id")!,"min_id",ministry.valueForKey("latitude")!,"lat",ministry.valueForKey("longitude")!,"long",ministry.valueForKey("zoom")!,"zoom" )
@@ -94,10 +90,9 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
             }
             
             
-            
+            NSNotificationCenter.defaultCenter().postNotificationName("showLoaderInSetting", object: nil)
            
-                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewControllerAnimated(true)
 
                 // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
             
