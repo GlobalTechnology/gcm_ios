@@ -130,6 +130,8 @@ public class DatePickerCell: UITableViewCell {
         }
         
         datePickerContainer.clipsToBounds = true
+        datePicker.date = date
+        datePicker.datePickerMode = UIDatePickerMode.Date
         datePickerContainer.addSubview(datePicker)
         
         // Add a seperator between the date text display, and the datePicker. Lighter grey than a normal seperator.
@@ -355,6 +357,7 @@ public class DatePickerCell: UITableViewCell {
     
     // Action for the datePicker ValueChanged event.
     func datePicked() {
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "ChangeDateCell")
         date = datePicker.date
     }
 }

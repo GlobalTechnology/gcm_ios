@@ -267,10 +267,10 @@ class dataSync: NSObject {
                                 
                                     if dic["supported_staff"]! as! String == "1" {
                                         
-                                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SupprotedStaffSwichKey")
+                                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kSupprotedStaffSwichKey)
                                     }
                                     else{
-                                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "SupprotedStaffSwichKey")
+                                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kSupprotedStaffSwichKey)
                                     }
                                     
 

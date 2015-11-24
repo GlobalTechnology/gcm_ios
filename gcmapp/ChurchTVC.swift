@@ -246,6 +246,7 @@ class ChurchTVC: UITableViewController {
                 case 0:
                     let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Name"
+                    cell.value.tag = 0
                     cell.value.text = data["name"] as? String
                     cell.field_name = "name"
                     cell.church=self
@@ -253,6 +254,7 @@ class ChurchTVC: UITableViewController {
                 case 1:
                     let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Contact Name"
+                    cell.value.tag = 1
                     cell.value.text = data["contact_name"] as? String
                     cell.field_name = "contact_name"
                     cell.church=self
@@ -260,6 +262,7 @@ class ChurchTVC: UITableViewController {
                 case 2:
                     let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Contact Email"
+                    cell.value.tag = 2
                     cell.value.text = data["contact_email"] as? String
                     cell.field_name = "contact_email"
                     cell.church=self
@@ -267,6 +270,7 @@ class ChurchTVC: UITableViewController {
                 case 3:
                     let cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Contact Mobile"
+                    cell.value.tag = 3
                     cell.value.text = data["contact_mobile"] as? String
                     cell.field_name = "contact_mobile"
                     cell.church=self
@@ -274,6 +278,7 @@ class ChurchTVC: UITableViewController {
                 case 4:
                     let cell = tableView.dequeueReusableCellWithIdentifier("EditNumberCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.title.text = "Size"
+                    cell.value.tag = 4
                     cell.value.text = (data["size"] as! NSNumber).stringValue
                     cell.field_name = "size"
                     cell.church=self
@@ -567,6 +572,15 @@ class ChurchTVC: UITableViewController {
     }
     */
     
+    // MARK:- UITextField delegate method
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+            let maxLength = 4
+            let currentString: NSString = textField.text
+            let newString: NSString =
+            currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+    }
     
     // MARK: - Navigation
     

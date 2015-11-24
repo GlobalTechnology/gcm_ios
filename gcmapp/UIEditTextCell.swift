@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditTextCell: UITableViewCell {
+class UIEditTextCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var title: UILabel!
     
     @IBAction func tbEditingDidEnd(sender: UITextField) {
@@ -65,6 +65,7 @@ class UIEditTextCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        value.delegate = self
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -73,5 +74,24 @@ class UIEditTextCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-
+    // MARK:- UITextField delegate method
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if(textField.tag == 4){
+        let maxLength = 4
+        let currentString: NSString = textField.text
+        let newString: NSString =
+        currentString.stringByReplacingCharactersInRange(range, withString: string)
+        return newString.length <= maxLength
+    }
+        else if(textField.tag == 3){
+            let maxLength = 15
+            let currentString: NSString = textField.text
+            let newString: NSString =
+            currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+        }
+        else{
+           return true
+        }
+    }
 }

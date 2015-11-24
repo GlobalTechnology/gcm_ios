@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = NSBundle.mainBundle().pathForResource("Config", ofType: "plist") {
             var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
            
+            
              GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
             
         }	

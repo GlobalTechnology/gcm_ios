@@ -373,8 +373,8 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
             
             self.loadData()
         
-        if(NSUserDefaults.standardUserDefaults().boolForKey("reloadPageControllerOnce") as Bool == false){
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "reloadPageControllerOnce")
+        if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kReloadPageControllerOnce) as Bool == false){
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kReloadPageControllerOnce)
         
             if let pageContentViewController = self.viewControllerAtIndex(0, measurementType: self.FAITH) {
                 self.pageViewControllerFaith.setViewControllers([pageContentViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
@@ -650,7 +650,7 @@ class Hack1ViewController: UIViewController, UIPageViewControllerDataSource, UIP
                         continue
                     }
 
-                    if (m.supported_staff_only == 1 && NSUserDefaults.standardUserDefaults().boolForKey("SupprotedStaffSwichKey") as Bool == true)
+                    if (m.supported_staff_only == 1 && NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kSupprotedStaffSwichKey) as Bool == true)
                     {
                         continue
                     }

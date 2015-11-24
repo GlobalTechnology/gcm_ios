@@ -115,6 +115,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func makeMenuBtnEnable(){
 
+        dispatch_async(dispatch_get_main_queue()) {
+
         if(self.makeUserEnable == true){
             self.makeUserEnable = false
             self.menuButton.enabled = true
@@ -123,13 +125,12 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             self.makeUserEnable = true
             self.menuButton.enabled = false
         }
+            
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear( animated)
-        
-       
-        
         
         // observer_getUserPreferences
         notificationManager.registerObserver(GlobalConstants.kShouldLoadUserPreferences) { note in
@@ -147,7 +148,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 var mark = m
                 if (mark.userData as! JSONDictionary)["id"]  as! NSNumber == trainingDic["training_id"] as! NSNumber
                 {
-                    
                     m.map = nil
                 }
             }
@@ -289,12 +289,16 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         }
         else
         {
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowTargets)
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowGroups)
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowChurches)
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowMultiplyingChurches)
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowParents)
-            NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowTraining)
+            if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kDoOnceSettingActive) == false){
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kDoOnceSettingActive)
+
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowTargets)
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowGroups)
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowChurches)
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowMultiplyingChurches)
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowParents)
+                NSUserDefaults.standardUserDefaults().setValue(true, forKey: GlobalConstants.kShowTraining)
+            }
         }
     }
     
@@ -635,7 +639,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 for resultItem in objects {
                     var qItem = resultItem as! TrainingCompletion
                     appDelegate.backgroundContext!.deleteObject(qItem)
-                    
                 }
                 
                 appDelegate.backgroundContext!.save(&error)
@@ -697,9 +700,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func redrawMap(){
        
-        makeUserEnable = true
-        self.makeMenuBtnEnable()
-        
 //        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FetchTheDetail")
         
         //println("This is run on the background queue")
@@ -904,8 +904,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                                 
                             }
                         }
-                        
-                        
                     }
                 
                      
@@ -941,12 +939,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                                 }
                                 else {
                                     
-                                    
                                 }
-                                
                             }
-                            
-                            
                         }
                         
                         
@@ -974,30 +968,14 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                                 marker.groundAnchor = CGPointMake(0.5, 1.0)
                                 self.markers.append(marker)
                             }
-                            
                         }
-                        
                     }
-                    
-                
-                
-                
-                
-                
-                
             } // e
-
-        
         })
 
-        
-        
-
-        
-       
-        
-     
-}
+        makeUserEnable = true
+        self.makeMenuBtnEnable()
+    }
     
     // MARK:- Search Bar delegate method
     

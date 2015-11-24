@@ -38,9 +38,13 @@ struct GlobalConstants {
     static let kUpdatePinInforamtionKey = "updatePinInforamtionKey" // for update the pin information
     static let kLogoutNotification = "logoutNotification" // for logout
     
-    
+    static let kReloadPageControllerOnce = "reloadPageControllerOnce" // for reloadPageControllerOnce
+
+    static let kSupprotedStaffSwichKey = "SupprotedStaffSwichKey" // for reloadPageControllerOnce    
     
     static let kFromLeftMenuHomeTap = "FromLeftMenuHomeTap" // for come from left slider menu
+
+    static let kDoOnceSettingActive = "DoOnceSettingActive" // for come from left slider menu
 
     static let kShowTargets = "showTargets" // for show only targets
     static let kShowGroups = "showGroups" // for show only Groups

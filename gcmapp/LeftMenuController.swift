@@ -125,7 +125,7 @@ class LeftMenuController: UIViewController {
             cell!.selectionStyle = UITableViewCellSelectionStyle.None
             
             var lblName:UILabel = UILabel()
-            lblName.frame = CGRectMake(10.0, 15.0, 300.0, 20.0)
+            lblName.frame = CGRectMake(10.0, 13.0, 300.0, 20.0)
             lblName.text = OneSkyOTAPlugin.localizedStringForKey(TableArray[indexPath.row - 1], value: nil, table: nil)
             
             cell.contentView.addSubview(lblName)
@@ -134,7 +134,7 @@ class LeftMenuController: UIViewController {
             var toggleSwitch = UISwitch()
             toggleSwitch.frame = CGRect(x: 200.0, y: 5.0, width: 40.0, height: 25.0)
             
-            if(NSUserDefaults.standardUserDefaults().boolForKey("SupprotedStaffSwichKey") as Bool == true){
+            if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kSupprotedStaffSwichKey) as Bool == true){
                 toggleSwitch.setOn(true, animated: false)
             }
             else{
@@ -146,7 +146,7 @@ class LeftMenuController: UIViewController {
         }
         else{
             var lblName:UILabel = UILabel()
-            lblName.frame = CGRectMake(10.0, 15.0, 300.0, 20.0)
+            lblName.frame = CGRectMake(10.0, 13.0, 300.0, 20.0)
             lblName.text = OneSkyOTAPlugin.localizedStringForKey(TableArray[indexPath.row - 1], value: nil, table: nil)
             
             cell.contentView.addSubview(lblName)
@@ -188,32 +188,15 @@ class LeftMenuController: UIViewController {
                     var storyboard = UIStoryboard(name: "Main", bundle: nil)
                     switch (indexPath.row)
                     {
-                    case 0:
-                        //println(indexPath.row
-                        break
-                        
                     case 1:
-                        //println(indexPath.row)
-                    if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                    {
                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                    }
-                    else{
-                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        return
-                    }
+                    
                         break
                         
                     case 2:
-                        
-                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                        {
-
                         if var team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
-                            
                             
                             if team_role == "self_assigned" {
                                 
@@ -221,111 +204,59 @@ class LeftMenuController: UIViewController {
                                 var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
                                 weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
                                 return
-                                
                             }
                         }
                         
                         
-                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "reloadPageControllerOnce")
+                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kReloadPageControllerOnce)
 
-                        //println(indexPath.row)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("Measurements") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        //println(indexPath.row)
-                        //println(indexPath.row)
-                        }
-                        else{
-                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                            return
-                        }
+                        
                         break
                         
                     case 3:
-                        //println(indexPath.row)
-                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                        {
                         let notificationCenter = NSNotificationCenter.defaultCenter()
                         notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
                         
                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kFromLeftMenuHomeTap)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        }
-                        else{
-                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                            return
-                        }
+                        
                         break
                         
                     case 4:
-                        //println(indexPath.row)
-                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                        {
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("NewMinistryTVC") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        //println(indexPath.row)
-                        }
-                        else{
-                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                            return
-                        }
-                        break
                         
-                    case 5:
-                        //println(indexPath.row)
                         break
-                        
+                   
                     case 6:
-                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                        {
-                        //println(indexPath.row)
                         var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("settings") as! UIViewController
                         weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        //println(indexPath.row)
-                    }
-                    else{
-                        var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                        weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                        return
-                    }
+                    
                         break
                         
                         
                     case 7:
-                        if(NSUserDefaults.standardUserDefaults().boolForKey("FetchTheDetail") == true)
-                        {
-                        //println(indexPath.row)
                         let notificationCenter = NSNotificationCenter.defaultCenter()
                         notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
-                        }
-                        else{
-                            var initialViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("home") as! UIViewController
-                            weakSelf.revealViewController().pushFrontViewController(initialViewController, animated: true)
-                            return
-                        }
+                        NSUserDefaults.standardUserDefaults().removeObjectForKey(GlobalConstants.kDoOnceSettingActive)
                         break
                         
                     default:
                         break
                     }
-                    
                 }
-                
             }
         }
-        
-        
-      
     }
     
     func SupprotedStaffSwichChange(swtch: UISwitch)
     {
         if(swtch.on)
         {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SupprotedStaffSwichKey")
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: GlobalConstants.kSupprotedStaffSwichKey)
           
 
             var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: 1,"supported_staff")
@@ -335,7 +266,7 @@ class LeftMenuController: UIViewController {
         }
         else
         {
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "SupprotedStaffSwichKey")
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kSupprotedStaffSwichKey)
             
             var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: 0,"supported_staff")
             

@@ -132,7 +132,10 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 training.first!.name=data["name"] as! String
                 training.first!.type=data["type"] as! String
                 
-                
+                if(NSUserDefaults.standardUserDefaults().boolForKey("ChangeDateCell") == true){
+                    
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("ChangeDateCell")
+                    
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "dd/MM/yyyy" //"yyyy-MM-dd"
                 
@@ -142,13 +145,15 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                     
                     dateFormatter.dateFormat = "yyyy-MM-dd"
                     training.first!.date = dateFormatter.stringFromDate(date)
+                    
                     data["date"] = dateFormatter.stringFromDate(date)
 
                 } else {
                     
                     //println("Error message") // "Error message"
                 }
-                
+            }
+            
             }
             
             if !managedContext.save(&error) {
@@ -302,18 +307,13 @@ override func viewDidAppear(animated: Bool) {
             }
             else
             {
-                
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false){
                     
                     return 7
-                    
                 }
                 
                 return 5
-                
             }
-
-            
         }
         else{
             
@@ -507,7 +507,6 @@ override func viewDidAppear(animated: Bool) {
                  
                 
                    return cells[0][0] as! UITableViewCell
-                    
                 }
                     
                 else if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
