@@ -7,6 +7,10 @@
 //
 
 #import "GMALoginViewController.h"
+#import <GoogleAnalytics-iOS-SDK/GAI.h>
+#import <GoogleAnalytics-iOS-SDK/GAIFields.h>
+#import <GoogleAnalytics-iOS-SDK/GAITracker.h>
+#import <GoogleAnalytics-iOS-SDK/GAIDictionaryBuilder.h>
 
 @interface GMALoginViewController (){
     
@@ -44,9 +48,9 @@
     
     self.webView.delegate = self;
     
-//    id tracker = [[GAI sharedInstance] defaultTracker];
-//    [tracker set:  kGAIScreenName value:@"login"];
-//    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"login"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 
