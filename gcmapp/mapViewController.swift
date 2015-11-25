@@ -353,7 +353,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 
         if(self.isFilterPopupOpen == true)
         {
-            
             self.isFilterPopupOpen = false
             self.subView.removeFromSuperview()
             // self.redrawMap()

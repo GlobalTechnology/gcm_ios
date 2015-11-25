@@ -89,9 +89,9 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
                 }
             }
             
-            
             NSNotificationCenter.defaultCenter().postNotificationName("showLoaderInSetting", object: nil)
            
+            notificationCenter.postNotificationName(GlobalConstants.kShouldLoadUserPreferences, object: nil)
             self.navigationController?.popToRootViewControllerAnimated(true)
 
                 // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
