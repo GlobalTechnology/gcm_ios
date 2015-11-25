@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7d1-Ba-scg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7d1-Ba-scg">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -18,8 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46b-Mf-V18" userLabel="BottomBar">
-                                <rect key="frame" x="0.0" y="844" width="600" height="56"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46b-Mf-V18" userLabel="BottomBar">
+                                <rect key="frame" x="0.0" y="850" width="600" height="50"/>
+                                <animations/>
                                 <color key="backgroundColor" red="0.050980392159999999" green="0.098039215690000001" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="IXU-Bb-gXa"/>
@@ -27,21 +28,25 @@
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_bg_03" translatesAutoresizingMaskIntoConstraints="NO" id="cma-m5-hyd">
                                 <rect key="frame" x="16" y="262" width="568" height="568"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="cma-m5-hyd" secondAttribute="height" multiplier="1:1" id="DgZ-aM-aeg"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App_Banner_tall_01" translatesAutoresizingMaskIntoConstraints="NO" id="rLg-v5-4kb">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="242"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="rLg-v5-4kb" secondAttribute="height" multiplier="300:121" id="uMQ-EN-kk4"/>
                                 </constraints>
                             </imageView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.92156862750000001" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="46b-Mf-V18" secondAttribute="trailing" constant="-16" id="5M9-yn-h3a"/>
                             <constraint firstItem="cma-m5-hyd" firstAttribute="top" secondItem="rLg-v5-4kb" secondAttribute="bottom" constant="20" id="6uN-Xf-uEh"/>
+                            <constraint firstItem="46b-Mf-V18" firstAttribute="bottom" secondItem="IMu-vT-eQW" secondAttribute="top" id="AGt-KM-NrQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rLg-v5-4kb" secondAttribute="trailing" constant="-16" id="C3e-qC-3dA"/>
                             <constraint firstItem="46b-Mf-V18" firstAttribute="leading" secondItem="6Gc-WI-XHu" secondAttribute="leadingMargin" constant="-16" id="LgZ-4w-b8H"/>
                             <constraint firstItem="cma-m5-hyd" firstAttribute="leading" secondItem="6Gc-WI-XHu" secondAttribute="leadingMargin" id="OHc-fG-ViZ"/>
