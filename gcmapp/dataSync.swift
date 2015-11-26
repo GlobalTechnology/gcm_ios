@@ -416,7 +416,7 @@ class dataSync: NSObject {
     } // end init and resisterd all observers
     
     func addAssignment(a:JSONDictionary, user:Dictionary<String, String>, allMinistries:[Ministry]?) -> String?{
-        
+
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
@@ -1433,11 +1433,7 @@ class dataSync: NSObject {
                     //Nothing to do...
                 }
             }
-            
-            
         }
-        
-        
     }
     
     //>---------------------------------------------------------------------------------------------------
@@ -1596,7 +1592,6 @@ class dataSync: NSObject {
             }
         }
         
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "FetchTheDetail")
          self.reset()
         //  self.tracker.send(GAIDictionaryBuilder.createEventWithCategory( "auth", action: "logout", label: nil, value: nil).build()  as [NSObject: AnyObject])
         //Delete everything in the database

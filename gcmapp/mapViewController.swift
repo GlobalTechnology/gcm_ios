@@ -55,13 +55,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FetchTheDetail")
-        
         menuButton.enabled = false
         makeUserEnable = false
         
         if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-            self.title = title
+            self.navigationController?.navigationBar.topItem?.title = title
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "redrawMap", name: "callRedrawMethod", object: nil)
@@ -108,14 +106,15 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         self.mapView.settings.compassButton = true
-
-        
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "makeMenuButtonActive", name: "makeMenuButtonActiveKey", object: nil)
     }
     
     func makeMenuBtnEnable(){
 
         dispatch_async(dispatch_get_main_queue()) {
+            
+        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+            self.navigationController?.navigationBar.topItem?.title = title
+        }
 
         if(self.makeUserEnable == true){
             self.makeUserEnable = false
@@ -543,6 +542,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             })
             
+            
             if var userpreferencesData: JSONDictionary = data as? JSONDictionary {
                 
                 var error: NSError?
@@ -570,9 +570,29 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                             // the key exists in the dictionary
                             
                             var mapArr = userpreferencesData["default_map_views"] as! JSONArray
+                            
+                            
                             for m in mapArr {
                                 
                                 var locationDic = m["location"] as! JSONDictionary
+
+                                
+                                var error: NSError?
+                                fetchRequest.predicate = NSPredicate(format: "id = %@", m["ministry_id"] as! String!)
+                                let ministry = moc!.executeFetchRequest(fetchRequest, error: &error) as! [Ministry]
+                                if ministry.count>0{
+                                    
+                                    ministry.first!.latitude = locationDic["latitude"] as! NSNumber
+                                    ministry.first!.longitude = locationDic["longitude"] as! NSNumber
+                                    ministry.first!.zoom = m["location_zoom"] as! NSNumber
+                                }
+                                    
+                                if !moc!.save(&error) {
+                                    //println("Could not save \(error), \(error?.userInfo)")
+                                }
+                                
+                                
+                                
                                 
                                 var minId = m["ministry_id"] as! String
                                 var lat: AnyObject? = locationDic["latitude"]   //["location"]["latitude"]
@@ -698,19 +718,19 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     
     func redrawMap(){
-       
-//        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FetchTheDetail")
-        
+               
         //println("This is run on the background queue")
         
         var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
         var mcc  = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as! String?)
-        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-            self.title = title
-        }
+        
         if(mcc != nil){
             mcc = mcc!.lowercaseString
         }
+        
+        makeUserEnable = true
+        self.makeMenuBtnEnable()
+
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
@@ -778,20 +798,10 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                 // update some UI
                 
                     //println("This is run on the main queue, after the previous code in outer block")
-                    
-                    // self.mapView.clear()
-                    
-                    //println(" line \(__LINE__) in Redraw Map function \(__FUNCTION__)")
-                    
-                    
-                    
-                    
-                    
+                
                     //Find Items to delete
                     var toDelete = self.markers.filter {  (($0 as GMSMarker).userData as! JSONDictionary)["marker_type"] as! String != "church" || !mapViewController.churchesContainsId((($0 as GMSMarker).userData as! JSONDictionary)["id"]  as! NSNumber, churches: self.churches)}
-                    
-                    
-                    
+                
                     
                     for m in toDelete{
                         
@@ -972,8 +982,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             } // e
         })
 
-        makeUserEnable = true
-        self.makeMenuBtnEnable()
     }
     
     // MARK:- Search Bar delegate method
@@ -1505,12 +1513,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             {
                 var ministryId  = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String?
                 
-    //            mapVC.ministry.zoom = mapVC.mapView.camera.zoom
-    //            mapVC.ministry.latitude = mapVC.mapView.camera.target.latitude
-    //            mapVC.ministry.longitude = mapVC.mapView.camera.target.longitude
-                
                 var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: ministryId!,"min_id",mapView.camera.target.latitude,"lat",mapView.camera.target.longitude,"long",mapView.camera.zoom,"zoom" )
-                
                 
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 var moc: NSManagedObjectContext? = appDelegate.managedObjectContext

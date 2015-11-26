@@ -382,7 +382,7 @@
                 if responseData.length>0{
                     
                     json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
-                    //println(json)
+//                    println(json)
                     
                     if (error != nil) {
                         var error_msg = NSString(data: responseData, encoding: NSUTF8StringEncoding)

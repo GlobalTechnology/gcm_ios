@@ -240,8 +240,8 @@ class LeftMenuController: UIViewController {
                         
                     case 7:
                         let notificationCenter = NSNotificationCenter.defaultCenter()
-                        notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
                         NSUserDefaults.standardUserDefaults().removeObjectForKey(GlobalConstants.kDoOnceSettingActive)
+                        notificationCenter.postNotificationName(GlobalConstants.kLogout, object: self)
                         break
                         
                     default:

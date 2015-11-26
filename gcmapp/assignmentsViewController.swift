@@ -59,7 +59,6 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
        
         var mapInfoDic: NSDictionary = NSDictionary(objectsAndKeys: ministry.valueForKey("id")!,"min_id",ministry.valueForKey("latitude")!,"lat",ministry.valueForKey("longitude")!,"long",ministry.valueForKey("zoom")!,"zoom" )
         
-        
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
         
@@ -67,7 +66,7 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
             
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
-            
+
             NSUserDefaults.standardUserDefaults().synchronize()
             NSUserDefaults.standardUserDefaults().setObject(ministry.id, forKey: "ministry_id")
             NSUserDefaults.standardUserDefaults().setObject(ministry.name, forKey: "ministry_name")
@@ -91,7 +90,6 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
             
             NSNotificationCenter.defaultCenter().postNotificationName("showLoaderInSetting", object: nil)
            
-            notificationCenter.postNotificationName(GlobalConstants.kShouldLoadUserPreferences, object: nil)
             self.navigationController?.popToRootViewControllerAnimated(true)
 
                 // Task 3: Return data and update on the main thread, all UI calls should be on the main thread
