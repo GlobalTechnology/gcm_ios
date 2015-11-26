@@ -65,7 +65,7 @@ class assignmentsViewController: UITableViewController, NSFetchedResultsControll
         moc?.performBlockAndWait ({
             
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
+        //notificationCenter.postNotificationName(GlobalConstants.kShouldSaveUserPreferences, object: nil, userInfo: mapInfoDic as! JSONDictionary)
 
             NSUserDefaults.standardUserDefaults().synchronize()
             NSUserDefaults.standardUserDefaults().setObject(ministry.id, forKey: "ministry_id")

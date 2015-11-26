@@ -111,20 +111,18 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     func makeMenuBtnEnable(){
 
         dispatch_async(dispatch_get_main_queue()) {
-            
-        if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-            self.navigationController?.navigationBar.topItem?.title = title
-        }
+            if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+                self.navigationController?.navigationBar.topItem?.title = title
+            }
 
-        if(self.makeUserEnable == true){
-            self.makeUserEnable = false
-            self.menuButton.enabled = true
-        }
-        else{
-            self.makeUserEnable = true
-            self.menuButton.enabled = false
-        }
-            
+            if(self.makeUserEnable == true){
+                self.makeUserEnable = false
+                self.menuButton.enabled = true
+            }
+            else{
+                self.makeUserEnable = true
+                self.menuButton.enabled = false
+            }
         }
     }
     
@@ -200,69 +198,69 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         mapView.settings.rotateGestures = false
         
-        notificationManager.registerObserver(GlobalConstants.kDrawTrainingPinKey) {(notification:NSNotification!) in
-            
-            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-            dispatch_async(backgroundQueue, {
-                //println("This is run on the background queue")
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    //println("This is run on the main queue, after the previous code in outer block")
-                    
-                    let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
-                    
-                    var position = CLLocationCoordinate2DMake(userInfo["latitude"] as! CLLocationDegrees, userInfo["longitude"] as! CLLocationDegrees)
-                    
-                    var  marker = GMSMarker(position: position)
-                    marker.icon = UIImage(named: "train" )
-                    
-                    marker.title = userInfo["name"] as! String
-                    marker.map = self.mapView
-                    
-                    //        userInfo["marker_type"] = "training"
-                    
-                    marker.userData = userInfo
-                    marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
-                    marker.groundAnchor = CGPointMake(0.5, 1.0)
-                    marker.opacity=1.0
-                    self.markers.append(marker)
-                    //        lblMove.hidden = false
-                    self.view.bringSubviewToFront(self.lblMove)
-                })
-            })
-        }
-        
-        notificationManager.registerObserver(GlobalConstants.kDrawChurchPinKey) {(notification:NSNotification!) in
-            
-            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-            dispatch_async(backgroundQueue, {
-                //println("This is run on the background queue")
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    //println("This is run on the main queue, after the previous code in outer block")
-                    
-                    let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
-                    
-                    var position = CLLocationCoordinate2DMake(userInfo["latitude"] as! CLLocationDegrees, userInfo["longitude"] as! CLLocationDegrees)
-                    
-                    var  marker = GMSMarker(position: position)
-                    marker.icon = UIImage(named: mapViewController.getIconNameForChurch(1))
-                    
-                    marker.title = userInfo["name"] as! String
-                    marker.map = self.mapView
-                    marker.userData = userInfo
-                    marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
-                    marker.groundAnchor = CGPointMake(0.5, 1.0)
-                    marker.opacity=1.0
-                    self.markers.append(marker)
-                    //        lblMove.hidden = false
-                    self.view.bringSubviewToFront(self.lblMove)
-                    
-                })
-            })
-        }
+//        notificationManager.registerObserver(GlobalConstants.kDrawTrainingPinKey) {(notification:NSNotification!) in
+//            
+//            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+//            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+//            dispatch_async(backgroundQueue, {
+//                //println("This is run on the background queue")
+//                
+//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                    //println("This is run on the main queue, after the previous code in outer block")
+//                    
+//                    let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
+//                    
+//                    var position = CLLocationCoordinate2DMake(userInfo["latitude"] as! CLLocationDegrees, userInfo["longitude"] as! CLLocationDegrees)
+//                    
+//                    var  marker = GMSMarker(position: position)
+//                    marker.icon = UIImage(named: "train" )
+//                    
+//                    marker.title = userInfo["name"] as! String
+//                    marker.map = self.mapView
+//                    
+//                    //        userInfo["marker_type"] = "training"
+//                    
+//                    marker.userData = userInfo
+//                    marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+//                    marker.groundAnchor = CGPointMake(0.5, 1.0)
+//                    marker.opacity=1.0
+//                    self.markers.append(marker)
+//                    //        lblMove.hidden = false
+//                    self.view.bringSubviewToFront(self.lblMove)
+//                })
+//            })
+//        }
+//        
+//        notificationManager.registerObserver(GlobalConstants.kDrawChurchPinKey) {(notification:NSNotification!) in
+//            
+//            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+//            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+//            dispatch_async(backgroundQueue, {
+//                //println("This is run on the background queue")
+//                
+//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                    //println("This is run on the main queue, after the previous code in outer block")
+//                    
+//                    let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
+//                    
+//                    var position = CLLocationCoordinate2DMake(userInfo["latitude"] as! CLLocationDegrees, userInfo["longitude"] as! CLLocationDegrees)
+//                    
+//                    var  marker = GMSMarker(position: position)
+//                    marker.icon = UIImage(named: mapViewController.getIconNameForChurch(1))
+//                    
+//                    marker.title = userInfo["name"] as! String
+//                    marker.map = self.mapView
+//                    marker.userData = userInfo
+//                    marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
+//                    marker.groundAnchor = CGPointMake(0.5, 1.0)
+//                    marker.opacity=1.0
+//                    self.markers.append(marker)
+//                    //        lblMove.hidden = false
+//                    self.view.bringSubviewToFront(self.lblMove)
+//                    
+//                })
+//            })
+//        }
         
         notificationManager.registerObserver(GlobalConstants.kUpdatePinInforamtionKey) {(notification:NSNotification!) in
             
@@ -283,7 +281,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         if(NSUserDefaults.standardUserDefaults().boolForKey(GlobalConstants.kFromLeftMenuHomeTap) == true)
         {
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kFromLeftMenuHomeTap)
-            
             self.redrawMap()
         }
         else
