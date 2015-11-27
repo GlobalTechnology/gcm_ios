@@ -28,39 +28,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var dict = NSDictionary(contentsOfFile: path) as! Dictionary<String, String>
            
             
-             GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
-            
-        }	
-        
-        
-//        GAI.sharedInstance().trackUncaughtExceptions = true
-//        GAI.sharedInstance().dispatchInterval = 20
-//        GAI.sharedInstance().logger.logLevel =  GAILogLevel.Verbose
-//        GAI.sharedInstance().trackerWithTrackingId("UA-29919940-7")
-        
-        var pre: String = NSLocale.preferredLanguages()[0] as! String
-        println(pre)
-        
-        OneSkyOTAPlugin.provideAPIKey("CsdvDT7Ucuduf6PsvKmbubaB8S8cszzU", APISecret: nil, projectID: "101956")
-        OneSkyOTAPlugin.checkForUpdate()
-        //  OneSkyOTAPlugin.setLanguage("es")
-        
-        
-//        var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
-//        
-//        println(languageCode)
-        
-        
-        //  [OneSkyOTAPlugin localizedStringForKey:(key) value:@"" table:nil]
-
-        //  println(OneSkyOTAPlugin.localizedStringForKey("Targets", value: nil, table: nil))
-        //   println(OneSkyOTAPlugin.localizedStringForKey("Groups", value: nil, table: nil))
- 
-        
-        
-
-      
-        
+			GMSServices.provideAPIKey(dict["GoogleMapsApiKey"])
+			
+			GAI.sharedInstance().trackUncaughtExceptions = true
+			GAI.sharedInstance().dispatchInterval = 20
+			GAI.sharedInstance().logger.logLevel =  GAILogLevel.Verbose
+			GAI.sharedInstance().trackerWithTrackingId(dict["GoogleAnalyticsApiKey"])
+			
+			OneSkyOTAPlugin.provideAPIKey(dict["OneSkyApiKey"], APISecret: nil, projectID:dict["OneSkyProjectID"])
+			OneSkyOTAPlugin.checkForUpdate()
+			
+        }
         
         return true
     }

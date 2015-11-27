@@ -11,3 +11,4 @@
 #import <HTAutoCompleteTextField.h>
 #import "HTAutoCompleteManager.h"
 #import <OneSkyOTAPlugin/OneSkyOTAPlugin.h>
+#import <GoogleAnalytics-iOS-SDK/GAI.h>
