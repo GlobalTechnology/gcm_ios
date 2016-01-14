@@ -27,9 +27,9 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
     @IBOutlet weak var name: UILabel!
     
     func SaveChanges() {
-//        if read_only{
-//            return;
-//        }
+        //        if read_only{
+        //            return;
+        //        }
         var error: NSError?
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
@@ -37,48 +37,48 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
         
         if(data["marker_type"] as! String == "new_training"){
             
-
-                //create new training
-                let entity =  NSEntityDescription.entityForName("Training", inManagedObjectContext: managedContext)
-                var training = NSManagedObject(entity: entity!,
-                    insertIntoManagedObjectContext:managedContext) as! Training
-                
-                
-                training.changed   =  true
-                training.name      =  data["name"] as! String
-                if(data["type"] as! String == "Other"){
-                    training.type =  ""
-                }
-                else{
-                    training.type =  data["type"] as! String
-                }
             
-                //println(training.type)
-                training.longitude =  data["longitude"] as! Float
-                training.latitude  =  data["latitude"] as! Float
-                training.id        =  -1  //indicates new church
-                data["marker_type"] = "training"
-                data["id"] = -1
-                //            data["marker_type"] = "new_training"
-                //            data["name"] = ""
-                //            data["type"] = ""
-                data["date"] = GlobalFunctions.currentDate()
-                //            data["id"] = -1
-                data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
-
-                if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String
-                {
-                    training.ministry_id = ministry_id
-                    data["ministry_id"] = ministry_id
-                }
+            //create new training
+            let entity =  NSEntityDescription.entityForName("Training", inManagedObjectContext: managedContext)
+            var training = NSManagedObject(entity: entity!,
+                insertIntoManagedObjectContext:managedContext) as! Training
             
-                
-                if let mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as? String)
-                {
-                    training.mcc =  mcc.lowercaseString
-                }
-                
-                
+            
+            training.changed   =  true
+            training.name      =  data["name"] as! String
+            if(data["type"] as! String == "Other"){
+                training.type =  ""
+            }
+            else{
+                training.type =  data["type"] as! String
+            }
+            
+            //println(training.type)
+            training.longitude =  data["longitude"] as! Float
+            training.latitude  =  data["latitude"] as! Float
+            training.id        =  -1  //indicates new church
+            data["marker_type"] = "training"
+            data["id"] = -1
+            //            data["marker_type"] = "new_training"
+            //            data["name"] = ""
+            //            data["type"] = ""
+            data["date"] = GlobalFunctions.currentDate()
+            //            data["id"] = -1
+            data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
+            
+            if let ministry_id = NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String
+            {
+                training.ministry_id = ministry_id
+                data["ministry_id"] = ministry_id
+            }
+            
+            
+            if let mcc = (NSUserDefaults.standardUserDefaults().objectForKey("mcc") as? String)
+            {
+                training.mcc =  mcc.lowercaseString
+            }
+            
+            
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy" //"yyyy-MM-dd"
             
@@ -99,27 +99,27 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             }
             
             
-                if let created_by = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String {
-                    training.created_by = created_by
-                }
-
-                
-//                if !managedContext.save(&error) {
-//                    //println("Could not save \(error), \(error?.userInfo)")
-//                }
+            if let created_by = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String {
+                training.created_by = created_by
+            }
             
-                appDelegate.saveContext()
-                
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
             
-                // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
+            //                if !managedContext.save(&error) {
+            //                    //println("Could not save \(error), \(error?.userInfo)")
+            //                }
+            
+            appDelegate.saveContext()
+            
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
+            
+            // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
             // notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
             
-//                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawTrainingPinKey, object: nil, userInfo: data as JSONDictionary)
+            //                NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawTrainingPinKey, object: nil, userInfo: data as JSONDictionary)
             
             
-//            }
+            //            }
         }
             
         else if self.changed {
@@ -134,26 +134,26 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
                 
                 if(NSUserDefaults.standardUserDefaults().boolForKey("ChangeDateCell") == true){
                     
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("ChangeDateCell")
+                    NSUserDefaults.standardUserDefaults().removeObjectForKey("ChangeDateCell")
                     
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "dd/MM/yyyy" //"yyyy-MM-dd"
-                
-                let strDate = dateFormatter.stringFromDate(datePickerCell.date)
-                
-                if let date = dateFormatter.dateFromString(strDate) {
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "dd/MM/yyyy" //"yyyy-MM-dd"
                     
-                    dateFormatter.dateFormat = "yyyy-MM-dd"
-                    training.first!.date = dateFormatter.stringFromDate(date)
+                    let strDate = dateFormatter.stringFromDate(datePickerCell.date)
                     
-                    data["date"] = dateFormatter.stringFromDate(date)
-
-                } else {
-                    
-                    //println("Error message") // "Error message"
+                    if let date = dateFormatter.dateFromString(strDate) {
+                        
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        training.first!.date = dateFormatter.stringFromDate(date)
+                        
+                        data["date"] = dateFormatter.stringFromDate(date)
+                        
+                    } else {
+                        
+                        //println("Error message") // "Error message"
+                    }
                 }
-            }
-            
+                
             }
             
             if !managedContext.save(&error) {
@@ -168,7 +168,7 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTraining, object: nil)
             
             //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
-
+            
             //GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
         
@@ -177,51 +177,51 @@ class trainingViewController: UITableViewController, UITableViewDelegate,UITextF
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeTrainingCompletion, object: nil)
             
             NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
-
+            
             // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "training", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
     }
     
-//>---------------------------------------------------------------------------------------------------
-// Author Name      :   Caleb Kapil
-// Date             :   Jan, 7 2015
-// Input Parameters :   strTitle - alertbox tilte, Message - alert box message
-// Purpose          :   For go to home class.
-//>----------------------------------------------------------------------------------------------------
-func callAlertView(strTitle :String,Message :String)
-{
-    var alert = UIAlertController(title: strTitle, message: Message, preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-        switch action.style{
-        case .Default:
-            println("default")
-            
-        case .Cancel:
-            println("cancel")
-            
-        case .Destructive:
-            println("destructive")
-        }
-    }))
+    //>---------------------------------------------------------------------------------------------------
+    // Author Name      :   Caleb Kapil
+    // Date             :   Jan, 7 2015
+    // Input Parameters :   strTitle - alertbox tilte, Message - alert box message
+    // Purpose          :   For go to home class.
+    //>----------------------------------------------------------------------------------------------------
+    func callAlertView(strTitle :String,Message :String)
+    {
+        var alert = UIAlertController(title: strTitle, message: Message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
-    self.presentViewController(alert, animated: true, completion: nil)
-}
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(true)
+        // self.navigationController!.delegate = self;
+        
+        self.tableView.reloadData()
+    }
     
-override func viewDidAppear(animated: Bool) {
-    
-    super.viewDidAppear(true)
-    // self.navigationController!.delegate = self;
-    
-    self.tableView.reloadData()
-}
-    
-     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         
         
         // var type_cell=tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0))!
         // type_cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : " "
         self.tableView.reloadData()
-
+        
     }
     
     
@@ -231,13 +231,13 @@ override func viewDidAppear(animated: Bool) {
         super.viewDidLoad()
         
         isEmptyField = false
-
+        
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         self.navigationController?.delegate = self
-
+        
         // The DatePickerCell.
         
         // Cells is a 2D array containing sections and rows.
@@ -257,7 +257,7 @@ override func viewDidAppear(animated: Bool) {
         else{
             created_id = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
         }
-
+        
         let descriptor = NSSortDescriptor(key: "phase", ascending: true)
         
         tc = (data["stages"] as! NSSet).sortedArrayUsingDescriptors([descriptor]) as! [TrainingCompletion]
@@ -292,13 +292,13 @@ override func viewDidAppear(animated: Bool) {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return data["marker_type"] as! String == "new_training" ? 1 : 2
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         dispatch_async(dispatch_get_main_queue(), {
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
         })
-
+        
         if section == 0{
             
             if data["marker_type"] as! String == "new_training" {
@@ -318,18 +318,18 @@ override func viewDidAppear(animated: Bool) {
         else{
             
             if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false) {
-            
-            if data["stages"] == nil{
-                return 1
+                
+                if data["stages"] == nil{
+                    return 1
+                }
+                else
+                {
+                    return   tc.count + 1
+                }
+                
             }
-            else
-            {
-                return   tc.count + 1
-            }
-            
-          }
             else{
-               
+                
                 if data["stages"] == nil{
                     return 0
                 }
@@ -354,34 +354,34 @@ override func viewDidAppear(animated: Bool) {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = UITableViewCell()
-
+        
         if indexPath.section == 1{
             if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training"
-            
-            {
-            if indexPath.row == tc.count {
-                cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as! UITableViewCell
-                return cell
-            }
-            else {
                 
-                var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as! TrainingCompCell
-                var stage = tc[indexPath.row] as TrainingCompletion
-                cell.stage.text = stage.phase.stringValue
-                cell.date.text  = stage.date
-                cell.participants.text = stage.number_completed.stringValue
-                cell.participants.delegate = self
-                cell.participants.tag = indexPath.row
-             
-                return cell
-            }
-            
+            {
+                if indexPath.row == tc.count {
+                    cell = tableView.dequeueReusableCellWithIdentifier("NewStageCell", forIndexPath: indexPath) as! UITableViewCell
+                    return cell
+                }
+                else {
+                    
+                    var cell = tableView.dequeueReusableCellWithIdentifier("TrainingCompCell", forIndexPath: indexPath) as! TrainingCompCell
+                    var stage = tc[indexPath.row] as TrainingCompletion
+                    cell.stage.text = stage.phase.stringValue
+                    cell.date.text  = stage.date
+                    cell.participants.text = stage.number_completed.stringValue
+                    cell.participants.delegate = self
+                    cell.participants.tag = indexPath.row
+                    
+                    return cell
+                }
+                
             }
             else{
                 var stage = tc[indexPath.row] as TrainingCompletion
                 
                 cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
-
+                
                 cell.textLabel?.text = "\(indexPath.row + 1)  \(stage.date)   participants:"
                 cell.detailTextLabel!.text = stage.number_completed.stringValue
             }
@@ -393,32 +393,32 @@ override func viewDidAppear(animated: Bool) {
             case 0: // Back
                 cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as! UITableViewCell
                 cell.textLabel!.text = data["marker_type"] as! String == "new_training" ? "Save" : "Back to Map"
-               
+                
             case 5: //Move
                 
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
-                
-                cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
+                    
+                    cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
                     // cell.userInteractionEnabled = data["marker_type"] as! String != "new_training" && !read_only
                     // cell.textLabel!.enabled = data["marker_type"] as! String != "new_training" && !read_only
-                cell.alpha=0.5
+                    cell.alpha=0.5
                     
                 }
                 
             case 6: //Delete
-               
+                
                 // only for allowed member
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
                     
-                cell = tableView.dequeueReusableCellWithIdentifier("DeleteCell", forIndexPath: indexPath) as! UITableViewCell
+                    cell = tableView.dequeueReusableCellWithIdentifier("DeleteCell", forIndexPath: indexPath) as! UITableViewCell
                     // cell.userInteractionEnabled = data["marker_type"] as! String != "new_training" && !read_only
                     // cell.textLabel!.enabled = data["marker_type"] as! String != "new_training" && !read_only
-                cell.alpha=0.5
+                    cell.alpha=0.5
                 }
-
+                
             case 1: //name
-               
-              
+                
+                
                 if (data["marker_type"] as! String == "new_training") {
                     var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
                     cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -429,11 +429,11 @@ override func viewDidAppear(animated: Bool) {
                     cell.value.text =   (data["name"] != nil) ? data["name"] as? String : ""
                     cell.value.delegate = self
                     cell.value.tag  =   -1
-
+                    
                     return cell
-  
+                    
                 }
-                
+                    
                 else if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
                     
                     var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
@@ -444,7 +444,7 @@ override func viewDidAppear(animated: Bool) {
                     cell.title.text = "Name"
                     cell.value.text = (data["name"] != nil) ? data["name"] as? String : ""
                     cell.value.delegate = self
-
+                    
                     return cell
                 }
                 else{
@@ -454,18 +454,18 @@ override func viewDidAppear(animated: Bool) {
                     cell.textLabel!.text = "Name"
                     
                     cell.detailTextLabel!.text = (data["name"] != nil) ? data["name"] as? String : ""
-
+                    
                 }
             case 2: //type
-              
-                 if (data["marker_type"] as! String == "new_training") {
+                
+                if (data["marker_type"] as! String == "new_training") {
                     
                     
-                        cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
+                    cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
                     
                     println(data)
-                        cell.detailTextLabel!.text =  (data["type"] != nil) ? data["type"] as? String : " "
-                 }
+                    cell.detailTextLabel!.text =  (data["type"] != nil) ? data["type"] as? String : " "
+                }
                     
                 else if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)  {
                     
@@ -473,10 +473,10 @@ override func viewDidAppear(animated: Bool) {
                     
                     cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : " "
                     
-//                    self.tableView.beginUpdates()
-//                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
-//
-//                    self.tableView.endUpdates()
+                    //                    self.tableView.beginUpdates()
+                    //                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
+                    //
+                    //                    self.tableView.endUpdates()
                     
                 }
                 else {
@@ -486,57 +486,57 @@ override func viewDidAppear(animated: Bool) {
                     cell.textLabel!.text = "Type"
                     
                     cell.detailTextLabel!.text = (data["type"] != nil) ? data["type"] as? String : " "
-             
+                    
                 }
                 
             case 3: //date
                 
                 if (data["marker_type"] as! String == "new_training") {
-//                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
-//                    cell.selectionStyle = UITableViewCellSelectionStyle.None
-//                    cell.isChurch=false
-//                    cell.training=self
-//                    cell.field_name="date"
-//                    cell.title.text = "Date"
-//                    cell.value.text = (data["date"] != nil) ? data["date"] as? String : ""
-//                    cell.value.tag = 3
-//                    
-//                    
-//                    return cell
+                    //                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
+                    //                    cell.selectionStyle = UITableViewCellSelectionStyle.None
+                    //                    cell.isChurch=false
+                    //                    cell.training=self
+                    //                    cell.field_name="date"
+                    //                    cell.title.text = "Date"
+                    //                    cell.value.text = (data["date"] != nil) ? data["date"] as? String : ""
+                    //                    cell.value.tag = 3
+                    //
+                    //
+                    //                    return cell
                     
-                 
-                
-                   return cells[0][0] as! UITableViewCell
+                    
+                    
+                    return cells[0][0] as! UITableViewCell
                 }
                     
                 else if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
-//                    
-//                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
-//                    cell.selectionStyle = UITableViewCellSelectionStyle.None
-//                    cell.isChurch=false
-//                    cell.training=self
-//                    cell.field_name="date"
-//                    cell.title.text = "Date"
-//                    cell.value.text = (data["date"] != nil) ? data["date"] as? String : ""
-//                    return cell
+                    //
+                    //                    var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UIEditTextCell
+                    //                    cell.selectionStyle = UITableViewCellSelectionStyle.None
+                    //                    cell.isChurch=false
+                    //                    cell.training=self
+                    //                    cell.field_name="date"
+                    //                    cell.title.text = "Date"
+                    //                    cell.value.text = (data["date"] != nil) ? data["date"] as? String : ""
+                    //                    return cell
                     
                     
-                     return cells[0][0] as! UITableViewCell
+                    return cells[0][0] as! UITableViewCell
                     
                 }
                 else{
                     
-//                    cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
-//                    
-//                    cell.textLabel!.text = "date"
-//                    
-//                    cell.detailTextLabel!.text = (data["date"] != nil) ? data["date"] as? String : ""
+                    //                    cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
+                    //
+                    //                    cell.textLabel!.text = "date"
+                    //
+                    //                    cell.detailTextLabel!.text = (data["date"] != nil) ? data["date"] as? String : ""
                     
                     return cells[0][0] as! UITableViewCell
-
+                    
                     
                 }
-
+                
             case 4:
                 
                 cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyTrainingCell", forIndexPath: indexPath) as! UITableViewCell
@@ -554,15 +554,15 @@ override func viewDidAppear(animated: Bool) {
             
         }
         // var cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
-         return cell
+        return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         // Get the correct height if the cell is a DatePickerCell.
         
         if (indexPath.section == 0 && indexPath.row == 3) {
-        
-        var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+            
+            var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
             if (cell.isKindOfClass(DatePickerCell)) {
                 return (cell as! DatePickerCell).datePickerHeight()
             }
@@ -572,15 +572,15 @@ override func viewDidAppear(animated: Bool) {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        
         self.view.endEditing(true)
-
+        
         if indexPath.section == 0{
             self.tableView.resignFirstResponder()
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
             switch(indexPath.row){
             case 0: // back
-
+                
                 println(data)
                 if data["name"] as? String == "" {
                     isEmptyField = true
@@ -602,18 +602,18 @@ override func viewDidAppear(animated: Bool) {
                     let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-              
+                
                 
                 break
                 
             case 5: //move
-
-               if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training" {
+                
+                if (created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false)) && data["marker_type"] as! String != "new_training" {
                     
                     self.mapVC.makeSelectedMarkerDraggable()
                     self.dismissViewControllerAnimated(true, completion: nil)
-               
-                
+                    
+                    
                 }
                 
                 break
@@ -660,7 +660,7 @@ override func viewDidAppear(animated: Bool) {
                 // Present the controller
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
-   
+                
                 
                 break
                 
@@ -675,15 +675,15 @@ override func viewDidAppear(animated: Bool) {
             case 3:
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
                     
-                        self.changed = true
-
-                        var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
-                        if (cell.isKindOfClass(DatePickerCell)) {
-                            var datePickerTableViewCell = cell as! DatePickerCell
-                            datePickerTableViewCell.selectedInTableView(tableView)
-                            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-                        }
+                    self.changed = true
+                    
+                    var cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+                    if (cell.isKindOfClass(DatePickerCell)) {
+                        var datePickerTableViewCell = cell as! DatePickerCell
+                        datePickerTableViewCell.selectedInTableView(tableView)
+                        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
                     }
+                }
                 break
                 
             default:
@@ -691,7 +691,7 @@ override func viewDidAppear(animated: Bool) {
                 
             }
             
-           
+            
             
             
         }
@@ -710,74 +710,74 @@ override func viewDidAppear(animated: Bool) {
                 let notificationCenter = NSNotificationCenter.defaultCenter()
                 var insert = createTrainingStage(training_id: data["id"] as! NSNumber, phase: tc.count + 1, date: GlobalFunctions.currentDate(), number_completed: 0)
                 notificationCenter.postNotificationName(GlobalConstants.kShouldAddNewTrainingPhase, object: self, userInfo: ["createTrainingStage": insert])
-               
+                
             }
         }
     }
     
     // MARK:- UITextField delegate method
-
-//    func textFieldShouldReturn(textField: UITextField) -> Bool {
-//        
-//    if(textField.text.isEmpty)
-//    {
-//        self.callAlertView("", Message: "Please enter name.")
-//    }
-//
-//        
-//        textField.resignFirstResponder()
-//        
-//        
-//        return true
-//    }
     
- var txtFldActive = Bool()
+    //    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    //
+    //    if(textField.text.isEmpty)
+    //    {
+    //        self.callAlertView("", Message: "Please enter name.")
+    //    }
+    //
+    //
+    //        textField.resignFirstResponder()
+    //
+    //
+    //        return true
+    //    }
+    
+    var txtFldActive = Bool()
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool{
         txtFldActive = true
         return true
     }
     
-func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
         if(textField.tag == -1)
         {
             return true
         }
         else{
-        
-        let maxLength = 4
-        let currentString: NSString = textField.text
-        let newString: NSString =
-        currentString.stringByReplacingCharactersInRange(range, withString: string)
-        return newString.length <= maxLength
+            
+            let maxLength = 4
+            let currentString: NSString = textField.text
+            let newString: NSString =
+            currentString.stringByReplacingCharactersInRange(range, withString: string)
+            return newString.length <= maxLength
+        }
     }
-}
     
     func textFieldDidEndEditing(textField: UITextField) {
         self.changed = true
-
+        
         if(textField.tag == -1)
         {
             data["name"] = textField.text as NSString
         }
         else{
-                let stage = tc[textField.tag] as TrainingCompletion
-        
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-                let managedContext = appDelegate.backgroundContext!
-                if stage.number_completed != (textField.text as NSString).integerValue
-                {
-                    stage.number_completed = (textField.text as NSString).integerValue
-                    stage.changed = true
-        
-                    var error: NSError?
-        
-                    if !managedContext.save(&error) {
-                        //println("Could not save \(error), \(error?.userInfo)")
-                    }
-                    
+            let stage = tc[textField.tag] as TrainingCompletion
+            
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            let managedContext = appDelegate.backgroundContext!
+            if stage.number_completed != (textField.text as NSString).integerValue
+            {
+                stage.number_completed = (textField.text as NSString).integerValue
+                stage.changed = true
+                
+                var error: NSError?
+                
+                if !managedContext.save(&error) {
+                    //println("Could not save \(error), \(error?.userInfo)")
                 }
+                
+            }
         }
         
         txtFldActive = false

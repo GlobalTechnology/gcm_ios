@@ -1027,11 +1027,9 @@ class dataSync: NSObject {
         }
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-
         var moc: NSManagedObjectContext? = appDelegate.managedObjectContext
         
         moc?.performBlock ({
-            
         
             var error: NSError?
             let frChurch =  NSFetchRequest(entityName:"Church" )
@@ -1050,7 +1048,6 @@ class dataSync: NSObject {
                             if !moc!.save(&error) {
                                 //println("Could not save \(error), \(error?.userInfo)")
                             }
-                            
                         }
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
@@ -1066,18 +1063,13 @@ class dataSync: NSObject {
                                 if !moc!.save(&error) {
                                     //println("Could not save \(error), \(error?.userInfo)")
                                 }
-                                
                             }
                         }
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("callRedrawMethod", object: nil)
-
                     }
                 }
-                
             }
-     
-            
         })
         
    

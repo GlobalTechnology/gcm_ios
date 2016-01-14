@@ -1,0 +1,267 @@
+
+/* Class = "UILabel"; text = "Upper Left"; ObjectID = "0Gh-my-hrx"; */
+"0Gh-my-hrx.text" = "Upper Left";
+
+/* Class = "UILabel"; text = "Back to Map"; ObjectID = "0RX-4e-4qE"; */
+"0RX-4e-4qE.text" = "Back to Map";
+
+/* Class = "UIButton"; normalTitle = "Outcomes"; ObjectID = "0Rk-kw-Vr2"; */
+"0Rk-kw-Vr2.normalTitle" = "Outcomes";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "1W2-zQ-nGB"; */
+"1W2-zQ-nGB.text" = "Title";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "1Yn-Zw-0pf"; */
+"1Yn-Zw-0pf.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "246-9I-8iF"; */
+"246-9I-8iF.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "2Or-wd-wIE"; */
+"2Or-wd-wIE.text" = "Detail";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "2Xm-yn-pVo"; */
+"2Xm-yn-pVo.text" = "Subtitle";
+
+/* Class = "UITextField"; text = "7"; ObjectID = "2aH-Ew-e8v"; */
+"2aH-Ew-e8v.text" = "7";
+
+/* Class = "UILabel"; text = "Back to Map"; ObjectID = "2dp-T9-CIc"; */
+"2dp-T9-CIc.text" = "Back to Map";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "2jP-cL-Ung"; */
+"2jP-cL-Ung.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "4Ue-O3-l4u"; */
+"4Ue-O3-l4u.text" = "Detail";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "78n-fg-Tet"; */
+"78n-fg-Tet.text" = "Title";
+
+/* Class = "UITextField"; placeholder = "Search"; ObjectID = "7RM-0o-gIy"; */
+"7RM-0o-gIy.placeholder" = "Search";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "80C-F8-Pal"; */
+"80C-F8-Pal.text" = "Title";
+
+/* Class = "UISegmentedControl"; 8Rh-TG-MhL.segmentTitles[0] = "All Measurements"; ObjectID = "8Rh-TG-MhL"; */
+"8Rh-TG-MhL.segmentTitles[0]" = "All Measurements";
+
+/* Class = "UISegmentedControl"; 8Rh-TG-MhL.segmentTitles[1] = "Favourites"; ObjectID = "8Rh-TG-MhL"; */
+"8Rh-TG-MhL.segmentTitles[1]" = "Favourites";
+
+/* Class = "UISegmentedControl"; 8tl-x7-5DH.segmentTitles[0] = "<<"; ObjectID = "8tl-x7-5DH"; */
+"8tl-x7-5DH.segmentTitles[0]" = "<<";
+
+/* Class = "UISegmentedControl"; 8tl-x7-5DH.segmentTitles[1] = "Period"; ObjectID = "8tl-x7-5DH"; */
+"8tl-x7-5DH.segmentTitles[1]" = "Period";
+
+/* Class = "UISegmentedControl"; 8tl-x7-5DH.segmentTitles[2] = ">>"; ObjectID = "8tl-x7-5DH"; */
+"8tl-x7-5DH.segmentTitles[2]" = ">>";
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "AND-1a-ZnN"; */
+"AND-1a-ZnN.title" = "Title";
+
+/* Class = "UILabel"; text = "MCC"; ObjectID = "BvU-E7-Um3"; */
+"BvU-E7-Um3.text" = "MCC";
+
+/* Class = "UILabel"; text = "WIN"; ObjectID = "Cdu-DL-7IT"; */
+"Cdu-DL-7IT.text" = "WIN";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "DSu-xO-x7c"; */
+"DSu-xO-x7c.text" = "Title";
+
+/* Class = "UILabel"; text = "Multiplying Church"; ObjectID = "EUo-Mc-eoa"; */
+"EUo-Mc-eoa.text" = "Multiplying Church";
+
+/* Class = "UILabel"; text = "Church"; ObjectID = "F3d-Vl-Vde"; */
+"F3d-Vl-Vde.text" = "Church";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "FZc-4p-fCQ"; */
+"FZc-4p-fCQ.title" = "Settings";
+
+/* Class = "UILabel"; text = "Upper Right"; ObjectID = "Foc-aQ-kXO"; */
+"Foc-aQ-kXO.text" = "Upper Right";
+
+/* Class = "UILabel"; text = "Target"; ObjectID = "IAc-Al-G9N"; */
+"IAc-Al-G9N.text" = "Target";
+
+/* Class = "UIButton"; normalTitle = "6"; ObjectID = "IUW-xK-Pcy"; */
+"IUW-xK-Pcy.normalTitle" = "6";
+
+/* Class = "UINavigationItem"; title = "Ministry"; ObjectID = "IVS-ZH-UAT"; */
+"IVS-ZH-UAT.title" = "Ministry";
+
+/* Class = "UILabel"; text = "Reset"; ObjectID = "Irw-wh-eB0"; */
+"Irw-wh-eB0.text" = "Reset";
+
+/* Class = "UILabel"; text = "Size"; ObjectID = "IzI-cz-FaQ"; */
+"IzI-cz-FaQ.text" = "Size";
+
+/* Class = "UITextField"; text = "7"; ObjectID = "J10-ye-Zbp"; */
+"J10-ye-Zbp.text" = "7";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "KAH-91-zBv"; */
+"KAH-91-zBv.title" = "Back";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "KMc-Nl-8vL"; */
+"KMc-Nl-8vL.text" = "Date";
+
+/* Class = "UILabel"; text = "Only Leaders/Members of this Ministry can edit/view"; ObjectID = "LGK-N0-XO5"; */
+"LGK-N0-XO5.text" = "Only Leaders/Members of this Ministry can edit/view";
+
+/* Class = "UILabel"; text = "CPMI"; ObjectID = "La8-CW-505"; */
+"La8-CW-505.text" = "CPMI";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Ll5-sO-yfh"; */
+"Ll5-sO-yfh.text" = "Detail";
+
+/* Class = "UILabel"; text = "Press and hold marker, then drag to new location...\n"; ObjectID = "M1m-ba-dfv"; */
+"M1m-ba-dfv.text" = "Press and hold marker, then drag to new location...\n";
+
+/* Class = "UILabel"; text = "Participants:"; ObjectID = "Ndw-r6-6BF"; */
+"Ndw-r6-6BF.text" = "Participants:";
+
+/* Class = "UILabel"; text = "T4T"; ObjectID = "OQl-aW-arP"; */
+"OQl-aW-arP.text" = "T4T";
+
+/* Class = "UILabel"; text = "Back to Map"; ObjectID = "On5-0s-m68"; */
+"On5-0s-m68.text" = "Back to Map";
+
+/* Class = "UILabel"; text = "Parent"; ObjectID = "P7R-rZ-INg"; */
+"P7R-rZ-INg.text" = "Parent";
+
+/* Class = "UIButton"; normalTitle = "5"; ObjectID = "PSK-tB-2Cd"; */
+"PSK-tB-2Cd.normalTitle" = "5";
+
+/* Class = "UILabel"; text = "Private"; ObjectID = "PeL-Dz-ozI"; */
+"PeL-Dz-ozI.text" = "Private";
+
+/* Class = "UILabel"; text = "Local Private"; ObjectID = "Q1I-rw-RbF"; */
+"Q1I-rw-RbF.text" = "Local Private";
+
+/* Class = "UILabel"; text = "Clear local cache and resync"; ObjectID = "Qpk-du-KVo"; */
+"Qpk-du-KVo.text" = "Clear local cache and resync";
+
+/* Class = "UIButton"; normalTitle = "Fruit"; ObjectID = "RDf-DO-7G7"; */
+"RDf-DO-7G7.normalTitle" = "Fruit";
+
+/* Class = "UILabel"; text = "1."; ObjectID = "RYj-Hf-mzI"; */
+"RYj-Hf-mzI.text" = "1.";
+
+/* Class = "UILabel"; text = "Anyone (with a Key Login)"; ObjectID = "TG4-mN-VJI"; */
+"TG4-mN-VJI.text" = "Anyone (with a Key Login)";
+
+/* Class = "UILabel"; text = "Delete Church"; ObjectID = "UTj-8s-Zp5"; */
+"UTj-8s-Zp5.text" = "Delete Church";
+
+/* Class = "UILabel"; text = "Ministry/Team:"; ObjectID = "Uag-zm-TZ3"; */
+"Uag-zm-TZ3.text" = "Ministry/Team:";
+
+/* Class = "UIButton"; normalTitle = "..."; ObjectID = "VMQ-aS-Jig"; */
+"VMQ-aS-Jig.normalTitle" = "...";
+
+/* Class = "UILabel"; text = "Delete Training"; ObjectID = "VUZ-nc-vP4"; */
+"VUZ-nc-vP4.text" = "Delete Training";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "WCg-Tc-8Jh"; */
+"WCg-Tc-8Jh.text" = "Title";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "XXY-sz-2Et"; */
+"XXY-sz-2Et.text" = "Title";
+
+/* Class = "UILabel"; text = "Lower Left"; ObjectID = "XoL-60-uMy"; */
+"XoL-60-uMy.text" = "Lower Left";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "YLT-zb-j5q"; */
+"YLT-zb-j5q.text" = "Detail";
+
+/* Class = "UILabel"; text = "Move Training"; ObjectID = "ZTG-rR-mwS"; */
+"ZTG-rR-mwS.text" = "Move Training";
+
+/* Class = "UILabel"; text = "Student Led"; ObjectID = "aPo-gH-Dp6"; */
+"aPo-gH-Dp6.text" = "Student Led";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "bbf-ZM-Psf"; */
+"bbf-ZM-Psf.text" = "Detail";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "dVb-Ed-Atd"; */
+"dVb-Ed-Atd.text" = "Title";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "dxO-4l-Eb2"; */
+"dxO-4l-Eb2.text" = "Title";
+
+/* Class = "UILabel"; text = "Measurement Description"; ObjectID = "ejB-hd-vb2"; */
+"ejB-hd-vb2.text" = "Measurement Description";
+
+/* Class = "UILabel"; text = "Only leaders/inherited_leaders/members can edit/view"; ObjectID = "fx1-HV-NZu"; */
+"fx1-HV-NZu.text" = "Only leaders/inherited_leaders/members can edit/view";
+
+/* Class = "UILabel"; text = "Security"; ObjectID = "gWS-dh-Dvh"; */
+"gWS-dh-Dvh.text" = "Security";
+
+/* Class = "UILabel"; text = "MC2"; ObjectID = "gZD-O0-FzP"; */
+"gZD-O0-FzP.text" = "MC2";
+
+/* Class = "UIButton"; normalTitle = "Faith Actions"; ObjectID = "hdk-8A-EQh"; */
+"hdk-8A-EQh.normalTitle" = "Faith Actions";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "iYT-B5-CNZ"; */
+"iYT-B5-CNZ.text" = "Title";
+
+/* Class = "UILabel"; text = "Lower Right"; ObjectID = "ihc-HL-agC"; */
+"ihc-HL-agC.text" = "Lower Right";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "jz0-d3-imh"; */
+"jz0-d3-imh.text" = "name";
+
+/* Class = "UILabel"; text = "Move Training"; ObjectID = "lMF-bg-xPM"; */
+"lMF-bg-xPM.text" = "Move Training";
+
+/* Class = "UISegmentedControl"; ldm-Gs-6GC.segmentTitles[0] = "Team"; ObjectID = "ldm-Gs-6GC"; */
+"ldm-Gs-6GC.segmentTitles[0]" = "Team";
+
+/* Class = "UISegmentedControl"; ldm-Gs-6GC.segmentTitles[1] = "Personal"; ObjectID = "ldm-Gs-6GC"; */
+"ldm-Gs-6GC.segmentTitles[1]" = "Personal";
+
+/* Class = "UILabel"; text = "Enter/select the name of a ministry/team to join:"; ObjectID = "ngK-xr-TCJ"; */
+"ngK-xr-TCJ.text" = "Enter/select the name of a ministry/team to join:";
+
+/* Class = "UILabel"; text = "Type"; ObjectID = "osU-ak-PYs"; */
+"osU-ak-PYs.text" = "Type";
+
+/* Class = "UILabel"; text = "Move Church"; ObjectID = "pya-Pc-sTf"; */
+"pya-Pc-sTf.text" = "Move Church";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "q6Y-EV-71n"; */
+"q6Y-EV-71n.text" = "Title";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "qC0-87-lnD"; */
+"qC0-87-lnD.text" = "Title";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "rHg-sr-BS7"; */
+"rHg-sr-BS7.text" = "name";
+
+/* Class = "UILabel"; text = "Public"; ObjectID = "rYZ-co-Y0W"; */
+"rYZ-co-Y0W.text" = "Public";
+
+/* Class = "UILabel"; text = "Other"; ObjectID = "t4B-Yb-jry"; */
+"t4B-Yb-jry.text" = "Other";
+
+/* Class = "UILabel"; text = "Ministry Name"; ObjectID = "tlU-0j-bNl"; */
+"tlU-0j-bNl.text" = "Ministry Name";
+
+/* Class = "UIButton"; normalTitle = "Other"; ObjectID = "v7d-nu-eTq"; */
+"v7d-nu-eTq.normalTitle" = "Other";
+
+/* Class = "UILabel"; text = "Type"; ObjectID = "wuA-iY-qpl"; */
+"wuA-iY-qpl.text" = "Type";
+
+/* Class = "UILabel"; text = "Group"; ObjectID = "x7I-G4-6WL"; */
+"x7I-G4-6WL.text" = "Group";
+
+/* Class = "UILabel"; text = "SLM"; ObjectID = "xw2-Ne-zbl"; */
+"xw2-Ne-zbl.text" = "SLM";
+
+/* Class = "UILabel"; text = "Add new training stage..."; ObjectID = "y0e-iT-nlm"; */
+"y0e-iT-nlm.text" = "Add new training stage...";

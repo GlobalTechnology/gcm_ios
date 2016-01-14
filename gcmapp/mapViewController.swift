@@ -8,14 +8,16 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
-class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegate, UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UIActionSheetDelegate {
+class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegate, UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UIActionSheetDelegate,CLLocationManagerDelegate {
     
     private let notificationManager = NotificationManager()
     var sync: dataSync!
     
     var longPressLatitude = CLLocationDegrees()
     var longPressLongitude = CLLocationDegrees()
+    var locationManager = CLLocationManager()
     
     var isMarkerDraggable = Bool()
     
@@ -52,8 +54,16 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     var makeUserEnable = Bool()
     
+    // MARK:- view controller life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.myLocationEnabled = true
+        
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
         
         menuButton.enabled = false
         makeUserEnable = false
@@ -106,24 +116,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
         
         self.mapView.settings.compassButton = true
-    }
-    
-    func makeMenuBtnEnable(){
-
-        dispatch_async(dispatch_get_main_queue()) {
-            if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
-                self.navigationController?.navigationBar.topItem?.title = title
-            }
-
-            if(self.makeUserEnable == true){
-                self.makeUserEnable = false
-                self.menuButton.enabled = true
-            }
-            else{
-                self.makeUserEnable = true
-                self.menuButton.enabled = false
-            }
-        }
+        self.mapView.settings.myLocationButton = true
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -309,6 +302,26 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
     }
     
+    // MARK:- make menu button enable method
+
+    func makeMenuBtnEnable(){
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            if let title = NSUserDefaults.standardUserDefaults().objectForKey("ministry_name") as? String {
+                self.navigationController?.navigationBar.topItem?.title = title
+            }
+            
+            if(self.makeUserEnable == true){
+                self.makeUserEnable = false
+                self.menuButton.enabled = true
+            }
+            else{
+                self.makeUserEnable = true
+                self.menuButton.enabled = false
+            }
+        }
+    }
+    
     @IBAction func cancelButtonTap(sender: AnyObject){
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
@@ -335,7 +348,6 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     func rightMenuTap() // justin
     {
-        
         let qualityOfServiceClass = QOS_CLASS_BACKGROUND
         let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
         dispatch_async(backgroundQueue, {
@@ -1338,6 +1350,22 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         // self.view.bringSubviewToFront(lblMove)
     }
     
+    // MARK: - CoreLocation Delegate method
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if CLLocationManager.locationServicesEnabled()
+            && CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse {
+                mapView.myLocationEnabled = true
+        }
+    }
+        
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        var userLocation:CLLocation = locations[0] as! CLLocation
+        let long = userLocation.coordinate.longitude;
+        let lat = userLocation.coordinate.latitude;
+        //Do What ever you want with it
+    }
+    
     // MARK: - TableView Delegate method
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
@@ -1619,21 +1647,11 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                         }
                     }
                     
-
                     self!.redrawMap()
                     
-                    
-                    
                 }
-        
             }
         }
-
-        
-        
-        
-        
-        
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

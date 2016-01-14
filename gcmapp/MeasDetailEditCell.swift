@@ -9,7 +9,7 @@
     import UIKit
     
     
-    class MeasDetailEditCell: UITableViewCell {
+    class MeasDetailEditCell: UITableViewCell{
         
         @IBOutlet weak var editValue: UITextField!
         

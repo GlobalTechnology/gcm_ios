@@ -22,7 +22,7 @@ class ChurchTVC: UITableViewController {
     var created_id = String()
     
     @IBAction func btnSetParent(sender: UIButton) {
-    
+        
     }
     
     
@@ -50,7 +50,7 @@ class ChurchTVC: UITableViewController {
                 
                 church.contact_name = contact_name
             }
-
+            
             if let contact_email = data["contact_email"] as? String {
                 
                 church.contact_email = contact_email
@@ -61,7 +61,7 @@ class ChurchTVC: UITableViewController {
                 church.contact_mobile = contact_mobile
             }
             if let size = data["size"] as? NSNumber {
-               
+                
                 church.size = size
             }
             if let development = data["development"] as? NSNumber {
@@ -93,20 +93,20 @@ class ChurchTVC: UITableViewController {
             {
                 church.created_by = created_by
             }
-
-
+            
+            
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
             
             let notificationCenter = NSNotificationCenter.defaultCenter()
             //  notificationCenter.postNotificationName(GlobalConstants.kShouldRefreshAll, object: nil)
-           
+            
             //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kDrawChurchPinKey, object: nil, userInfo: data as JSONDictionary)
             
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
             
-
+            
             
             // GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "create", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
@@ -123,7 +123,7 @@ class ChurchTVC: UITableViewController {
                 church.first!.contact_name=data["contact_name"] as! String
                 church.first!.contact_email=data["contact_email"] as! String
                 church.first!.contact_mobile=data["contact_mobile"] as! String
-
+                
                 church.first!.size=data["size"] as! NSNumber
                 church.first!.development=data["development"] as! NSNumber
                 church.first!.security=data["security"] as! NSNumber
@@ -147,12 +147,12 @@ class ChurchTVC: UITableViewController {
             if !managedContext.save(&error) {
                 //println("Could not save \(error), \(error?.userInfo)")
             }
-           
+            
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.postNotificationName(GlobalConstants.kDidChangeChurch, object: nil)
             
             //NSNotificationCenter.defaultCenter().postNotificationName(GlobalConstants.kUpdatePinInforamtionKey, object: nil, userInfo: data as JSONDictionary)
-
+            
             //GAI.sharedInstance().defaultTracker.send(GAIDictionaryBuilder.createEventWithCategory( "church", action: "update", label: nil, value: nil).build()  as [NSObject: AnyObject])
         }
     }
@@ -163,13 +163,13 @@ class ChurchTVC: UITableViewController {
         isEmptyField = false
         
         tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0)
-
+        
         if let team_role  = NSUserDefaults.standardUserDefaults().objectForKey("team_role") as? String {
             
             self.read_only = !GlobalFunctions.contains(team_role, list: GlobalConstants.LEADERS_ONLY)
             
         }
-       
+        
         if let created_by = data["created_by"] as? String
         {
             created_id = created_by
@@ -216,18 +216,18 @@ class ChurchTVC: UITableViewController {
             // return (data["marker_type"] as! String == "new_church") ? 1 : 3 //!read_only ? 3 : 3
             if data["marker_type"] as! String == "new_church" {
                 
-                return 1
+                return 2
             }
             else
             {
-           
-            if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false){
                 
-            return 3
-                
+                if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false){
+                    
+                    return 4
+                    
                 }
                 
-            return 1
+                return 1
                 
             }
             
@@ -311,17 +311,17 @@ class ChurchTVC: UITableViewController {
                     var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                     return cell
                 }
-
+                
                 
             }
-            
+                
             else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ReadOnlyCell", forIndexPath: indexPath) as! UITableViewCell
                 switch (indexPath.row){
                 case 0:
                     cell.textLabel!.text = "Name"
                     cell.detailTextLabel!.text = data["name"] as? String
-                   break
+                    break
                 case 1:
                     cell.textLabel!.text = "Contact Name"
                     cell.detailTextLabel!.text = data["contact_name"] as? String
@@ -347,7 +347,7 @@ class ChurchTVC: UITableViewController {
                     cell.detailTextLabel!.text = GlobalFunctions.getNameForSecurity((data["security"] as! NSNumber))
                     break
                 case 7:
-                     cell.textLabel!.text = "Parent"
+                    cell.textLabel!.text = "Parent"
                     if (data["parent_name"] != nil){
                         cell.detailTextLabel!.text = (data["parent_name"]as! String)
                         
@@ -362,16 +362,16 @@ class ChurchTVC: UITableViewController {
                     var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                     return cell
                 }
-
+                
                 return cell
-
+                
             }
-         
+            
             
             
         }
         else {
-           
+            
             
             //println(data)
             
@@ -379,8 +379,8 @@ class ChurchTVC: UITableViewController {
             
             switch(indexPath.row){
                 
-            
-            case 1:
+                
+            case 2:
                 
                 if (data["marker_type"] as! String == "new_church"){
                     
@@ -391,12 +391,12 @@ class ChurchTVC: UITableViewController {
                         cell = tableView.dequeueReusableCellWithIdentifier("MoveCell", forIndexPath: indexPath) as! UITableViewCell
                         
                     }
-
+                    
                 }
                 
-               
                 
-            case 2:
+                
+            case 3:
                 
                 var cell = UITableViewCell()
                 
@@ -405,27 +405,31 @@ class ChurchTVC: UITableViewController {
                 }
                 else {
                     
-
-                if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
-                    cell = tableView.dequeueReusableCellWithIdentifier("DeleteCell", forIndexPath: indexPath) as! UITableViewCell
+                    
+                    if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false){
+                        cell = tableView.dequeueReusableCellWithIdentifier("DeleteCell", forIndexPath: indexPath) as! UITableViewCell
+                        
+                    }
                     
                 }
-
-                }
+                
             case 0:
+                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell2", forIndexPath: indexPath) as! UITableViewCell
+                
+            case 1:
                 let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as! UITableViewCell
-                cell.textLabel!.text = data["marker_type"] as! String == "new_church" ? "Save" : "Back to Map"
-               
+                cell.textLabel!.text = data["marker_type"] as! String == "new_church" ? "Save" : "Save"
+                
             default:
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
-               
+                
                 
             }
             
-             return cell
+            return cell
         }
         
-       
+        
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -436,21 +440,56 @@ class ChurchTVC: UITableViewController {
             self.tableView.resignFirstResponder()
             
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
-
+            
             switch(indexPath.row){
-            case 1: // move
                 
-
+                case 0:
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    break
+                
+                case 1:
+                    
+                    if data["name"] as? String == "" {
+                        isEmptyField = true
+                    }
+                    
+                    
+                    if data["contact_name"] as? String == ""{
+                        isEmptyField = true
+                    }
+                    
+                    if data["contact_email"] as? String == ""{
+                        isEmptyField = true
+                    }
+                    
+                    if(isEmptyField == false){
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+                    }
+                    else{
+                        isEmptyField = false
+                        
+                        let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
+                        
+                        alertView.show()
+                    }
+                    
+                    break
+                
+            case 2: // move
+                
+                
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
                     
-                self.mapVC.makeSelectedMarkerDraggable()
-                self.dismissViewControllerAnimated(true, completion: nil)
+                    self.mapVC.makeSelectedMarkerDraggable()
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     
                 }
-
+                
                 break
-            case 2: // delete
-
+            case 3: // delete
+                
                 self.tableView.reloadRowsAtIndexPaths(
                     [indexPath],
                     withRowAnimation:UITableViewRowAnimation.None)
@@ -494,42 +533,8 @@ class ChurchTVC: UITableViewController {
                 // Present the controller
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
-
-                
-
-               
-               
                 break
-            case 0:
-                
-                if data["name"] as? String == "" {
-                    isEmptyField = true
-                }
-                
-                
-                if data["contact_name"] as? String == ""{
-                    isEmptyField = true
-                }
-                
-                if data["contact_email"] as? String == ""{
-                    isEmptyField = true
-                }
-                
-                if(isEmptyField == false){
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-                }
-                else{
-                    isEmptyField = false
-                    
-                    let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
-                    
-                    alertView.show()
-                }
-                 
-                 
-                break
+            
             default:
                 break
                 
@@ -575,11 +580,11 @@ class ChurchTVC: UITableViewController {
     // MARK:- UITextField delegate method
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-            let maxLength = 4
-            let currentString: NSString = textField.text
-            let newString: NSString =
-            currentString.stringByReplacingCharactersInRange(range, withString: string)
-            return newString.length <= maxLength
+        let maxLength = 4
+        let currentString: NSString = textField.text
+        let newString: NSString =
+        currentString.stringByReplacingCharactersInRange(range, withString: string)
+        return newString.length <= maxLength
     }
     
     // MARK: - Navigation

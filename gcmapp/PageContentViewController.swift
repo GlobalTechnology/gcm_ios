@@ -229,6 +229,10 @@ class PageContentViewController: UIViewController, UITextFieldDelegate, UIPopove
         var newValStr = ""
         
         if localPersonChooser.selectedSegmentIndex == 0 {
+            if(lblLocalValue.text.toInt() == 0){
+                return
+            }
+            
             if var i = lblLocalValue.text.toInt() {
                 newValStr = String(--i)
             }
