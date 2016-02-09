@@ -19,7 +19,8 @@ class LeftMenuController: UIViewController {
         
         self.tblView.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier);
 
-        TableArray = ["Home","Measurements","Refresh","Join New Ministry","Supported staff","Settings","Logout"]
+//        TableArray = ["Home","Measurements","Refresh","Join New Ministry","Supported staff","Settings","Logout"]
+        TableArray = ["Map","Measurements","Refresh","Join New Ministry","Supported staff","Settings","Logout"]
 
         NSNotificationCenter.defaultCenter().addObserver(
             self,
