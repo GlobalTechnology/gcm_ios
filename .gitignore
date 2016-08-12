@@ -2,5 +2,5 @@
 .Trashes
 DerivedData/
 build/
-
+Pods/
 gcmapp/Config.plist
