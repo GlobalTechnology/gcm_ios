@@ -228,7 +228,7 @@ class dataSync: NSObject {
         TheKeyOAuth2Client.sharedOAuth2Client().ticketForServiceURL(NSURL(string: GlobalConstants.SERVICE_API), complete: { (ticket: String?) -> Void in
                 if ticket == nil {
                     //println("... ticketForService() : ticket == nil!")
-                    //TheKeyOAuth2Client.sharedOAuth2Client().logout()
+                    TheKeyOAuth2Client.sharedOAuth2Client().logout()
                     return
                 }
                 else{
@@ -248,9 +248,14 @@ class dataSync: NSObject {
                     
                     var s = API(st: ticket!){
                         (data: AnyObject?, error: NSError?) -> Void in
+                        
+                        let notificationCenter = NSNotificationCenter.defaultCenter()
+                        notificationCenter.postNotificationName("callRedrawMethod", object: nil)
+                        
                         if data == nil{
                             return
                         }
+                        
                         var resp:JSONDictionary = data as! JSONDictionary
                         
                         if(resp["status"] as! String == "success"){
@@ -272,8 +277,6 @@ class dataSync: NSObject {
                                     else{
                                         NSUserDefaults.standardUserDefaults().setBool(false, forKey: GlobalConstants.kSupprotedStaffSwichKey)
                                     }
-                                    
-
                                 }
                                 
                             
@@ -293,13 +296,14 @@ class dataSync: NSObject {
                             var error: NSError?
                             let allMinistries = moc!.executeFetchRequest(fetchRequest,error: &error) as! [Ministry]?
                             
+                            
                             var user = resp["user"] as! Dictionary<String, String>
                             
-                            NSUserDefaults.standardUserDefaults().setObject(user["person_id"] , forKey: "person_id")
-                            NSUserDefaults.standardUserDefaults().setObject(user["first_name"] , forKey: "first_name")
-                            NSUserDefaults.standardUserDefaults().setObject(user["last_name"] , forKey: "last_name")
-                            NSUserDefaults.standardUserDefaults().setObject(user["cas_username"] , forKey: "cas_username")
-                            
+
+                            NSUserDefaults.standardUserDefaults().setObject(user["person_id"]! , forKey: "person_id")
+                            NSUserDefaults.standardUserDefaults().setObject(user["first_name"]! , forKey: "first_name")
+                            NSUserDefaults.standardUserDefaults().setObject(user["last_name"]! , forKey: "last_name")
+                            NSUserDefaults.standardUserDefaults().setObject(user["cas_username"]! , forKey: "cas_username")
                             
                             var has_current_ass_id = false  // do we have any assignments ?
                             
@@ -434,12 +438,14 @@ class dataSync: NSObject {
             
             ministry = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:moc!) as! Ministry
         }
-        
-        
+
         
         ministry.id = a["ministry_id"] as! String
         ministry.name = a["name"] as! String
-        ministry.min_code = a["min_code"] as! String
+        
+        if a["min_code"] != nil{
+            ministry.min_code = a["min_code"] as! String
+        }
         
         
         //refactor to use array
@@ -453,10 +459,14 @@ class dataSync: NSObject {
         
         if a["location"] != nil{
             var loc = a["location"] as! JSONDictionary
+            
+            if (loc["longitude"]?.length > 0){
+                
             ministry.longitude = loc["longitude"] as! NSNumber
             
             ministry.latitude = loc["latitude"]  as! NSNumber
-            
+           
+            }
         }
         if a["location_zoom"] != nil{
             ministry.zoom = a["location_zoom"] as! NSNumber
@@ -776,13 +786,23 @@ class dataSync: NSObject {
                             training.type=" "
                         }
                         
-                        if !(t["latitude"]   is NSNull)   {
+                        if t["latitude"] as! String != "" && t["longitude"] as! String != "" {
+                                                        
+                            if let number = t["latitude"]! as? NSNumber {
+                                
+                                training.latitude = number as! Float
+                            }
                             
-                            training.latitude   = t["latitude"] as! Float
+                            if let number = t["longitude"]! as? NSNumber {
+                                
+                                training.longitude = number as! Float
+                            }
+                            
+                            
+//                                training.latitude = t["latitude"] as! Float
+//                                training.longitude = t["longitude"] as! Float
                         }
-                        if !(t["longitude"]   is NSNull) {
-                            training.longitude = t["longitude"] as! Float
-                        }
+                        
                         training.ministry_id = ministryId
                         training.mcc=mcc
                     }
@@ -898,10 +918,6 @@ class dataSync: NSObject {
                             church.size = c["size"] as! NSNumber
                             if c["latitude"] != nil && c["longitude"]  != nil {
                                 
-                                //println("lat:")
-                                //println(c["latitude"])
-                                //println("long:")
-                                //println(c["longitude"])
                                 if c["latitude"] as? NSNull  != NSNull() {
                                     church.latitude = c["latitude"] as! Float
                                 } else {
@@ -1094,12 +1110,11 @@ class dataSync: NSObject {
             let pred = NSPredicate(format: "changed == true" )
             frTraining.predicate=pred
             let tr_changed = moc!.executeFetchRequest(frTraining,error: &error) as! [Training]
-            println(tr_changed)
+            
+//            println(tr_changed)
+            
             for tr in tr_changed{
                 if tr.id == -1{
-                    
-//                    println(self.token!)
-//                    println(tr)
 
                     API(token: self.token! as String).addTraining(tr){
                         (data: AnyObject?,error: NSError?) -> Void in
@@ -1436,6 +1451,9 @@ class dataSync: NSObject {
     //>---------------------------------------------------------------------------------------------------
     
     func saveSupportStaff_User_preferences(mapInfo: NSDictionary){
+        if self.token==nil{
+            return
+        }
         
         API(token: token! as String).save_StaffSupprot_User_preferences(mapInfo){
             (data: AnyObject?,error: NSError?) -> Void in
@@ -1572,15 +1590,20 @@ class dataSync: NSObject {
     }
     
     func logout(){
+       NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hitOnlyOnce")
         
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hitOnlyOnce")
-
-        API(token: self.token! as String).deleteToken()  {
-            
-            (data: AnyObject?,error: NSError?) -> Void in
-            if data != nil {
-           
-              AppDelegate().saveContext()
+        if(self.token == nil){
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.postNotificationName(GlobalConstants.kReset, object: nil)
+        }
+        else{
+            API(token: self.token! as String).deleteToken()  {
+                
+                (data: AnyObject?,error: NSError?) -> Void in
+                if data != nil {
+                    
+                    AppDelegate().saveContext()
+                }
             }
         }
         

@@ -82,7 +82,6 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
             API(token: token).getMinistries(false){
                 (data: AnyObject?,error: NSError?) -> Void in
                 
-                
                 if data != nil{
                     self.ministryList = data as! JSONArray
                     self.autocompleteList.removeAll(keepCapacity: true)
@@ -94,11 +93,19 @@ class NewMinistryTVC: UITableViewController, UITextFieldDelegate, NSURLConnectio
                     }
                     
                     dispatch_async(dispatch_get_main_queue(), {
-                        MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
                         self.tableView.reloadData()
                     })
                 }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+                })
             }
+        }
+        else{
+            dispatch_async(dispatch_get_main_queue(), {
+                MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+            })
         }
     }
     

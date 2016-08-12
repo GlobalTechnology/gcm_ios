@@ -126,7 +126,7 @@
             {
                 
                 var languageCode: String = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode)! as! String
-                println(languageCode)
+//                println(languageCode)
               
                 let url = "\(GlobalConstants.SERVICE_ROOT)measurements?token=\(self.token)&locale=\(languageCode)&ministry_id=\(ministryId)&mcc=\(mcc)&period=\(period)&source=\(GlobalConstants.LOCAL_SOURCE)"
                   //println("\(url)")
@@ -157,7 +157,7 @@
             func getUserPreferences(callback: APICallback)
             {
                 let url = "\(GlobalConstants.SERVICE_ROOT)user_preferences?token=\(self.token)"
-                println("\(url)")
+//                println("\(url)")
                 //self.cur_url = url
                 makeHTTPGetRequest( Path.GET_MAP_USER_PREFERENCES, callback: callback, url: url)
             }
@@ -188,7 +188,7 @@
                 
                 body += "]}"
 
-                print(body)
+//                print(body)
                 
                 makeHTTPPostRequest( Path.SAVE_MAP_USER_PREFERENCES, callback: callback, url: url, body:  body)
             }
@@ -211,7 +211,7 @@
 
                 var body = "{\"supported_staff\": \"\(supportStaff_Status!)\"}"//["
                 
-                println(body)
+//                println(body)
                 
                 makeHTTPPostRequest( Path.SAVE_MAP_USER_PREFERENCES, callback: callback, url: url, body:  body)
             }
@@ -341,7 +341,7 @@
                 //println(url)
                 
                 var body = training.toJson()
-                println(body)
+//                println(body)
                 makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
             }
             func updateMinistry(ministry: Ministry, callback: APICallback){
@@ -356,7 +356,7 @@
             func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
                 let httpResponse = response as! NSHTTPURLResponse
                 statusCode = httpResponse.statusCode
-                //println(statusCode)
+//                println(statusCode)
                 
                 switch (httpResponse.statusCode) {
                 case 201, 200, 401:
@@ -368,7 +368,7 @@
             }
             
             func connection(connection: NSURLConnection, didFailWithError error: NSError) {
-                //println(error)
+                println(error)
             }
             
             func connection(connection: NSURLConnection, didReceiveData data: NSData) {
@@ -378,15 +378,21 @@
             
             func connectionDidFinishLoading(connection: NSURLConnection) {
                 var error: NSError?
+                var nonFilterJson : AnyObject!
+
                 var json : AnyObject!
                 if responseData.length>0{
                     
-                    json = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
-//                    println(json)
+                    nonFilterJson = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
                     
+                    
+                    json = Utiltiy.cleanJsonToObject(nonFilterJson)
+
+//                    println(json)
+
                     if (error != nil) {
                         var error_msg = NSString(data: responseData, encoding: NSUTF8StringEncoding)
-                        //println(error_msg)
+                        println(error_msg)
                         callback(nil, error)
                         return
                     }
@@ -401,7 +407,6 @@
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_TRAINING):
 //                    println(NSString(data: self.responseData, encoding: NSUTF8StringEncoding))
-               
                     
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_MEASUREMENTS):

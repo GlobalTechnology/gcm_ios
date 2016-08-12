@@ -259,8 +259,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             
             let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
             
-            self.mapView.selectedMarker.title = userInfo["name"] as! String
-            self.mapView.selectedMarker.userData = userInfo
+            self.mapView.selectedMarker!.title = userInfo["name"] as? String
+            self.mapView.selectedMarker!.userData = userInfo
         }
         
         
@@ -430,11 +430,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             }
             
         }
-        
-
-        
-       
-           }
+    }
     
     
     
@@ -488,8 +484,8 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     {
         let userInfo:JSONDictionary = notification.userInfo as! JSONDictionary
         
-        self.mapView.selectedMarker.title = userInfo["name"] as! String
-        self.mapView.selectedMarker.userData = userInfo
+        self.mapView.selectedMarker!.title = userInfo["name"] as? String
+        self.mapView.selectedMarker!.userData = userInfo
     }
     
     // add Training
@@ -539,17 +535,17 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         var token : String = NSUserDefaults.standardUserDefaults().objectForKey("token") as! String
         //println(token)
         
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
+//        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+//        loadingNotification.color = UIColor(red:0.0/255.0,green:128.0/255.0,blue:64.0/255.0,alpha:1.0)
         
         API(token: token).getUserPreferences(){
             (data: AnyObject?,error: NSError?) -> Void in
             //Nothing to do...
             
-            dispatch_async(dispatch_get_main_queue(), {
-                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            })
+//            dispatch_async(dispatch_get_main_queue(), {
+//                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//            })
             
             
             if var userpreferencesData: JSONDictionary = data as? JSONDictionary {
@@ -874,7 +870,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                         
                         marker.icon = UIImage(named: mapViewController.getIconNameForChurch(c.valueForKey("development") as! NSNumber ) )
                         
-                        marker.title = c.valueForKey("name") as! String
+                        marker.title = c.valueForKey("name") as? String
                         
                         marker.userData = dict
                         
@@ -950,7 +946,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                             
                             for m in toDelete{
                                 
-                                if(m.userData.valueForKey("marker_type") as! String == "training"){
+                                if(m.userData!.valueForKey("marker_type") as! String == "training"){
                                     
                                     m.map = nil
                                     
@@ -979,7 +975,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
                                 var  marker = GMSMarker(position: position)
                                 marker.icon = UIImage(named: "train" )
                                 
-                                marker.title = t.valueForKey("name") as! String
+                                marker.title = t.valueForKey("name") as? String
                                 marker.map = self.mapView
                                 marker.userData = dict
                                 marker.infoWindowAnchor = CGPointMake(0.5, 0.25)
@@ -1062,7 +1058,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
 
     
     // MARK:- Google map delegate method
-    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
+    func mapView(mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         let anchor = marker.position as CLLocationCoordinate2D
         let point = mapView.projection.pointForCoordinate(anchor)
         self.calloutView.title = marker.title
@@ -1076,12 +1072,12 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
     }
     
-    func mapView(pMapView: GMSMapView!, didChangeCameraPosition position: GMSCameraPosition!) {
+    func mapView(pMapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
         
        
         
         if(pMapView.selectedMarker != nil && !self.calloutView.hidden){
-            let anchor = pMapView.selectedMarker.position as CLLocationCoordinate2D
+            let anchor = pMapView.selectedMarker!.position as CLLocationCoordinate2D
             let arrowPt = self.calloutView.backgroundView.arrowPoint;
             var pt = pMapView.projection.pointForCoordinate(anchor)
             pt.x -= arrowPt.x
@@ -1096,14 +1092,14 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
     }
     
-    func mapView(mapView: GMSMapView!, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
+    func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
         self.calloutView.hidden=true
     }
     
-    func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
+    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         //println(marker)
         mapView.selectedMarker = marker
-        mapView.selectedMarker.draggable=true
+        mapView.selectedMarker!.draggable=true
 
         //  self.makeSelectedMarkerDraggable()
 
@@ -1204,7 +1200,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
     
     
     
-    func mapView(mapView: GMSMapView!, didEndDraggingMarker marker: GMSMarker!) {
+    func mapView(mapView: GMSMapView, didEndDraggingMarker marker: GMSMarker) {
         
         // flag = false
         
@@ -1285,7 +1281,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
         
     }
     
-    func mapView(mapView: GMSMapView!, didLongPressAtCoordinate coordinate: CLLocationCoordinate2D) {
+    func mapView(mapView: GMSMapView, didLongPressAtCoordinate coordinate: CLLocationCoordinate2D) {
         
         if(isMarkerDraggable == true)
         {
@@ -1345,7 +1341,7 @@ class mapViewController: UIViewController, GMSMapViewDelegate,UITextFieldDelegat
             m.tappable = false
         }
         
-        mapView.selectedMarker.opacity=1.0
+        mapView.selectedMarker!.opacity=1.0
         //lblMove.hidden = false
         // self.view.bringSubviewToFront(lblMove)
     }
