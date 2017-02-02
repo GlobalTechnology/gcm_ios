@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0FD89291A3D0F7D216D7534F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A591A0B9BA66B7225005E69E /* libPods.a */; };
 		3017AF9F1BC6951C002014BB /* MeasurementSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3022A8451BC6582600BDEBBD /* MeasurementSettings.swift */; };
 		3022A8461BC6582600BDEBBD /* MeasurementSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3022A8451BC6582600BDEBBD /* MeasurementSettings.swift */; };
-		3057EA9C1B4D52DE0038DEFE /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3057EA9B1B4D52DE0038DEFE /* Config.plist */; };
-		3057EA9D1B4D52DE0038DEFE /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3057EA9B1B4D52DE0038DEFE /* Config.plist */; };
 		3079DE661BC272F200FE6283 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3079DE651BC272F200FE6283 /* Localizable.strings */; };
 		3079DE671BC272F700FE6283 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3079DE651BC272F200FE6283 /* Localizable.strings */; };
 		3079DE681BC2784200FE6283 /* GMALoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3079DE6B1BC2784200FE6283 /* GMALoginViewController.xib */; };
@@ -30,7 +27,7 @@
 		30BADAF61B849BDA00B9C74A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BADAF41B849BDA00B9C74A /* NotificationManager.swift */; };
 		30C82C6A1B901396004B5BDB /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C82C691B901396004B5BDB /* LoginVC.swift */; };
 		30C82C6B1B901396004B5BDB /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C82C691B901396004B5BDB /* LoginVC.swift */; };
-		44DC4BCA1F0BEEA38198B1A7 /* libPods-GMA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9D67FC7DBBCDA219AFB957 /* libPods-GMA.a */; };
+		3760368CDBF9E07BA67966C6 /* libPods-gcmappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E674FC881E1B83F63283CC1F /* libPods-gcmappTests.a */; };
 		47376FC91AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
 		47376FCA1AB09FDF0062D7C9 /* GMA copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */; };
 		474BB9C61AAB79210026F289 /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474BB9C51AAB79210026F289 /* PageContentViewController.swift */; };
@@ -63,9 +60,16 @@
 		4768A29F1AAE4DA100A07070 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4768A2871AAE4DA100A07070 /* Roboto-ThinItalic.ttf */; };
 		4768A2A11AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4768A2A01AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf */; };
 		4768A2A21AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4768A2A01AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf */; };
-		54F5427F6583333415A60221 /* libPods-gcmappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2314DEFD82742AD7A08E31FC /* libPods-gcmappTests.a */; };
-		A8351B7BE95FF60ED4700EDD /* libPods-GMA Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BB095E7C523BDF9097AEA9 /* libPods-GMA Demo.a */; };
+		B84078FE90C4B3D7E88AA9B4 /* libPods-GMA Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C486264D8D88697A48599AD /* libPods-GMA Demo.a */; };
 		D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC4D274E1A2DDF8500C20288 /* Main.storyboard */; };
+		EF418867935B7CFFCE974F79 /* libPods-GMA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01627C4668AF8A3BCBB42EFB /* libPods-GMA.a */; };
+		F72E12C31D5491B700FAA578 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F72E12C21D5491B600FAA578 /* GoogleMaps.bundle */; };
+		F772624E1D4739E30045CA53 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = F772624D1D4739E30045CA53 /* Config.plist */; };
+		F772624F1D4739E30045CA53 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = F772624D1D4739E30045CA53 /* Config.plist */; };
+		F77262501D4739E30045CA53 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = F772624D1D4739E30045CA53 /* Config.plist */; };
+		F7C234B31D5D8C0E00DE063A /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C234B21D5D8C0E00DE063A /* Utility.swift */; };
+		F7C234B41D5D8C0E00DE063A /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C234B21D5D8C0E00DE063A /* Utility.swift */; };
+		F7C234B51D5D8C0E00DE063A /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C234B21D5D8C0E00DE063A /* Utility.swift */; };
 		FC13ABA61A790BA000CB2713 /* ChurchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */; };
 		FC13ABA81A790E9B00CB2713 /* UIEditTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */; };
 		FC13ABAA1A7927E100CB2713 /* DevelopmentTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */; };
@@ -217,26 +221,11 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		F70C80091C08421B00F355E5 /* Copy Pods Resources */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy Pods Resources";
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		0AA511ECEA5DDB348EEF76DB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		1350C279A4986BAAF08C37C3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		2314DEFD82742AD7A08E31FC /* libPods-gcmappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gcmappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		285AAC06F0F2F7F69D3610B8 /* Pods-gcmappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gcmappTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests.debug.xcconfig"; sourceTree = "<group>"; };
+		01627C4668AF8A3BCBB42EFB /* libPods-GMA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GMA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08587556865D107B582D735D /* Pods-GMA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA.release.xcconfig"; path = "Pods/Target Support Files/Pods-GMA/Pods-GMA.release.xcconfig"; sourceTree = "<group>"; };
+		1C486264D8D88697A48599AD /* libPods-GMA Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GMA Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3022A8451BC6582600BDEBBD /* MeasurementSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementSettings.swift; sourceTree = "<group>"; };
-		3057EA9B1B4D52DE0038DEFE /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		3079DE651BC272F200FE6283 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../Localizable.strings; sourceTree = "<group>"; };
 		3079DE6C1BC2784800FE6283 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GMALoginViewController.xib; sourceTree = "<group>"; };
 		3079DE6E1BC2788500FE6283 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/GMALoginViewController.strings; sourceTree = "<group>"; };
@@ -265,14 +254,17 @@
 		4768A2861AAE4DA100A07070 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		4768A2871AAE4DA100A07070 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		4768A2A01AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Linotype - Alternate Gothic LT No2.ttf"; sourceTree = "<group>"; };
-		8C9D67FC7DBBCDA219AFB957 /* libPods-GMA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GMA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		96BB095E7C523BDF9097AEA9 /* libPods-GMA Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GMA Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A591A0B9BA66B7225005E69E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E14FEBA1264E88F99677B3 /* Pods-GMA Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		C6A7AB874ED4E61ADF1A4DC1 /* Pods-gcmappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gcmappTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests.release.xcconfig"; sourceTree = "<group>"; };
-		C77A7985495F5BDE80DE5EE3 /* Pods-GMA Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo.release.xcconfig"; sourceTree = "<group>"; };
+		47D6A97A8233753FC196E252 /* Pods-gcmappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gcmappTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests.release.xcconfig"; sourceTree = "<group>"; };
+		55EC93BEAC3808CEB5C0D436 /* Pods-gcmappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gcmappTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D1CB0E73980805333CEF03BF /* Pods-GMA Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo.release.xcconfig"; sourceTree = "<group>"; };
+		D2A1E784966E113315A3250F /* Pods-GMA Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		D30F734C1A6867F300D00EA7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		F70C80061C0841B700F355E5 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		E674FC881E1B83F63283CC1F /* libPods-gcmappTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gcmappTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EED2314BE62AB84B1E534DC0 /* Pods-GMA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GMA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GMA/Pods-GMA.debug.xcconfig"; sourceTree = "<group>"; };
+		F72E12C21D5491B600FAA578 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		F772624D1D4739E30045CA53 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		F7C234B21D5D8C0E00DE063A /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		F7C873C61D5349A800629075 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		FC13ABA51A790BA000CB2713 /* ChurchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChurchTVC.swift; sourceTree = "<group>"; };
 		FC13ABA71A790E9B00CB2713 /* UIEditTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIEditTextCell.swift; sourceTree = "<group>"; };
 		FC13ABA91A7927E100CB2713 /* DevelopmentTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentTVC.swift; sourceTree = "<group>"; };
@@ -367,8 +359,7 @@
 				FC4D27711A2DE63D00C20288 /* CoreLocation.framework in Frameworks */,
 				FC4D276F1A2DE63200C20288 /* CoreData.framework in Frameworks */,
 				FC4D276D1A2DE62100C20288 /* AVFoundation.framework in Frameworks */,
-				0FD89291A3D0F7D216D7534F /* libPods.a in Frameworks */,
-				44DC4BCA1F0BEEA38198B1A7 /* libPods-GMA.a in Frameworks */,
+				EF418867935B7CFFCE974F79 /* libPods-GMA.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +367,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54F5427F6583333415A60221 /* libPods-gcmappTests.a in Frameworks */,
+				3760368CDBF9E07BA67966C6 /* libPods-gcmappTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,13 +387,26 @@
 				FC5EE70F1AA073A600F86627 /* CoreLocation.framework in Frameworks */,
 				FC5EE7101AA073A600F86627 /* CoreData.framework in Frameworks */,
 				FC5EE7111AA073A600F86627 /* AVFoundation.framework in Frameworks */,
-				A8351B7BE95FF60ED4700EDD /* libPods-GMA Demo.a in Frameworks */,
+				B84078FE90C4B3D7E88AA9B4 /* libPods-GMA Demo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2520089E071E2E40CFAC8DB7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EED2314BE62AB84B1E534DC0 /* Pods-GMA.debug.xcconfig */,
+				08587556865D107B582D735D /* Pods-GMA.release.xcconfig */,
+				D2A1E784966E113315A3250F /* Pods-GMA Demo.debug.xcconfig */,
+				D1CB0E73980805333CEF03BF /* Pods-GMA Demo.release.xcconfig */,
+				55EC93BEAC3808CEB5C0D436 /* Pods-gcmappTests.debug.xcconfig */,
+				47D6A97A8233753FC196E252 /* Pods-gcmappTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		30B45CEB1B8EF20300F58D54 /* SWRevealViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,27 +471,13 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		A79060ECEB5CCFDE0AC0C57E /* Pods */ = {
+		4A208AAAC9A6797595D76002 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1350C279A4986BAAF08C37C3 /* Pods.debug.xcconfig */,
-				0AA511ECEA5DDB348EEF76DB /* Pods.release.xcconfig */,
-				B3E14FEBA1264E88F99677B3 /* Pods-GMA Demo.debug.xcconfig */,
-				C77A7985495F5BDE80DE5EE3 /* Pods-GMA Demo.release.xcconfig */,
-				285AAC06F0F2F7F69D3610B8 /* Pods-gcmappTests.debug.xcconfig */,
-				C6A7AB874ED4E61ADF1A4DC1 /* Pods-gcmappTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		E2BCC635D23B410B95C9FD69 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F70C80061C0841B700F355E5 /* libPods.a */,
-				A591A0B9BA66B7225005E69E /* libPods.a */,
-				8C9D67FC7DBBCDA219AFB957 /* libPods-GMA.a */,
-				96BB095E7C523BDF9097AEA9 /* libPods-GMA Demo.a */,
-				2314DEFD82742AD7A08E31FC /* libPods-gcmappTests.a */,
+				F7C873C61D5349A800629075 /* GoogleMaps.framework */,
+				01627C4668AF8A3BCBB42EFB /* libPods-GMA.a */,
+				1C486264D8D88697A48599AD /* libPods-GMA Demo.a */,
+				E674FC881E1B83F63283CC1F /* libPods-gcmappTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -509,6 +499,7 @@
 		FC4D273A1A2DDF8500C20288 = {
 			isa = PBXGroup;
 			children = (
+				F72E12C21D5491B600FAA578 /* GoogleMaps.bundle */,
 				30B45CEF1B8EF23D00F58D54 /* LoginViewController */,
 				30B45CEB1B8EF20300F58D54 /* SWRevealViewController */,
 				30BADAF71B84A08D00B9C74A /* NotificationManager */,
@@ -516,10 +507,10 @@
 				FC4D27451A2DDF8500C20288 /* gcmapp */,
 				FC4D275D1A2DDF8500C20288 /* gcmappTests */,
 				FC4D27441A2DDF8500C20288 /* Products */,
-				E2BCC635D23B410B95C9FD69 /* Frameworks */,
 				47376FC71AB09FDF0062D7C9 /* GMA copy-Info.plist */,
 				47376FC81AB09FDF0062D7C9 /* GMA copy2-Info.plist */,
-				A79060ECEB5CCFDE0AC0C57E /* Pods */,
+				2520089E071E2E40CFAC8DB7 /* Pods */,
+				4A208AAAC9A6797595D76002 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -558,7 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				FC4D27471A2DDF8500C20288 /* Info.plist */,
-				3057EA9B1B4D52DE0038DEFE /* Config.plist */,
+				F772624D1D4739E30045CA53 /* Config.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -661,6 +652,7 @@
 		FC9B9D7A1A3729C000C9E353 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				F7C234B21D5D8C0E00DE063A /* Utility.swift */,
 				FC93DFDD1A3074B2008D4221 /* GlobalConstants.swift */,
 				FC9B9D7B1A3729E700C9E353 /* GlobalFunctions.swift */,
 				FC93DFDB1A306E19008D4221 /* gcmTabBarController.swift */,
@@ -691,12 +683,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC4D27641A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "GMA" */;
 			buildPhases = (
-				3DFF5F742DFA4E9FBF9FF229 /* Check Pods Manifest.lock */,
+				E1C1B6EECFF43A7986B4E459 /* [CP] Check Pods Manifest.lock */,
 				FC4D273F1A2DDF8500C20288 /* Sources */,
 				FC4D27401A2DDF8500C20288 /* Frameworks */,
 				FC4D27411A2DDF8500C20288 /* Resources */,
-				D5E0ABC832BA447E8AAD3F7C /* Copy Pods Resources */,
-				F663CB4021A4370726A4BB32 /* Embed Pods Frameworks */,
+				0AFD8BB697E1531AC43E8685 /* [CP] Embed Pods Frameworks */,
+				F4F723A00461CAD3860036D0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -711,12 +703,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC4D27671A2DDF8500C20288 /* Build configuration list for PBXNativeTarget "gcmappTests" */;
 			buildPhases = (
-				F87D3DB0FC2B27329170AF18 /* Check Pods Manifest.lock */,
+				2D72783FA3B5DE40837BD256 /* [CP] Check Pods Manifest.lock */,
 				FC4D27561A2DDF8500C20288 /* Sources */,
 				FC4D27571A2DDF8500C20288 /* Frameworks */,
 				FC4D27581A2DDF8500C20288 /* Resources */,
-				E3233E67B0BDB4A0DE632BD0 /* Embed Pods Frameworks */,
-				E0E4561630572937D3F02F45 /* Copy Pods Resources */,
+				636AA5EB8814DAE8BC5D9F63 /* [CP] Embed Pods Frameworks */,
+				B808D30DDD422CEC47ABBBA2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -733,13 +725,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC5EE7181AA073A600F86627 /* Build configuration list for PBXNativeTarget "GMA Demo" */;
 			buildPhases = (
-				FC5EE6CE1AA073A600F86627 /* Check Pods Manifest.lock */,
+				89CBB186C82C0F9C75208403 /* [CP] Check Pods Manifest.lock */,
 				FC5EE6CF1AA073A600F86627 /* Sources */,
 				FC5EE7041AA073A600F86627 /* Frameworks */,
 				FC5EE7121AA073A600F86627 /* Resources */,
-				F70C80091C08421B00F355E5 /* Copy Pods Resources */,
-				87C971156F5B4051ECDD2B49 /* Embed Pods Frameworks */,
-				C0142EF16F945ADB1A405650 /* Copy Pods Resources */,
+				6165DF0E1EC84DA4EE582B61 /* [CP] Embed Pods Frameworks */,
+				C67C804D486B04D28C6AE0D3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -810,6 +801,7 @@
 				4768A2981AAE4DA100A07070 /* Roboto-MediumItalic.ttf in Resources */,
 				D30F734D1A68680600D00EA7 /* Main.storyboard in Resources */,
 				4768A2921AAE4DA100A07070 /* Roboto-Light.ttf in Resources */,
+				F772624E1D4739E30045CA53 /* Config.plist in Resources */,
 				3079DE681BC2784200FE6283 /* GMALoginViewController.xib in Resources */,
 				4768A28A1AAE4DA100A07070 /* Roboto-BlackItalic.ttf in Resources */,
 				3079DE661BC272F200FE6283 /* Localizable.strings in Resources */,
@@ -821,7 +813,6 @@
 				4768A28C1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,
 				4768A2A11AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf in Resources */,
 				4768A2881AAE4DA100A07070 /* Roboto-Black.ttf in Resources */,
-				3057EA9C1B4D52DE0038DEFE /* Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,6 +820,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F77262501D4739E30045CA53 /* Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,6 +836,7 @@
 				4768A2991AAE4DA100A07070 /* Roboto-MediumItalic.ttf in Resources */,
 				FC5EE7131AA073A600F86627 /* Main.storyboard in Resources */,
 				4768A2931AAE4DA100A07070 /* Roboto-Light.ttf in Resources */,
+				F772624F1D4739E30045CA53 /* Config.plist in Resources */,
 				3079DE691BC2784200FE6283 /* GMALoginViewController.xib in Resources */,
 				4768A28B1AAE4DA100A07070 /* Roboto-BlackItalic.ttf in Resources */,
 				3079DE671BC272F700FE6283 /* Localizable.strings in Resources */,
@@ -854,112 +847,22 @@
 				4768A29B1AAE4DA100A07070 /* Roboto-Regular.ttf in Resources */,
 				4768A28D1AAE4DA100A07070 /* Roboto-Bold.ttf in Resources */,
 				4768A2A21AAE4E4400A07070 /* Linotype - Alternate Gothic LT No2.ttf in Resources */,
+				F72E12C31D5491B700FAA578 /* GoogleMaps.bundle in Resources */,
 				4768A2891AAE4DA100A07070 /* Roboto-Black.ttf in Resources */,
-				3057EA9D1B4D52DE0038DEFE /* Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3DFF5F742DFA4E9FBF9FF229 /* Check Pods Manifest.lock */ = {
+		0AFD8BB697E1531AC43E8685 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		87C971156F5B4051ECDD2B49 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C0142EF16F945ADB1A405650 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D5E0ABC832BA447E8AAD3F7C /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA/Pods-GMA-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E0E4561630572937D3F02F45 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E3233E67B0BDB4A0DE632BD0 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F663CB4021A4370726A4BB32 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,14 +870,98 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA/Pods-GMA-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F87D3DB0FC2B27329170AF18 /* Check Pods Manifest.lock */ = {
+		2D72783FA3B5DE40837BD256 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+		};
+		6165DF0E1EC84DA4EE582B61 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo-frameworks.sh\"\n";
+		};
+		636AA5EB8814DAE8BC5D9F63 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests-frameworks.sh\"\n";
+		};
+		89CBB186C82C0F9C75208403 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+		};
+		B808D30DDD422CEC47ABBBA2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-gcmappTests/Pods-gcmappTests-resources.sh\"\n";
+		};
+		C67C804D486B04D28C6AE0D3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA Demo/Pods-GMA Demo-resources.sh\"\n";
+		};
+		E1C1B6EECFF43A7986B4E459 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -982,19 +969,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		FC5EE6CE1AA073A600F86627 /* Check Pods Manifest.lock */ = {
+		F4F723A00461CAD3860036D0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GMA/Pods-GMA-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1030,6 +1017,7 @@
 				FCD401921A6D640C00950802 /* Measurement.swift in Sources */,
 				FC4D27931A2DFBC400C20288 /* gcmModel.xcdatamodeld in Sources */,
 				FC93DFD71A2FAE04008D4221 /* GMALoginViewController.m in Sources */,
+				F7C234B31D5D8C0E00DE063A /* Utility.swift in Sources */,
 				FC93DFDC1A306E19008D4221 /* gcmTabBarController.swift in Sources */,
 				FC93DFE41A308129008D4221 /* settingsViewController.swift in Sources */,
 				FCB8C3041A38995000A3D30F /* MeasDetailEditCell.swift in Sources */,
@@ -1072,6 +1060,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7C234B51D5D8C0E00DE063A /* Utility.swift in Sources */,
 				FC4D27611A2DDF8500C20288 /* gcmappTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1106,6 +1095,7 @@
 				FC5EE6E11AA073A600F86627 /* NewMinistryTVC.swift in Sources */,
 				FC5EE6E21AA073A600F86627 /* MeasurementSummaryCell.swift in Sources */,
 				FC5EE6E31AA073A600F86627 /* Measurement.swift in Sources */,
+				F7C234B41D5D8C0E00DE063A /* Utility.swift in Sources */,
 				FC5EE6E41AA073A600F86627 /* gcmModel.xcdatamodeld in Sources */,
 				FC5EE6E51AA073A600F86627 /* GMALoginViewController.m in Sources */,
 				FC5EE6E61AA073A600F86627 /* gcmTabBarController.swift in Sources */,
@@ -1198,8 +1188,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1220,7 +1210,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1246,8 +1236,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1261,7 +1251,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1272,12 +1262,12 @@
 		};
 		FC4D27651A2DDF8500C20288 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1350C279A4986BAAF08C37C3 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = EED2314BE62AB84B1E534DC0 /* Pods-GMA.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -1291,7 +1281,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.gma;
 				PRODUCT_NAME = GMA;
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1299,12 +1289,12 @@
 		};
 		FC4D27661A2DDF8500C20288 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AA511ECEA5DDB348EEF76DB /* Pods.release.xcconfig */;
+			baseConfigurationReference = 08587556865D107B582D735D /* Pods-GMA.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -1318,7 +1308,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.gma;
 				PRODUCT_NAME = GMA;
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1326,13 +1316,14 @@
 		};
 		FC4D27681A2DDF8500C20288 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 285AAC06F0F2F7F69D3610B8 /* Pods-gcmappTests.debug.xcconfig */;
+			baseConfigurationReference = 55EC93BEAC3808CEB5C0D436 /* Pods-gcmappTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1340,38 +1331,47 @@
 				);
 				INFOPLIST_FILE = gcmappTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GMA Demo.app/GMA Demo";
 			};
 			name = Debug;
 		};
 		FC4D27691A2DDF8500C20288 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6A7AB874ED4E61ADF1A4DC1 /* Pods-gcmappTests.release.xcconfig */;
+			baseConfigurationReference = 47D6A97A8233753FC196E252 /* Pods-gcmappTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
 				);
 				INFOPLIST_FILE = gcmappTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GMA Demo.app/GMA Demo";
 			};
 			name = Release;
 		};
 		FC5EE7191AA073A600F86627 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3E14FEBA1264E88F99677B3 /* Pods-GMA Demo.debug.xcconfig */;
+			baseConfigurationReference = D2A1E784966E113315A3250F /* Pods-GMA Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -1381,11 +1381,14 @@
 				INFOPLIST_FILE = "GMA copy2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.gma;
 				PRODUCT_NAME = "GMA Demo";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1393,12 +1396,12 @@
 		};
 		FC5EE71A1AA073A600F86627 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C77A7985495F5BDE80DE5EE3 /* Pods-GMA Demo.release.xcconfig */;
+			baseConfigurationReference = D1CB0E73980805333CEF03BF /* Pods-GMA Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stan Gutwein (TPH7BC877T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Mohit (564QBC92X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Mohit (564QBC92X9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/gcmapp",
@@ -1408,11 +1411,14 @@
 				INFOPLIST_FILE = "GMA copy2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cru.gma;
 				PRODUCT_NAME = "GMA Demo";
-				PROVISIONING_PROFILE = "6c037309-2514-4a51-bc38-b34f98dcb2db";
+				PROVISIONING_PROFILE = "1dc9d533-d05c-4134-9b15-0ff95847d1fb";
 				SWIFT_OBJC_BRIDGING_HEADER = "gcmapp/gcmapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

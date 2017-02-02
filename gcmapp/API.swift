@@ -54,7 +54,7 @@
                 self.st=st
                 
                 let url = "\(GlobalConstants.SERVICE_ROOT)token?st=\(st)"
-                //println(" line \(__LINE__) in function \(__FUNCTION__)+\(url)")
+                println(" line \(__LINE__) in function \(__FUNCTION__)+\(url)")
                 makeHTTPGetRequest( Path.GET_TOKEN, callback: callback, url: url)
             }
             
@@ -97,9 +97,9 @@
             func addAssignment(username: String, ministry_id:String, team_role:String, callback: APICallback){
                 let url = "\(GlobalConstants.SERVICE_ROOT)assignments?token=\(self.token)"
                 
-                //println(url)
+                println(url)
                 var body = "{\"username\": \"\(username)\",\"ministry_id\":\"\(ministry_id)\",\"team_role\":\"\(team_role)\"}"
-                //println(body)
+                println(body)
                 makeHTTPPostRequest( Path.ADD_GENERAL, callback: callback, url: url, body:  body)
             }
             
@@ -305,7 +305,7 @@
                 body = body.substringToIndex(body.endIndex.predecessor()) //remove last ,
                 body += "]"
                 //println(url)
-                //println(body)
+                println(body)
                 makeHTTPPostRequest( Path.ADD_UPDATE_MEASUREMENT, callback: callback, url: url, body:  body)
             }
             
@@ -385,29 +385,34 @@
                     
                     nonFilterJson = NSJSONSerialization.JSONObjectWithData(self.responseData, options: NSJSONReadingOptions.MutableLeaves, error: &error)
                     
-                    
-                    json = Utiltiy.cleanJsonToObject(nonFilterJson)
-
-//                    println(json)
-
                     if (error != nil) {
                         var error_msg = NSString(data: responseData, encoding: NSUTF8StringEncoding)
                         println(error_msg)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let alertView = UIAlertView(title:"", message: "Something went wrong", delegate: nil, cancelButtonTitle: "OK")
+                            
+                            alertView.show()
+                        })
+                        
                         callback(nil, error)
                         return
                     }
+                    
+                    json = Utiltiy.cleanJsonToObject(nonFilterJson)
+
+//                      println("response json====>\(json)")
+                    
+//                    json = nonFilterJson
+//                    println(statusCode)
                 }
                 
                 switch(statusCode, self.path!) {
                     
                 case (200, Path.GET_TOKEN):
-                    //self.handleGetToken(json)
                     callback(self.handleGetToken(json), nil)
                 case (200, Path.GET_CHURCHES):
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_TRAINING):
-//                    println(NSString(data: self.responseData, encoding: NSUTF8StringEncoding))
-                    
                     callback(self.handleGetJSONArray(json), nil)
                 case (200, Path.GET_MEASUREMENTS):
                     callback(self.handleGetJSONArray(json), nil)
@@ -440,6 +445,7 @@
                     
                 default:
                     if statusCode == 401 {
+                        
                         if (json as! JSONDictionary)["reason"] as! String == GlobalConstants.apiSessionInvalid{
                             if login_attempts < 5{
                                 login_attempts += 1
@@ -460,10 +466,17 @@
                             }
                         }
                     }
+                    else{
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            let alertView = UIAlertView(title:"", message: "Unable to join the ministry", delegate: nil, cancelButtonTitle: "OK")
+                            
+                            alertView.show()
+                        
+                        })
+                    }
                     
-                    // Unknown Error
-                    //println("401")
-                    //println("... responseData:\(NSString(data: responseData, encoding: NSUTF8StringEncoding))")
+                    
                     callback(nil, nil)
                 }
             }
@@ -508,6 +521,8 @@
             // private
             func makeHTTPGetRequest(path: Path, callback: APICallback, url: NSString) {
                
+//            println("url======>\(url)")
+                
                 self.path = path
                 self.callback = callback
                 
@@ -532,7 +547,9 @@
                 self.callback = callback
                 let request = NSMutableURLRequest(URL: NSURL(string: url as String)!)
                 request.HTTPMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.HTTPBody = body.dataUsingEncoding(NSUTF8StringEncoding)
+                
                 let conn = NSURLConnection(request: request, delegate:self, startImmediately: false)
                 if (conn == nil) {
                     callback(nil, nil)

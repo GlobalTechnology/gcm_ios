@@ -5,13 +5,13 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>E1DDD71A-7ED1-4E3B-A448-86DDFAF4B2D3</string>
+	<string>9FBBC9F1-BA2C-48EF-9AFD-2478D58CEE93</string>
 	<key>IDESourceControlProjectName</key>
 	<string>gcmapp</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>D6DCD294059B53E9A9851BF83A1B30DCB3F05DFF</key>
-		<string>https://github.com/GlobalTechnology/gcm_ios</string>
+		<string>https://github.com/GlobalTechnology/gcm_ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>gcmapp.xcworkspace</string>
@@ -21,7 +21,7 @@
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/GlobalTechnology/gcm_ios</string>
+	<string>https://github.com/GlobalTechnology/gcm_ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>D6DCD294059B53E9A9851BF83A1B30DCB3F05DFF</string>
 			<key>IDESourceControlWCCName</key>
-			<string>GCM-iTH-Develop</string>
+			<string>gcm_ios</string>
 		</dict>
 	</array>
 </dict>

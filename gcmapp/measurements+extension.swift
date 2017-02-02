@@ -149,11 +149,29 @@ extension Measurements {
     }
     
     func updateMeasurementDetailFromResponse(md: JSONDictionary,ministry_id:String,period:String,mcc:String, managedContext:NSManagedObjectContext) {
-        self.id_total = ((md["measurement_type_ids"] as! JSONDictionary)["total"] as! String)
-        self.id_local = (md["measurement_type_ids"] as! JSONDictionary)["local"] as! String
-        self.id_person = (md["measurement_type_ids"] as! JSONDictionary)["person"] as! String
         
+        //changes by caleb (if total/local/person key are not coming from api then handle it.)//
+        if(((md["measurement_type_ids"] as! JSONDictionary)["total"]) != nil){
+            self.id_total = ((md["measurement_type_ids"] as! JSONDictionary)["total"] as! String)
+        }
+        else{
+            self.id_total = ""
+        }
         
+        if(((md["measurement_type_ids"] as! JSONDictionary)["local"]) != nil){
+            self.id_local = (md["measurement_type_ids"] as! JSONDictionary)["local"] as! String
+        }
+        else{
+            self.id_local = ""
+        }
+        
+        if(((md["measurement_type_ids"] as! JSONDictionary)["person"]) != nil){
+            self.id_person = (md["measurement_type_ids"] as! JSONDictionary)["person"] as! String
+        }
+        else{
+           self.id_person = ""
+        }
+        //--------------------------------------------------------------------------------------//
         
         var error: NSError?
         //Get or Create MeasurementValue

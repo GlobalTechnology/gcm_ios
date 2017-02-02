@@ -1255,17 +1255,18 @@ class dataSync: NSObject {
                 
                 if mv.changed_local.boolValue{
                     
-//                    println(mv.measurement.id_local)
-//                    println(mv.measurement.ministry_id)
-//                    println(mv.period)
-//                    println(mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE)
-//                    println(mv.local)
+                    println(mv.measurement.id_local)
+                    println(mv.measurement.ministry_id)
+                    println(mv.period)
+                    println(mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE)
+                    println(mv.local)
 
                     update_values.append(Measurement(measurement_type_id: mv.measurement.id_local, related_entity_id: mv.measurement.ministry_id  , period: mv.period, mcc: mv.mcc + "_" + GlobalConstants.LOCAL_SOURCE, value: mv.local))
                 }
             }
             
-            
+            println(update_values)
+            println(NSUserDefaults.standardUserDefaults().objectForKey("period") as! String)
             
             if(update_values.count > 0){
                 
