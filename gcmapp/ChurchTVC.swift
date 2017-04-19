@@ -8,7 +8,8 @@
 
 import UIKit
 import CoreData
-class ChurchTVC: UITableViewController {
+
+class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
     
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var Icon: UIImageView!
@@ -25,8 +26,16 @@ class ChurchTVC: UITableViewController {
         
     }
     
-    
-    
+    @IBAction func btnSaveTap(sender: AnyObject) {
+        
+        self.tableView.resignFirstResponder()
+        
+        var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
+        
+        self.navigationController?.popViewControllerAnimated(true)
+        
+        dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+    }
     
     func SaveChanges() {
         
@@ -37,7 +46,7 @@ class ChurchTVC: UITableViewController {
         if(data["marker_type"] as! String == "new_church"){   //create new church
             let entity =  NSEntityDescription.entityForName("Church", inManagedObjectContext: managedContext)
             var church = NSManagedObject(entity: entity!,
-                insertIntoManagedObjectContext:managedContext) as! Church
+                                         insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
             data["marker_type"] = "church"
             data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
@@ -179,9 +188,9 @@ class ChurchTVC: UITableViewController {
         Icon.image = UIImage(named: mapViewController.getIconNameForChurch(data["development"] as! NSNumber))
         
         /*if data["marker_type"] as String == "new_church"{
-        btnClose.titleLabel!.text = "Save"
-        btnMove.hidden=true
-        }*/
+         btnClose.titleLabel!.text = "Save"
+         btnMove.hidden=true
+         }*/
         //contactName.text = data["contactName"] as? String
         //contactEmail.text = data["contactEmail"] as? String
         //churchSize.text = (data["size"] as NSNumber).stringValue
@@ -203,27 +212,33 @@ class ChurchTVC: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 2
+        
+        if data["marker_type"] as! String == "new_church" {
+            return 1
+        }
+        else{
+            return 2
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        if section == 1{
+        if section == 0{
             return data["marker_type"] as! String == "new_church" ? 7 : 8
         }
         else{
             // return (data["marker_type"] as! String == "new_church") ? 1 : 3 //!read_only ? 3 : 3
             if data["marker_type"] as! String == "new_church" {
                 
-                return 2
+                return 0
             }
             else
             {
                 
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false){
                     
-                    return 4
+                    return 2
                     
                 }
                 
@@ -237,7 +252,7 @@ class ChurchTVC: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.section == 1{
+        if indexPath.section == 0{
             // Configure the cell...
             
             if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || ((NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as? String ==  data["ministry_id"] as? String && read_only == false)) || data["marker_type"] as! String == "new_church"{
@@ -380,7 +395,7 @@ class ChurchTVC: UITableViewController {
             switch(indexPath.row){
                 
                 
-            case 2:
+            case 0:
                 
                 if (data["marker_type"] as! String == "new_church"){
                     
@@ -396,7 +411,7 @@ class ChurchTVC: UITableViewController {
                 
                 
                 
-            case 3:
+            case 1:
                 
                 var cell = UITableViewCell()
                 
@@ -413,13 +428,6 @@ class ChurchTVC: UITableViewController {
                     
                 }
                 
-            case 0:
-                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell2", forIndexPath: indexPath) as! UITableViewCell
-                
-            case 1:
-                let cell = tableView.dequeueReusableCellWithIdentifier("BackCell", forIndexPath: indexPath) as! UITableViewCell
-                cell.textLabel!.text = data["marker_type"] as! String == "new_church" ? "Save" : "Save"
-                
             default:
                 var cell = tableView.dequeueReusableCellWithIdentifier("EditTextCell", forIndexPath: indexPath) as! UITableViewCell
                 
@@ -435,60 +443,25 @@ class ChurchTVC: UITableViewController {
         
         self.view.endEditing(true)
         
-        if indexPath.section == 0{
+        if indexPath.section == 1{
             
             self.tableView.resignFirstResponder()
             
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
             
             switch(indexPath.row){
-                
-                case 0:
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    break
-                
-                case 1:
-                    
-                    if data["name"] as? String == "" {
-                        isEmptyField = true
-                    }
-                    
-                    
-                    if data["contact_name"] as? String == ""{
-                        isEmptyField = true
-                    }
-                    
-                    if data["contact_email"] as? String == ""{
-                        isEmptyField = true
-                    }
-                    
-                    if(isEmptyField == false){
-                        
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                        dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
-                    }
-                    else{
-                        isEmptyField = false
-                        
-                        let alertView = UIAlertView(title:"", message: "Please Fill All field.", delegate: nil, cancelButtonTitle: "OK")
-                        
-                        alertView.show()
-                    }
-                    
-                    break
-                
-            case 2: // move
+            case 0: // move
                 
                 
                 if created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  data["ministry_id"] as! String && read_only == false) {
                     
                     self.mapVC.makeSelectedMarkerDraggable()
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.navigationController?.popViewControllerAnimated(true)
                     
                 }
                 
                 break
-            case 3: // delete
+            case 1: // delete
                 
                 self.tableView.reloadRowsAtIndexPaths(
                     [indexPath],
@@ -510,7 +483,7 @@ class ChurchTVC: UITableViewController {
                         
                         if self.created_id == NSUserDefaults.standardUserDefaults().objectForKey("person_id") as? String || (NSUserDefaults.standardUserDefaults().objectForKey("ministry_id") as! String ==  self.data["ministry_id"] as! String && self.read_only == false){
                             
-                            self.dismissViewControllerAnimated(true, completion: nil)
+                            self.navigationController?.popViewControllerAnimated(true)
                             
                             let notificationCenter = NSNotificationCenter.defaultCenter()
                             notificationCenter.postNotificationName(GlobalConstants.kShouldDeleteChurch, object: nil, userInfo: self.data as JSONDictionary)
@@ -534,7 +507,7 @@ class ChurchTVC: UITableViewController {
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
                 break
-            
+                
             default:
                 break
                 
@@ -543,39 +516,39 @@ class ChurchTVC: UITableViewController {
     }
     
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    // Return NO if you do not want the specified item to be editable.
-    return true
-    }
-    */
+     // Override to support conditional editing of the table view.
+     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return NO if you do not want the specified item to be editable.
+     return true
+     }
+     */
     
     /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if editingStyle == .Delete {
-    // Delete the row from the data source
-    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-    } else if editingStyle == .Insert {
-    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
-    }
-    */
+     // Override to support editing the table view.
+     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+     if editingStyle == .Delete {
+     // Delete the row from the data source
+     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+     } else if editingStyle == .Insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
     
     /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-    
-    }
-    */
+     // Override to support rearranging the table view.
+     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+     
+     }
+     */
     
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-    // Return NO if you do not want the item to be re-orderable.
-    return true
-    }
-    */
+     // Override to support conditional rearranging of the table view.
+     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return NO if you do not want the item to be re-orderable.
+     return true
+     }
+     */
     
     // MARK:- UITextField delegate method
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -583,7 +556,7 @@ class ChurchTVC: UITableViewController {
         let maxLength = 4
         let currentString: NSString = textField.text
         let newString: NSString =
-        currentString.stringByReplacingCharactersInRange(range, withString: string)
+            currentString.stringByReplacingCharactersInRange(range, withString: string)
         return newString.length <= maxLength
     }
     
@@ -611,11 +584,5 @@ class ChurchTVC: UITableViewController {
         default:
             break
         }
-        
-        
-        
-        
     }
-    
-    
 }
