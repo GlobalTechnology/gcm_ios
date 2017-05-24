@@ -27,20 +27,19 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
     }
     
     @IBAction func btnSaveTap(sender: AnyObject) {
-        
         self.view.endEditing(true)
-        
-        if data["name"] as? String == "" {
-            let alertView = UIAlertView(title:"", message: "Please enter name.", delegate: nil, cancelButtonTitle: "OK")
-            return
+
+        if (data["name"] as? String ==  ""){
+           return self.callAlertView("", Message: "Please enter name.")
         }
-        else if data["contact_mobile"] as? String == ""{
-            let alertView = UIAlertView(title:"", message: "Please enter phone no.", delegate: nil, cancelButtonTitle: "OK")
-            alertView.show()
+        else if (data["contact_mobile"] as? String ==  nil || data["contact_mobile"] as? String ==  ""){
+           return self.callAlertView("", Message: "Please enter phone no.")
         }
         else{
             var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
+
             self.navigationController?.popViewControllerAnimated(true)
+            
             dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
         }
     }
@@ -54,7 +53,7 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
         if(data["marker_type"] as! String == "new_church"){   //create new church
             let entity =  NSEntityDescription.entityForName("Church", inManagedObjectContext: managedContext)
             var church = NSManagedObject(entity: entity!,
-                                         insertIntoManagedObjectContext:managedContext) as! Church
+                insertIntoManagedObjectContext:managedContext) as! Church
             church.changed=true
             data["marker_type"] = "church"
             data["created_by"] = NSUserDefaults.standardUserDefaults().objectForKey("person_id") as! String
@@ -174,6 +173,31 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
         }
     }
     
+    //>---------------------------------------------------------------------------------------------------
+    // Author Name      :   Caleb Kapil
+    // Date             :   Jan, 7 2015
+    // Input Parameters :   strTitle - alertbox tilte, Message - alert box message
+    // Purpose          :   For go to home class.
+    //>----------------------------------------------------------------------------------------------------
+    func callAlertView(strTitle :String,Message :String)
+    {
+        var alert = UIAlertController(title: strTitle, message: Message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+            switch action.style{
+            case .Default:
+                println("default")
+                
+            case .Cancel:
+                println("cancel")
+                
+            case .Destructive:
+                println("destructive")
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -196,9 +220,9 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
         Icon.image = UIImage(named: mapViewController.getIconNameForChurch(data["development"] as! NSNumber))
         
         /*if data["marker_type"] as String == "new_church"{
-         btnClose.titleLabel!.text = "Save"
-         btnMove.hidden=true
-         }*/
+        btnClose.titleLabel!.text = "Save"
+        btnMove.hidden=true
+        }*/
         //contactName.text = data["contactName"] as? String
         //contactEmail.text = data["contactEmail"] as? String
         //churchSize.text = (data["size"] as NSNumber).stringValue
@@ -515,7 +539,7 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
                 break
-                
+            
             default:
                 break
                 
@@ -524,39 +548,39 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
     }
     
     /*
-     // Override to support conditional editing of the table view.
-     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return NO if you do not want the specified item to be editable.
-     return true
-     }
-     */
+    // Override to support conditional editing of the table view.
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the specified item to be editable.
+    return true
+    }
+    */
     
     /*
-     // Override to support editing the table view.
-     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-     if editingStyle == .Delete {
-     // Delete the row from the data source
-     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-     } else if editingStyle == .Insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle == .Delete {
+    // Delete the row from the data source
+    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    } else if editingStyle == .Insert {
+    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+    }
+    */
     
     /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
+    // Override to support rearranging the table view.
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    
+    }
+    */
     
     /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return NO if you do not want the item to be re-orderable.
-     return true
-     }
-     */
+    // Override to support conditional rearranging of the table view.
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the item to be re-orderable.
+    return true
+    }
+    */
     
     // MARK:- UITextField delegate method
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -564,7 +588,7 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
         let maxLength = 4
         let currentString: NSString = textField.text
         let newString: NSString =
-            currentString.stringByReplacingCharactersInRange(range, withString: string)
+        currentString.stringByReplacingCharactersInRange(range, withString: string)
         return newString.length <= maxLength
     }
     
