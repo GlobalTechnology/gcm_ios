@@ -28,13 +28,21 @@ class ChurchTVC: UITableViewController,UINavigationControllerDelegate {
     
     @IBAction func btnSaveTap(sender: AnyObject) {
         
-        self.tableView.resignFirstResponder()
+        self.view.endEditing(true)
         
-        var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
-        
-        self.navigationController?.popViewControllerAnimated(true)
-        
-        dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+        if data["name"] as? String == "" {
+            let alertView = UIAlertView(title:"", message: "Please enter name.", delegate: nil, cancelButtonTitle: "OK")
+            return
+        }
+        else if data["contact_mobile"] as? String == ""{
+            let alertView = UIAlertView(title:"", message: "Please enter phone no.", delegate: nil, cancelButtonTitle: "OK")
+            alertView.show()
+        }
+        else{
+            var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC)))
+            self.navigationController?.popViewControllerAnimated(true)
+            dispatch_after(dispatchTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {self.SaveChanges()})
+        }
     }
     
     func SaveChanges() {
